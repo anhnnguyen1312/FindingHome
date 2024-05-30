@@ -29,8 +29,9 @@
     justify-content: center;
     align-items: center;
     height: 80px;
-    max-width: 100%;
-    width: 1200px;
+    /* max-width: 100%;
+    width: 1200px; */
+    max-width: 1200px;
   }
   
   .navbar-logo {
@@ -70,7 +71,8 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-  
+  font-size: 1rem;
+  font-weight: lighter;
     height: 100%;
   }
   .nav-links-active{

@@ -1,4 +1,7 @@
 export const path = { 
     HOME: '/*',
-    LOGIN:'login'
+    LOGIN:'login',
+    ROOM_RENTAL:'timphongtro',
+    HOUSE_RENTAL:'timnha',
+    ESTATE_RENTAL :'timmatbang'
 }

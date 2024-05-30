@@ -33,25 +33,34 @@ export const loginAction = (payload) => async (dispatch ) => {
     try {
         const response = await callApiLogin(payload)
         ///api phải trả về token và
-        console.log('response',response)
+        console.log('response login ',typeof response?.data.err)
         // if (response?.data.err === 0) {
-        //     if (response?.data.err === 0) {
-        //     dispatch({
-        //         type: actionTypes.LOGIN__SUC,
-        //         data: response.data.token
-        //      })
-        // }
-        // else {
-        //     dispatch({
-        //         type: actionTypes.LOGIN__FAIL,
-        //         data:response.data.msg
-        //      })
-        // }
+            if (typeof response?.data.err === 'undefined') {
+                console.log('send dispatch',response?.data.err)
+
+            dispatch({
+                type: actionTypes.LOGIN__SUC,
+                data: response.data.token
+             })
+        }
+        else {
+            console.log('looix dispatch')
+
+            dispatch({
+                type: actionTypes.LOGIN__FAIL,
+                data:response.data.msg  
+             })
+        }
+    
     }
-    catch (eror){
+    catch (error) {
          dispatch({
             type: actionTypes.LOGIN__FAIL,
             data:null
          })
     }
 }
+
+export const logoutAction = () => ({
+    type: actionTypes.LOGOUT
+})
