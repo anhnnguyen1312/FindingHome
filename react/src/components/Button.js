@@ -1,7 +1,6 @@
 import React from 'react'
 
  const Button = ({children, textColor, bgColor, hovercolor,borderColor, onClick, fullWidth}) =>{
-    console.log('render')
   return (
     <>
      <button

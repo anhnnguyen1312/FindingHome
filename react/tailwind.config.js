@@ -32,6 +32,9 @@ module.exports = {
       },
       cursor: {
         pointer:'pointer'
+      },
+      maxWidth: {
+        '1200':'1200px'
       }
     },
   },
