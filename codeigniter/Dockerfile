@@ -10,5 +10,8 @@ COPY . .
 # Cài đặt các dependency cần thiết (ví dụ: MySQLi)
 RUN docker-php-ext-install mysqli
 
+# Bật module rewrite trong Apache
+RUN a2enmod rewrite
+
 # Khởi động Apache
 CMD ["apache2-foreground"]

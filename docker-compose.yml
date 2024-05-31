@@ -36,8 +36,6 @@ services:
       MYSQL_DATABASE: findHome
       MYSQL_USER: findHome
       MYSQL_PASSWORD: findHome@2024
-    networks:
-      - app-network
 
 networks:
   app-network:
