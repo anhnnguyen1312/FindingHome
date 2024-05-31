@@ -10,14 +10,23 @@ services:
       - ./codeigniter:/var/www/html
     depends_on:
       - findHome
+    networks:
+      - app-network
 
   react:
     build:
       context: ./react
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
-      - "3000:80"
-
+      - "3000:3000"
+    volumes:
+      - ./react:/app
+      - /app/node_modules
+    depends_on:
+      - codeigniter
+    networks:
+      - app-network
+   
   findHome:
     image: mysql:5.7
     ports:
@@ -27,3 +36,9 @@ services:
       MYSQL_DATABASE: findHome
       MYSQL_USER: findHome
       MYSQL_PASSWORD: findHome@2024
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
