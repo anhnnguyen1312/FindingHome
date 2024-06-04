@@ -2,6 +2,8 @@
 import { BrowserRouter as Router,Routes, Route } from 'react-router-dom'
 import {path} from './ultils/path'
 import { Home,Login,HouseRental, RoomRental,EstateRental,HomePage } from './pages/Public';
+// import {SideBar} from './components/SideBar'
+
 function App() {
   return (
     <Router>

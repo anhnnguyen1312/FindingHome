@@ -33,9 +33,11 @@ export const loginAction = (payload) => async (dispatch ) => {
     try {
         const response = await callApiLogin(payload)
         ///api phải trả về token và
-        console.log('response login ',typeof response?.data.err)
+        console.log('response login ', response)
         // if (response?.data.err === 0) {
-            if (typeof response?.data.err === 'undefined') {
+            // if (typeof response?.data.err === 'undefined') {
+                console.log('response login ', response?.data)
+                if (response?.data) {
                 console.log('send dispatch',response?.data.err)
 
             dispatch({
