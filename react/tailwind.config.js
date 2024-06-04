@@ -10,6 +10,7 @@ module.exports = {
         '1200':'1200px',
         '1120':'1120px',
       },
+     
       backgroundColor : {
         primary:'#021A84',
         secondary:'#E5532A',
@@ -35,7 +36,10 @@ module.exports = {
       },
       maxWidth: {
         '1200':'1200px'
-      }
+      },
+      // backgroundImage:{
+      //   // 'Banner' : "url('./public/assets/images/Banner.jpg')"
+      // }
     },
   },
   plugins: [],

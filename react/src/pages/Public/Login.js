@@ -27,7 +27,7 @@ const stateAuth = useSelector(state => state.auth)
     email: '',
     password: ''
   })
-console.log('useSelector render laij ',stateAuth)
+console.log('useLocate.state?.stateIsRegister ',useLocate.state?.stateIsRegister)
   useEffect(() => {
     setIsRegister(useLocate.state?.stateIsRegister)
   },[useLocate.state?.stateIsRegister])
@@ -206,6 +206,7 @@ const validate = (formData) => {
 //   },[]) 
 
 
+
 // GỌI API VỚI FETCH 
   // var api = 'http://localhost:3000/users'
   // fetch(api)
@@ -244,10 +245,27 @@ const validate = (formData) => {
         password: formData.password
       }
       let error = validate(apiData)
+    //   axios.post(`http://localhost:3000/users`, { apiData })
+    // .then(res => {
+    //   console.log(res);
+    // })
+    // .catch(error => console.log(error));
+
+    // axios.get(`http://localhost:3000/users`,{
+    //   // headers: {
+    //   //   'Content-Type': 'application/json'
+    //   // } })
+    //   header : { 'Access-Control-Allow-Origin': 'http://localhost:3000/users'}
+    // })
+    // .then(res => {
+    //   console.log(res.status);
+    // })
+    // .catch(error => console.log(error));
+
       if (error) {
           // const response = await callApiRegister(formData)
           // console.log('response', response)
-          {isResgister ? dispatch(registerAction(formData)) :  dispatch(loginAction(formData))}
+          {isResgister ? dispatch(registerAction(apiData)) :  dispatch(loginAction(apiData))}
           
       }
   

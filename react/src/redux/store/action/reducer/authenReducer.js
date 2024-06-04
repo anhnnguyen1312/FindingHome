@@ -15,7 +15,7 @@ export const authenReducer = (state = initialState,action) => {
                 ...state,
                 isLoggedIn : true,
                 token: action.data,
-                msg: ''
+                msg: 'Login Success'
             }
             case actionTypes.REGISTER__FAIL :
                 case actionTypes.LOGIN__FAIL :
@@ -32,7 +32,7 @@ export const authenReducer = (state = initialState,action) => {
                     ...state,
                     isLoggedIn : false,
                     token: null,
-                    msg:''
+                    msg:' Login Fail'
     
                 }
         default:

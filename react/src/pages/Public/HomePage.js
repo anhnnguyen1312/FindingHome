@@ -1,18 +1,23 @@
 import React from 'react'
-import {FilterSearch} from '../../components/index'
-import {Search_Filter} from '../../components/index'
+import { CardPlaces, HeroSection, Product } from '../../components/index'
+import { SideBar } from '../../components/SideBar'
 
 const HomePage = () => {
   return (
     <>
-   
-     <FilterSearch/>
-    
+      {/* <FilterSearch/> */}
 
-    <div className='border border-red w-full m-2'>
-     
-      <Search_Filter/>
-    </div>
+      {/* <HeroSection/> */}
+
+      <div className="w-full ">
+        {/*      
+      <Search_Filter/> */}
+
+        <HeroSection />
+        <CardPlaces />
+        <Product />
+        {/* <SideBar/> */}
+      </div>
     </>
   )
 }

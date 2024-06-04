@@ -1,0 +1,30 @@
+.hero-container {
+    /* background: url('../assets/images/Banner.jpg') center center/cover no-repeat; */
+    background: url('../assets/images/Banner.jpg') center left/cover no-repeat;
+    height: 90vh;
+    width: 100% ;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2);
+    object-fit: contain;
+    top: 60px;
+    left: 0;
+    position: absolute;
+    font-size: medium;
+  }
+  .div {
+    height: 90vh;
+   
+  }
+
+  @media screen and (max-width: 768px) {
+    .hero-container {
+      /* top: 342px; */
+      height: 70vh;
+    }
+    .div{
+      height: 70vh;
+    }
+  }

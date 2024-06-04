@@ -15,12 +15,10 @@ const FilterSearch = () => {
               <Search placeholder="Nhập tìm kiếm" onSearch={handleSearch} enterButton />
       </div>
       <div className='search--filter'>
-        <div className='search--filter__type'>
+        <div className='search--filter__location'>
           <Select
             defaultValue="phòng trọ"
-            style={{
-              width: 215,
-            }}
+           className='select--search'
             onChange={handleChangeSelectFilter}
             options={[
               {
@@ -48,9 +46,7 @@ const FilterSearch = () => {
         <div className='search--filter__location'>
           <Select
             defaultValue="Hồ Chí Minh"
-            style={{
-              width: 215,
-            }}
+           className='select--search'
             onChange={handleChangeSelectFilter}
             options={[
               {
@@ -78,9 +74,7 @@ const FilterSearch = () => {
         <div className='search--filter__location'>
           <Select
             defaultValue="1.000.000"
-            style={{
-              width: 215,
-            }}
+           className='select--search'
             onChange={handleChangeSelectFilter}
             options={[
               {
@@ -108,9 +102,7 @@ const FilterSearch = () => {
         <div className='search--filter__location'>
           <Select
             defaultValue="10m2"
-            style={{
-              width: 215,
-            }}
+           className='select--search'
             onChange={handleChangeSelectFilter}
             options={[
               {
