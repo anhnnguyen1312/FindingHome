@@ -17,20 +17,40 @@ class AuthenController extends CI_Controller {
 	 * So any other public methods not prefixed with an underscore will
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/userguide3/general/urls.html
-	 */
+	 */ 
 	public function __construct(){
 		parent::__construct();
-		$this->load->library('cors');
-        $this->cors->handle();
-		header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Access-Controll-Request-Method, Cache-Control, Authorization");
+		$this->load->model('Authen_model');
+	}
+	public function register(){
+		$data = json_decode($this->input->raw_input_stream, true);
+		if(!empty($data)){
+			$resultID = $this->Authen_model->insert_resigter_users($data);
+			if($resultID != NULL){
+				$data = $this->Authen_model->get_regester_user($resultID);
+				echo json_encode([
+					'name' => $data->name,
+					'email' => $data->email,
+					'phone' => $this->encryption->decrypt($data->phone),
+					'role' => $data->role
+				]);
+			}else{
+				echo json_encode([
+					'message' => 'tài khoản đã tồn tại. vui lòng thử lại'
+				]);
+			}
+		}
 	}
 	public function login()
 	{
-		$Data = json_decode	($this->input->raw_input_stream, true);
-		print_r($Data);	
-		$response = array('status' => 'success', 'message' => 'Data received and processed');
-        $this->output->set_content_type('application/json')->set_output(json_encode($response));
+		$data = json_decode($this->input->raw_input_stream, true);
+		if(!empty($data)){
+			$rs = $this->Authen_model->check_login($data);
+			if($rs){
+				echo 'dữ liệu đã được lưu';
+			}else{
+				echo 'dữ liệu chưa được lưu';
+			}
+		}
 	}
 }
