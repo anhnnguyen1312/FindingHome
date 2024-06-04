@@ -1,23 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import ProductData from "../data/ProductData";
+// import { callApiPost } from "../api/getPostApi";
 import { Search, CardProduct, Button } from "./index";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
-import ch1 from "../assets/images/canho/ch1.jpg";
-import ch2 from "../assets/images/canho/ch2.jpg";
-import ch3 from "../assets/images/canho/ch3.jpg";
-import ch4 from "../assets/images/canho/ch4.jpg";
-import ch5 from "../assets/images/canho/ch5.jpg";
-import ch6 from "../assets/images/canho/ch6.jpg";
-import ch7 from "../assets/images/canho/ch7.jpg";
-import ch8 from "../assets/images/canho/ch8.jpg";
-
+import { useDispatch, useSelector } from "react-redux";
+import { postAction } from "../redux/store/action/postAction";
 const Product = (props) => {
+  const ch2 = "../assets/images/canho/ch1.jpg";
+
   const [button, setButton] = useState(false);
+  const dispatch = useDispatch();
+  const { posts } = useSelector((state) => state.post);
   const handleClickFilter = () => {
     setButton(!button);
   };
+  useEffect(() => {
+    dispatch(postAction());
+  }, []);
+
   return (
-    <div className="absolute bg-[#F8FAFC]  left-0 right-0">
-      <div className="md:w-full lg:w-4/5 sm:w-full  xl:w-4/5   m-auto flex lg:flex-row flex-col gap-[2vw]   ">
+    <div className="">
+      <div className=" flex lg:flex-row flex-col gap-[2vw]   ">
         <div className="lg:hidden flex bg-gray">
           <div className=" w-full p-[20px] flex flex-col items-center justify-center gap-[20px] ">
             <div className=" flex-col md:flex-row bg-F8FAFC w-full p-[10px] flex items-center justify-center gap-[10px] ">
@@ -30,14 +33,23 @@ const Product = (props) => {
             Phòng Đang Cho Thuê{" "}
           </h1>
           <ul className="flex flex-col gap-[20px]  ">
-            <CardProduct src={ch1} />
-            <CardProduct src={ch2} />
-            <CardProduct src={ch3} />
-            <CardProduct src={ch4} />
-            <CardProduct src={ch5} />
-            <CardProduct src={ch6} />
-            <CardProduct src={ch7} />
-            <CardProduct src={ch8} />
+            {posts.map((product) => {
+              return (
+                <CardProduct
+                  key={product.id}
+                  location={product.location}
+                  price={product.price}
+                  area={product.area}
+                  status={product.status}
+                  description={product.description}
+                  placesNearby={product.placesNearby}
+                  owner={product.owner}
+                  phone={product.phone}
+                  zalo={product.zalo}
+                  // src={product.imgSrc}
+                />
+              );
+            })}
           </ul>
         </div>
         <div className="lg:flex-[30%] flex-col hidden lg:flex bg-gray">

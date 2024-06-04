@@ -7,7 +7,7 @@ export const callApiRegister = (payload) =>
     try {
       const response = await axiosConfig({
         method: "post",
-        url: "http://localhost:3000/users",
+        url: "http://localhost:3000/user",
         data: payload,
       });
       resolve(response);
@@ -23,7 +23,7 @@ export const callApiLogin = (payload) =>
     try {
       const response = await axiosConfig({
         method: "post",
-        url: "http://localhost:8000/login",
+        url: "http://localhost:3000/user",
         data: payload,
       });
       resolve(response);
@@ -34,14 +34,11 @@ export const callApiLogin = (payload) =>
 
 export const callApiUserInfor = () =>
   new Promise(async (resolve, reject) => {
-    console.log("callApiUserInfor");
     try {
       const response = await axiosConfig({
         method: "get",
-        url: "http://localhost:3000/users",
+        url: "http://localhost:3000/user",
       });
-      console.log("response callApiUserInfor", response);
-
       resolve(response);
     } catch (error) {
       reject(error);

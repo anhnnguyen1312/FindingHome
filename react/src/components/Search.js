@@ -8,7 +8,13 @@ const Search = () => {
       {/* // <div className=' w-full p-[20px] flex flex-col items-center justify-center gap-[20px] '>
     //   <div className=' flex-col md:flex-row bg-secondary w-full p-[10px] flex items-center justify-center gap-[10px] '> */}
       {TypeSearch.map((item) => {
-        return <SelectSearch dataSelect={item} defaultValue={item[0].label} />;
+        return (
+          <SelectSearch
+            key={item[0].value}
+            dataSelect={item}
+            defaultValue={item[0].label}
+          />
+        );
       })}
       <div className="md:flex-[20%] w-full">
         <Button

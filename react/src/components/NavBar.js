@@ -21,10 +21,8 @@ export default function NavBar() {
     navigate(path.LOGIN, { state: { stateIsRegister } });
   }
   const stateAuth = useSelector((state) => state.auth);
-  console.log("render", stateAuth.isLoggedIn);
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
-
   const handleLogOut = () => {
     dispatch(logoutAction());
   };
@@ -59,7 +57,6 @@ export default function NavBar() {
   }, []);
 
   useEffect(() => {
-    console.log("isLogIn", stateAuth.isLoggedIn);
     // stateAuth.isLogIn && usenavi('/')
   }, [stateAuth.isLoggedIn]);
 
