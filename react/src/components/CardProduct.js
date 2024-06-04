@@ -1,33 +1,36 @@
 import React from "react";
-import ch1 from "../assets/images/canho/ch1.jpg";
+import ch3 from "../assets/images/canho/ch3.jpg";
 import { AiFillPhone } from "react-icons/ai";
-
 import { Link } from "react-router-dom";
-
-const CardProduct = (src) => {
+import { path } from "../ultils/path";
+import DetailProduct from "../pages/Public/DetailProduct";
+const CardProduct = (props) => {
   return (
     <div>
       <li className=" ">
         <Link
           className="flex h-full border border-transparent  active:border-rose-500 rounded-2xl"
-          to="/"
+          to={path.DETAIL_PRODUCT}
         >
           <figure
             className="m-0 flex-[30%] overflow-hidden rounded-l-2xl"
-            data-category={src.label}
+            // data-category={src.label}
           >
             <img
               className="h-full w-full object-cover"
               alt="phòng trọ "
-              src={ch1}
+              src={ch3}
             />
+            {/* <Image
+              src="../assets/images/canho/ch1.jpg"
+              className="h-full w-full object-cover"
+            /> */}
+            {/* <Img src="h../assets/images/canho/ch1.jpg" /> */}
           </figure>
 
           <div className="gap-[1vh] flex flex-col flex-[70%] p-[1vh] border border-y-[#E2E8F0] border-l-red rounded-r-2xl hover:bg-[#E9F4F6] ">
             <div className="text-red">
-              <h2 className="text-red-500 font-medium">
-                BÌNH THẠNH, HỒ CHÍ MINH
-              </h2>
+              <h2 className="text-red-500 font-medium">{props.location}</h2>
               {/* <p>Chính chủ cho thuê phòng </p> */}
               {/* <h2 className='text-red-500 font-medium'>CHINH CHỦ CHO THUÊ PHÒNG TRỌ- ĐƯỜNG NGUYỄN XÍ , BÌNH THẠNH</h2> */}
             </div>
@@ -37,13 +40,13 @@ const CardProduct = (src) => {
                 <div className="flex items-center px-[3px]">
                   <i class="fa-solid fa-dollar-sign"></i>
                 </div>
-                5tr/tháng
+                {`${props.price} /tháng`}
               </div>
               <div className=" text-white font-medium px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">
-                20m2
+                {props.area}
               </div>
               <div className="  text-white font-medium px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">
-                Mới
+                {props.status}
               </div>
             </div>
 
@@ -54,21 +57,16 @@ const CardProduct = (src) => {
               >
                 <i class="fa-solid fa-location-dot"></i>
               </div>
-              12 Nguyễn xí , phường 25, quận Bình Thạnh
+              {props.location}
             </div>
-            <div className="text-black">
-              phòng trong chung cư Saigonres, wc riêng, có cửa sổ view sông.
-            </div>
-            <div className="text-black">
-              Tiện ích: Gần New gym, Cicle K, Lotte Mart, Bệnh Viện Bình
-              Thạnh,...
-            </div>
+            <div className="text-black">{props.description}</div>
+            <div className="text-black">{props.placesNearby}</div>
 
             <div className="flex justify-between text-cyan-600 font-medium">
-              <div className="owner--name">nguyễn văn hưng</div>
+              <div className="owner--name">{props.owner} </div>
               <div className=" flex items-center">
                 <AiFillPhone />
-                082362862
+                {props.phone}
               </div>
               <div className=" flex items-center">
                 <svg
@@ -104,7 +102,7 @@ const CardProduct = (src) => {
                     d="M21.25,18h-8v1.5h5.321L13,26h0.026c-0.163,0.211-0.276,0.463-0.276,0.75V27h7.5	c0.276,0,0.5-0.224,0.5-0.5v-1h-5.321L21,19h-0.026c0.163-0.211,0.276-0.463,0.276-0.75V18z"
                   ></path>
                 </svg>
-                082362862
+                {props.zalo}
               </div>
             </div>
           </div>
