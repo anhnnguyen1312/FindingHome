@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 import React, { useState, useEffect } from "react";
 import { InputGroup } from "../../components";
 import { useNavigate } from "react-router-dom";
@@ -8,16 +7,6 @@ import Button from "../../components/Button";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Alert } from "antd";
-=======
-import React, {useState, useEffect} from 'react'
-import { InputGroup } from '../../components'
-import { useNavigate} from 'react-router-dom';
-import {path} from '../../ultils/path'
-import {useLocation} from 'react-router-dom';
-import  Button from '../../components/Button'
-import axios from 'axios'
-import swal from 'sweetalert'
->>>>>>> Stashed changes
 // import { callApiRegister } from '../../api/authenLogin';
 import {
   registerAction,
@@ -38,7 +27,6 @@ export default function Login() {
   );
   const [isInvalid, setIsInvalid] = useState([]);
 
-<<<<<<< Updated upstream
   const [formData, setFormData] = useState({
     phone: "",
     name: "",
@@ -46,16 +34,6 @@ export default function Login() {
     password: "",
     confirmPassword: "",
   });
-=======
-  const [formData,setFormData] = useState({
-    phone: '',
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword:'' 
-  })
-console.log('useLocate.state?.stateIsRegister ',useLocate.state?.stateIsRegister)
->>>>>>> Stashed changes
   useEffect(() => {
     setIsRegister(useLocate.state?.stateIsRegister);
   }, [useLocate.state?.stateIsRegister]);
@@ -65,7 +43,6 @@ console.log('useLocate.state?.stateIsRegister ',useLocate.state?.stateIsRegister
   }, [stateAuth.isLoggedIn]);
 
   useEffect(() => {
-<<<<<<< Updated upstream
     // swal('Oops...', stateAuth.msg, 'error')
     // stateAuth.msg && Swal.fire("Oops !", stateAuth.msg, "error");
     // stateAuth.msg &&
@@ -92,34 +69,6 @@ console.log('useLocate.state?.stateIsRegister ',useLocate.state?.stateIsRegister
   //   isInvalidCount++
   //   }
   // })
-=======
-    stateAuth.msg ?
-    swal({
-      text: stateAuth.msg,
-      icon:'error',
-      timer: 3000
-    })
-    :
-
-    console.log('data da dang ki thanh cong',stateAuth.data)
-  }, [stateAuth.msg, stateAuth.update])
-  console.log('stateAuth.msg',stateAuth.msg)
-
-
-//   const validates = (formData) => {
-//     let isInvalidCount = 0
-// let datacheck = Object.entries(formData)
-// datacheck.forEach(item => {
-//   if (item[1] === '') {
-//     setIsInvalid(prevState => [
-//       ...prevState,
-//      { name: item[0],
-//       msg:`ban chua nhap ${item[0]}`
-//   }] )
-//   isInvalidCount++
-//   }
-// })
->>>>>>> Stashed changes
 
   // datacheck.forEach(item => {
   //   if (item[0] === 'password') {
@@ -158,7 +107,6 @@ console.log('useLocate.state?.stateIsRegister ',useLocate.state?.stateIsRegister
 
   // })
 
-<<<<<<< Updated upstream
   // return isInvalidCount
   // console.log('datacheck',datacheck)
   //   }
@@ -173,39 +121,9 @@ console.log('useLocate.state?.stateIsRegister ',useLocate.state?.stateIsRegister
           ...prevState,
           { name: i, msg: `ban chua nhap ${i}` },
         ]);
-=======
-// return isInvalidCount
-// console.log('datacheck',datacheck)
-//   }
-// validate
-const validate = (formData) => {
-  console.log('formdata',formData)
-  let isInvalidCount = true
-  for (let i in formData){
-    //null
-    if (formData[i] === '') {
-      setIsInvalid(prevState => [
-        ...prevState,
-       { name: i,
-        msg:`ban chua nhap ${i}`
-    }] )
-    // isInvalidCount++
-    isInvalidCount=false
-    }
-
-    if (i === 'password') {
-      const resultValidatePassword = validator.isStrongPassword(formData[i])
-      if (!resultValidatePassword) {
-        setIsInvalid(prevState => [
-          ...prevState,
-         { name: i,
-          msg:`mật khẩu phải có ít nhất: \n 8 kí tự, 1 kí tự đặc biệt, 1 chữ thường, 1 chữ in hoa`
-        }] )
->>>>>>> Stashed changes
         // isInvalidCount++
         isInvalidCount = false;
       }
-<<<<<<< Updated upstream
 
       if (i === "password") {
         if (formData[i].length < 10) {
@@ -216,44 +134,6 @@ const validate = (formData) => {
           // isInvalidCount++
           isInvalidCount = false;
         }
-=======
-    }
-    if (i == 'confirmPassword') {
-      if (formData[i] != formData['password']) {
-        setIsInvalid(prevState => [
-          ...prevState,
-         { name: i,
-          msg:`Mật khẩu xác nhận không đúng`
-        }] )
-        // isInvalidCount++
-        isInvalidCount=false
-      }
-    }
-
-    if (i === 'email') {
-      const resultValidateEmail = validator.isEmail(formData[i])
-      if (!resultValidateEmail) {
-        setIsInvalid(prevState => [
-          ...prevState,
-         { name: i,
-          msg:`email không hợp lệ`
-        }] )
-        // isInvalidCount++
-        isInvalidCount=false
-      }
-    }
-
-    if (i === 'name') {
-      const resultValidateEmail = validator.isNumeric(formData[i])
-      if (resultValidateEmail) {
-        setIsInvalid(prevState => [
-          ...prevState,
-         { name: i,
-          msg:`Tên không hợp lệ`
-        }] )
-        // isInvalidCount++
-        isInvalidCount=false
->>>>>>> Stashed changes
       }
 
       if (i === "confirmPassword") {
@@ -280,7 +160,6 @@ const validate = (formData) => {
       if (i === "phone") {
         const resultValidatePhone = validator.isMobilePhone(formData[i]);
         if (!resultValidatePhone) {
-<<<<<<< Updated upstream
           setIsInvalid((prevState) => [
             ...prevState,
             { name: i, msg: `so dien thoai khong hop le` },
@@ -288,15 +167,6 @@ const validate = (formData) => {
           // isInvalidCount++
           isInvalidCount = false;
         }
-=======
-        setIsInvalid(prevState => [
-          ...prevState,
-         { name: i,
-          msg:`số điện thoại không hợp lệ`
-        }] )
-        // isInvalidCount++
-        isInvalidCount=false
->>>>>>> Stashed changes
       }
     }
 
@@ -332,7 +202,6 @@ const validate = (formData) => {
 
   // /axios test api
   useEffect(() => {
-<<<<<<< Updated upstream
     axios
       .get(`http://localhost:3000/user`)
       .then((res) => {
@@ -340,13 +209,6 @@ const validate = (formData) => {
       })
       .catch((error) => console.log(error));
   }, []);
-=======
-    axios.get(``)
-    .then(res => {
-      const persons = res.data;
-      console.log('person',persons)
-      console.log('res',res)
->>>>>>> Stashed changes
 
   //axios post data api
   // const user = '1'
@@ -370,7 +232,6 @@ const validate = (formData) => {
 
   // })
 
-<<<<<<< Updated upstream
   const handleSignIn = () => {
     setIsRegister(true);
     setFormData({
@@ -401,39 +262,6 @@ const validate = (formData) => {
           password: formData.password,
         };
     let error = validate(apiData);
-=======
-
-    const handleSignIn = () => {
-      setIsRegister(true)
-      setFormData({  
-        phone: '',
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword:''
-      })
-        setIsInvalid([])
-    }
-    const handleLogIn = () => {
-      setIsRegister(false)
-        setFormData({ 
-        phone: '',
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword:''
-    })
-        setIsInvalid([])
-    }
-    const handleSubmit = async() => {
-     
-    
-      let apiData = isResgister ? formData : {
-        phone: formData.phone,
-        password: formData.password
-      }
-      let error = validate(apiData)
->>>>>>> Stashed changes
     //   axios.post(`http://localhost:3000/users`, { apiData })
     // .then(res => {
     //   console.log(res);
@@ -537,7 +365,6 @@ const validate = (formData) => {
           placeholder={"Mời bạn nhập Mật khẩu"}
         />
         {isResgister && (
-<<<<<<< Updated upstream
           <>
             <InputGroup
               setIsInvalid={setIsInvalid}
@@ -550,18 +377,6 @@ const validate = (formData) => {
               placeholder={"Mời bạn nhập lại mật khẩu"}
             />
           </>
-=======
-          <InputGroup
-            setIsInvalid={setIsInvalid}
-            value={formData.confirmPassword}
-            setFormData={setFormData}
-            type={"password"}
-            typeInput={"confirmPassword"}
-            isInvalid={isInvalid}
-            labelChild={"Xác nhận mật khẩu"}
-            placeholder={"Nhập lại mật khẩu của bạn"}
-          />
->>>>>>> Stashed changes
         )}
         <Button
           children={isResgister ? "Đăng ký" : "Đăng nhập"}
