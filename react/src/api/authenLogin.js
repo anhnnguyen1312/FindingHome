@@ -7,7 +7,11 @@ export const callApiRegister = (payload) =>
     try {
       const response = await axiosConfig({
         method: "post",
+<<<<<<< Updated upstream
         url: "http://localhost:3000/user",
+=======
+        url: "http://localhost:8000/register",
+>>>>>>> Stashed changes
         data: payload,
       });
       resolve(response);
@@ -37,7 +41,11 @@ export const callApiUserInfor = () =>
     try {
       const response = await axiosConfig({
         method: "get",
+<<<<<<< Updated upstream
         url: "http://localhost:3000/user",
+=======
+        url: "",
+>>>>>>> Stashed changes
       });
       resolve(response);
     } catch (error) {
