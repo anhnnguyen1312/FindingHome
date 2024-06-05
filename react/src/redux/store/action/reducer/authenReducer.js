@@ -1,13 +1,6 @@
 import actionTypes from "../actionTypes";
 
 const initialState = {
-<<<<<<< Updated upstream
-  isLoggedIn: false,
-  token: null,
-  msg: "",
-  update: false,
-};
-=======
     isLoggedIn: false,
     token: null,
     msg:'',
@@ -48,35 +41,3 @@ export const authenReducer = (state = initialState,action) => {
         
     }
 }
->>>>>>> Stashed changes
-
-export const authenReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case actionTypes.REGISTER__SUC:
-    case actionTypes.LOGIN__SUC:
-      return {
-        ...state,
-        isLoggedIn: true,
-        token: action.data,
-        msg: "Login Success",
-      };
-    case actionTypes.REGISTER__FAIL:
-    case actionTypes.LOGIN__FAIL:
-      return {
-        ...state,
-        isLoggedIn: false,
-        token: null,
-        msg: "Login Fail!",
-        update: !state.update,
-      };
-    case actionTypes.LOGOUT:
-      return {
-        ...state,
-        isLoggedIn: false,
-        token: null,
-        msg: "Log Out!",
-      };
-    default:
-      return state;
-  }
-};
