@@ -5,7 +5,7 @@ export const postAction = () => async (dispatch) => {
     const response = await callApiPost();
     ///api phải trả về token và
     // if (response?.data.err === 0) {
-    if (response) {
+    if (!response?.data.message) {
       dispatch({
         type: actionTypes.GET_POST,
         posts: response.data,
@@ -14,12 +14,13 @@ export const postAction = () => async (dispatch) => {
       dispatch({
         type: actionTypes.GET_POST,
         posts: null,
+        msg: response.data.message,
       });
     }
   } catch (eror) {
     dispatch({
       type: actionTypes.GET_POST,
-      data: null,
+      posts: null,
     });
   }
 };

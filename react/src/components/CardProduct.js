@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import ch3 from "../assets/images/canho/ch3.jpg";
 import { AiFillPhone } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { path } from "../ultils/path";
 import DetailProduct from "../pages/Public/DetailProduct";
 const CardProduct = (props) => {
+  const [isHoverHeart, setIsHoverHeart] = useState(false);
+
   return (
     <div>
       <li className=" ">
@@ -13,7 +15,7 @@ const CardProduct = (props) => {
           to={path.DETAIL_PRODUCT}
         >
           <figure
-            className="m-0 flex-[30%] overflow-hidden rounded-l-2xl"
+            className="m-0 flex-[30%] overflow-hidden rounded-l-2xl relative"
             // data-category={src.label}
           >
             <img
@@ -21,6 +23,19 @@ const CardProduct = (props) => {
               alt="phòng trọ "
               src={ch3}
             />
+            <span
+              className="text-rose-500 absolute right-5 bottom-1"
+              onMouseEnter={() => setIsHoverHeart(true)}
+              onMouseLeave={() => setIsHoverHeart(false)}
+              onClick={() => setIsHoverHeart(true)}
+            >
+              {isHoverHeart ? (
+                <i class="fa-solid fa-heart"></i>
+              ) : (
+                <i class="fa-regular fa-heart"></i>
+              )}
+            </span>
+
             {/* <Image
               src="../assets/images/canho/ch1.jpg"
               className="h-full w-full object-cover"
