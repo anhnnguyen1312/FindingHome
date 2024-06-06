@@ -12,9 +12,9 @@ export const postReducer = (state = initialState, action) => {
     case actionTypes.GET_POST:
       return {
         ...state,
-        isLoggedIn: true,
+
         posts: action.posts || [],
-        msg: "get post Success",
+        msg: action.msg || "get post Success",
       };
     //   case actionTypes.GET_POST:
     //     return {

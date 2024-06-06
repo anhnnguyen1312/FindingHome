@@ -33,23 +33,24 @@ const Product = (props) => {
             Phòng Đang Cho Thuê{" "}
           </h1>
           <ul className="flex flex-col gap-[20px]  ">
-            {posts.map((product) => {
-              return (
-                <CardProduct
-                  key={product.id}
-                  location={product.location}
-                  price={product.price}
-                  area={product.area}
-                  status={product.status}
-                  description={product.description}
-                  placesNearby={product.placesNearby}
-                  owner={product.owner}
-                  phone={product.phone}
-                  zalo={product.zalo}
-                  // src={product.imgSrc}
-                />
-              );
-            })}
+            {posts?.length > 0 &&
+              posts.map((product) => {
+                return (
+                  <CardProduct
+                    key={product.id}
+                    location={product.location}
+                    price={product.price}
+                    area={product.area}
+                    status={product.status}
+                    description={product.description}
+                    placesNearby={product.placesNearby}
+                    owner={product.owner}
+                    phone={product.phone}
+                    zalo={product.zalo}
+                    // src={product.imgSrc}
+                  />
+                );
+              })}
           </ul>
         </div>
         <div className="lg:flex-[30%] flex-col hidden lg:flex bg-gray">

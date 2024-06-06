@@ -5,4 +5,6 @@ export const path = {
   HOUSE_RENTAL: "timnha",
   ESTATE_RENTAL: "timmatbang",
   DETAIL_PRODUCT: "detail",
+  PROFILE: "profile",
+  UPLOADPOST: "uploadpost",
 };

@@ -9,6 +9,8 @@ import {
   HomePage,
   DetailProduct,
 } from "./pages/Public";
+import Profile from "./pages/LoggedIn/Profile";
+import UploadPost from "./pages/LoggedIn/UploadPost";
 // import {SideBar} from './components/SideBar'
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
           <Route path={path.ROOM_RENTAL} element={<RoomRental />} />
           <Route path={path.ESTATE_RENTAL} element={<EstateRental />} />
           <Route path={path.DETAIL_PRODUCT} element={<DetailProduct />} />
+          <Route path={path.PROFILE} element={<Profile />} />
+          <Route path={path.UPLOADPOST} element={<UploadPost />} />
         </Route>
       </Routes>
     </Router>
