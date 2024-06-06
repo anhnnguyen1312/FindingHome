@@ -1,5 +1,5 @@
 # Sử dụng image PHP có sẵn
-FROM php:7.4-apache
+FROM php:8.0-apache
 
 # Thiết lập thư mục làm việc
 WORKDIR /var/www/html
