@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { InputGroup } from "../../components";
 import { useNavigate } from "react-router-dom";
@@ -32,10 +33,7 @@ export default function Login() {
     password: "",
     confirmPassword: "",
   });
-  console.log(
-    "useLocate.state?.stateIsRegister ",
-    useLocate.state?.stateIsRegister
-  );
+
   useEffect(() => {
     setIsRegister(useLocate.state?.stateIsRegister);
   }, [useLocate.state?.stateIsRegister]);
@@ -46,15 +44,12 @@ export default function Login() {
 
   useEffect(() => {
     stateAuth.msg
-      ? swal({
+      && swal({
           text: stateAuth.msg,
           icon: "error",
           timer: 3000,
         })
-      : console.log("data da dang ki thanh cong", stateAuth.data);
   }, [stateAuth.msg, stateAuth.update]);
-  console.log("stateAuth.msg", stateAuth.msg);
-
   //   const validates = (formData) => {
   //     let isInvalidCount = 0
   // let datacheck = Object.entries(formData)
@@ -170,271 +165,269 @@ export default function Login() {
           // isInvalidCount++
           isInvalidCount = false;
         }
+      }
 
-        if (i === "confirmPassword") {
-          if (formData[i] !== formData["password"]) {
-            setIsInvalid((prevState) => [
-              ...prevState,
-              { name: i, msg: `mat khau nhap lai khong dung` },
-            ]);
-          }
-        }
+      // if (i === "confirmPassword") {
+      //   if (formData[i] !== formData["password"]) {
+      //     setIsInvalid((prevState) => [
+      //       ...prevState,
+      //       { name: i, msg: `mat khau nhap lai khong dung` },
+      //     ]);
+      //   }
+      // }
 
-        if (i === "email") {
-          const resultValidateEmail = validator.isEmail(formData[i]);
-          if (!resultValidateEmail) {
-            setIsInvalid((prevState) => [
-              ...prevState,
-              { name: i, msg: `emial khong hop le` },
-            ]);
-            // isInvalidCount++
-            isInvalidCount = false;
-          }
-        }
+      // if (i === "email") {
+      //   const resultValidateEmail = validator.isEmail(formData[i]);
+      //   if (!resultValidateEmail) {
+      //     setIsInvalid((prevState) => [
+      //       ...prevState,
+      //       { name: i, msg: `emial khong hop le` },
+      //     ]);
+      //     // isInvalidCount++
+      //     isInvalidCount = false;
+      //   }
+      // }
 
-        if (i === "phone") {
-          const resultValidatePhone = validator.isMobilePhone(formData[i]);
-          if (!resultValidatePhone) {
-            setIsInvalid((prevState) => [
-              ...prevState,
-              { name: i, msg: `số điện thoại không hợp lệ` },
-            ]);
-            // isInvalidCount++
-            isInvalidCount = false;
-          }
+      if (i === "phone") {
+        const resultValidatePhone = validator.isMobilePhone(formData[i]);
+        if (!resultValidatePhone) {
+          setIsInvalid((prevState) => [
+            ...prevState,
+            { name: i, msg: `số điện thoại không hợp lệ` },
+          ]);
+          // isInvalidCount++
+          isInvalidCount = false;
         }
       }
-      return isInvalidCount;
     }
-    // ham validator
-    //   const validator = (formData) => {
-    // console.log('formData',formData)
-    // for (let i in formData){
-    //   console.log('formData i ',formData[i],i)
-    // if (i === 'phone'){
+    return isInvalidCount;
+  };
+  // ham validator
+  //   const validator = (formData) => {
+  // console.log('formData',formData)
+  // for (let i in formData){
+  //   console.log('formData i ',formData[i],i)
+  // if (i === 'phone'){
 
-    // }
-    // if (i === 'email'){
-    //   const test = (a) => {
-    //     console.log('a',a)
-    //         var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-    //     return regex.test(a) ? console.log('ban  nhap sai email') :  console.log('ban da nhap dung email')
-    //   }
-    //   test(formData[i])
-    //   }
-    //   if (i === 'name'){
-    //     // console.log('formData[i].trim()',formData[i].trim())
-    //     formData[i].trim() === '' ? console.log('ban chua nhap name') :  console.log('ban da nhap name')
+  // }
+  // if (i === 'email'){
+  //   const test = (a) => {
+  //     console.log('a',a)
+  //         var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+  //     return regex.test(a) ? console.log('ban  nhap sai email') :  console.log('ban da nhap dung email')
+  //   }
+  //   test(formData[i])
+  //   }
+  //   if (i === 'name'){
+  //     // console.log('formData[i].trim()',formData[i].trim())
+  //     formData[i].trim() === '' ? console.log('ban chua nhap name') :  console.log('ban da nhap name')
 
-    //     }
-    //     if (i === 'password'){
-    //       console.log('phone')
-    //       }
-    // }
+  //     }
+  //     if (i === 'password'){
+  //       console.log('phone')
+  //       }
+  // }
 
-    //   }
+  //   }
 
-    // /axios test api
-    //axios post data api
-    // const user = '1'
-    //   useEffect(() => {
-    //     axios.post(`https://jsonplaceholder.typicode.com/users`, { user })
-    //     .then(res => {
-    //       console.log(res);
-    //       console.log(res.formData);
-    //     })
-    //     .catch(error => console.log(error));
-    //   },[])
+  // /axios test api
+  //axios post data api
+  // const user = '1'
+  //   useEffect(() => {
+  //     axios.post(`https://jsonplaceholder.typicode.com/users`, { user })
+  //     .then(res => {
+  //       console.log(res);
+  //       console.log(res.formData);
+  //     })
+  //     .catch(error => console.log(error));
+  //   },[])
 
-    // GỌI API VỚI FETCH
-    // var api = 'http://localhost:3000/users'
-    // fetch(api)
-    // .then(function(response){
-    //   return response.json();
+  // GỌI API VỚI FETCH
+  // var api = 'http://localhost:3000/users'
+  // fetch(api)
+  // .then(function(response){
+  //   return response.json();
+  // })
+  // .then(function(person){
+  //   console.log('person',person)
+
+  // })
+
+  const handleSignIn = () => {
+    setIsRegister(true);
+    setFormData({
+      phone: "",
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+    setIsInvalid([]);
+  };
+  const handleLogIn = () => {
+    setIsRegister(false);
+    setFormData({
+      phone: "",
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+    setIsInvalid([]);
+  };
+  const handleSubmit = async () => {
+    let apiData = isResgister
+      ? formData
+      : {
+          phone: formData.phone,
+          password: formData.password,
+        };
+    let error = validate(apiData);
+    //   axios.post(`http://localhost:3000/users`, { apiData })
+    // .then(res => {
+    //   console.log(res);
     // })
-    // .then(function(person){
-    //   console.log('person',person)
+    // .catch(error => console.log(error));
 
+    // axios.get(`http://localhost:3000/users`,{
+    //   // headers: {
+    //   //   'Content-Type': 'application/json'
+    //   // } })
+    //   header : { 'Access-Control-Allow-Origin': 'http://localhost:3000/users'}
     // })
+    // .then(res => {
+    //   console.log(res.status);
+    // })
+    // .catch(error => console.log(error));
 
-    const handleSignIn = () => {
-      setIsRegister(true);
-      setFormData({
-        phone: "",
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      });
-      setIsInvalid([]);
-    };
-    const handleLogIn = () => {
-      setIsRegister(false);
-      setFormData({
-        phone: "",
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      });
-      setIsInvalid([]);
-    };
-    const handleSubmit = async () => {
-      let apiData = isResgister
-        ? formData
-        : {
-            phone: formData.phone,
-            password: formData.password,
-          };
-      let error = validate(apiData);
-      //   axios.post(`http://localhost:3000/users`, { apiData })
-      // .then(res => {
-      //   console.log(res);
-      // })
-      // .catch(error => console.log(error));
-
-      // axios.get(`http://localhost:3000/users`,{
-      //   // headers: {
-      //   //   'Content-Type': 'application/json'
-      //   // } })
-      //   header : { 'Access-Control-Allow-Origin': 'http://localhost:3000/users'}
-      // })
-      // .then(res => {
-      //   console.log(res.status);
-      // })
-      // .catch(error => console.log(error));
-
-      if (error) {
-        // const response = await callApiRegister(formData)
-        // console.log('response', response)
-        {
-          isResgister
-            ? dispatch(registerAction(apiData))
-            : dispatch(loginAction(apiData));
-        }
+    if (error) {
+      // const response = await callApiRegister(formData)
+      // console.log('response', response)
+      {
+        isResgister
+          ? dispatch(registerAction(apiData))
+          : dispatch(loginAction(apiData));
       }
+    }
 
-      console.log("error", error);
+    console.log("error", error);
+  };
+
+  // call api get user
+  useEffect(() => {
+    const getApiUser = async () => {
+      const response = await callApiUserInfor();
     };
+    const a = getApiUser();
+  }, []);
+  //post
 
-    // call api get user
-    useEffect(() => {
-      const getApiUser = async () => {
-        const response = await callApiUserInfor();
-      };
-      const a = getApiUser();
-    }, []);
-    //post
+  // axios.post(`http://localhost:3005/users`, { formData })
+  //   .then(res => {
+  //     console.log(res);
+  //     console.log(res.data);
+  //   })
+  //   .catch(error => console.log(error));
 
-    // axios.post(`http://localhost:3005/users`, { formData })
-    //   .then(res => {
-    //     console.log(res);
-    //     console.log(res.data);
-    //   })
-    //   .catch(error => console.log(error));
-
-    return (
-      <div className="">
-        {/* <form action="" method="POST" className='w-[30rem] min-h-28 px-6 py-8 text-center border-[#1dbfaf] bg-white border rounded-sm m-6 self-center' id="form-1"> */}
-        <div className="w-[30rem] min-h-28 px-6 py-8 text-center border-[#1dbfaf] bg-white border rounded-sm m-6 self-center">
-          <h1 className="text-3xl font-[600] mb-[1rem]">
-            {" "}
-            {isResgister ? "Đăng ký" : "Đăng nhập"}{" "}
-          </h1>
-          <p className="text-[1.2rem] leading-10 mb-2 mt-4 text-center font-light">
-            Đăng nhập ngay để tìm được phòng ưng ý nhất❤️
-          </p>
-          {isResgister && (
-            <>
-              <InputGroup
-                setIsInvalid={setIsInvalid}
-                value={formData.name}
-                setFormData={setFormData}
-                typeInput={"name"}
-                isInvalid={isInvalid}
-                labelChild={"Họ và Tên"}
-                type={"text"}
-                placeholder={"Mời bạn nhập Họ và Tên "}
-              />
-
-              <InputGroup
-                setIsInvalid={setIsInvalid}
-                value={formData.email}
-                setFormData={setFormData}
-                typeInput={"email"}
-                isInvalid={isInvalid}
-                type={"text"}
-                labelChild={"Email"}
-                placeholder={"Mời bạn nhập Email"}
-              />
-            </>
-          )}
-          <InputGroup
-            setIsInvalid={setIsInvalid}
-            value={formData.phone}
-            setFormData={setFormData}
-            typeInput={"phone"}
-            isInvalid={isInvalid}
-            type={"text"}
-            labelChild={"Số điện thoại"}
-            placeholder={"Mời bạn nhập Số điện thoại "}
-          />
-          <InputGroup
-            setIsInvalid={setIsInvalid}
-            value={formData.password}
-            setFormData={setFormData}
-            type={"password"}
-            typeInput={"password"}
-            isInvalid={isInvalid}
-            labelChild={"Mật khẩu"}
-            placeholder={"Mời bạn nhập Mật khẩu"}
-          />
-          {isResgister && (
+  return (
+    <div className="">
+      {/* <form action="" method="POST" className='w-[30rem] min-h-28 px-6 py-8 text-center border-[#1dbfaf] bg-white border rounded-sm m-6 self-center' id="form-1"> */}
+      <div className="w-[30rem] min-h-28 px-6 py-8 text-center border-[#1dbfaf] bg-white border rounded-sm m-6 self-center">
+        <h1 className="text-3xl font-[600] mb-[1rem]">
+          {" "}
+          {isResgister ? "Đăng ký" : "Đăng nhập"}{" "}
+        </h1>
+        <p className="text-[1.2rem] leading-10 mb-2 mt-4 text-center font-light">
+          Đăng nhập ngay để tìm được phòng ưng ý nhất❤️
+        </p>
+        {isResgister && (
+          <>
             <InputGroup
               setIsInvalid={setIsInvalid}
-              value={formData.confirmPassword}
+              value={formData.name}
               setFormData={setFormData}
-              type={"password"}
-              typeInput={"confirmPassword"}
+              typeInput={"name"}
               isInvalid={isInvalid}
-              labelChild={"Xác nhận mật khẩu"}
-              placeholder={"Nhập lại mật khẩu của bạn"}
+              labelChild={"Họ và Tên"}
+              type={"text"}
+              placeholder={"Mời bạn nhập Họ và Tên "}
             />
-          )}
-          <Button
-            children={isResgister ? "Đăng ký" : "Đăng nhập"}
-            bgColor={"bg-[#1dbfaf]"}
-            textColor={"text-white"}
-            borderColor={"border-white"}
-            onClick={handleSubmit}
-            fullWidth
-            hovercolor={"hover:bgColor-[#18ad9e]"}
+
+            <InputGroup
+              setIsInvalid={setIsInvalid}
+              value={formData.email}
+              setFormData={setFormData}
+              typeInput={"email"}
+              isInvalid={isInvalid}
+              type={"text"}
+              labelChild={"Email"}
+              placeholder={"Mời bạn nhập Email"}
+            />
+          </>
+        )}
+        <InputGroup
+          setIsInvalid={setIsInvalid}
+          value={formData.phone}
+          setFormData={setFormData}
+          typeInput={"phone"}
+          isInvalid={isInvalid}
+          type={"text"}
+          labelChild={"Số điện thoại"}
+          placeholder={"Mời bạn nhập Số điện thoại "}
+        />
+        <InputGroup
+          setIsInvalid={setIsInvalid}
+          value={formData.password}
+          setFormData={setFormData}
+          type={"password"}
+          typeInput={"password"}
+          isInvalid={isInvalid}
+          labelChild={"Mật khẩu"}
+          placeholder={"Mời bạn nhập Mật khẩu"}
+        />
+        {isResgister && (
+          <InputGroup
+            setIsInvalid={setIsInvalid}
+            value={formData.confirmPassword}
+            setFormData={setFormData}
+            type={"password"}
+            typeInput={"confirmPassword"}
+            isInvalid={isInvalid}
+            labelChild={"Xác nhận mật khẩu"}
+            placeholder={"Nhập lại mật khẩu của bạn"}
           />
-          <div className="flex justify-between mt-4 text-blue-600">
-            {isResgister ? (
+        )}
+        <Button
+          children={isResgister ? "Đăng ký" : "Đăng nhập"}
+          bgColor={"bg-[#1dbfaf]"}
+          textColor={"text-white"}
+          borderColor={"border-white"}
+          onClick={handleSubmit}
+          fullWidth
+          hovercolor={"hover:bgColor-[#18ad9e]"}
+        />
+        <div className="flex justify-between mt-4 text-blue-600">
+          {isResgister ? (
+            <p onClick={handleLogIn} className="cursor-pointer hover:underline">
+              Đăng nhập ngay
+            </p>
+          ) : (
+            <>
               <p
-                onClick={handleLogIn}
+                onClick={handleSignIn}
                 className="cursor-pointer hover:underline"
               >
-                Đăng nhập ngay
+                Bạn chưa có tài khoản?
               </p>
-            ) : (
-              <>
-                <p
-                  onClick={handleSignIn}
-                  className="cursor-pointer hover:underline"
-                >
-                  Bạn chưa có tài khoản?
-                </p>
-                <p className="cursor-pointer hover:underline">
-                  Bạn quên mật khẩu ?
-                </p>
-              </>
-            )}
-          </div>
+              <p className="cursor-pointer hover:underline">
+                Bạn quên mật khẩu ?
+              </p>
+            </>
+          )}
         </div>
-        {/* </form> */}
       </div>
-    );
-  };
+      {/* </form> */}
+    </div>
+  );
 }
+// }

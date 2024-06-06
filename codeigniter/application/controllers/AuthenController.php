@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require_once 'vendor/autoload.php';
+use Firebase\JWT\JWT;
 class AuthenController extends CI_Controller {
 
 	/**
@@ -23,17 +24,20 @@ class AuthenController extends CI_Controller {
 		$this->load->model('Authen_model');
 	}
 	public function register(){
+		$jwt = new JWT();
 		$data = json_decode($this->input->raw_input_stream, true);
 		if(!empty($data)){
 			$resultID = $this->Authen_model->insert_resigter_users($data);
-			if($resultID != NULL){
+			if($resultID != false){
 				$data = $this->Authen_model->get_regester_user($resultID);
-				echo json_encode([
+				$userData = ([
 					'name' => $data->name,
 					'email' => $data->email,
 					'phone' => $this->encryption->decrypt($data->phone),
 					'role' => $data->role
 				]);
+				$token = $jwt->encode($userData, '$/0ne_punch_m4n/$', 'HS256');
+				echo json_encode(['token' => $token]);
 			}else{
 				echo json_encode([
 					'message' => 'tài khoản đã tồn tại. vui lòng thử lại'
