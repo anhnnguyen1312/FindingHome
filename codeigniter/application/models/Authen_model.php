@@ -20,7 +20,7 @@ class Authen_model extends CI_Model {
 			return false;
 		}
 	}
-	public function get_regester_user($id){
+	public function get_detail_user($id){
 		$query = $this->db->get_where('users', ['id' => $id]);
 		return $query->row();
 	}
@@ -41,5 +41,15 @@ class Authen_model extends CI_Model {
 			return false;
 		}
 
+	}
+	public function update_user_profile($data){
+		$dataDB['email'] = $data['email'];
+		$dataDB['phone'] = $this->encryption->encrypt($data['phone']);
+		$dataDB['name'] = $data['name'];
+		$id = $data['userId'];
+
+		$this->db->where('id', $id);
+		$query = $this->db->update('users', $dataDB);
+		return $query;
 	}
 }

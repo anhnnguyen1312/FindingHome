@@ -7,5 +7,8 @@ const actionTypes = {
   LOGOUT: "LOGOUT",
   GET_POST: "GET_POST",
   GET_USER: "GET_USER",
+  UPDATE_PROFILE_SUC: "UPDATE_PROFILE_SUC",
+  UPDATE_PROFILE_FAIL: "UPDATE_PROFILE_FAIL",
+
 };
 export default actionTypes;

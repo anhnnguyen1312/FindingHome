@@ -51,5 +51,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['register'] = 'AuthenController/register';
 $route['login'] = 'AuthenController/login';
+$route['handle_profile'] = 'AuthenController/handle_profile';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

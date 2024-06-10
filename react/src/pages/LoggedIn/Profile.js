@@ -8,6 +8,7 @@ import { callApiUserProfile } from "../../api/getUserApi";
 import validator from "validator";
 
 import {
+  updateUserAction,
   registerAction,
   logoutAction,
 } from "../../redux/store/action/authenAction";
@@ -109,11 +110,10 @@ const Profile = () => {
 
   const handleSave = async () => {
     let error = validate(userData);
-    console.log("eror", error);
-    console.log("userData", userData);
-    // if (error) {
-    //   dispatch(registerAction(userData));
-    // }
+    if (error) {
+      dispatch(updateUserAction(userData));
+      setUpdateClick(false)
+    }
   };
   return (
     <>
@@ -128,7 +128,7 @@ const Profile = () => {
                     className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
                   ></img>
                   {userData.name && (
-                    <h1 className="text-xl font-bold">{userData.name}</h1>
+                    <h1 className="text-xl font-bold">{stateAuth.data.name}</h1>
                   )}
                   <p className="text-gray-700"></p>
                   <div className="mt-6 flex flex-wrap gap-4 justify-center">
@@ -314,16 +314,17 @@ const Profile = () => {
                   <p className="shrink-0 w-32 font-medium">Họ & Tên</p>
                   <input
                     value={userData.name}
+                    disabled={!updateClick}
                     id={"name"}
                     onChange={(e) => handleFormUserData(e)}
-                    className="mb-2 w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 sm:mr-4 sm:mb-0 focus:ring-1"
+                    className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
                   />
                 </div>
                 <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
                   <p className="shrink-0 w-32 font-medium">Email</p>
-                  <div className=" flex flex-col mb-2">
                     <input
                       value={userData.email}
+                      disabled={!updateClick}
                       id={"email"}
                       onFocus={handleOnFocus}
                       onChange={(e) => handleFormUserData(e)}
@@ -337,13 +338,12 @@ const Profile = () => {
                           {IsInValid.find((e) => e.name === "email")?.msg}{" "}
                         </span>
                       )}
-                  </div>
                 </div>
                 <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
                   <p className="shrink-0 w-32 font-medium">Số điện thoại</p>
-                  <div className=" flex flex-col mb-2">
                     <input
                       value={userData.phone}
+                      disabled={!updateClick}
                       onChange={(e) => handleFormUserData(e)}
                       id={"phone"}
                       placeholder="Nhập số điện thoại"
@@ -356,7 +356,6 @@ const Profile = () => {
                           {IsInValid.find((e) => e.name === "phone")?.msg}{" "}
                         </span>
                       )}
-                  </div>
                 </div>
                 <div className="flex flex-col gap-4 py-4  lg:flex-row">
                   <div className="shrink-0 w-32  sm:py-4">

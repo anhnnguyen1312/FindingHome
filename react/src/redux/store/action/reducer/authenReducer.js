@@ -34,9 +34,25 @@ export const authenReducer = (state = initialState, action) => {
         data: action.data,
         msg: null,
       };
+    case actionTypes.UPDATE_PROFILE_SUC:
+      return {
+        ...state,
+        isLoggedIn: true,
+        data: action.data,
+        msg: null,
+      };
+    case actionTypes.UPDATE_PROFILE_FAIL:
+      return {
+        ...state,
+        isLoggedIn: true,
+        data: null,
+        msg: action.data,
+      };
     case actionTypes.LOGOUT:
       return {
         ...state,
+        msg: null,
+        data: null,
         isLoggedIn: false,
       };
     default:

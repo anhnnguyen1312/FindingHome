@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import actionTypes from "./actionTypes";
 import { callApiRegister, callApiLogin } from "../../../api/authenLogin";
+import { callApiUpdateProfile } from "../../../api/getUserApi";
 import {
   setAuthToken,
   removeAuthToken,
@@ -99,3 +100,30 @@ export const logoutAction = () => ({
   type: actionTypes.LOGOUT,
   data: null,
 });
+export const updateUserAction = (payload) => async (dispatch) => {
+  try {
+    const response = await callApiUpdateProfile(payload);
+    ///api phải trả về token và
+    // if (response?.data.err === 0) {
+    // if (typeof response?.data.err === 'undefined') {
+    if (response?.data) {
+      const token = response.data.token;
+      setAuthToken(token);
+      const cookie = getAuthToken();
+      dispatch({
+        type: actionTypes.UPDATE_PROFILE_SUC,
+        data: cookie,
+      });
+    } else {
+      dispatch({
+        type: actionTypes.UPDATE_PROFILE_FAIL,
+        data: response.data.message,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: actionTypes.UPDATE_PROFILE_FAIL,
+      data: null,
+    });
+  }
+};
