@@ -117,17 +117,18 @@ export const loginAction = (payload) => async (dispatch) => {
     ///api phải trả về token và
     // if (response?.data.err === 0) {
     // if (typeof response?.data.err === 'undefined') {
+    console.log("reaponse.data", response.data);
     if (response?.data) {
       dispatch({
         type: actionTypes.LOGIN__SUC,
-        data: response.data.token,
+        data: response.data,
       });
     } else {
       console.log("looix dispatch");
 
       dispatch({
         type: actionTypes.LOGIN__FAIL,
-        data: response.data.msg,
+        msg: response.data.msg,
       });
     }
   } catch (error) {

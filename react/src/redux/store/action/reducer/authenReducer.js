@@ -151,7 +151,8 @@ export const authenReducer = (state = initialState, action) => {
         ...state,
         isLoggedIn: false,
         token: null,
-        msg: " Login Fail",
+        // msg: " Log Out!",
+        msg: null,
       };
     default:
       return state;

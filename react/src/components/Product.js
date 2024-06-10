@@ -17,7 +17,7 @@ const Product = (props) => {
   useEffect(() => {
     dispatch(postAction());
   }, []);
-
+  console.log("posts", posts);
   return (
     <div className="">
       <div className=" flex lg:flex-row flex-col gap-[2vw]   ">
@@ -28,7 +28,7 @@ const Product = (props) => {
             </div>
           </div>
         </div>
-        <div className="lg:flex-[70%] flex flex-col gap-[20px] p-[5px] ">
+        <div className="lg:flex-[80%] flex flex-col gap-[20px] p-[5px] ">
           <h1 className="mt-[5vh] text-[30px] font-semibold ">
             Phòng Đang Cho Thuê{" "}
           </h1>
@@ -38,22 +38,24 @@ const Product = (props) => {
                 return (
                   <CardProduct
                     key={product.id}
-                    location={product.location}
+                    address={product.address}
                     price={product.price}
                     area={product.area}
                     status={product.status}
                     description={product.description}
                     placesNearby={product.placesNearby}
-                    owner={product.owner}
+                    name={product.name}
                     phone={product.phone}
                     zalo={product.zalo}
+                    title={product.title}
+                    id={product.id}
                     // src={product.imgSrc}
                   />
                 );
               })}
           </ul>
         </div>
-        <div className="lg:flex-[30%] flex-col hidden lg:flex bg-gray">
+        <div className="lg:flex-[20%] flex-col hidden lg:flex bg-gray">
           {/* Button */}
           <div className=" w-full flex flex-col items-center justify-start gap-[20px]  mt-[5vh] pt-[2px]  ">
             <div className="flex w-full items-center justify-end">

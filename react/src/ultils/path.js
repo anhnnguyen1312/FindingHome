@@ -7,4 +7,6 @@ export const path = {
   DETAIL_PRODUCT: "detail",
   PROFILE: "profile",
   UPLOADPOST: "uploadpost",
+  CREATEPOST: "createpost",
+  NEWPOST: "newpost",
 };
