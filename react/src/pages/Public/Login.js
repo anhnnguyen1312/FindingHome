@@ -44,13 +44,12 @@ export default function Login() {
 
   useEffect(() => {
     console.log("data da dang ki thanh cong", stateAuth.msg);
-    stateAuth.msg
-      ? swal({
-          text: stateAuth.msg,
-          icon: "error",
-          timer: 3000,
-        })
-      : console.log("data da dang ki thanh cong", stateAuth.data);
+    stateAuth.msg &&
+      swal({
+        text: stateAuth.msg,
+        icon: "error",
+        timer: 3000,
+      });
   }, [stateAuth.msg, stateAuth.update]);
   //   const validates = (formData) => {
   //     let isInvalidCount = 0

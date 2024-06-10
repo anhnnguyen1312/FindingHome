@@ -73,7 +73,7 @@ export const callApiLogin = (payload) =>
     try {
       const response = await axiosConfig({
         method: "post",
-        url: "http://localhost:3000/users",
+        url: "http://localhost:8000/login",
         data: payload,
       });
       resolve(response);
