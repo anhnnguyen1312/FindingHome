@@ -9,9 +9,8 @@ import swal from "sweetalert";
 import { useDispatch, useSelector } from "react-redux";
 import activeUser from "../assets/images/active-user.png";
 import { logoutAction } from "../redux/store/action/authenAction";
-import { getAuthToken } from "../api/cookieServices";
+import { getAuthToken, removeAuthToken } from "../api/cookieServices";
 const { Search } = Input;
-const checkAuthen = getAuthToken()
 import ch3 from "../assets/images/canho/ch3.jpg";
 
 export default function NavBar() {
@@ -35,9 +34,10 @@ export default function NavBar() {
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
   const handleLogOut = () => {
+    removeAuthToken();
     dispatch(logoutAction());
   };
-  console.log("stateAuth.data.id", stateAuth.data.id);
+  console.log("stateAuth.data.id", stateAuth.data?.id);
 
   const handleCreatePost = () => {
     if (stateAuth.isLoggedIn) {
@@ -60,7 +60,7 @@ export default function NavBar() {
     dispatch(logoutAction());
   };
   const handleClickUser = () => {
-    if (!checkAuthen) {
+    if (!stateAuth.isLoggedIn) {
       handleLogInNavigate(false);
     }
     //  else {
@@ -206,57 +206,13 @@ export default function NavBar() {
             >
               <i class="fa-solid fa-heart white_icon"></i>
             </Link>
-            {!checkAuthen ? (
+            {!stateAuth.isLoggedIn && (
               <div className="icon-navbar" onClick={() => handleClickUser()}>
                 <i class="fa-solid fa-user white_icon"></i>
               </div>
-            ) : (
-              <Link
-              to={path.PROFILE}
-              >
-              <div
-                className="icon-navbar icon-navbar-user font-thin    relative"
-              >
-                <i class="fa-solid fa-user-check white_icon"></i>
-                <div className="cart__list py-[20px] ">
-                  <ul className="font-thin flex flex-col bg-white">
-                  <Link
-                  to={path.PROFILE}
-                  >
-                    <li className="flex items-center justify-between">
-                        <div>Tài khoản</div>
-                        <i class="fa-solid fa-user text-black "></i>
-                    </li>
-                  </Link>
-
-                    <li className="flex justify-between items-center">
-                      <div>Bài đăng</div>
-
-                      <i class="fa-solid fa-square-plus text-black"></i>
-                    </li>
-                  <Link
-                    to={path.LOGIN}
-                  >
-                    <li className="flex justify-between items-center ">
-                      <div className="text-red"
-                      onClick={() => handleLogOut()}
-                      >Đăng Xuất</div>
-
-                      <i class="fa-solid fa-arrow-right-from-bracket text-red "></i>
-                    </li>
-                  </Link>
-                  </ul>
-                </div>
-              </div>
-            </Link>
-
             )}
 
-            <Link
-              to={path.ESTATE_RENTAL}
-              className="icon-navbar"
-              onClick={() => handleCreatePost()}
-            >
+            <div className="icon-navbar" onClick={() => handleCreatePost()}>
               <i class="fa-solid fa-square-plus"></i>
             </div>
 
@@ -387,7 +343,9 @@ export default function NavBar() {
           {stateAuth.isLoggedIn && (
             // da dang nhap
             <div className="flex items-center gap-[10px] ml-[30px] ">
-              <div onClick={() => handleUserProfile()}>Anh nguyen</div>
+              <div onClick={() => handleUserProfile()}>
+                {stateAuth.data?.name}
+              </div>
               <div
                 className="icon-navbar icon-navbar-user font-thin    relative"
                 // onClick={() => handleClickUser()}

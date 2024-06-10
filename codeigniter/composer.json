@@ -12,7 +12,7 @@
 	},
 	"require": {
 		"php": ">=5.3.7",
-		"firebase/php-jwt": "^6.10",
+		"firebase/php-jwt": "^6.4",
 		"paragonie/sodium_compat": "^1.21"
 	},
 	"suggest": {

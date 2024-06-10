@@ -3,7 +3,7 @@ import React from "react";
 const InputReadOnly = ({ title, value }) => {
   return (
     <>
-      <div className="flex flex-col gap-[10px]">
+      <div className="flex flex-col gap-[10px] mb-[10px]">
         <label className="font-semibold text-md" htmlFor="address">
           {title}
         </label>

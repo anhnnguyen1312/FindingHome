@@ -3,12 +3,9 @@ import user1 from "../../assets/images/user/user2.jpg";
 import { CardProduct } from "../../components/index";
 import { useDispatch, useSelector } from "react-redux";
 import { postAction } from "../../redux/store/action/postAction";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { callApiUserProfile } from "../../api/getUserApi";
 import validator from "validator";
-import { getAuthToken } from "../../api/cookieServices";
-
-const authDetail = getAuthToken()
 
 import {
   registerAction,
@@ -21,8 +18,9 @@ const Profile = () => {
   const useLocate = useLocation();
   const [userData, setUserData] = useState([]);
   const [IsInValid, setIsInvalid] = useState([]);
+  const [updateClick, setUpdateClick] = useState(false);
 
-  const [userId, setUserId] = useState(useLocate.state?.UserId);
+  // const [userId, setUserId] = useState(useLocate.state?.UserId);
   // const [formUserData, setFormUserData] = useState({
   //   id: "",
   //   address: "",
@@ -33,17 +31,21 @@ const Profile = () => {
 
   const stateAuth = useSelector((state) => state.auth);
   const { posts } = useSelector((state) => state.post);
-  useEffect(() => {
-    if (stateAuth.isLoggedIn) {
-      const getApiuserProfile = async () => {
-        // const response = await callApiUserProfile(userId);
-        const response = await callApiUserProfile("1");
+  // useEffect(() => {
+  //   if (stateAuth.isLoggedIn) {
+  //     const getApiuserProfile = async () => {
+  //       // const response = await callApiUserProfile(userId);
+  //       const response = await callApiUserProfile("1");
 
-        setUserData(response.data);
-      };
-      getApiuserProfile();
-      dispatch(postAction());
-    }
+  //       setUserData(response.data);
+  //     };
+  //     getApiuserProfile();
+  //     dispatch(postAction());
+  //   }
+  // }, []);
+  console.log("stateAuth", stateAuth);
+  useEffect(() => {
+    stateAuth.isLoggedIn && setUserData(stateAuth.data);
   }, []);
 
   useEffect(() => {
@@ -108,9 +110,10 @@ const Profile = () => {
   const handleSave = async () => {
     let error = validate(userData);
     console.log("eror", error);
-    if (error) {
-      dispatch(registerAction(userData));
-    }
+    console.log("userData", userData);
+    // if (error) {
+    //   dispatch(registerAction(userData));
+    // }
   };
   return (
     <>
@@ -124,23 +127,24 @@ const Profile = () => {
                     src={user1}
                     className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
                   ></img>
-                  { authDetail && (
-                    <h1 className="text-xl font-bold">{authDetail.name}</h1>
-                  ) }
+                  {userData.name && (
+                    <h1 className="text-xl font-bold">{userData.name}</h1>
+                  )}
                   <p className="text-gray-700"></p>
                   <div className="mt-6 flex flex-wrap gap-4 justify-center">
-                    <a
-                      href="#"
+                    <div
+                      onClick={() => setUpdateClick(true)}
                       className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
                     >
                       Sửa Thông Tin
-                    </a>
-                    <a
-                      href="#"
-                      className="bg-rose-500 hover:bg-rose-400 text-white-700 py-2 px-4 rounded"
+                    </div>
+                    <Link
+                      //  onClick={() => handleNewPostNavidate()}
+                      to={path.LOGIN}
+                      className="bg-rose-500 hover:bg-rose-400 text-white py-2 px-4 rounded"
                     >
                       Đăng tin
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <hr className="my-6 border-t border-gray-300" />
@@ -154,10 +158,13 @@ const Profile = () => {
                     </li>
 
                     <li className="mb-4 border-b-[1px] border-[#dfdfdf] ">
-                      Lịch sử thanh toán
-                    </li>
-                    <li className="mb-4 border-b-[1px] border-[#dfdfdf] ">
                       Lịch sử hoạt động
+                    </li>
+                    <li
+                      className="mb-4 border-b-[1px] border-[#dfdfdf] "
+                      onClick={() => handleLogOut()}
+                    >
+                      xóa tài khoản
                     </li>
                     <li
                       className="mb-4 border-b-[1px] border-[#dfdfdf] "
@@ -170,7 +177,7 @@ const Profile = () => {
               </div>
             </div>
             <div className="col-span-4 md:col-span-9">
-              <div className="bg-white shadow rounded-lg p-6">
+              {/* <div className="bg-white shadow rounded-lg p-6">
                 <h2 className="text-xl font-bold mb-4">
                   Giới thiệu thông tin{" "}
                 </h2>
@@ -274,9 +281,9 @@ const Profile = () => {
                     </svg>
                   </a>
                 </div>
+</div> */}
+              {/* // form chỉnh sua thong tin  */}
 
-                {/* // form chỉnh sua thong tin  */}
-              </div>
               {/* // chinh sua thong tin form */}
               <div className="my-4 bg-white max-w-screen-md border  shadow-xl px-4 md:mx-auto">
                 <div className="flex flex-col border-b py-4 sm:flex-row sm:items-start">
@@ -286,21 +293,29 @@ const Profile = () => {
                       Chỉnh sửa thông tin cá nhân
                     </p>
                   </div>
-                  <button className="mr-2 hidden rounded-lg border-2 px-4 py-2 font-medium text-gray-500 sm:inline focus:outline-none focus:ring hover:bg-gray-200">
-                    hủy
-                  </button>
-                  <button
-                    onClick={() => handleSave()}
-                    className="hidden rounded-lg border-2 border-transparent bg-blue-600 px-4 py-2 font-medium text-white sm:inline focus:outline-none focus:ring hover:bg-blue-700"
-                  >
-                    Lưu
-                  </button>
+                  {updateClick && (
+                    <div>
+                      <button
+                        onClick={() => setUpdateClick(false)}
+                        className="mr-2 hidden rounded-lg border-2 px-4 py-2 font-medium text-gray-500 sm:inline focus:outline-none focus:ring hover:bg-gray-200"
+                      >
+                        hủy
+                      </button>
+                      <button
+                        onClick={() => handleSave()}
+                        className="hidden rounded-lg border-2 border-transparent bg-blue-600 px-4 py-2 font-medium text-white sm:inline focus:outline-none focus:ring hover:bg-blue-700"
+                      >
+                        Lưu
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
                   <p className="shrink-0 w-32 font-medium">Họ & Tên</p>
                   <input
-                    value=""
-                    placeholder={authDetail ? authDetail.name : ""}
+                    value={userData.name}
+                    id={"name"}
+                    onChange={(e) => handleFormUserData(e)}
                     className="mb-2 w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 sm:mr-4 sm:mb-0 focus:ring-1"
                   />
                 </div>
@@ -329,6 +344,7 @@ const Profile = () => {
                   <div className=" flex flex-col mb-2">
                     <input
                       value={userData.phone}
+                      onChange={(e) => handleFormUserData(e)}
                       id={"phone"}
                       placeholder="Nhập số điện thoại"
                       className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
@@ -358,17 +374,22 @@ const Profile = () => {
                     />
                   </div>
                 </div>
-                <div className="flex justify-end py-4 sm:hidden">
-                  <button className="mr-2 rounded-lg border-2 px-4 py-2 font-medium text-gray-500 focus:outline-none focus:ring hover:bg-gray-200">
-                    hủy
-                  </button>
-                  <button
-                    onClick={() => handleSave()}
-                    className="rounded-lg border-2 border-transparent bg-blue-600 px-4 py-2 font-medium text-white focus:outline-none focus:ring hover:bg-blue-700"
-                  >
-                    Lưu
-                  </button>
-                </div>
+                {updateClick && (
+                  <div className="flex justify-end py-4 sm:hidden">
+                    <button
+                      onClick={() => setUpdateClick(false)}
+                      className="mr-2 rounded-lg border-2 px-4 py-2 font-medium text-gray-500 focus:outline-none focus:ring hover:bg-gray-200"
+                    >
+                      hủy
+                    </button>
+                    <button
+                      onClick={() => handleSave()}
+                      className="rounded-lg border-2 border-transparent bg-blue-600 px-4 py-2 font-medium text-white focus:outline-none focus:ring hover:bg-blue-700"
+                    >
+                      Lưu
+                    </button>
+                  </div>
+                )}
               </div>
               {/* // tin ddax ddangw */}
             </div>

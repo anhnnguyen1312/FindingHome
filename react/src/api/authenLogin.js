@@ -8,7 +8,7 @@ export const callApiRegister = (payload) =>
       const response = await axiosConfig({
         method: "post",
 
-        url: "http://localhost:3000/users",
+        url: "http://localhost:8000/register",
         data: payload,
       });
       resolve(response);

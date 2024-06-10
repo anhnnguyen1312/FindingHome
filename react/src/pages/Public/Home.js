@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import NavBar from '../../components/NavBar'
 import { Outlet } from "react-router-dom";
 import { Search, NavBar } from "../../components/index";
 import { Footer } from "../../components/index";
+import { useDispatch, useSelector } from "react-redux";
 import Profile from "../LoggedIn/Profile";
+import { getUserAction } from "../../redux/store/action/authenAction";
+import { getAuthToken } from "../../api/cookieServices";
 export default function Home() {
+  const dispatch = useDispatch();
+  const stateAuth = useSelector((state) => state.auth);
+  console.log("stateAuth data", stateAuth.data);
+
+  useEffect(() => {
+    const cookie = getAuthToken();
+    cookie && dispatch(getUserAction(cookie));
+  }, []);
   return (
     <div className="relative bg-[#F8FAFC]">
       {/* relative */}

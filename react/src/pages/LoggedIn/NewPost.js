@@ -3,6 +3,7 @@ import Address from "../../components/address";
 import { InputReadOnly } from "../../components/index";
 import { getProvince, getDistrict, getWard } from "../../api/getProvince";
 import { Flex, Form } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import {
   AddressNewPostProvince,
   AddressNewPostDistrict,
@@ -25,8 +26,8 @@ const NewPost = () => {
   const [ward, setWard] = useState("");
   const [IsInValid, setIsInvalid] = useState([]);
   const useLocate = useLocation();
+  const stateAuth = useSelector((state) => state.auth);
 
-  const [userId, setUserId] = useState(useLocate.state?.UserId);
   const [addressData, setAddressData] = useState({
     provinceForm: "",
     districtForm: "",
@@ -35,8 +36,8 @@ const NewPost = () => {
   const [formData, setFormData] = useState({
     title: "",
     address: "",
-    name: "",
-    phone: "",
+    name: stateAuth.data.name,
+    phone: stateAuth.data.phone,
     zalo: "",
     socialLink: "",
     status: "Còn Phòng",
@@ -49,10 +50,10 @@ const NewPost = () => {
     furniture: "",
     rule: "",
     dateCreateAt: "",
-    userId: userId,
+    userId: stateAuth.data.userId,
   });
+
   console.log("render ne", formData);
-  console.log("userId", userId);
 
   const getDate = () => {
     console.log("function date ne");
@@ -267,7 +268,7 @@ const NewPost = () => {
           <p className="font-medium"> Thông Tin Liên hệ</p>
         </div>
 
-        <InputNewPost
+        {/* <InputNewPost
           setIsInvalid={setIsInvalid}
           IsInValid={IsInValid}
           title={"Tên"}
@@ -280,26 +281,31 @@ const NewPost = () => {
           title={"Số điện thoại"}
           id={"phone"}
           setFormData={setFormData}
-        />
+        /> */}
 
-        <InputNewPost
-          setIsInvalid={setIsInvalid}
-          IsInValid={IsInValid}
-          title={"zalo"}
-          id={"zalo"}
-          setFormData={setFormData}
-        />
-        <InputNewPost
+        <InputReadOnly value={formData.name} />
+        <InputReadOnly value={formData.phone} />
+
+        <div className="mt-[40px]">
+          <InputNewPost
+            setIsInvalid={setIsInvalid}
+            IsInValid={IsInValid}
+            title={"zalo"}
+            id={"zalo"}
+            setFormData={setFormData}
+          />
+        </div>
+        {/* <InputNewPost
           setIsInvalid={setIsInvalid}
           IsInValid={IsInValid}
           title={"Mạng xã hội"}
           id={"socialLink"}
           setFormData={setFormData}
-        />
+        /> */}
 
-        <div className="shrink-0 mr-auto sm:py-3">
+        {/* <div className="shrink-0 mr-auto sm:py-3">
           <p className="font-medium"> Địa chỉ </p>
-        </div>
+        </div> */}
         <Form.Item
           label="Địa chỉ"
           style={{ display: "flex" }}

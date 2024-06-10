@@ -27,11 +27,17 @@ export const authenReducer = (state = initialState, action) => {
         msg: action.data,
         update: !state.update,
       };
+    case actionTypes.GET_USER:
+      return {
+        ...state,
+        isLoggedIn: true,
+        data: action.data,
+        msg: null,
+      };
     case actionTypes.LOGOUT:
       return {
         ...state,
         isLoggedIn: false,
-        token: null,
       };
     default:
       return state;

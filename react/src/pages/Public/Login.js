@@ -32,6 +32,7 @@ export default function Login() {
     password: "",
     confirmPassword: "",
   });
+  console.log("data ", stateAuth.data);
 
   useEffect(() => {
     setIsRegister(useLocate.state?.stateIsRegister);
