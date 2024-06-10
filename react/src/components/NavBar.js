@@ -8,9 +8,10 @@ import { path } from "../ultils/path";
 import swal from "sweetalert";
 import { useDispatch, useSelector } from "react-redux";
 import activeUser from "../assets/images/active-user.png";
-// import { logoutAction } from '../../redux/store/action/authenAction.js';
 import { logoutAction } from "../redux/store/action/authenAction";
+import { getAuthToken } from "../api/cookieServices";
 const { Search } = Input;
+const checkAuthen = getAuthToken()
 import ch3 from "../assets/images/canho/ch3.jpg";
 
 export default function NavBar() {
@@ -59,7 +60,7 @@ export default function NavBar() {
     dispatch(logoutAction());
   };
   const handleClickUser = () => {
-    if (!stateAuth.isLoggedIn) {
+    if (!checkAuthen) {
       handleLogInNavigate(false);
     }
     //  else {
@@ -205,15 +206,54 @@ export default function NavBar() {
             >
               <i class="fa-solid fa-heart white_icon"></i>
             </Link>
-            {stateAuth.isLoggedIn || (
-              // chua dang nhap
+            {!checkAuthen ? (
               <div className="icon-navbar" onClick={() => handleClickUser()}>
                 <i class="fa-solid fa-user white_icon"></i>
               </div>
+            ) : (
+              <Link
+              to={path.PROFILE}
+              >
+              <div
+                className="icon-navbar icon-navbar-user font-thin    relative"
+              >
+                <i class="fa-solid fa-user-check white_icon"></i>
+                <div className="cart__list py-[20px] ">
+                  <ul className="font-thin flex flex-col bg-white">
+                  <Link
+                  to={path.PROFILE}
+                  >
+                    <li className="flex items-center justify-between">
+                        <div>Tài khoản</div>
+                        <i class="fa-solid fa-user text-black "></i>
+                    </li>
+                  </Link>
+
+                    <li className="flex justify-between items-center">
+                      <div>Bài đăng</div>
+
+                      <i class="fa-solid fa-square-plus text-black"></i>
+                    </li>
+                  <Link
+                    to={path.LOGIN}
+                  >
+                    <li className="flex justify-between items-center ">
+                      <div className="text-red"
+                      onClick={() => handleLogOut()}
+                      >Đăng Xuất</div>
+
+                      <i class="fa-solid fa-arrow-right-from-bracket text-red "></i>
+                    </li>
+                  </Link>
+                  </ul>
+                </div>
+              </div>
+            </Link>
+
             )}
 
-            <div
-              // to={path.ESTATE_RENTAL}
+            <Link
+              to={path.ESTATE_RENTAL}
               className="icon-navbar"
               onClick={() => handleCreatePost()}
             >

@@ -13,7 +13,7 @@ import {
 } from "../../redux/store/action/authenAction.js";
 import { useDispatch, useSelector } from "react-redux";
 import validator from "validator";
-import { callApiUserInfor } from "../../api/authenLogin.js";
+// import { callApiUserInfor } from "../../api/authenLogin.js";
 
 export default function Login() {
   const useLocate = useLocation();
@@ -258,7 +258,7 @@ export default function Login() {
     let apiData = isResgister
       ? formData
       : {
-          phone: formData.phone,
+          email: formData.email,
           password: formData.password,
         };
     let error = validate(apiData);
@@ -331,28 +331,27 @@ export default function Login() {
               type={"text"}
               placeholder={"Mời bạn nhập Họ và Tên "}
             />
-
             <InputGroup
               setIsInvalid={setIsInvalid}
-              value={formData.email}
+              value={formData.phone}
               setFormData={setFormData}
-              typeInput={"email"}
+              typeInput={"phone"}
               isInvalid={isInvalid}
               type={"text"}
-              labelChild={"Email"}
-              placeholder={"Mời bạn nhập Email"}
+              labelChild={"Số điện thoại"}
+              placeholder={"Mời bạn nhập Số điện thoại "}
             />
           </>
         )}
         <InputGroup
           setIsInvalid={setIsInvalid}
-          value={formData.phone}
+          value={formData.email}
           setFormData={setFormData}
-          typeInput={"phone"}
+          typeInput={"email"}
           isInvalid={isInvalid}
           type={"text"}
-          labelChild={"Số điện thoại"}
-          placeholder={"Mời bạn nhập Số điện thoại "}
+          labelChild={"Email"}
+          placeholder={"Mời bạn nhập Email"}
         />
         <InputGroup
           setIsInvalid={setIsInvalid}

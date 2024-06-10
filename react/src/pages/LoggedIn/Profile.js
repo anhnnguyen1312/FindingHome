@@ -6,6 +6,9 @@ import { postAction } from "../../redux/store/action/postAction";
 import { useNavigate, useLocation } from "react-router-dom";
 import { callApiUserProfile } from "../../api/getUserApi";
 import validator from "validator";
+import { getAuthToken } from "../../api/cookieServices";
+
+const authDetail = getAuthToken()
 
 import {
   registerAction,
@@ -121,14 +124,16 @@ const Profile = () => {
                     src={user1}
                     className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
                   ></img>
-                  <h1 className="text-xl font-bold">{userData.name}</h1>
+                  { authDetail && (
+                    <h1 className="text-xl font-bold">{authDetail.name}</h1>
+                  ) }
                   <p className="text-gray-700"></p>
                   <div className="mt-6 flex flex-wrap gap-4 justify-center">
                     <a
                       href="#"
                       className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
                     >
-                      sửa Thông Tin
+                      Sửa Thông Tin
                     </a>
                     <a
                       href="#"
@@ -292,25 +297,12 @@ const Profile = () => {
                   </button>
                 </div>
                 <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
-                  <p className="shrink-0 w-32 font-medium">Tên</p>
-
-                  <div className=" flex flex-col mb-2">
-                    <input
-                      value={userData.name}
-                      onFocus={handleOnFocus}
-                      id={"name"}
-                      onChange={(e) => handleFormUserData(e)}
-                      placeholder="Nhập Tên"
-                      className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
-                    />
-                    {IsInValid.length > 0 &&
-                      IsInValid.some((element) => element.name === "name") && (
-                        <span className="italic text-[#f33a58] text-center text-xl">
-                          {" "}
-                          {IsInValid.find((e) => e.name === "name")?.msg}{" "}
-                        </span>
-                      )}
-                  </div>
+                  <p className="shrink-0 w-32 font-medium">Họ & Tên</p>
+                  <input
+                    value=""
+                    placeholder={authDetail ? authDetail.name : ""}
+                    className="mb-2 w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 sm:mr-4 sm:mb-0 focus:ring-1"
+                  />
                 </div>
                 <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
                   <p className="shrink-0 w-32 font-medium">Email</p>
