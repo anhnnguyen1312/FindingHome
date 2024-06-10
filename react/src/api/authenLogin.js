@@ -57,7 +57,7 @@ export const callApiRegister = (payload) =>
       const response = await axiosConfig({
         method: "post",
 
-        url: "http://localhost:8000/register",
+        url: "http://localhost:3000/users",
         data: payload,
       });
       resolve(response);
@@ -82,16 +82,16 @@ export const callApiLogin = (payload) =>
     }
   });
 
-export const callApiUserInfor = () =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const response = await axiosConfig({
-        method: "get",
+// export const callApiUserInfor = () =>
+//   new Promise(async (resolve, reject) => {
+//     try {
+//       const response = await axiosConfig({
+//         method: "get",
 
-        url: "",
-      });
-      resolve(response);
-    } catch (error) {
-      reject(error);
-    }
-  });
+//         url: "",
+//       });
+//       resolve(response);
+//     } catch (error) {
+//       reject(error);
+//     }
+//   });

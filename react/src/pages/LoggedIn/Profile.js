@@ -3,13 +3,112 @@ import user1 from "../../assets/images/user/user2.jpg";
 import { CardProduct } from "../../components/index";
 import { useDispatch, useSelector } from "react-redux";
 import { postAction } from "../../redux/store/action/postAction";
+import { useNavigate, useLocation } from "react-router-dom";
+import { callApiUserProfile } from "../../api/getUserApi";
+import validator from "validator";
 
+import {
+  registerAction,
+  logoutAction,
+} from "../../redux/store/action/authenAction";
+import { path } from "../../ultils/path";
 const Profile = () => {
   const dispatch = useDispatch();
+  const usenavi = useNavigate();
+  const useLocate = useLocation();
+  const [userData, setUserData] = useState([]);
+  const [IsInValid, setIsInvalid] = useState([]);
+
+  const [userId, setUserId] = useState(useLocate.state?.UserId);
+  // const [formUserData, setFormUserData] = useState({
+  //   id: "",
+  //   address: "",
+  //   name: "",
+  //   phone: "",
+  //   zalo: "",
+  // });
+
+  const stateAuth = useSelector((state) => state.auth);
   const { posts } = useSelector((state) => state.post);
   useEffect(() => {
-    dispatch(postAction());
+    if (stateAuth.isLoggedIn) {
+      const getApiuserProfile = async () => {
+        // const response = await callApiUserProfile(userId);
+        const response = await callApiUserProfile("1");
+
+        setUserData(response.data);
+      };
+      getApiuserProfile();
+      dispatch(postAction());
+    }
   }, []);
+
+  useEffect(() => {
+    !stateAuth.isLoggedIn && usenavi("/");
+  }, [stateAuth.isLoggedIn]);
+
+  const handleLogOut = () => {
+    dispatch(logoutAction());
+  };
+
+  const handleFormUserData = (e) => {
+    setUserData((prevState) => ({
+      ...prevState,
+      [e.target.id]: e.target.value,
+    }));
+  };
+  const handleOnFocus = (e) => {
+    setIsInvalid([]);
+  };
+  const validate = (formData) => {
+    let isInvalidCount = true;
+    const IsNull = (value, i, title) => {
+      if (value.trim() === "") {
+        setIsInvalid((prevState) => [
+          ...prevState,
+          { name: i, msg: `ban chua nhap ${title} ` },
+        ]);
+        isInvalidCount = false;
+      }
+    };
+    for (let i in formData) {
+      if (i === "email") {
+        const resultValidateEmail = validator.isEmail(formData[i]);
+        if (!resultValidateEmail) {
+          setIsInvalid((prevState) => [
+            ...prevState,
+            { name: i, msg: `email không hợp lệ` },
+          ]);
+          isInvalidCount = false;
+        }
+      }
+
+      if (i === "name") {
+        const title = `Tên`;
+        IsNull(formData[i], i, title);
+      }
+
+      if (i === "phone") {
+        const resultValidatePhone = validator.isMobilePhone(formData[i]);
+        if (!resultValidatePhone) {
+          setIsInvalid((prevState) => [
+            ...prevState,
+            { name: i, msg: `số điện thoại không hợp lệ` },
+          ]);
+          isInvalidCount = false;
+        }
+      }
+    }
+    return isInvalidCount;
+  };
+
+  const handleSave = async () => {
+    let error = validate(userData);
+    console.log("eror", error);
+    if (error) {
+      dispatch(registerAction(userData));
+    }
+  };
   return (
     <>
       <div className="w-full">
@@ -22,7 +121,7 @@ const Profile = () => {
                     src={user1}
                     className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
                   ></img>
-                  <h1 className="text-xl font-bold">Ngọc Phú</h1>
+                  <h1 className="text-xl font-bold">{userData.name}</h1>
                   <p className="text-gray-700"></p>
                   <div className="mt-6 flex flex-wrap gap-4 justify-center">
                     <a
@@ -55,7 +154,10 @@ const Profile = () => {
                     <li className="mb-4 border-b-[1px] border-[#dfdfdf] ">
                       Lịch sử hoạt động
                     </li>
-                    <li className="mb-4 border-b-[1px] border-[#dfdfdf] ">
+                    <li
+                      className="mb-4 border-b-[1px] border-[#dfdfdf] "
+                      onClick={() => handleLogOut()}
+                    >
                       Đăng xuất
                     </li>
                   </ul>
@@ -168,63 +270,13 @@ const Profile = () => {
                   </a>
                 </div>
 
-                {/* <h2 className="text-xl font-bold mt-6 mb-4">Tin đã đăng</h2>
-                <div className="mb-6">
-                  <div className="flex justify-between flex-wrap gap-2 w-full">
-                    <span className="text-gray-700 font-bold">
-                      Web Developer
-                    </span>
-                    <p>
-                      <span className="text-gray-700 mr-2">at ABC Company</span>
-                      <span className="text-gray-700">2017 - 2019</span>
-                    </p>
-                  </div>
-                  <p className="mt-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    finibus est vitae tortor ullamcorper, ut vestibulum velit
-                    convallis. Aenean posuere risus non velit egestas suscipit.
-                  </p>
-                </div>
-                <div className="mb-6">
-                  <div className="flex justify-between flex-wrap gap-2 w-full">
-                    <span className="text-gray-700 font-bold">
-                      Web Developer
-                    </span>
-                    <p>
-                      <span className="text-gray-700 mr-2">at ABC Company</span>
-                      <span className="text-gray-700">2017 - 2019</span>
-                    </p>
-                  </div>
-                  <p className="mt-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    finibus est vitae tortor ullamcorper, ut vestibulum velit
-                    convallis. Aenean posuere risus non velit egestas suscipit.
-                  </p>
-                </div>
-                <div className="mb-6"> */}
-                {/* <div className="flex justify-between flex-wrap gap-2 w-full">
-                    <span className="text-gray-700 font-bold">
-                      Web Developer
-                    </span>
-                    <p>
-                      <span className="text-gray-700 mr-2">at ABC Company</span>
-                      <span className="text-gray-700">2017 - 2019</span>
-                    </p>
-                  </div>
-                  <p className="mt-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    finibus est vitae tortor ullamcorper, ut vestibulum velit
-                    convallis. Aenean posuere risus non velit egestas suscipit.
-                  </p>
-                </div> */}
-
                 {/* // form chỉnh sua thong tin  */}
               </div>
               {/* // chinh sua thong tin form */}
               <div className="my-4 bg-white max-w-screen-md border  shadow-xl px-4 md:mx-auto">
                 <div className="flex flex-col border-b py-4 sm:flex-row sm:items-start">
                   <div className="shrink-0 mr-auto sm:py-3">
-                    <p className="font-medium">Account Details</p>
+                    <p className="font-medium">Thông tin người dùng</p>
                     <p className="text-sm text-gray-600">
                       Chỉnh sửa thông tin cá nhân
                     </p>
@@ -232,30 +284,71 @@ const Profile = () => {
                   <button className="mr-2 hidden rounded-lg border-2 px-4 py-2 font-medium text-gray-500 sm:inline focus:outline-none focus:ring hover:bg-gray-200">
                     hủy
                   </button>
-                  <button className="hidden rounded-lg border-2 border-transparent bg-blue-600 px-4 py-2 font-medium text-white sm:inline focus:outline-none focus:ring hover:bg-blue-700">
+                  <button
+                    onClick={() => handleSave()}
+                    className="hidden rounded-lg border-2 border-transparent bg-blue-600 px-4 py-2 font-medium text-white sm:inline focus:outline-none focus:ring hover:bg-blue-700"
+                  >
                     Lưu
                   </button>
                 </div>
                 <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
                   <p className="shrink-0 w-32 font-medium">Tên</p>
-                  <input
-                    value={"Anh"}
-                    placeholder="First Name"
-                    className="mb-2 w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 sm:mr-4 sm:mb-0 focus:ring-1"
-                  />
-                  <input
-                    value={"Nguyên"}
-                    placeholder="Last Name"
-                    className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
-                  />
+
+                  <div className=" flex flex-col mb-2">
+                    <input
+                      value={userData.name}
+                      onFocus={handleOnFocus}
+                      id={"name"}
+                      onChange={(e) => handleFormUserData(e)}
+                      placeholder="Nhập Tên"
+                      className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
+                    />
+                    {IsInValid.length > 0 &&
+                      IsInValid.some((element) => element.name === "name") && (
+                        <span className="italic text-[#f33a58] text-center text-xl">
+                          {" "}
+                          {IsInValid.find((e) => e.name === "name")?.msg}{" "}
+                        </span>
+                      )}
+                  </div>
                 </div>
                 <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
                   <p className="shrink-0 w-32 font-medium">Email</p>
-                  <input
-                    value={"anhgnuyentl312@gmail.com"}
-                    placeholder="your.email@domain.com"
-                    className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
-                  />
+                  <div className=" flex flex-col mb-2">
+                    <input
+                      value={userData.email}
+                      id={"email"}
+                      onFocus={handleOnFocus}
+                      onChange={(e) => handleFormUserData(e)}
+                      placeholder="Nhập email"
+                      className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
+                    />
+                    {IsInValid.length > 0 &&
+                      IsInValid.some((element) => element.name === "email") && (
+                        <span className="italic text-[#f33a58] text-center text-xl">
+                          {" "}
+                          {IsInValid.find((e) => e.name === "email")?.msg}{" "}
+                        </span>
+                      )}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
+                  <p className="shrink-0 w-32 font-medium">Số điện thoại</p>
+                  <div className=" flex flex-col mb-2">
+                    <input
+                      value={userData.phone}
+                      id={"phone"}
+                      placeholder="Nhập số điện thoại"
+                      className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
+                    />
+                    {IsInValid.length > 0 &&
+                      IsInValid.some((element) => element.name === "phone") && (
+                        <span className="italic text-[#f33a58] text-center text-xl">
+                          {" "}
+                          {IsInValid.find((e) => e.name === "phone")?.msg}{" "}
+                        </span>
+                      )}
+                  </div>
                 </div>
                 <div className="flex flex-col gap-4 py-4  lg:flex-row">
                   <div className="shrink-0 w-32  sm:py-4">
@@ -277,7 +370,10 @@ const Profile = () => {
                   <button className="mr-2 rounded-lg border-2 px-4 py-2 font-medium text-gray-500 focus:outline-none focus:ring hover:bg-gray-200">
                     hủy
                   </button>
-                  <button className="rounded-lg border-2 border-transparent bg-blue-600 px-4 py-2 font-medium text-white focus:outline-none focus:ring hover:bg-blue-700">
+                  <button
+                    onClick={() => handleSave()}
+                    className="rounded-lg border-2 border-transparent bg-blue-600 px-4 py-2 font-medium text-white focus:outline-none focus:ring hover:bg-blue-700"
+                  >
                     Lưu
                   </button>
                 </div>
@@ -296,13 +392,13 @@ const Profile = () => {
                     return (
                       <CardProduct
                         key={product.id}
-                        location={product.location}
+                        address={product.address}
                         price={product.price}
                         area={product.area}
                         status={product.status}
                         description={product.description}
                         placesNearby={product.placesNearby}
-                        owner={product.owner}
+                        name={product.name}
                         phone={product.phone}
                         zalo={product.zalo}
                         // src={product.imgSrc}

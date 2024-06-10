@@ -1,12 +1,12 @@
+import React from "react";
 import axiosConfig from "../axiosConfig";
 
-export const callApiPost = (payload) =>
+export const getProvince = () =>
   new Promise(async (resolve, reject) => {
     try {
       const response = await axiosConfig({
         method: "get",
-        url: "http://localhost:3000/allPosts",
-        data: payload,
+        url: "https://vapi.vnappmob.com/api/province/",
       });
       resolve(response);
     } catch (error) {
@@ -14,13 +14,12 @@ export const callApiPost = (payload) =>
     }
   });
 
-export const callApiCreatePost = (payload) =>
+export const getDistrict = (payload) =>
   new Promise(async (resolve, reject) => {
     try {
       const response = await axiosConfig({
-        method: "post",
-        url: "http://localhost:3000/allPosts",
-        data: payload,
+        method: "get",
+        url: `https://vapi.vnappmob.com/api/province/district/${payload}`,
       });
       resolve(response);
     } catch (error) {
@@ -28,13 +27,12 @@ export const callApiCreatePost = (payload) =>
     }
   });
 
-export const callApiDetailPost = (payload) =>
+export const getWard = (payload) =>
   new Promise(async (resolve, reject) => {
     try {
       const response = await axiosConfig({
         method: "get",
-        url: `http://localhost:3000/allPosts/${payload}`,
-        data: payload,
+        url: `https://vapi.vnappmob.com/api/province/ward/${payload}`,
       });
       resolve(response);
     } catch (error) {
