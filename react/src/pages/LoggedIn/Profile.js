@@ -3,6 +3,9 @@ import user1 from "../../assets/images/user/user2.jpg";
 import { CardProduct } from "../../components/index";
 import { useDispatch, useSelector } from "react-redux";
 import { postAction } from "../../redux/store/action/postAction";
+import { getAuthToken } from "../../api/cookieServices";
+
+const authDetail = getAuthToken()
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -22,14 +25,16 @@ const Profile = () => {
                     src={user1}
                     className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
                   ></img>
-                  <h1 className="text-xl font-bold">Ngọc Phú</h1>
+                  { authDetail && (
+                    <h1 className="text-xl font-bold">{authDetail.name}</h1>
+                  ) }
                   <p className="text-gray-700"></p>
                   <div className="mt-6 flex flex-wrap gap-4 justify-center">
                     <a
                       href="#"
                       className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
                     >
-                      sửa Thông Tin
+                      Sửa Thông Tin
                     </a>
                     <a
                       href="#"
@@ -237,23 +242,18 @@ const Profile = () => {
                   </button>
                 </div>
                 <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
-                  <p className="shrink-0 w-32 font-medium">Tên</p>
+                  <p className="shrink-0 w-32 font-medium">Họ & Tên</p>
                   <input
-                    value={"Anh"}
-                    placeholder="First Name"
+                    value=""
+                    placeholder={authDetail ? authDetail.name : ""}
                     className="mb-2 w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 sm:mr-4 sm:mb-0 focus:ring-1"
-                  />
-                  <input
-                    value={"Nguyên"}
-                    placeholder="Last Name"
-                    className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
                   />
                 </div>
                 <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
                   <p className="shrink-0 w-32 font-medium">Email</p>
                   <input
-                    value={"anhgnuyentl312@gmail.com"}
-                    placeholder="your.email@domain.com"
+                    value=""
+                    placeholder={authDetail ? authDetail.email : ""}
                     className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
                   />
                 </div>

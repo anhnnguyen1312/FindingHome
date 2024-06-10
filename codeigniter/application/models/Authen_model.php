@@ -24,4 +24,22 @@ class Authen_model extends CI_Model {
 		$query = $this->db->get_where('users', ['id' => $id]);
 		return $query->row();
 	}
+	public function check_login($data){
+		$email = $data['email'];
+		$password = $data['password'];
+		$check = $this->db->get_where('users', ['email' => $email])->row();
+		if(!empty($check)){
+			$hash_password = $check->password;
+			$decryption_password = $this->encryption->decrypt($hash_password);
+			if($password == $decryption_password){
+				$query = $this->db->get_where('users', ['email' => $email])->row();
+				return $query;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+
+	}
 }

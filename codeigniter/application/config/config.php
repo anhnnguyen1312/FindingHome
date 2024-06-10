@@ -328,7 +328,6 @@ $config['cache_query_string'] = FALSE;
 |
 */
 $config['encryption_key'] = '$/0ne_punch_m4n/$';
-
 /*
 |--------------------------------------------------------------------------
 | Session Variables

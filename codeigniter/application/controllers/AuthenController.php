@@ -31,6 +31,7 @@ class AuthenController extends CI_Controller {
 			if($resultID != false){
 				$data = $this->Authen_model->get_regester_user($resultID);
 				$userData = ([
+					'userId' => $data->id,
 					'name' => $data->name,
 					'email' => $data->email,
 					'phone' => $this->encryption->decrypt($data->phone),
@@ -40,20 +41,31 @@ class AuthenController extends CI_Controller {
 				echo json_encode(['token' => $token]);
 			}else{
 				echo json_encode([
-					'message' => 'tài khoản đã tồn tại. vui lòng thử lại'
+					'message' => 'Tài khoản đã tồn tại. Vui lòng thử lại'
 				]);
 			}
 		}
 	}
 	public function login()
 	{
+		$jwt = new JWT();
 		$data = json_decode($this->input->raw_input_stream, true);
 		if(!empty($data)){
-			$rs = $this->Authen_model->check_login($data);
-			if($rs){
-				echo 'dữ liệu đã được lưu';
+			$result = $this->Authen_model->check_login($data);
+			if($result != false){
+				$userData = ([
+					'userId' => $result->id,
+					'name' => $result->name,
+					'email' => $result->email,
+					'phone' => $this->encryption->decrypt($result->phone),
+					'role' => $result->role
+				]);
+				$token = $jwt->encode($userData, '$/0ne_punch_m4n/$', 'HS256');
+				echo json_encode(['token' => $token]);
 			}else{
-				echo 'dữ liệu chưa được lưu';
+				echo json_encode([
+					'message' => 'Sai tên đăng nhập hoặc mật khẩu. Vui lòng thử lại'
+				]);
 			}
 		}
 	}

@@ -1,29 +1,28 @@
+import React, { useState, useEffect } from "react";
 import actionTypes from './actionTypes'
-import { callApiRegister, callApiLogin } from '../../../api/authenLogin'
-import {jwtDecode}  from 'jwt-decode'
+import {callApiRegister, callApiLogin } from '../../../api/authenLogin'
+import {setAuthToken, removeAuthToken, getAuthToken} from '../../../api/cookieServices'
+// import {jwtDecode}  from 'jwt-decode'
 export const registerAction = (payload) => async (dispatch ) => {
     try {
         const response = await callApiRegister(payload)
   
         // if (response?.data.err === 0) {
-            if (!response?.data.message) {
-              const token = response.data.token;
-              console.log('helllo',response.data.token);
-              // const secretKey = '$/0ne_punch_m4n/$';
-              const decodedToken = jwtDecode(token);     
-              console.log('thanh cong men', decodedToken);
+            if (response?.data.token) {
+              const token = response.data.token
+              setAuthToken(token)
             dispatch({
                 type: actionTypes.REGISTER__SUC,
-                data: response.data
+                data: token
              })
         }
         else {
             dispatch({
                 type: actionTypes.REGISTER__FAIL,
-                msg: response.data.message
+                data: response.data.message
              })
         }
-  } catch (eror) {
+  } catch (error) {
     dispatch({
       type: actionTypes.REGISTER__FAIL,
       data: null,
@@ -39,17 +38,17 @@ export const loginAction = (payload) => async (dispatch) => {
     ///api phải trả về token và
     // if (response?.data.err === 0) {
     // if (typeof response?.data.err === 'undefined') {
-    if (response?.data) {
+    if (response?.data.token) {
+      const token = response.data.token
+      setAuthToken(token)
       dispatch({
         type: actionTypes.LOGIN__SUC,
-        data: response.data.token,
+        data: token,
       });
     } else {
-      console.log("looix dispatch");
-
       dispatch({
         type: actionTypes.LOGIN__FAIL,
-        data: response.data.msg,
+        data: response.data.message,
       });
     }
   } catch (error) {
@@ -62,4 +61,5 @@ export const loginAction = (payload) => async (dispatch) => {
 
 export const logoutAction = () => ({
   type: actionTypes.LOGOUT,
+  payload: removeAuthToken()
 });

@@ -7,9 +7,10 @@ import { Input, Select } from "antd";
 import { path } from "../ultils/path";
 import { useDispatch, useSelector } from "react-redux";
 import activeUser from "../assets/images/active-user.png";
-// import { logoutAction } from '../../redux/store/action/authenAction.js';
 import { logoutAction } from "../redux/store/action/authenAction";
+import { getAuthToken } from "../api/cookieServices";
 const { Search } = Input;
+const checkAuthen = getAuthToken()
 import ch3 from "../assets/images/canho/ch3.jpg";
 export default function NavBar() {
   const [click, setClick] = useState(false);
@@ -36,7 +37,7 @@ export default function NavBar() {
     dispatch(logoutAction());
   };
   const handleClickUser = () => {
-    if (!stateAuth.isLoggedIn) {
+    if (!checkAuthen) {
       handleLogInNavigate(false);
     } else {
       handleLogOut();
@@ -173,41 +174,50 @@ export default function NavBar() {
             >
               <i class="fa-solid fa-heart white_icon"></i>
             </Link>
-            {!stateAuth.isLoggedIn ? (
+            {!checkAuthen ? (
               <div className="icon-navbar" onClick={() => handleClickUser()}>
                 <i class="fa-solid fa-user white_icon"></i>
               </div>
             ) : (
+              <Link
+              to={path.PROFILE}
+              >
               <div
                 className="icon-navbar icon-navbar-user font-thin    relative"
-                onClick={() => handleClickUser()}
               >
-                {/* <img src={activeUser} className='w-[10px] h-[10px]'></img> */}
                 <i class="fa-solid fa-user-check white_icon"></i>
                 <div className="cart__list py-[20px] ">
                   <ul className="font-thin flex flex-col bg-white">
+                  <Link
+                  to={path.PROFILE}
+                  >
                     <li className="flex items-center justify-between">
-                      <div>Tài khoản</div>
+                        <div>Tài khoản</div>
+                        <i class="fa-solid fa-user text-black "></i>
+                    </li>
+                  </Link>
 
-                      <i class="fa-solid fa-user text-black "></i>
-                    </li>
                     <li className="flex justify-between items-center">
-                      <div>Phòng đã đăng</div>
+                      <div>Bài đăng</div>
 
-                      <i class="fa-solid fa-square-plus text-black "></i>
+                      <i class="fa-solid fa-square-plus text-black"></i>
                     </li>
-                    <li className="flex justify-between items-center">
-                      <div>Mã giảm giá</div>
-                      <i class="fa-regular fa-ticket text-black"></i>
-                    </li>
+                  <Link
+                    to={path.LOGIN}
+                  >
                     <li className="flex justify-between items-center ">
-                      <div className="text-red">Đăng Xuất</div>
+                      <div className="text-red"
+                      onClick={() => handleLogOut()}
+                      >Đăng Xuất</div>
 
                       <i class="fa-solid fa-arrow-right-from-bracket text-red "></i>
                     </li>
+                  </Link>
                   </ul>
                 </div>
               </div>
+            </Link>
+
             )}
 
             <Link
