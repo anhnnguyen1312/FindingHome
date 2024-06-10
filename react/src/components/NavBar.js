@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import { Input, Select } from "antd";
 import { path } from "../ultils/path";
+import swal from "sweetalert";
 import { useDispatch, useSelector } from "react-redux";
 import activeUser from "../assets/images/active-user.png";
 import { logoutAction } from "../redux/store/action/authenAction";
@@ -12,14 +13,23 @@ import { getAuthToken } from "../api/cookieServices";
 const { Search } = Input;
 const checkAuthen = getAuthToken()
 import ch3 from "../assets/images/canho/ch3.jpg";
+
 export default function NavBar() {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
+  const [clickUser, setClickUser] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   function handleLogInNavigate(stateIsRegister) {
-    // navigate('/home');
     navigate(path.LOGIN, { state: { stateIsRegister } });
+  }
+  function handleUserProfileNavigate(UserId) {
+    // navigate('/home');
+    navigate(path.PROFILE, { state: { UserId } });
+  }
+  function handleCreatePostNavigate(UserId) {
+    navigate(path.NEWPOST, { state: { UserId } });
   }
   const stateAuth = useSelector((state) => state.auth);
   const handleClick = () => setClick(!click);
@@ -27,7 +37,20 @@ export default function NavBar() {
   const handleLogOut = () => {
     dispatch(logoutAction());
   };
+  console.log("stateAuth.data.id", stateAuth.data.id);
 
+  const handleCreatePost = () => {
+    if (stateAuth.isLoggedIn) {
+      handleCreatePostNavigate(stateAuth.data.id);
+    } else {
+      swal({
+        text: "Bạn cần đăng nhập",
+        icon: "error",
+        timer: 3000,
+      });
+      navigate(path.LOGIN);
+    }
+  };
   const handleLogInMobile = () => {
     closeMobileMenu();
     handleLogInNavigate(false);
@@ -39,8 +62,17 @@ export default function NavBar() {
   const handleClickUser = () => {
     if (!checkAuthen) {
       handleLogInNavigate(false);
-    } else {
-      handleLogOut();
+    }
+    //  else {
+    //   handleLogOut();
+    // }
+  };
+
+  const handleUserProfile = () => {
+    if (stateAuth.isLoggedIn) {
+      handleUserProfileNavigate(stateAuth.data.id);
+      // console.log("stateAuth.data", stateAuth.data);
+      // handleUserProfileNavigate("1");
     }
   };
   // }
@@ -223,10 +255,10 @@ export default function NavBar() {
             <Link
               to={path.ESTATE_RENTAL}
               className="icon-navbar"
-              // onClick={closeMobileMenu}
+              onClick={() => handleCreatePost()}
             >
               <i class="fa-solid fa-square-plus"></i>
-            </Link>
+            </div>
 
             <Link
               to={path.ESTATE_RENTAL}
@@ -351,6 +383,49 @@ export default function NavBar() {
             <i class="fa-solid fa-heart"></i>
             </a> */}
           </div>
+
+          {stateAuth.isLoggedIn && (
+            // da dang nhap
+            <div className="flex items-center gap-[10px] ml-[30px] ">
+              <div onClick={() => handleUserProfile()}>Anh nguyen</div>
+              <div
+                className="icon-navbar icon-navbar-user font-thin    relative"
+                // onClick={() => handleClickUser()}
+                onClick={() => setClickUser(!clickUser)}
+              >
+                {/* <img src={activeUser} className='w-[10px] h-[10px]'></img> */}
+                <i class="fa-solid fa-user-check white_icon"></i>
+                {clickUser && (
+                  <div className="cart__list py-[20px] ">
+                    <ul
+                      className="font-thin flex flex-col gap-[20px] bg-white"
+                      onClick={() => handleUserProfile()}
+                    >
+                      <li className="flex items-center justify-between">
+                        <div>Tài khoản</div>
+
+                        <i class="fa-solid fa-user text-black "></i>
+                      </li>
+                      <li className="flex justify-between items-center">
+                        <div>Phòng đã đăng</div>
+
+                        <i class="fa-solid fa-square-plus text-black "></i>
+                      </li>
+
+                      <li
+                        className="flex justify-between items-center "
+                        onClick={() => handleLogOut()}
+                      >
+                        <div className="text-red">Đăng Xuất</div>
+
+                        <i class="fa-solid fa-arrow-right-from-bracket text-red "></i>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* <div className="login--container"> */}
           {/* {!stateAuth.isLoggedIn ? 

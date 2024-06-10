@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { path } from "../../ultils/path";
 import ch3 from "../../assets/images/canho/ch3.jpg";
@@ -8,9 +8,41 @@ import { TbAirConditioning } from "react-icons/tb";
 import { MdOutlineRule } from "react-icons/md";
 import { FaTableList } from "react-icons/fa6";
 import { Map } from "../../components/index";
+import { callApiDetailPost } from "../../api/getPostApi";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const DetailProduct = () => {
+  const usenavi = useNavigate();
+  const useLocate = useLocation();
   const [isHoverHeart, setIsHoverHeart] = useState(false);
+  const [detailPost, setDetailPost] = useState([]);
+  const [descriptionSplit, setDescriptionSplit] = useState([]);
+  const [ruleSplit, setRuleSplit] = useState([]);
+  const [id, setId] = useState(useLocate.state?.idPost);
+
+  useEffect(() => {
+    const getApiDetailPost = async () => {
+      const response = await callApiDetailPost(id);
+      console.log("dang goi api", response.data);
+      setDetailPost(response.data);
+    };
+    getApiDetailPost();
+  }, []);
+
+  useEffect(() => {
+    const splitData = () => {
+      detailPost.description &&
+        setDescriptionSplit(detailPost?.description.split("\n"));
+      detailPost.description && setRuleSplit(detailPost?.rule.split("\n"));
+    };
+    splitData();
+  }, [detailPost]);
+
+  const ruleItem = ruleSplit.map((rule, id) => <div key={id}>{rule} </div>);
+  const descriptionItem = descriptionSplit.map((description, id) => (
+    <div key={id}>{description} </div>
+  ));
+
   return (
     <>
       <div className="w-full ">
@@ -68,26 +100,26 @@ const DetailProduct = () => {
           {/* thong tin nguoi dang */}
           <div className="mb-8 flex sm:flex-row flex-col gap-[20px] justify-between">
             <div className="mb-6 md:mb-0 flex flex-col gap-[20px]">
-              <h1 className="text-red-600">
-                CHO THUÊ PHÒNG TRONG CĂN HỘ 3 PHÒNG NGỦ TẠI CHUNG CƯ SUNRISE{" "}
-              </h1>
+              <h1 className="text-red-600">{detailPost.title}</h1>
               <h1 className="  flex gap-[10px]">
                 <div className="text-[#4ca976]">
                   <i class="fa-solid fa-map-location-dot"></i>
                 </div>
-                187a Lê Văn Lương, Phước Kiển Nhà Bè
+                {detailPost.address}
               </h1>
               <div className="flex justify-between">
                 <h1 className="flex gap-[10px] text-red-600 font-bold text-xl items-center">
                   {" "}
-                  <i class="fa-solid fa-money-bill-wave"></i> 5tr/ Tháng
+                  <i class="fa-solid fa-money-bill-wave"></i> {detailPost.price}{" "}
+                  tr/ Tháng
                 </h1>
                 <h1 className="items-center flex gap-[10px]">
                   {" "}
-                  <i class="fa-solid fa-chart-area"></i> 20m2
+                  <i class="fa-solid fa-chart-area"></i> {detailPost.area}
                 </h1>
                 <h1 className="items-center flex gap-[10px]">
                   {" "}
+                  {/* /// date */}
                   <i class="fa-regular fa-clock"></i> Hôm nay
                 </h1>
               </div>
@@ -106,63 +138,51 @@ const DetailProduct = () => {
             <div className="bg-inherit py-2 ">
               <div className="container grid grid-cols-2">
                 <div className="text-gray-700">Giá</div>
-                3tr/ tháng
+                {detailPost.price}tr/ tháng
               </div>
             </div>
             <div className="bg-white py-2">
               <div className="container grid grid-cols-2">
                 <div className="text-gray-700">Diện tích</div>
-                20m2
+                {detailPost.area}
               </div>
             </div>
             <div className="bg-inherit py-2">
               <div className="container grid grid-cols-2">
                 <div className="text-gray-700">chi phí khác</div>
-                điện : 3k3, nước 100k/người, wifi : 70k
+                {detailPost.otherFee}
               </div>
             </div>
             <div className="bg-white py-2">
               <div className="container grid grid-cols-2">
                 <div className="text-gray-700">Nội thất trong phòng</div>
-                Giường, nệm, tủ quần áo
-              </div>
-            </div>
-            <div className="bg-white py-2">
-              <div className="container grid grid-cols-2">
-                <div className="text-gray-700">tiện ích tòa nhà </div>
-                hệ thống chữa cháy, khóa vân tay
+                {detailPost.furniture}
               </div>
             </div>
             <div className="bg-inherit py-2">
               <div className="container grid grid-cols-2">
-                <div className="text-gray-700">Thời gian có thể chuyển vào</div>
-                Đầu tháng 6
+                <div className="text-gray-700">tiện ích gần đây </div>
+                {detailPost.placesNearby}
               </div>
             </div>
+
+            {/* /// date */}
             <div className="bg-white py-2">
-              <div className="container grid grid-cols-2">
-                <div className="text-gray-700">
-                  Thời gian ký hợp đồng tối thiểu
-                </div>
-                6 tháng
-              </div>
-            </div>
-            <div className="bg-inherit py-2">
               <div className="container grid grid-cols-2">
                 <div className="text-gray-700">Ngày đăng tin</div>
                 5/6/2024
               </div>
             </div>
-            <div className="bg-white py-2">
+            {/* <div className="bg-white py-2">
               <div className="container grid grid-cols-2">
                 <div className="text-gray-700">Ngày tin hết hạn</div>
                 5/7/2024
               </div>
-            </div>
+            </div> */}
             <div className="bg-inherit py-2">
               <div className="container grid grid-cols-2">
                 <div className="text-gray-700">tình trạng</div>
-                Còn phòng
+                {detailPost.status}
               </div>
             </div>
           </div>
@@ -204,19 +224,21 @@ const DetailProduct = () => {
             </div>
           </div>
           {/* Rule */}
+
           <div className="flex flex-col gap-[20px]">
             <div className="flex gap-[10px] text-red-600 font-bold text-2xl items-center">
               <FaTableList /> <h1 className="">Mô tả và Quy Định</h1>
             </div>
-            <h1 className="">
-              Giờ giấc tự do, không chung chủ, đảm bảo sự riêng tư
-            </h1>
-            <h1 className="">Không dùng chất kích thích, tiệc BBQ, Karaoke</h1>
+            <h1 className="text-blue-600 font-bold text-lg">Mô tả </h1>
+            {descriptionItem}
+            <h1 className="text-red-500 font-semibold text-lg">Quy Định </h1>
+            {ruleItem}
+            {/* <h1 className="">Không dùng chất kích thích, tiệc BBQ, Karaoke</h1>
             <h1 className="">
               khai báo với chủ trọ khi dẫn người ngoài về nhà qua đêm
             </h1>
             <h1 className="">Camera an ninh, Bảo vệ, 24/24</h1>
-            <h1 className="">Không chung chủ</h1>
+            <h1 className="">Không chung chủ</h1> */}
 
             <div className=""></div>
           </div>
@@ -235,7 +257,7 @@ const DetailProduct = () => {
                   </div>{" "}
                   Số điện thoại
                 </div>
-                09865732
+                {detailPost.phone}
               </div>
             </div>
             <div className="bg-white py-2">
@@ -279,33 +301,25 @@ const DetailProduct = () => {
                   </div>
                   Zalo
                 </div>
-                023486333
+                {detailPost.zalo}
               </div>
             </div>
+
             <div className="bg-inherit py-2">
-              <div className="container grid grid-cols-2">
-                <div className="text-gray-700 flex">
+              <div className="container grid grid-cols-2  relative group/item group-hover/tooltip:visible hover/tooltip:opacity-100">
+                <div className="text-gray-700 flex ">
                   <div className="px-[10px] text-[#1E95A6]">
                     <i class="fa-brands fa-square-facebook"></i>
                   </div>
-                  Mạng xã hội
+                  Mạng xã hội, website
                 </div>
-                <Link className=" text-blue-500" to="/">
-                  https://www.facebook.com/anhnguyen/
+                <Link className=" text-blue-500 truncate" to="/">
+                  {detailPost.socialLink}
                 </Link>
-              </div>
-            </div>
-            <div className="bg-white py-2">
-              <div className="container grid grid-cols-2">
-                <div className="text-gray-700 flex">
-                  <div className="px-[10px] text-[#1E95A6]">
-                    <i class="fa-brands fa-internet-explorer"></i>
-                  </div>
-                  Website
+                {/* https://www.facebook.com/anhnguyen/ */}
+                <div className=" group/tooltip invisible  opacity-0 bg-[#555] group-hover/item:visible hover/item:opacity-100 text-[#fff] rounded-[6px] absolute left-[30%] sm:left-[50%] top-[-175%] p-[5px] z-10 after:absolute after:top-[120%] sm:after:left-0  after:left-[30%] after:content-['*'] after:w-full">
+                  {detailPost.socialLink}
                 </div>
-                <Link className=" text-blue-500" to="/">
-                  https://www.canhoHcm.com.vn
-                </Link>
               </div>
             </div>
           </div>
@@ -317,16 +331,10 @@ const DetailProduct = () => {
               <div className="text-[#F2545B] ">
                 <i class="fa-solid fa-map-pin"></i>
               </div>
-              <div className=" text-xl font-medium">
-                187a, Lê Văn Lương, Phước Kiển Nhà Bè
-              </div>
+              <div className=" text-xl font-medium">{detailPost.address}</div>
             </div>
 
-            <p className="mb-[20px]">
-              {" "}
-              Tiện ích gần đây: Bệnh Viện Quận 7, trường Đại Học Tôn Đức Thắng,
-              Circle K, Lotte Mart{" "}
-            </p>
+            <p className="mb-[20px]"> {detailPost.placesNearby}</p>
             <div className="w-full h-[60%vh]  mb-[30px]">
               <Map />
             </div>

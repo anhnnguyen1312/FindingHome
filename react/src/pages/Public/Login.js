@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { InputGroup } from "../../components";
 import { useNavigate } from "react-router-dom";
@@ -39,16 +38,18 @@ export default function Login() {
   }, [useLocate.state?.stateIsRegister]);
 
   useEffect(() => {
-    stateAuth.isLoggedIn && usenavi("/");
+    // stateAuth.isLoggedIn && usenavi("/");
+    stateAuth.isLoggedIn && usenavi(-1, { replace: true });
   }, [stateAuth.isLoggedIn]);
 
   useEffect(() => {
-    stateAuth.msg
-      && swal({
-          text: stateAuth.msg,
-          icon: "error",
-          timer: 3000,
-        })
+    console.log("data da dang ki thanh cong", stateAuth.msg);
+    stateAuth.msg &&
+      swal({
+        text: stateAuth.msg,
+        icon: "error",
+        timer: 3000,
+      });
   }, [stateAuth.msg, stateAuth.update]);
   //   const validates = (formData) => {
   //     let isInvalidCount = 0
@@ -167,27 +168,6 @@ export default function Login() {
         }
       }
 
-      // if (i === "confirmPassword") {
-      //   if (formData[i] !== formData["password"]) {
-      //     setIsInvalid((prevState) => [
-      //       ...prevState,
-      //       { name: i, msg: `mat khau nhap lai khong dung` },
-      //     ]);
-      //   }
-      // }
-
-      // if (i === "email") {
-      //   const resultValidateEmail = validator.isEmail(formData[i]);
-      //   if (!resultValidateEmail) {
-      //     setIsInvalid((prevState) => [
-      //       ...prevState,
-      //       { name: i, msg: `emial khong hop le` },
-      //     ]);
-      //     // isInvalidCount++
-      //     isInvalidCount = false;
-      //   }
-      // }
-
       if (i === "phone") {
         const resultValidatePhone = validator.isMobilePhone(formData[i]);
         if (!resultValidatePhone) {
@@ -195,7 +175,6 @@ export default function Login() {
             ...prevState,
             { name: i, msg: `số điện thoại không hợp lệ` },
           ]);
-          // isInvalidCount++
           isInvalidCount = false;
         }
       }
