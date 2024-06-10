@@ -1,12 +1,13 @@
 import axiosConfig from "../axiosConfig";
 
-export const callApiUserProfile = (userId) =>
+export const callApiUpdateProfile = (payload) =>
   new Promise(async (resolve, reject) => {
     try {
       const response = await axiosConfig({
-        method: "get",
+        method: "post",
 
-        url: `http://localhost:3000/users/${userId}`,
+        url: `http://localhost:8000/handle_profile`,
+        data: payload,
       });
       resolve(response);
     } catch (error) {
