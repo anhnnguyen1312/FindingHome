@@ -37,7 +37,6 @@ export default function NavBar() {
     removeAuthToken();
     dispatch(logoutAction());
   };
-  console.log("stateAuth.data.id", stateAuth.data?.id);
 
   const handleCreatePost = () => {
     if (stateAuth.isLoggedIn) {

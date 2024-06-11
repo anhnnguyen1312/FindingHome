@@ -112,7 +112,7 @@ const Profile = () => {
     let error = validate(userData);
     if (error) {
       dispatch(updateUserAction(userData));
-      setUpdateClick(false)
+      setUpdateClick(false);
     }
   };
   return (
@@ -285,7 +285,7 @@ const Profile = () => {
               {/* // form chỉnh sua thong tin  */}
 
               {/* // chinh sua thong tin form */}
-              <div className="my-4 bg-white max-w-screen-md border  shadow-xl px-4 md:mx-auto">
+              <div className=" bg-white max-w-screen-md border  shadow-xl px-4 md:mx-auto">
                 <div className="flex flex-col border-b py-4 sm:flex-row sm:items-start">
                   <div className="shrink-0 mr-auto sm:py-3">
                     <p className="font-medium">Thông tin người dùng</p>
@@ -322,57 +322,59 @@ const Profile = () => {
                 </div>
                 <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
                   <p className="shrink-0 w-32 font-medium">Email</p>
-                    <input
-                      value={userData.email}
-                      disabled={!updateClick}
-                      id={"email"}
-                      onFocus={handleOnFocus}
-                      onChange={(e) => handleFormUserData(e)}
-                      placeholder="Nhập email"
-                      className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
-                    />
-                    {IsInValid.length > 0 &&
-                      IsInValid.some((element) => element.name === "email") && (
-                        <span className="italic text-[#f33a58] text-center text-xl">
-                          {" "}
-                          {IsInValid.find((e) => e.name === "email")?.msg}{" "}
-                        </span>
-                      )}
+                  <input
+                    value={userData.email}
+                    disabled={!updateClick}
+                    id={"email"}
+                    onFocus={handleOnFocus}
+                    onChange={(e) => handleFormUserData(e)}
+                    placeholder="Nhập email"
+                    className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
+                  />
+                  {IsInValid.length > 0 &&
+                    IsInValid.some((element) => element.name === "email") && (
+                      <span className="italic text-[#f33a58] text-center text-xl">
+                        {" "}
+                        {IsInValid.find((e) => e.name === "email")?.msg}{" "}
+                      </span>
+                    )}
                 </div>
                 <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
                   <p className="shrink-0 w-32 font-medium">Số điện thoại</p>
-                    <input
-                      value={userData.phone}
-                      disabled={!updateClick}
-                      onChange={(e) => handleFormUserData(e)}
-                      id={"phone"}
-                      placeholder="Nhập số điện thoại"
-                      className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
-                    />
-                    {IsInValid.length > 0 &&
-                      IsInValid.some((element) => element.name === "phone") && (
-                        <span className="italic text-[#f33a58] text-center text-xl">
-                          {" "}
-                          {IsInValid.find((e) => e.name === "phone")?.msg}{" "}
-                        </span>
-                      )}
+                  <input
+                    value={userData.phone}
+                    disabled={!updateClick}
+                    onChange={(e) => handleFormUserData(e)}
+                    id={"phone"}
+                    placeholder="Nhập số điện thoại"
+                    className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
+                  />
+                  {IsInValid.length > 0 &&
+                    IsInValid.some((element) => element.name === "phone") && (
+                      <span className="italic text-[#f33a58] text-center text-xl">
+                        {" "}
+                        {IsInValid.find((e) => e.name === "phone")?.msg}{" "}
+                      </span>
+                    )}
                 </div>
-                <div className="flex flex-col gap-4 py-4  lg:flex-row">
-                  <div className="shrink-0 w-32  sm:py-4">
-                    <p className="mb-auto font-medium">Ảnh đại diện</p>
-                    <p className="text-sm text-gray-600">Thay đổi</p>
+                {updateClick && (
+                  <div className="flex flex-col gap-4 py-4  lg:flex-row">
+                    <div className="shrink-0 w-32  sm:py-4">
+                      <p className="mb-auto font-medium">Ảnh đại diện</p>
+                      <p className="text-sm text-gray-600">Thay đổi</p>
+                    </div>
+                    <div className="flex h-56 w-full flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-gray-300 p-5 text-center">
+                      <img src={user1} className="h-16 w-16 rounded-full" />
+                      <p className="text-sm text-gray-600">
+                        Thả ảnh bạn mong muốn thay đổi
+                      </p>
+                      <input
+                        type="file"
+                        className="max-w-full rounded-lg px-2 font-medium text-blue-600 outline-none ring-blue-600 focus:ring-1"
+                      />
+                    </div>
                   </div>
-                  <div className="flex h-56 w-full flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-gray-300 p-5 text-center">
-                    <img src={user1} className="h-16 w-16 rounded-full" />
-                    <p className="text-sm text-gray-600">
-                      Thả ảnh bạn mong muốn thay đổi
-                    </p>
-                    <input
-                      type="file"
-                      className="max-w-full rounded-lg px-2 font-medium text-blue-600 outline-none ring-blue-600 focus:ring-1"
-                    />
-                  </div>
-                </div>
+                )}
                 {updateClick && (
                   <div className="flex justify-end py-4 sm:hidden">
                     <button
