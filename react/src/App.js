@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { path } from "./ultils/path";
 import {
@@ -10,11 +11,21 @@ import {
   DetailProduct,
 } from "./pages/Public";
 import Profile from "./pages/LoggedIn/Profile";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuthToken } from "../src/api/cookieServices";
+import { getUserAction } from "../src/redux/store/action/authenAction";
+
 import UploadPost from "./pages/LoggedIn/UploadPost";
 // import {SideBar} from './components/SideBar'
 import CreatePost from "./pages/LoggedIn/CreatePost";
 import NewPost from "./pages/LoggedIn/NewPost";
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const cookie = getAuthToken();
+    cookie && dispatch(getUserAction(cookie));
+  }, []);
   return (
     <Router>
       <Routes>

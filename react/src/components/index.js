@@ -14,3 +14,8 @@ export { default as CardProduct } from "./CardProduct";
 export { default as Map } from "./Map";
 export { default as Footer } from "./Footer";
 export { default as InputReadOnly } from "./InputReadOnly";
+export { default as TextAreaNewPost } from "./TextAreaNewPost";
+export { default as SelectNewPost } from "./SelectNewPost";
+export { default as InputNewPost } from "./InputNewPost";
+
+export { default as formatDate } from "./formatDate";
