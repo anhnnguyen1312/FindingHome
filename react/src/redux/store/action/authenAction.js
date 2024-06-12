@@ -19,12 +19,13 @@ export const registerAction = (payload) => async (dispatch) => {
       const cookie = getAuthToken();
       dispatch({
         type: actionTypes.REGISTER__SUC,
+        msg: response.data.message,
         data: cookie,
       });
     } else {
       dispatch({
         type: actionTypes.REGISTER__FAIL,
-        data: response.data.message,
+        msg: response.data.message,
       });
     }
   } catch (error) {
@@ -35,40 +36,10 @@ export const registerAction = (payload) => async (dispatch) => {
   }
 };
 
-// export const updateAccountAction = (payload) => async (dispatch) => {
-//   try {
-//     const response = await callApiRegister(payload);
-
-//     // if (response?.data.err === 0) {
-//     if (response?.data) {
-//       const token = response.data.token;
-//       setAuthToken(token);
-//       const cookie = getAuthToken();
-//       dispatch({
-//         type: actionTypes.REGISTER__SUC,
-//         data: cookie,
-//       });
-//     } else {
-//       dispatch({
-//         type: actionTypes.REGISTER__FAIL,
-//         data: response.data.message,
-//       });
-//     }
-//   } catch (error) {
-//     dispatch({
-//       type: actionTypes.REGISTER__FAIL,
-//       data: null,
-//     });
-//   }
-// };
-//ham login
-
 export const loginAction = (payload) => async (dispatch) => {
   try {
     const response = await callApiLogin(payload);
-    ///api phải trả về token và
-    // if (response?.data.err === 0) {
-    // if (typeof response?.data.err === 'undefined') {
+
     if (response?.data.token) {
       const token = response.data.token;
       setAuthToken(token);
@@ -76,11 +47,12 @@ export const loginAction = (payload) => async (dispatch) => {
       dispatch({
         type: actionTypes.LOGIN__SUC,
         data: cookie,
+        msg: response.data.message
       });
     } else {
       dispatch({
         type: actionTypes.LOGIN__FAIL,
-        data: response.data.message,
+        msg: response.data.message,
       });
     }
   } catch (error) {
@@ -98,14 +70,12 @@ export const getUserAction = (cookie) => ({
 
 export const logoutAction = () => ({
   type: actionTypes.LOGOUT,
-  data: null,
+  msg: "Đăng xuất thành công", 
 });
 export const updateUserAction = (payload) => async (dispatch) => {
   try {
     const response = await callApiUpdateProfile(payload);
-    ///api phải trả về token và
-    // if (response?.data.err === 0) {
-    // if (typeof response?.data.err === 'undefined') {
+
     if (response?.data) {
       const token = response.data.token;
       setAuthToken(token);
@@ -113,11 +83,12 @@ export const updateUserAction = (payload) => async (dispatch) => {
       dispatch({
         type: actionTypes.UPDATE_PROFILE_SUC,
         data: cookie,
+        msg: response.data.message
       });
     } else {
       dispatch({
         type: actionTypes.UPDATE_PROFILE_FAIL,
-        data: response.data.message,
+        msg: response.data.message,
       });
     }
   } catch (error) {

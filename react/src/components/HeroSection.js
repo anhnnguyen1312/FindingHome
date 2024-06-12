@@ -22,7 +22,7 @@ const HeroSection = () => {
       swal({
         text: "Bạn cần đăng nhập",
         icon: "error",
-        timer: 3000,
+        timer: 2000,
       });
       navigate(path.LOGIN);
     }

@@ -40,72 +40,28 @@ export default function Login() {
 
   useEffect(() => {
     // stateAuth.isLoggedIn && usenavi("/");
+    if(stateAuth.isLoggedIn){
+      swal({
+        text: stateAuth.msg,
+        icon: "success",
+        timer: 2000,
+      });
+    }
     stateAuth.isLoggedIn && usenavi(-1, { replace: true });
   }, [stateAuth.isLoggedIn]);
 
   useEffect(() => {
-    console.log("data da dang ki thanh cong", stateAuth.msg);
-    stateAuth.msg &&
-      swal({
-        text: stateAuth.msg,
-        icon: "error",
-        timer: 3000,
-      });
+    if(stateAuth.msg){
+      if((!stateAuth.isLoggedIn) && (!stateAuth.isLoggedOut)){
+        swal({
+          text: stateAuth.msg,
+          icon: "error",
+          timer: 2000,
+        });
+      }
+    }
   }, [stateAuth.msg, stateAuth.update]);
-  //   const validates = (formData) => {
-  //     let isInvalidCount = 0
-  // let datacheck = Object.entries(formData)
-  // datacheck.forEach(item => {
-  //   if (item[1] === '') {
-  //     setIsInvalid(prevState => [
-  //       ...prevState,
-  //      { name: item[0],
-  //       msg:`ban chua nhap ${item[0]}`
-  //   }] )
-  //   isInvalidCount++
-  //   }
-  // })
-  // datacheck.forEach(item => {
-  //   if (item[0] === 'password') {
-  //     if (item[1].length <10) {
-  //       setIsInvalid(prevState => [
-  //         ...prevState,
-  //        { name: item[0],
-  //         msg:`mat khau phai lon hon 6 ky tu`
-  //       }] )
-  //       isInvalidCount++
-  //     }
-  //   }
-  //   if (item[0] === 'email') {
-  //     const resultValidateEmail = validator.isEmail(item[1])
-  //     if (!resultValidateEmail) {
-  //       setIsInvalid(prevState => [
-  //         ...prevState,
-  //        { name: item[0],
-  //         msg:`emial khong hop le`
-  //       }] )
-  //       isInvalidCount++
-  //     }
-  //   }
 
-  //   if (item[0] === 'phone') {
-  //      const resultValidatePhone = validator.isMobilePhone(item[1])
-  //       if (!resultValidatePhone) {
-  //       setIsInvalid(prevState => [
-  //         ...prevState,
-  //        { name: item[0],
-  //         msg:`so dien thoai khong hop le`
-  //       }] )
-  //       isInvalidCount++
-  //     }
-  //   }
-
-  // })
-
-  // return isInvalidCount
-  // console.log('datacheck',datacheck)
-  //   }
-  // validate
   const validate = (formData) => {
     console.log("formdata", formData);
     let isInvalidCount = true;
