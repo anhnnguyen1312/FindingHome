@@ -1,14 +1,17 @@
 import actionTypes from "./actionTypes";
 import { callApiPost } from "../../../api/getPostApi";
+import { jwtDecode } from "jwt-decode";
 export const postAction = () => async (dispatch) => {
   try {
     const response = await callApiPost();
-    ///api phải trả về token và
+
+  const token = response.data.token
+  const decodetoken = token.map(token => jwtDecode(token))
 
     if (!response?.data.message) {
       dispatch({
         type: actionTypes.GET_POST,
-        posts: response.data,
+        posts: decodetoken,
       });
     } else {
       dispatch({
