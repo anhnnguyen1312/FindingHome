@@ -43,4 +43,19 @@ class Post_model extends CI_Model {
 		}
 
 	}
+	
+	public function get_all_post(){
+		$this->db->select('users.name as name, users.phone as phone, posts.*, statusPost.dateCreateAt as dateCreateAt, statusPost.dateExpired as dateExpired, statusPost.status as status, statusPost.check as check');
+		$this->db->from('posts');
+		$this->db->join('users','posts.userId = users.id');
+		$this->db->join('statusPost', 'posts.id = statusPost.postId');
+		$query =  $this->db->get();
+
+		if(!empty($query)){
+			return $query->result();
+		}else{
+			return false;
+		}
+		
+	}
 }

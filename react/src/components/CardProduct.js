@@ -14,6 +14,8 @@ const CardProduct = (props) => {
     navigate(path.DETAIL_PRODUCT, { state: { idPost } });
   }
   console.log("id", props.id);
+  console.log("s", props);
+
 
   return (
     <div>
@@ -68,7 +70,7 @@ const CardProduct = (props) => {
                 <div className="flex items-center px-[3px]">
                   <i class="fa-solid fa-dollar-sign"></i>
                 </div>
-                {`${props.price} /tháng`}
+                {`${props.price} triệu/tháng`}
               </div>
               {props.area && (
                 <div className=" text-white font-medium px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">
@@ -90,10 +92,10 @@ const CardProduct = (props) => {
               {props.address}
             </div>
             <div className="text-black">{props.description}</div>
-            <div className="text-black">{props.placesNearby}</div>
+            <div className="text-black">{props.nearby}</div>
 
             <div className="flex justify-between text-cyan-600 font-medium">
-              <div className="owner--name">{props.name} </div>
+              <div className="owner--name">{props.username}</div>
               <div className=" flex items-center">
                 <AiFillPhone />
                 {props.phone}

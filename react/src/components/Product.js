@@ -43,8 +43,8 @@ const Product = (props) => {
                     area={product.area}
                     status={product.status}
                     description={product.description}
-                    placesNearby={product.placesNearby}
-                    name={product.name}
+                    Nearby={product.nearby}
+                    username={product.username}
                     phone={product.phone}
                     zalo={product.zalo}
                     title={product.title}
