@@ -6,7 +6,7 @@ export const callApiUpdateProfile = (payload) =>
       const response = await axiosConfig({
         method: "post",
 
-        url: `http://localhost:8000/handle_profile`,
+        url: `http://localhost:8000/handle-profile`,
         data: payload,
       });
       resolve(response);

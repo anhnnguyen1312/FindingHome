@@ -39,6 +39,7 @@ const NewPost = () => {
   const stateAuth = useSelector((state) => state.auth);
 
   const [addressData, setAddressData] = useState({
+    numberAddress: "",
     provinceForm: "",
     districtForm: "",
     wardForm: "",
@@ -52,7 +53,7 @@ const NewPost = () => {
     price: "",
     area: "",
     otherFee: "",
-    placesNearby: "",
+    nearby: "",
     typeRoom: "",
     description: "",
     furniture: "",
@@ -208,7 +209,7 @@ const NewPost = () => {
       if (value.trim() === "") {
         setIsInvalid((prevState) => [
           ...prevState,
-          { name: i, msg: `ban chua nhap ${title} ` },
+          { name: i, msg: `bạn chưa ${title} ` },
         ]);
         isInvalidCount = false;
       }
@@ -271,32 +272,25 @@ const NewPost = () => {
     const IsUrl = (value, i) => {
       const result = validator.isURL(value);
 
-      if (!result) {
-        setIsInvalid((prevState) => [
-          ...prevState,
-          { name: i, msg: `Vui lòng nhập đúng URL` },
-        ]);
-        isInvalidCount = false;
-      }
     };
     for (let i in formData) {
       if (i === "address") {
-        const title = `địa chỉ`;
+        const title = `chọn Khu vực`;
         IsNull(formData[i], i, title);
         IsAddressNull();
       }
       if (i === "typeRoom") {
-        const title = `Loại phong`;
+        const title = `chọn Loại phòng`;
         IsNull(formData[i], i, title);
       }
       if (i === "price") {
-        const title = `Giá`;
+        const title = `nhập Giá`;
         const option = { min: 0, max: 100 };
         IsNull(formData[i], i, title);
         IsPrice(formData[i], i, option);
       }
-      if (i === "description") {
-        const title = `Mô tả`;
+      if (i === "title") {
+        const title = `nhập tiêu đề`;
         IsNull(formData[i], i, title);
       }
       if (i === "name") {
@@ -306,22 +300,8 @@ const NewPost = () => {
       if (i === "area") {
         formData[i] && IsNumber(formData[i], i);
       }
-      if (i === "phone") {
-        const title = `Số điện thoại`;
-
-        IsNull(formData[i], i, title);
-        IsPhone(formData[i], i);
-      }
       if (i === "zalo") {
         formData[i] && IsPhone(formData[i], i);
-      }
-      if (i === "socialLink") {
-        formData[i] && IsUrl(formData[i], i);
-      }
-      if (i === "placesNearby") {
-        const title = `Tiện ích gần đây`;
-
-        IsNull(formData[i], i, title);
       }
       // if (i === "urlImages") {
       //   const title = `Ảnh`;
@@ -412,7 +392,7 @@ const NewPost = () => {
   useEffect(() => {
     setFormData((prevState) => ({
       ...prevState,
-      address: `${addressData.wardForm ? `${addressData.wardForm}, ` : ""} ${addressData.districtForm ? `${addressData.districtForm}, ` : ""} ${addressData.provinceForm ? `${addressData.provinceForm}` : ""}`,
+      address: `${addressData.numberAddress ? `${addressData.numberAddress}, ` : ""} ${addressData.wardForm ? `${addressData.wardForm}, ` : ""} ${addressData.districtForm ? `${addressData.districtForm}, ` : ""} ${addressData.provinceForm ? `${addressData.provinceForm}` : ""}`,
     }));
   }, [addressData]);
 
@@ -460,6 +440,15 @@ const NewPost = () => {
               setFormData={setFormData}
             />
           </div>
+          <div className="mt-[20px]">
+            <InputNewPost
+              setIsInvalid={setIsInvalid}
+              IsInValid={IsInValid}
+              title={"số nhà, tên đường"}
+              id={"numberAddress"}
+              setFormData={setAddressData}              
+            />
+          </div>
           {/* <InputNewPost
           setIsInvalid={setIsInvalid}
           IsInValid={IsInValid}
@@ -472,7 +461,7 @@ const NewPost = () => {
           <p className="font-medium"> Địa chỉ </p>
         </div> */}
           <Form.Item
-            label="Địa chỉ"
+            label="Khu Vực"
             style={{ display: "flex" }}
             rules={[
               {
@@ -513,7 +502,7 @@ const NewPost = () => {
             </div>
           </Form.Item>
           <InputReadOnly
-            title={"Xác nhận lại địa chỉ"}
+            title={"Địa chỉ đầy đủ"}
             value={formData.address}
           />
           {/* thong tin phong */}
@@ -521,10 +510,10 @@ const NewPost = () => {
             <p className="font-medium"> thông Tin Phòng</p>
           </div>
           <InputNewPost
+            id={"title"}
             setIsInvalid={setIsInvalid}
             IsInValid={IsInValid}
             title={"Tiêu đề"}
-            id={"title"}
             setFormData={setFormData}
           />
           <SelectNewPost
@@ -548,7 +537,7 @@ const NewPost = () => {
             setIsInvalid={setIsInvalid}
             IsInValid={IsInValid}
             title={"Tiện ích xung quanh"}
-            id={"placesNearby"}
+            id={"nearby"}
             setFormData={setFormData}
           />
           <InputNewPost
@@ -570,8 +559,7 @@ const NewPost = () => {
           <InputNewPost
             setIsInvalid={setIsInvalid}
             IsInValid={IsInValid}
-            prefix="$"
-            suffix="m2"
+            suffix="m&#178;"
             title={"Diện tích"}
             id={"area"}
             setFormData={setFormData}

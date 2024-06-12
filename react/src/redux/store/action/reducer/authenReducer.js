@@ -2,7 +2,7 @@ import actionTypes from "../actionTypes";
 
 const initialState = {
   isLoggedIn: false,
-  token: null,
+  isLoggedOut: false,
   msg: "",
   data: "",
   update: false,
@@ -15,16 +15,17 @@ export const authenReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedIn: true,
+        isLoggedOut: false,
         data: action.data,
-        msg: null,
+        msg: action.msg,
       };
     case actionTypes.REGISTER__FAIL:
     case actionTypes.LOGIN__FAIL:
       return {
         ...state,
         isLoggedIn: false,
-        token: null,
-        msg: action.data,
+        isLoggedOut: false,
+        msg: action.msg,
         update: !state.update,
       };
     case actionTypes.GET_USER:
@@ -39,21 +40,20 @@ export const authenReducer = (state = initialState, action) => {
         ...state,
         isLoggedIn: true,
         data: action.data,
-        msg: null,
+        msg: action.msg,
       };
     case actionTypes.UPDATE_PROFILE_FAIL:
       return {
         ...state,
         isLoggedIn: true,
-        data: null,
-        msg: action.data,
+        msg: action.msg,
       };
     case actionTypes.LOGOUT:
       return {
         ...state,
-        msg: null,
-        data: null,
+        msg: action.msg,
         isLoggedIn: false,
+        isLoggedOut: true
       };
     default:
       return state;

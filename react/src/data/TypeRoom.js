@@ -1,19 +1,19 @@
 const TypeRoom = [
   {
     type_key: "Căn hộ",
-    type_value: "canho",
+    type_value: "căn hộ",
   },
   {
     type_key: "Phòng",
-    type_value: "phong",
+    type_value: "căn hộ",
   },
   {
     type_key: "Ở ghép",
-    type_value: "oghep",
+    type_value: "Ở ghép",
   },
   {
     type_key: "Mặt bằng",
-    type_value: "matbang",
+    type_value: "Mặt bằng",
   },
 ];
 export default TypeRoom;

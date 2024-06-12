@@ -5,7 +5,7 @@ export const callApiPost = (payload) =>
     try {
       const response = await axiosConfig({
         method: "get",
-        url: "http://localhost:3000/allPosts",
+        url: "http://localhost:8000/list-all-post",
         data: payload,
       });
       resolve(response);
@@ -19,7 +19,7 @@ export const callApiCreatePost = (payload) =>
     try {
       const response = await axiosConfig({
         method: "post",
-        url: "http://localhost:3000/allPosts",
+        url: "http://localhost:8000/create-post",
         data: payload,
       });
       resolve(response);
