@@ -23,6 +23,7 @@ export const callApiCreatePost = (payload) =>
         data: payload,
       });
       resolve(response);
+      window.location.reload();
     } catch (error) {
       reject(error);
     }
@@ -33,7 +34,7 @@ export const callApiDetailPost = (payload) =>
     try {
       const response = await axiosConfig({
         method: "get",
-        url: `http://localhost:3000/allPosts/${payload}`,
+        url: `http://localhost:8000/post-detail/${payload}`,
         data: payload,
       });
       resolve(response);
