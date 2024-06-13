@@ -34,7 +34,8 @@ const NewPost = () => {
   const [district, setDistrict] = useState("");
   const [ward, setWard] = useState("");
   const [IsInValid, setIsInvalid] = useState([]);
-  const useLocate = useLocation();
+  const [preview, setPreview] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const stateAuth = useSelector((state) => state.auth);
 
@@ -43,6 +44,7 @@ const NewPost = () => {
     provinceForm: "",
     districtForm: "",
     wardForm: "",
+    streetForm: "",
   });
 
   const [formData, setFormData] = useState({
@@ -64,143 +66,51 @@ const NewPost = () => {
     check: "0",
     urlImages: "",
   });
-  console.log(stateAuth.data.name);
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [fileList, setFileList] = useState([
-    {
-      uid: "-1",
-      name: "image.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-    {
-      uid: "-2",
-      name: "image.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-    {
-      uid: "-3",
-      name: "image.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-    {
-      uid: "-4",
-      name: "image.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-    {
-      uid: "-xxx",
-      percent: 50,
-      name: "image.png",
-      status: "uploading",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-    {
-      uid: "-5",
-      name: "image.png",
-      status: "error",
-    },
-  ]);
-  const [imagesPreview, setImagesPreview] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleFiles = async (e) => {
-    e.stopPropagation();
-    setIsLoading(true);
+    setLoading(true);
     let images = [];
-    let files = e.target.files;
-    console.log("files ne", files);
+    const files = e.target.files;
 
     let dataImages = new FormData();
-    for (let i of files) {
-      console.log("i ne", i);
-
-      dataImages.append("file", i);
+    for (let file of files) {
+      dataImages.append("file", file);
       dataImages.append("upload_preset", "ml_default");
-      console.log("upload_preset", dataImages);
+      console.log("dataImages", dataImages.upload_preset);
 
-      let response = await callApiUploadImages(dataImages);
-      if (response.status === 200)
-        images = [...images, response.data?.secure_url];
-      // const imageBase64 = btoa(images);
-      // const decode = atob(imageBase64);
-
-      // console.log("img", imageBase64);
-      console.log("images", images);
-      console.log("formData", formData);
-      // console.log("imgdecode", decodeimg);
+      try {
+        const response = await callApiUploadImages(dataImages);
+        if (response.status === 200)
+          images = [...images, response.data?.secure_url];
+        console.log("images gop api tải lên từng ảnh", images);
+      } catch (error) {
+        setLoading(false);
+      }
     }
-    setIsLoading(false);
-    setImagesPreview((prev) => [...prev, ...images]);
-    // setFormData((prev) => ({ ...prev, images: [...prev.images, ...images] }));
+    setLoading(false);
+    setPreview((prev) => [...prev, ...images]);
     setFormData((prev) => ({
       ...prev,
       urlImages: [...prev.urlImages, ...images],
     }));
+    console.log("setFormData sau chọn file 1 lần", formData);
+  };
+  console.log("setFormData sau khi reder lại ra ngoài", formData);
+
+  const handleResetClick = () => {
+    setPreview(null);
+    // setFormData((prev) => ({
+    //   ...prev,
+    //   urlImages: "",
+    // }));
   };
   const handleDeleteImage = (image) => {
-    setImagesPreview((prev) => prev?.filter((item) => item !== image));
+    setPreview((prev) => prev?.filter((item) => item !== image));
     setFormData((prev) => ({
       ...prev,
       urlImages: prev.urlImages?.filter((item) => item !== image),
     }));
   };
-  const handleSubmit = () => {};
-  // const name = stateAuth.data.name;
-  // console.log("render ne", name);
-
-  const getBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-    setPreviewImage(file.url || file.preview);
-    setPreviewOpen(true);
-  };
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-  const uploadButton = (
-    <button
-      style={{
-        border: 0,
-        background: "none",
-      }}
-      type="button"
-    >
-      <PlusOutlined />
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Upload
-      </div>
-    </button>
-  );
-  // const getDate = (date) => {
-  //   // const today = new Date();
-  //   const dayFormat =
-  //     date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-  //   return dayFormat;
-  // };
-
-  // const expireddate = getDate();
-  // var today = new Date();
-  // var priorDate = new Date(new Date().setDate(today.getDate() + 90));
-
-  // console.log(today);
-  // console.log(priorDate);
-  // const day = D;
 
   console.log(("IsInValid", IsInValid));
   const validate = (formData) => {
@@ -215,7 +125,7 @@ const NewPost = () => {
       }
     };
     const IsNullImage = (value, i, title) => {
-      if (value && value.length > 0) {
+      if (!(value.length > 0)) {
         setIsInvalid((prevState) => [
           ...prevState,
           { name: i, msg: `bạn chưa tải ${title} ` },
@@ -271,7 +181,6 @@ const NewPost = () => {
     };
     const IsUrl = (value, i) => {
       const result = validator.isURL(value);
-
     };
     for (let i in formData) {
       if (i === "address") {
@@ -303,23 +212,30 @@ const NewPost = () => {
       if (i === "zalo") {
         formData[i] && IsPhone(formData[i], i);
       }
-      // if (i === "urlImages") {
-      //   const title = `Ảnh`;
-      //   // console.log(formData.urlImages.length)
+      if (i === "socialLink") {
+        formData[i] && IsUrl(formData[i], i);
+      }
+      if (i === "placesNearby") {
+        const title = `Tiện ích gần đây`;
 
-      //   IsNullImage(formData[i], i, title);
-      // }
+        IsNull(formData[i], i, title);
+      }
+
+      if (i === "urlImages") {
+        const title = `Ảnh`;
+        // console.log(formData.urlImages.length)
+
+        IsNullImage(formData[i], i, title);
+      }
     }
     return isInvalidCount;
   };
 
   const handleSubmitPost = () => {
     let IsError = validate(formData);
-
+    // let IsError = true;
     if (IsError) {
       const PostNewPost = async () => {
-        console.log("call ne");
-
         const response = await callApiCreatePost(formData);
         console.log("submit form thành công", response.data);
       };
@@ -328,14 +244,6 @@ const NewPost = () => {
   };
 
   useEffect(() => {
-    // setFormData((prevState) => ({
-    //   ...prevState,
-    //   // name: stateAuth.data.name,
-    //   // phone: stateAuth.data.phone,
-    //   // userId: stateAuth.data.userId,
-    //   dateCreateAt: getDate(),
-    // }));
-
     const handleDate = () => {
       const today = new Date();
       const endDate = new Date(new Date().setDate(today.getDate() + 90));
@@ -392,7 +300,7 @@ const NewPost = () => {
   useEffect(() => {
     setFormData((prevState) => ({
       ...prevState,
-      address: `${addressData.numberAddress ? `${addressData.numberAddress}, ` : ""} ${addressData.wardForm ? `${addressData.wardForm}, ` : ""} ${addressData.districtForm ? `${addressData.districtForm}, ` : ""} ${addressData.provinceForm ? `${addressData.provinceForm}` : ""}`,
+      address: ` ${addressData.streetForm ? `${addressData.streetForm}, ` : ""} ${addressData.wardForm ? `${addressData.wardForm}, ` : ""} ${addressData.districtForm ? `${addressData.districtForm}, ` : ""} ${addressData.provinceForm ? `${addressData.provinceForm}` : ""}`,
     }));
   }, [addressData]);
 
@@ -413,21 +321,6 @@ const NewPost = () => {
             <p className="font-medium"> Thông Tin Liên hệ</p>
           </div>
 
-          {/* <InputNewPost
-          setIsInvalid={setIsInvalid}
-          IsInValid={IsInValid}
-          title={"Tên"}
-          id={"name"}
-          setFormData={setFormData}
-        />
-        <InputNewPost
-          setIsInvalid={setIsInvalid}
-          IsInValid={IsInValid}
-          title={"Số điện thoại"}
-          id={"phone"}
-          setFormData={setFormData}
-        /> */}
-
           <InputReadOnly value={stateAuth.data.name} />
           <InputReadOnly value={stateAuth.data.phone} />
 
@@ -440,28 +333,9 @@ const NewPost = () => {
               setFormData={setFormData}
             />
           </div>
-          <div className="mt-[20px]">
-            <InputNewPost
-              setIsInvalid={setIsInvalid}
-              IsInValid={IsInValid}
-              title={"số nhà, tên đường"}
-              id={"numberAddress"}
-              setFormData={setAddressData}              
-            />
-          </div>
-          {/* <InputNewPost
-          setIsInvalid={setIsInvalid}
-          IsInValid={IsInValid}
-          title={"Mạng xã hội"}
-          id={"socialLink"}
-          setFormData={setFormData}
-        /> */}
 
-          {/* <div className="shrink-0 mr-auto sm:py-3">
-          <p className="font-medium"> Địa chỉ </p>
-        </div> */}
           <Form.Item
-            label="Khu Vực"
+            label="Khu vực"
             style={{ display: "flex" }}
             rules={[
               {
@@ -480,8 +354,7 @@ const NewPost = () => {
                 setAddressData={setAddressData}
                 style={{ paddingRight: "10px" }}
               />
-              {/* {console.log("districts.length ", districts.length)} */}
-              {/* {province ? ( */}
+
               <AddressNewPostDistrict
                 setIsInvalid={setIsInvalid}
                 IsInValid={IsInValid}
@@ -501,13 +374,17 @@ const NewPost = () => {
               />
             </div>
           </Form.Item>
-          <InputReadOnly
-            title={"Địa chỉ đầy đủ"}
-            value={formData.address}
+          <InputNewPost
+            setIsInvalid={setIsInvalid}
+            IsInValid={IsInValid}
+            title={"Số nhà, tên đường"}
+            id={"streetForm"}
+            setFormData={setAddressData}
           />
+          <InputReadOnly title={"Địa chỉ đầy đủ"} value={formData.address} />
           {/* thong tin phong */}
           <div className="shrink-0 mr-auto sm:py-3">
-            <p className="font-medium"> thông Tin Phòng</p>
+            <p className="font-medium"> Thông Tin Phòng</p>
           </div>
           <InputNewPost
             id={"title"}
@@ -552,7 +429,6 @@ const NewPost = () => {
             IsInValid={IsInValid}
             title={"Giá"}
             id={"price"}
-            prefix="$"
             suffix="tr/tháng"
             setFormData={setFormData}
           />
@@ -586,69 +462,56 @@ const NewPost = () => {
         <div className="w-full flex flex-col items-center justify-center">
           <h2 className="font-semibold text-xl py-2">Hình ảnh</h2>
 
-          {/* <Upload
-            // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-            // action="cloudinary://952597548981537:WzeUtMMq_IoPkc6rk8t1-4wlEG4@dx3nwkh2i"
-            action="https://api.cloudinary.com/v1_1/952597548981537:WzeUtMMq_IoPkc6rk8t1-4wlEG4@dx3nwkh2i/image/upload"
-            listType="picture-card"
-            fileList={fileList}
-            onPreview={handlePreview}
-            onChange={handleChange}
-          >
-            {fileList.length >= 8 ? null : uploadButton} hello
-          </Upload>
-          {previewImage && (
-            <Image
-              wrapperStyle={{
-                display: "none",
-              }}
-              preview={{
-                visible: previewOpen,
-                onVisibleChange: (visible) => setPreviewOpen(visible),
-                afterOpenChange: (visible) => !visible && setPreviewImage(""),
-              }}
-              src={previewImage}
-            />
-          )} */}
-
-          {/* // hinh anh */}
           <label
             className="w-[100px] border-2 h-[100px] my-4 gap-4 flex flex-col items-center justify-center border-gray-200 border-dashed rounded-md"
             htmlFor="file"
           >
             <div className="flex flex-col items-center justify-center">
-              {/* <BsCameraFill color='blue' size={50} /> */}
               <PlusOutlined />
               Upload
             </div>
           </label>
           <input onChange={handleFiles} hidden type="file" id="file" multiple />
-          <div className="w-full">
-            <h3 className="font-medium py-4">Ảnh đã chọn</h3>
-            <div className="flex gap-4 items-center">
-              {imagesPreview?.map((item) => {
-                return (
-                  <div key={item} className="relative w-1/3 h-1/3 ">
-                    <img
-                      src={item}
-                      alt="preview"
-                      className="w-full h-full object-cover rounded-md"
-                    />
-                    <span
-                      title="Xóa"
-                      onClick={() => handleDeleteImage(item)}
-                      className="absolute top-0 right-1   cursor-pointer  rounded-full"
-                    >
-                      <div className="text-red-600 hover:text-red-300 ">
-                        <i class="fa-solid fa-x"></i>
-                      </div>
-                    </span>
-                  </div>
-                );
-              })}
+          {preview && preview.length > 0 ? (
+            <div className="w-full">
+              {/* <div className="flex items-center justify-between"> */}
+              <h3 className="font-medium py-4">Ảnh đã chọn</h3>
+              {/* <button
+                  onClick={handleResetClick}
+                  className="rounded-lg py-[5px] my-[20px] border-2 border-transparent bg-blue-500 px-4 py-2 font-medium text-white focus:outline-none focus:ring hover:bg-blue-700"
+                >
+                  {" "}
+                  Xóa tất cả
+                </button> */}
+              {/* </div> */}
+              <div className="flex gap-4 items-center">
+                {preview?.map((item) => {
+                  return (
+                    <div key={item} className="relative w-1/3 h-1/3 ">
+                      <img
+                        src={item}
+                        alt="preview"
+                        className="w-full h-full object-cover rounded-md"
+                      />
+                      <span
+                        title="Xóa"
+                        onClick={() => handleDeleteImage(item)}
+                        className="absolute top-0 right-1   cursor-pointer  rounded-full"
+                      >
+                        <div className="text-red-600 hover:text-red-300 ">
+                          <i class="fa-solid fa-x"></i>
+                        </div>
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          ) : (
+            ""
+          )}
         </div>
+
         {/* // button */}
         <div className="flex items-center justify-end">
           <button

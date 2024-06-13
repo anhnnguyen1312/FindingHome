@@ -40,7 +40,7 @@ export default function NavBar() {
 
   const handleCreatePost = () => {
     if (stateAuth.isLoggedIn) {
-      handleCreatePostNavigate(stateAuth.data.id);
+      handleCreatePostNavigate(stateAuth.data?.id);
     } else {
       swal({
         text: "Bạn cần đăng nhập",
@@ -66,10 +66,10 @@ export default function NavBar() {
     //   handleLogOut();
     // }
   };
-
+  console.log("navbar");
   const handleUserProfile = () => {
     if (stateAuth.isLoggedIn) {
-      handleUserProfileNavigate(stateAuth.data.id);
+      handleUserProfileNavigate(stateAuth.data?.id);
       // console.log("stateAuth.data", stateAuth.data);
       // handleUserProfileNavigate("1");
     }
@@ -89,7 +89,7 @@ export default function NavBar() {
   }, []);
 
   useEffect(() => {
-    if((stateAuth.isLoggedOut) && (!stateAuth.isLoggedIn)){
+    if (stateAuth.isLoggedOut && !stateAuth.isLoggedIn) {
       swal({
         text: stateAuth.msg,
         icon: "success",
