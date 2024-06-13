@@ -11,6 +11,7 @@ class Authen_model extends CI_Model {
 		$dataDB['password'] = $this->encryption->encrypt($data['password']);
 		$dataDB['phone'] = $this->encryption->encrypt($data['phone']);
 		$dataDB['role'] = 0;
+
 		$check = $this->db->get_where('users', ['email' => $dataDB['email']])->row();
 		if(empty($check)){
 			$this->db->insert('users', $dataDB);
@@ -45,6 +46,11 @@ class Authen_model extends CI_Model {
 	public function update_user_profile($data){
 		$dataDB['email'] = $data['email'];
 		$dataDB['phone'] = $this->encryption->encrypt($data['phone']);
+		if(!empty($data['avatar'])){
+			$dataDB['avatar'] = $this->encryption->encrypt($data['avatar']);
+		}else{
+			$dataDB['avatar'] = null;
+		}
 		$dataDB['name'] = $data['name'];
 		$id = $data['userId'];
 

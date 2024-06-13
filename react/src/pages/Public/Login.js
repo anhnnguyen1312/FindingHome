@@ -30,9 +30,10 @@ export default function Login() {
     name: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    avatar:
+      "https://asset.cloudinary.com/dx3nwkh2i/7d1e9bf5e5c43ab5b11b4e0040ee34b9",
   });
-  console.log("data ", stateAuth.data);
+  console.log("formData ", formData);
 
   useEffect(() => {
     setIsRegister(useLocate.state?.stateIsRegister);
@@ -196,7 +197,8 @@ export default function Login() {
       name: "",
       email: "",
       password: "",
-      confirmPassword: "",
+      avatar:
+        "https://asset.cloudinary.com/dx3nwkh2i/7d1e9bf5e5c43ab5b11b4e0040ee34b9",
     });
     setIsInvalid([]);
   };
@@ -207,7 +209,8 @@ export default function Login() {
       name: "",
       email: "",
       password: "",
-      confirmPassword: "",
+      avatar:
+        "https://asset.cloudinary.com/dx3nwkh2i/7d1e9bf5e5c43ab5b11b4e0040ee34b9",
     });
     setIsInvalid([]);
   };

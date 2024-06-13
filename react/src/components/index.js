@@ -17,5 +17,8 @@ export { default as InputReadOnly } from "./InputReadOnly";
 export { default as TextAreaNewPost } from "./TextAreaNewPost";
 export { default as SelectNewPost } from "./SelectNewPost";
 export { default as InputNewPost } from "./InputNewPost";
+export { default as ManagePostUser } from "./ManagePostUser";
+export { default as AvatarUpload } from "./AvatarUpload";
+export { default as UpdateUserProfile } from "./UpdateUserProfile";
 
 export { default as formatDate } from "./formatDate";
