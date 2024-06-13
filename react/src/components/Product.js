@@ -26,7 +26,7 @@ const Product = (props) => {
             <div className=" flex-col md:flex-row bg-F8FAFC w-full p-[10px] flex items-center justify-center gap-[10px] ">
               <Search />
             </div>
-          </div>
+          </div>``
         </div>
         <div className="lg:flex-[80%] flex flex-col gap-[20px] p-[5px] ">
           <h1 className="mt-[5vh] text-[30px] font-semibold ">
@@ -43,13 +43,13 @@ const Product = (props) => {
                     area={product.area}
                     status={product.status}
                     description={product.description}
-                    Nearby={product.nearby}
+                    nearby={product.nearby}
                     username={product.username}
                     phone={product.phone}
                     zalo={product.zalo}
                     title={product.title}
                     id={product.id}
-                    // src={product.imgSrc}
+                    urlImages={product.urlImages}
                   />
                 );
               })}

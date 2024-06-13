@@ -1,45 +1,31 @@
 import React, { useState } from "react";
-import ch3 from "../assets/images/canho/ch3.jpg";
 import { AiFillPhone } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { path } from "../ultils/path";
 import { useNavigate } from "react-router-dom";
+import SlideShow from "./SlideShow";
 
 import DetailProduct from "../pages/Public/DetailProduct";
 const CardProduct = (props) => {
   const [isHoverHeart, setIsHoverHeart] = useState(false);
   const navigate = useNavigate();
   function handleNavigate(idPost) {
-    // navigate('/home');
     navigate(path.DETAIL_PRODUCT, { state: { idPost } });
   }
-  console.log("id", props.id);
-  console.log("s", props);
-
-
   return (
     <div>
       <li className=" ">
-        {/* <Link
-          className="flex hover:bg-[#E9F4F6] h-full border border-transparent bg-white shadow flex-col md:flex-row px-4 active:border-rose-500 rounded-2xl"
-          // to={path.DETAIL_PRODUCT}
-        > */}
+
         <div
           className="flex hover:bg-[#E9F4F6] h-full border border-transparent bg-white shadow flex-col md:flex-row px-4 active:border-rose-500 rounded-2xl"
-          // to={path.DETAIL_PRODUCT}
           onClick={() => handleNavigate(props.id)}
         >
           <figure
             className="m-0 flex-[30%] my-4 overflow-hidden rounded-2xl relative"
-            // data-category={src.label}
           >
-            <img
-              className="h-full w-full object-cover"
-              alt="phòng trọ "
-              src={ch3}
-            />
+            <SlideShow images={props.urlImages} />
             <span
-              className="text-rose-500 absolute right-5 bottom-1"
+              className="text-rose-500 absolute right-5 top-1"
               onMouseEnter={() => setIsHoverHeart(true)}
               onMouseLeave={() => setIsHoverHeart(false)}
               onClick={() => setIsHoverHeart(true)}
@@ -50,36 +36,33 @@ const CardProduct = (props) => {
                 <i class="fa-regular fa-heart"></i>
               )}
             </span>
-
-            {/* <Image
-              src="../assets/images/canho/ch1.jpg"
-              className="h-full w-full object-cover"
-            /> */}
-            {/* <Img src="h../assets/images/canho/ch1.jpg" /> */}
           </figure>
 
           <div className="gap-[1vh] flex flex-col flex-[70%] p-[1vh]  border-y-[#E2E8F0] border-l-red rounded-r-2xl  ">
             <div className="text-red">
               <h2 className="text-red-500 font-medium">{props.title} </h2>
-              {/* <p>Chính chủ cho thuê phòng </p> */}
-              {/* <h2 className='text-red-500 font-medium'>CHINH CHỦ CHO THUÊ PHÒNG TRỌ- ĐƯỜNG NGUYỄN XÍ , BÌNH THẠNH</h2> */}
             </div>
-
             <div className="justify-start gap-[1vw] flex ">
               <div className="text-white font-medium flex items-center color:white px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">
                 <div className="flex items-center px-[3px]">
-                  <i class="fa-solid fa-dollar-sign"></i>
                 </div>
                 {`${props.price} triệu/tháng`}
               </div>
+
               {props.area && (
                 <div className=" text-white font-medium px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">
-                  {props.area}
+                  {props.area} m&#178;
                 </div>
               )}
-              <div className="  text-white font-medium px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">
-                {props.status}
-              </div>
+              
+              {props.status == 0  ? (
+                  <div className="  text-white font-medium px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">Còn trống</div>
+              ):
+              (
+                <div className="  text-white font-medium px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">Đã hết</div>
+              )
+
+              }
             </div>
 
             <div className="text-blue-600 flex ">
@@ -92,7 +75,8 @@ const CardProduct = (props) => {
               {props.address}
             </div>
             <div className="text-black">{props.description}</div>
-            <div className="text-black">{props.nearby}</div>
+
+            <div className="text-black"><b>{props.nearby}</b></div>
 
             <div className="flex justify-between text-cyan-600 font-medium">
               <div className="owner--name">{props.username}</div>
