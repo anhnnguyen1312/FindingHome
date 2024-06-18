@@ -95,6 +95,8 @@ class AuthenController extends CI_Controller {
 	public function handle_profile(){
 		$jwt = new JWT();
 		$post_data = json_decode($this->input->raw_input_stream, true);
+		// print_r($post_data);
+		// die();
 		if(!empty($post_data)){
 			$result = $this->Authen_model->update_user_profile($post_data);
 			if($result){

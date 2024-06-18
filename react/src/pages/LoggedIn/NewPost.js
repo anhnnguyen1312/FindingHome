@@ -44,7 +44,6 @@ const NewPost = () => {
     provinceForm: "",
     districtForm: "",
     wardForm: "",
-    streetForm: "",
   });
 
   const [formData, setFormData] = useState({
@@ -268,6 +267,7 @@ const NewPost = () => {
     setWard(null);
     setDistricts([]);
     setWards(null);
+
     const callDistrictApi = async () => {
       const response = await getDistrict(province);
       if (response.status === 200) {
@@ -300,7 +300,7 @@ const NewPost = () => {
   useEffect(() => {
     setFormData((prevState) => ({
       ...prevState,
-      address: ` ${addressData.streetForm ? `${addressData.streetForm}, ` : ""} ${addressData.wardForm ? `${addressData.wardForm}, ` : ""} ${addressData.districtForm ? `${addressData.districtForm}, ` : ""} ${addressData.provinceForm ? `${addressData.provinceForm}` : ""}`,
+      address: ` ${addressData.numberAddress ? `${addressData.numberAddress}, ` : ""} ${addressData.wardForm ? `${addressData.wardForm}, ` : ""} ${addressData.districtForm ? `${addressData.districtForm}, ` : ""} ${addressData.provinceForm ? `${addressData.provinceForm}` : ""}`,
     }));
   }, [addressData]);
 
@@ -332,6 +332,16 @@ const NewPost = () => {
               id={"zalo"}
               setFormData={setFormData}
             />
+          </div>
+
+          <div className="mt-[20px]">
+          <InputNewPost
+            setIsInvalid={setIsInvalid}
+            IsInValid={IsInValid}
+            title={"Số nhà, tên đường"}
+            id={"numberAddress"}
+            setFormData={setAddressData}
+          />
           </div>
 
           <Form.Item
@@ -374,13 +384,6 @@ const NewPost = () => {
               />
             </div>
           </Form.Item>
-          <InputNewPost
-            setIsInvalid={setIsInvalid}
-            IsInValid={IsInValid}
-            title={"Số nhà, tên đường"}
-            id={"streetForm"}
-            setFormData={setAddressData}
-          />
           <InputReadOnly title={"Địa chỉ đầy đủ"} value={formData.address} />
           {/* thong tin phong */}
           <div className="shrink-0 mr-auto sm:py-3">
@@ -403,7 +406,7 @@ const NewPost = () => {
             IsInValid={IsInValid}
           />
           <TextAreaNewPost
-            title={"Mô tả phòng"}
+            title={"Mô tả"}
             id={"description"}
             rows={4}
             setFormData={setFormData}
@@ -429,7 +432,7 @@ const NewPost = () => {
             IsInValid={IsInValid}
             title={"Giá"}
             id={"price"}
-            suffix="tr/tháng"
+            suffix="triệu/tháng"
             setFormData={setFormData}
           />
           <InputNewPost
@@ -440,11 +443,12 @@ const NewPost = () => {
             id={"area"}
             setFormData={setFormData}
           />
-          <InputNewPost
+          <TextAreaNewPost
             setIsInvalid={setIsInvalid}
             IsInValid={IsInValid}
             title={"Chi Phí khác"}
             id={"otherFee"}
+            rows={4}
             setFormData={setFormData}
           />
 

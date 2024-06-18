@@ -26,6 +26,7 @@ class PostController extends CI_Controller {
 		}
 
 	}
+
 	public function list_all_post(){
 		$jwt = new JWT();
 		$list_post_data = $this->Post_model->get_all_post();
@@ -61,6 +62,72 @@ class PostController extends CI_Controller {
 		}else{
 			echo json_encode([
 				'message' => 'Không lấy được danh sách bài đăng'
+			]);
+		}
+	}
+
+	public function post_detail($id){
+		$jwt = new JWT();
+		if(!empty($id)){
+			$data = $this->Post_model->get_post_detail($id);
+			if($data){
+				if(!empty($data->avatar)){
+					$post_detail=([
+						'id' => $data->id,
+						'username' => $data->name,
+						'phone' => $this->encryption->decrypt($data->phone),
+						'address' => $this->encryption->decrypt($data->address),
+						'typeRoom' => $data->typeRoom,
+						'price' => $data->price,
+						'title' => $data->title,
+						'area' => $data->area,
+						'zalo' => $this->encryption->decrypt($data->zalo),
+						'furniture' => $data->furniture,
+						'description' => $data->description,
+						'otherFee' => $data->otherFee,
+						'rule' => $data->rule,
+						'nearby' => $data->nearby,
+						'urlImages' => json_decode($this->encryption->decrypt($data->urlImages)),
+						'dateCreateAt' => $data->dateCreateAt,
+						'dateExpired' => $data->dateExpired,
+						'check' => $data->check,
+						'status' => $data->status,
+						'avatar' => $this->encryption->decrypt($data->avatar),
+					]);
+				}else{
+					$post_detail=([
+						'id' => $data->id,
+						'username' => $data->name,
+						'phone' => $this->encryption->decrypt($data->phone),
+						'address' => $this->encryption->decrypt($data->address),
+						'typeRoom' => $data->typeRoom,
+						'price' => $data->price,
+						'title' => $data->title,
+						'area' => $data->area,
+						'zalo' => $this->encryption->decrypt($data->zalo),
+						'furniture' => $data->furniture,
+						'description' => $data->description,
+						'otherFee' => $data->otherFee,
+						'rule' => $data->rule,
+						'nearby' => $data->nearby,
+						'urlImages' => json_decode($this->encryption->decrypt($data->urlImages)),
+						'dateCreateAt' => $data->dateCreateAt,
+						'dateExpired' => $data->dateExpired,
+						'check' => $data->check,
+						'status' => $data->status,
+						'avatar' =>"",
+					]);
+				}
+				$token = $jwt->encode($post_detail, '$/0ne_punch_m4n/$', 'HS256');
+				echo json_encode(['token' => $token ]);
+			}else{
+				echo json_encode([
+					'message' => 'Không lấy được chi tiết của bài đăng'
+				]);
+			}
+		}else{
+			echo json_encode([
+				'message' => 'không nhận được id của items'
 			]);
 		}
 	}
