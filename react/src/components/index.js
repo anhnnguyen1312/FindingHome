@@ -11,7 +11,7 @@ export { default as CardComponent } from "./CardComponent";
 export { default as CardPlaces } from "./CardPlaces";
 export { default as Product } from "./Product";
 export { default as CardProduct } from "./CardProduct";
-export { default as Map } from "./Map";
+export { default as GeoCoding} from "./GeoCoding";
 export { default as Footer } from "./Footer";
 export { default as InputReadOnly } from "./InputReadOnly";
 export { default as TextAreaNewPost } from "./TextAreaNewPost";

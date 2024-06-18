@@ -66,7 +66,6 @@ export default function NavBar() {
     //   handleLogOut();
     // }
   };
-  console.log("navbar");
   const handleUserProfile = () => {
     if (stateAuth.isLoggedIn) {
       handleUserProfileNavigate(stateAuth.data?.id);

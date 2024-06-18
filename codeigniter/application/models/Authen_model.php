@@ -45,12 +45,19 @@ class Authen_model extends CI_Model {
 	}
 	public function update_user_profile($data){
 		$dataDB['email'] = $data['email'];
+		
 		$dataDB['phone'] = $this->encryption->encrypt($data['phone']);
+
 		if(!empty($data['avatar'])){
 			$dataDB['avatar'] = $this->encryption->encrypt($data['avatar']);
 		}else{
 			$dataDB['avatar'] = null;
 		}
+
+		if(!empty(($data['newPs']))){
+			$dataDB['password'] =  $this->encryption->encrypt($data['newPs']);
+		}
+
 		$dataDB['name'] = $data['name'];
 		$id = $data['userId'];
 

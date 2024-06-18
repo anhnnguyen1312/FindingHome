@@ -231,7 +231,6 @@ const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
       });
     }
   };
-  console.log("passwordForm", passwordForm);
   return (
     <>
       <div className=" bg-white max-w-screen-md border  shadow-xl px-4 md:mx-auto">
@@ -321,7 +320,7 @@ const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
         {clickPassword && (
           <>
             <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
-              <p className="shrink-0 w-32 font-normal">Mật khẩu cũ</p>
+              <p className="shrink-0 w-32 font-normal">Mật khẩu hiện tại</p>
 
               <input
                 value={passwordForm.oldPassword}

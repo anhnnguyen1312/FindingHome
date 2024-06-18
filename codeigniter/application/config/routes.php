@@ -58,5 +58,7 @@ $route['handle-profile'] = 'AuthenController/handle_profile';
 //Post
 $route['create-post'] = 'PostController/create_post';
 $route['list-all-post'] = 'PostController/list_all_post';
+$route['post-detail/(:any)'] = 'PostController/post_detail/$1';
+
 
 
