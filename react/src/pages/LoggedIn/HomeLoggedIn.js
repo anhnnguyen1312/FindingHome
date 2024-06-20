@@ -1,31 +1,40 @@
 import React, { useEffect, useState } from "react";
 // import NavBar from '../../components/NavBar'
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import { Search, NavBar } from "../../components/index";
 import { Footer } from "../../components/index";
 import { useDispatch, useSelector } from "react-redux";
-import Profile from "../LoggedIn/Profile";
+import { path } from "../../ultils/path";
 import { getUserAction } from "../../redux/store/action/authenAction";
 import { getAuthToken } from "../../api/cookieServices";
 import { CommentOutlined, CustomerServiceOutlined } from "@ant-design/icons";
 import { FloatButton, Switch } from "antd";
-
 export default function Home() {
   const [open, setOpen] = useState(true);
-  // const onChange = (checked) => {
-  //   setOpen(checked);
-  // };
-  // useEffect(() => {
-  //   const cookie = getAuthToken();
-  //   console.log("cookie", cookie);
 
-  //   cookie && dispatch(getUserAction(cookie));
+  const dispatch = useDispatch();
+  const stateAuth = useSelector((state) => state.auth);
+  console.log("stateAuth data", stateAuth.data);
+
+  // useEffect(() => {
+  //   // k can lay token? chir lay isloggedin de check?
+  //   const cookie = getAuthToken();
+  //   cookie ? (
+  //     dispatch(getUserAction(cookie))
+  //   ) : (
+  //     <Navigate to={`/${path.LOGIN}`} replace={true} />
+  //   );
+
   // }, []);
+  console.log("s!stateAuth.isLoggedIn", !stateAuth.isLoggedIn);
+  if (!stateAuth.isLoggedIn)
+    return <Navigate to={`/${path.LOGIN}`} replace={true} />;
+
   return (
-    <div className="relative bg-[#F8FAFC] font-sans">
+    <div className="w-full bg-[#F8FAFC] font-sans">
       {/* relative */}
       <NavBar />
-      <div className="md:w-full lg:w-4/5 sm:w-full  xl:w-4/5   m-auto h-full flex flex-col items-center justify-center ">
+      <div className="w-full m-auto h-full flex flex-col items-start justify-start ">
         {/* <Search /> */}
         <Outlet />
         <div className="fixed right-2 bottom-2">

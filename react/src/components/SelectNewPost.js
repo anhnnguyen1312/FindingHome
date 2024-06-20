@@ -9,6 +9,8 @@ const SelectNewPost = ({
   title,
   typeRoom,
   setFormData,
+  style,
+  valueSelect,
 }) => {
   const handeChangeSelect = (e) => {
     console.log("e", e, id);
@@ -18,21 +20,29 @@ const SelectNewPost = ({
     }));
   };
   const handeFocus = (e) => {
-    setIsInvalid([]);
+    setIsInvalid && setIsInvalid([]);
   };
   return (
-    <div className="flex flex-col mb-2">
+    <>
       <Form.Item label={title}>
         <Select
           placeholder={placeholder}
           onFocus={() => handeFocus()}
           // defaultValue={value[0].district_name}
           onChange={(e) => handeChangeSelect(e)}
-          options={typeRoom?.map((item) => ({
-            label: item.type_key,
-            value: item.type_value,
-          }))}
-        ></Select>
+          // options={typeRoom?.map((item) => ({
+          //   label: item.type_key,
+          //   value: item.type_value,
+          // }))}\
+          style={style || ""}
+          value={valueSelect}
+        >
+          {typeRoom?.map((option) => (
+            <Select.Option value={option.type_value} key={option.type_value}>
+              {option.type_key}
+            </Select.Option>
+          ))}
+        </Select>
       </Form.Item>
       {IsInValid && IsInValid.length > 0
         ? IsInValid.some((element) => element.name === id) && (
@@ -42,7 +52,7 @@ const SelectNewPost = ({
             </span>
           )
         : ""}
-    </div>
+    </>
   );
 };
 

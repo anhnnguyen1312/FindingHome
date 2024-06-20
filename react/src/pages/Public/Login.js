@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { InputGroup } from "../../components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { path } from "../../ultils/path";
-import { useLocation } from "react-router-dom";
 import Button from "../../components/Button";
 import axios from "axios";
 import swal from "sweetalert";
@@ -41,7 +40,7 @@ export default function Login() {
 
   useEffect(() => {
     // stateAuth.isLoggedIn && usenavi("/");
-    if(stateAuth.isLoggedIn){
+    if (stateAuth.isLoggedIn) {
       swal({
         text: stateAuth.msg,
         icon: "success",
@@ -52,8 +51,8 @@ export default function Login() {
   }, [stateAuth.isLoggedIn]);
 
   useEffect(() => {
-    if(stateAuth.msg){
-      if((!stateAuth.isLoggedIn) && (!stateAuth.isLoggedOut)){
+    if (stateAuth.msg) {
+      if (!stateAuth.isLoggedIn && !stateAuth.isLoggedOut) {
         swal({
           text: stateAuth.msg,
           icon: "error",
@@ -269,7 +268,7 @@ export default function Login() {
   //   .catch(error => console.log(error));
 
   return (
-    <div className="">
+    <div className="flex flex-col items-center justify-center ">
       {/* <form action="" method="POST" className='w-[30rem] min-h-28 px-6 py-8 text-center border-[#1dbfaf] bg-white border rounded-sm m-6 self-center' id="form-1"> */}
       <div className="w-[30rem] min-h-28 px-6 py-8 text-center border-[#1dbfaf] bg-white border rounded-sm m-6 self-center">
         <h1 className="text-3xl font-[600] mb-[1rem]">
@@ -357,9 +356,15 @@ export default function Login() {
               >
                 Bạn chưa có tài khoản?
               </p>
-              <p className="cursor-pointer hover:underline">
+              {/* <p className="cursor-pointer hover:underline">
                 Bạn quên mật khẩu ?
-              </p>
+              </p> */}
+              <Link
+                to={`/${path.FORGET_PASWORD}`}
+                className="cursor-pointer hover:underline"
+              >
+                Bạn quên mật khẩu ?
+              </Link>
             </>
           )}
         </div>

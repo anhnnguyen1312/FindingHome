@@ -9,8 +9,10 @@ export const getProvince = () =>
         url: "https://vapi.vnappmob.com/api/province/",
       });
       resolve(response);
+      console.log("response ben getprovinse", response);
     } catch (error) {
       reject(error);
+      console.log("error", error);
     }
   });
 
@@ -22,7 +24,9 @@ export const getDistrict = (payload) =>
         url: `https://vapi.vnappmob.com/api/province/district/${payload}`,
       });
       resolve(response);
+      console.log("response ", response);
     } catch (error) {
+      console.log("error ", error);
       reject(error);
     }
   });

@@ -19,6 +19,7 @@ const DetailProduct = () => {
   const [descriptionSplit, setDescriptionSplit] = useState([]);
   const [ruleSplit, setRuleSplit] = useState([]);
   const [id, setId] = useState(useLocate.state?.idPost);
+  console.log("useLocate.state?.idPost", useLocate.state?.idPost);
 
   useEffect(() => {
     const getApiDetailPost = async () => {
@@ -38,9 +39,15 @@ const DetailProduct = () => {
     splitData();
   }, [detailPost]);
 
-  const ruleItem = ruleSplit.map((rule, id) => <div key={id}>{rule} </div>);
+  const ruleItem = ruleSplit.map((rule, id) => (
+    <div className="whitespace-pre-line" key={id}>
+      {rule}{" "}
+    </div>
+  ));
   const descriptionItem = descriptionSplit.map((description, id) => (
-    <div key={id}>{description} </div>
+    <div className="whitespace-pre-line" key={id}>
+      {description}{" "}
+    </div>
   ));
 
   return (
@@ -229,10 +236,13 @@ const DetailProduct = () => {
             <div className="flex gap-[10px] text-red-600 font-bold text-2xl items-center">
               <FaTableList /> <h1 className="">Mô tả và Quy Định</h1>
             </div>
-            <h1 className="text-blue-600 font-bold text-lg">Mô tả </h1>
-            {descriptionItem}
-            <h1 className="text-red-500 font-semibold text-lg">Quy Định </h1>
-            {ruleItem}
+            <h1 className="text-blue-600 font-bold  text-lg">Mô tả </h1>
+            <div className=" whitespace-pre-line">{descriptionItem} </div>
+            <h1 className="text-red-500 font-semibold text-lg whitespace-pre-line ">
+              Quy Định{" "}
+            </h1>
+            <div className=" whitespace-pre-line">{ruleItem} </div>
+
             {/* <h1 className="">Không dùng chất kích thích, tiệc BBQ, Karaoke</h1>
             <h1 className="">
               khai báo với chủ trọ khi dẫn người ngoài về nhà qua đêm

@@ -7,6 +7,7 @@ import {
   removeAuthToken,
   getAuthToken,
 } from "../../../api/cookieServices";
+import NumCalculator from "antd/es/theme/util/calc/NumCalculator";
 // import {jwtDecode}  from 'jwt-decode'
 export const registerAction = (payload) => async (dispatch) => {
   try {
@@ -47,7 +48,7 @@ export const loginAction = (payload) => async (dispatch) => {
       dispatch({
         type: actionTypes.LOGIN__SUC,
         data: cookie,
-        msg: response.data.message
+        msg: response.data.message,
       });
     } else {
       dispatch({
@@ -70,7 +71,7 @@ export const getUserAction = (cookie) => ({
 
 export const logoutAction = () => ({
   type: actionTypes.LOGOUT,
-  msg: "Đăng xuất thành công", 
+  msg: "Đăng xuất thành công",
 });
 export const updateUserAction = (payload) => async (dispatch) => {
   try {
@@ -83,18 +84,25 @@ export const updateUserAction = (payload) => async (dispatch) => {
       dispatch({
         type: actionTypes.UPDATE_PROFILE_SUC,
         data: cookie,
-        msg: response.data.message
+        // msg: response.data.message,
+        msg: "success",
       });
     } else {
       dispatch({
         type: actionTypes.UPDATE_PROFILE_FAIL,
-        msg: response.data.message,
+        // msg: response.data.message,
+        msg: "fail",
       });
     }
   } catch (error) {
     dispatch({
       type: actionTypes.UPDATE_PROFILE_FAIL,
       data: null,
+      msg: "fail",
     });
   }
 };
+export const updateUserActionAccess = () => ({
+  type: actionTypes.UPDATE_PROFILE_ACCESS,
+  msg: null,
+});

@@ -7,6 +7,8 @@ export const AddressNewPostProvince = ({
   value,
   IsInValid,
   setIsInvalid,
+  valueSelect,
+  provinceForm,
 }) => {
   const handeChangeSelect = (e) => {
     setProvince(e);
@@ -30,6 +32,7 @@ export const AddressNewPostProvince = ({
           width: 200,
         }}
         showSearch
+        value={provinceForm}
         onFocus={() => handeFocus()}
         onChange={(e) => handeChangeSelect(e)}
         options={value?.map((province) => ({
@@ -56,6 +59,8 @@ export const AddressNewPostDistrict = ({
   district,
   IsInValid,
   setIsInvalid,
+  valueSelect,
+  districtForm,
 }) => {
   const handeChangeSelect = (e) => {
     setDistrict(e);
@@ -78,6 +83,7 @@ export const AddressNewPostDistrict = ({
           width: 200,
         }}
         allowClear={false}
+        value={districtForm}
         onFocus={() => handeFocus()}
         // defaultValue={value[0].district_name}
         onChange={(e) => handeChangeSelect(e)}
@@ -105,6 +111,8 @@ export const AddressNewPostWard = ({
   value,
   IsInValid,
   setIsInvalid,
+  valueSelect,
+  wardForm,
 }) => {
   // console.log("name address setaddress", value[0].district_name);
   const handeChangeSelect = (e) => {
@@ -126,6 +134,7 @@ export const AddressNewPostWard = ({
           width: 200,
         }}
         allowClear={false}
+        value={wardForm}
         onFocus={() => handeFocus()}
         // defaultValue={value[0].district_name}
         onChange={(e) => handeChangeSelect(e)}

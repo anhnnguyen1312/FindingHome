@@ -15,6 +15,7 @@ const InputNewPost = ({
   setFormData,
   prefix,
   suffix,
+  value,
 }) => {
   // console.log("IsInValid ", IsInValid);
   const handeChangeSelect = (e) => {
@@ -31,6 +32,7 @@ const InputNewPost = ({
     <div className="flex flex-col mb-2">
       <Form.Item label={title}>
         <Input
+          value={value}
           prefix={prefix || ""}
           suffix={suffix || ""}
           id={id}

@@ -6,7 +6,7 @@ export const path = {
   ESTATE_RENTAL: "timmatbang",
   DETAIL_PRODUCT: "detail",
   PROFILE: "profile",
-  UPLOADPOST: "uploadpost",
-  CREATEPOST: "createpost",
+
   NEWPOST: "newpost",
+  HOME_LOGGED_IN: "/logged-in/*",
 };

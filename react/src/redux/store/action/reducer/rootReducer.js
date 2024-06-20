@@ -9,7 +9,7 @@ import { postReducer } from "./postReducer";
 // whitelist là mảng các state cần lưu
 const persistConfig = {
   key: "auth",
-  whitelist: ["isLogIn", "token"],
+  whitelist: ["isLoggedIn", ""],
   // whitelist: ['auth'],
   storage,
   stateReconciler: autoMergeLevel2,

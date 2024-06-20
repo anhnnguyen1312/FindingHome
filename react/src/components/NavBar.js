@@ -12,6 +12,7 @@ import { logoutAction } from "../redux/store/action/authenAction";
 import { getAuthToken, removeAuthToken } from "../api/cookieServices";
 const { Search } = Input;
 import ch3 from "../assets/images/canho/ch3.jpg";
+import userAvatar from "../assets/images/userAvatar.jpg";
 
 export default function NavBar() {
   const [click, setClick] = useState(false);
@@ -23,12 +24,13 @@ export default function NavBar() {
   function handleLogInNavigate(stateIsRegister) {
     navigate(path.LOGIN, { state: { stateIsRegister } });
   }
-  function handleUserProfileNavigate(UserId) {
+  function handleUserProfileNavigate() {
     // navigate('/home');
-    navigate(path.PROFILE, { state: { UserId } });
+    navigate("/logged-in/profile", { state: "profile" });
   }
-  function handleCreatePostNavigate(UserId) {
-    navigate(path.NEWPOST, { state: { UserId } });
+  function handleManagePostNavigate() {
+    // navigate('/home');
+    navigate("/logged-in/profile", { state: "managepost" });
   }
   const stateAuth = useSelector((state) => state.auth);
   const handleClick = () => setClick(!click);
@@ -39,16 +41,16 @@ export default function NavBar() {
   };
 
   const handleCreatePost = () => {
-    if (stateAuth.isLoggedIn) {
-      handleCreatePostNavigate(stateAuth.data?.id);
-    } else {
-      swal({
-        text: "Bạn cần đăng nhập",
-        icon: "error",
-        timer: 2000,
-      });
-      navigate(path.LOGIN);
-    }
+    // if (stateAuth.isLoggedIn) {
+    //   handleCreatePostNavigate(stateAuth.data?.id);
+    // } else {
+    swal({
+      text: "Bạn cần đăng nhập",
+      icon: "error",
+      timer: 2000,
+    });
+    navigate(path.LOGIN);
+    // }
   };
   const handleLogInMobile = () => {
     closeMobileMenu();
@@ -67,13 +69,7 @@ export default function NavBar() {
     // }
   };
   console.log("navbar");
-  const handleUserProfile = () => {
-    if (stateAuth.isLoggedIn) {
-      handleUserProfileNavigate(stateAuth.data?.id);
-      // console.log("stateAuth.data", stateAuth.data);
-      // handleUserProfileNavigate("1");
-    }
-  };
+
   // }
   const showButton = () => {
     if (window.innerWidth <= 960) {
@@ -131,7 +127,7 @@ export default function NavBar() {
             </li>
             <li className="nav-item">
               <Link
-                to={path.ROOM_RENTAL}
+                to={"/timphongtro"}
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
@@ -140,7 +136,7 @@ export default function NavBar() {
             </li>
             <li className="nav-item">
               <Link
-                to={path.HOUSE_RENTAL}
+                to={"/timnha"}
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
@@ -150,7 +146,7 @@ export default function NavBar() {
 
             <li className="nav-item">
               <Link
-                to={path.ESTATE_RENTAL}
+                to={"/timmatbang"}
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
@@ -216,13 +212,17 @@ export default function NavBar() {
                 <i class="fa-solid fa-user white_icon"></i>
               </div>
             )}
-
-            <div className="icon-navbar" onClick={() => handleCreatePost()}>
-              <i class="fa-solid fa-square-plus"></i>
-            </div>
-
+            {stateAuth.isLoggedIn ? (
+              <Link to={"/logged-in/newpost"} className="icon-navbar">
+                <i class="fa-solid fa-square-plus"></i>
+              </Link>
+            ) : (
+              <div className="icon-navbar" onClick={() => handleCreatePost()}>
+                <i class="fa-solid fa-square-plus"></i>
+              </div>
+            )}
             <Link
-              to={path.ESTATE_RENTAL}
+              to={"/logged-in/thongbao"}
               className="icon-navbar"
               // onClick={closeMobileMenu}
             >
@@ -240,7 +240,7 @@ export default function NavBar() {
                     <ul className="font-thin flex flex-col bg-white">
                       <li class="flex hover:bg-[#f7f7f7] bg-[#ee4b2b17]">
                         <Link
-                          to={path.ESTATE_RENTAL}
+                          to={"/logged-in/thongbao"}
                           className="flex p-[8px] w-full gap-[5px] border border-transparent border-2 active:border-rose-500  "
                           // onClick={closeMobileMenu}
                         >
@@ -262,7 +262,7 @@ export default function NavBar() {
                       </li>
                       <li class="flex hover:bg-[#f7f7f7] bg-[#ee4b2b17] border border-transparent border-2 active:border-rose-500 ">
                         <Link
-                          to={path.ESTATE_RENTAL}
+                          to={"/logged-in/thongbao"}
                           className="flex p-[8px] w-full gap-[5px] "
                           // onClick={closeMobileMenu}
                         >
@@ -283,7 +283,7 @@ export default function NavBar() {
                       </li>
                       <li class="flex hover:bg-[#f7f7f7] border border-transparent border-2 active:border-rose-500 ">
                         <Link
-                          to={path.ESTATE_RENTAL}
+                          to={"/logged-in/thongbao"}
                           className="flex p-[8px] w-full gap-[5px] "
                           // onClick={closeMobileMenu}
                         >
@@ -304,7 +304,7 @@ export default function NavBar() {
                       </li>
                       <li class="flex hover:bg-[#f7f7f7] border border-transparent border-2 active:border-rose-500 ">
                         <Link
-                          to={path.ESTATE_RENTAL}
+                          to={"/logged-in/thongbao"}
                           className="flex p-[8px] w-full gap-[5px] "
                           // onClick={closeMobileMenu}
                         >
@@ -326,7 +326,7 @@ export default function NavBar() {
                     </ul>
                     <footer class="flex">
                       <Link
-                        to={path.ESTATE_RENTAL}
+                        to={"/logged-in/thongbao"}
                         className="m-auto text-black px-[30px] py-[3px] "
                         // onClick={closeMobileMenu}
                       >
@@ -347,36 +347,50 @@ export default function NavBar() {
 
           {stateAuth.isLoggedIn && (
             // da dang nhap
-            <div className="flex items-center gap-[10px] ml-[30px] ">
-              <div onClick={() => handleUserProfile()}>
+            <div className="flex items-center gap-[5px] ml-[30px] ">
+              <div
+                className="cursor-pointer "
+                onClick={() => handleUserProfileNavigate()}
+              >
                 {stateAuth.data?.name}
               </div>
+              {/* <Link to={"/logged-in/profile"}>{stateAuth.data?.name}</Link> */}
               <div
-                className="icon-navbar icon-navbar-user font-thin    relative"
+                className="cursor-pointer icon-navbar-user font-thin    relative"
                 // onClick={() => handleClickUser()}
                 onClick={() => setClickUser(!clickUser)}
               >
                 {/* <img src={activeUser} className='w-[10px] h-[10px]'></img> */}
-                <i class="fa-solid fa-user-check white_icon"></i>
+                {/* <i class="fa-solid fa-user-check white_icon"></i> */}
+                <img
+                  src={stateAuth.data?.avatar || userAvatar}
+                  className="w-[25px] h-[25px] bg-gray-300 rounded-full "
+                ></img>
                 {clickUser && (
                   <div className="cart__list py-[20px] ">
                     <ul
                       className="font-thin flex flex-col gap-[20px] bg-white"
-                      onClick={() => handleUserProfile()}
+                      // onClick={() => handleUserProfile()}
                     >
-                      <li className="flex items-center justify-between">
-                        <div>Tài khoản</div>
-
+                      <li
+                        onClick={() => handleUserProfileNavigate()}
+                        className="cursor-pointer flex items-center justify-between"
+                      >
+                        {/* <Link to={"/logged-in/profile"}>Tài khoản</Link> */}
+                        Tài khoản
                         <i class="fa-solid fa-user text-black "></i>
                       </li>
-                      <li className="flex justify-between items-center">
-                        <div>Phòng đã đăng</div>
+                      <li
+                        onClick={() => handleManagePostNavigate()}
+                        className="cursor-pointer flex justify-between items-center"
+                      >
+                        <div>Quản lí bài đăng</div>
 
                         <i class="fa-solid fa-square-plus text-black "></i>
                       </li>
 
                       <li
-                        className="flex justify-between items-center "
+                        className=" cursor-pointer flex justify-between items-center "
                         onClick={() => handleLogOut()}
                       >
                         <div className="text-red">Đăng Xuất</div>

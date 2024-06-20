@@ -17,7 +17,10 @@ const center = {
 function Map() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyDD-HdktkgyzpCzt64ZWnZJqRkT38gFoPk",
+    // googleMapsApiKey: "AIzaSyDD-HdktkgyzpCzt64ZWnZJqRkT38gFoPk",
+    googleMapsApiKey: "AIzaSyB4Ki1zZ602mxvPyCLzakwj_1TofiBO9MU",
+
+    // googleMapsApiKey: "AIzaSyB4Ki1zZ602mxvPyCLzakwj_1TofiBO9MU",
   });
 
   const [map, setMap] = React.useState(null);
