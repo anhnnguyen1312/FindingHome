@@ -257,7 +257,8 @@ const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
     }
 
     dispatch(updateUserActionAccess());
-  }, [stateAuth.msg && stateAuth.update]);
+  }, [stateAuth.msg && stateAuth.update])
+  
   return (
     <>
       {/* {loading && (
@@ -352,7 +353,7 @@ const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
         {clickPassword && (
           <>
             <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
-              <p className="shrink-0 w-32 font-normal">Mật khẩu cũ</p>
+              <p className="shrink-0 w-32 font-normal">Mật khẩu hiện tại</p>
 
               <input
                 value={passwordForm.oldPassword}

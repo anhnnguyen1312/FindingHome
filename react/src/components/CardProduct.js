@@ -3,7 +3,7 @@ import { AiFillPhone } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { path } from "../ultils/path";
 import { useNavigate } from "react-router-dom";
-import SlideShow from "./SlideShow";
+import AutoSlideShow from "./AutoSlideShow";
 
 import DetailProduct from "../pages/Public/DetailProduct";
 const CardProduct = (props) => {
@@ -23,7 +23,7 @@ const CardProduct = (props) => {
           <figure
             className="m-0 flex-[30%] my-4 overflow-hidden rounded-2xl relative"
           >
-            <SlideShow images={props.urlImages} />
+            { props.urlImages && <AutoSlideShow images={props.urlImages} />}
             <span
               className="text-rose-500 absolute right-5 top-1"
               onMouseEnter={() => setIsHoverHeart(true)}
@@ -60,9 +60,7 @@ const CardProduct = (props) => {
               ):
               (
                 <div className="  text-white font-medium px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">Đã hết</div>
-              )
-
-              }
+              )}
             </div>
 
             <div className="text-blue-600 flex ">

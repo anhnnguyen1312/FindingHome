@@ -1,32 +1,30 @@
-// Slideshow.js
-import React, { useState, useEffect } from 'react';
-import './SlideShow.css'; // Import your custom styles
+import React from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import './SlideShow.css';
+import { NextArrow, PrevArrow } from './ArrowSlideShow';
 
 const SlideShow = ({ images }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // Increment currentIndex cyclically
-      setCurrentIndex((prevIndex) =>
-        prevIndex === images.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 3000); // Change slide every 3 seconds
-
-    return () => clearInterval(interval);
-  }, [images.length]);
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: false,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />
+  };
 
   return (
-    <div className="slideshow-container">
+    <Slider {...settings}>
       {images.map((image, index) => (
-        <div
-          key={index}
-          className={`slide ${index === currentIndex ? 'active' : ''}`}
-        >
-          <img src={image} alt={`Slide ${index + 1}`} />
+        <div key={index} className="flex h-[70vh]">
+          <img src={image} alt={`Slide ${index}`} className="w-full h-auto h-full object-cover" />
         </div>
       ))}
-    </div>
+    </Slider>
   );
 };
 

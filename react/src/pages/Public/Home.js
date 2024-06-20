@@ -10,8 +10,6 @@ import { getAuthToken } from "../../api/cookieServices";
 export default function Home() {
   const dispatch = useDispatch();
   const stateAuth = useSelector((state) => state.auth);
-  console.log("stateAuth data", stateAuth.data);
-
   useEffect(() => {
     const cookie = getAuthToken();
     cookie && dispatch(getUserAction(cookie));

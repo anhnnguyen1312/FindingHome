@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { InputGroup } from "../../components";
 import { useNavigate } from "react-router-dom";
-import { path } from "../../ultils/path";
+// import { path } from "../../ultils/path";
 import { useLocation } from "react-router-dom";
 import Button from "../../components/Button";
-import axios from "axios";
+// import axios from "axios";
 import swal from "sweetalert";
 // import { callApiRegister } from '../../api/authenLogin';
 import {
   registerAction,
   loginAction,
+  forgotPasswordAction,
 } from "../../redux/store/action/authenAction.js";
 import { useDispatch, useSelector } from "react-redux";
 import validator from "validator";
@@ -24,6 +25,9 @@ export default function Login() {
   const [isResgister, setIsRegister] = useState(
     useLocate.state?.stateIsRegister
   );
+  const [isForgotPassword, SetIsForgotPassword] = useState(
+    useLocate.state?.stateIsForgotPassword
+  );
   const [isInvalid, setIsInvalid] = useState([]);
   const [formData, setFormData] = useState({
     phone: "",
@@ -33,15 +37,17 @@ export default function Login() {
     avatar:
       "https://asset.cloudinary.com/dx3nwkh2i/7d1e9bf5e5c43ab5b11b4e0040ee34b9",
   });
-  console.log("formData ", formData);
 
   useEffect(() => {
     setIsRegister(useLocate.state?.stateIsRegister);
   }, [useLocate.state?.stateIsRegister]);
 
   useEffect(() => {
-    // stateAuth.isLoggedIn && usenavi("/");
-    if(stateAuth.isLoggedIn){
+    SetIsForgotPassword(useLocate.state?.stateIsForgotPassword);
+  }, [useLocate.state?.stateIsForgotPassword]);
+
+  useEffect(() => {
+    if (stateAuth.isLoggedIn) {
       swal({
         text: stateAuth.msg,
         icon: "success",
@@ -52,8 +58,8 @@ export default function Login() {
   }, [stateAuth.isLoggedIn]);
 
   useEffect(() => {
-    if(stateAuth.msg){
-      if((!stateAuth.isLoggedIn) && (!stateAuth.isLoggedOut)){
+    if (stateAuth.msg) {
+      if (!stateAuth.isLoggedIn && !stateAuth.isLoggedOut) {
         swal({
           text: stateAuth.msg,
           icon: "error",
@@ -63,15 +69,32 @@ export default function Login() {
     }
   }, [stateAuth.msg, stateAuth.update]);
 
+  useEffect(() =>{
+    stateAuth.isCheckedEmail == "checked" ? (
+      swal({
+        text: stateAuth.msg,
+        icon: "success",
+        timer: 2000,
+      })
+    )
+    :stateAuth.isCheckedEmail == "unChecked" &&
+    (
+      swal({
+        text: stateAuth.msg,
+        icon: "error",
+        timer: 2000,
+      })
+    )
+  }, [stateAuth.isCheckedEmail]);
+
   const validate = (formData) => {
-    console.log("formdata", formData);
     let isInvalidCount = true;
     for (let i in formData) {
       //null
       if (formData[i] === "") {
         setIsInvalid((prevState) => [
           ...prevState,
-          { name: i, msg: `ban chua nhap ${i}` },
+          { name: i, msg: `bạn chưa nhập ${i}` },
         ]);
         // isInvalidCount++
         isInvalidCount = false;
@@ -139,59 +162,10 @@ export default function Login() {
     }
     return isInvalidCount;
   };
-  // ham validator
-  //   const validator = (formData) => {
-  // console.log('formData',formData)
-  // for (let i in formData){
-  //   console.log('formData i ',formData[i],i)
-  // if (i === 'phone'){
-
-  // }
-  // if (i === 'email'){
-  //   const test = (a) => {
-  //     console.log('a',a)
-  //         var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-  //     return regex.test(a) ? console.log('ban  nhap sai email') :  console.log('ban da nhap dung email')
-  //   }
-  //   test(formData[i])
-  //   }
-  //   if (i === 'name'){
-  //     // console.log('formData[i].trim()',formData[i].trim())
-  //     formData[i].trim() === '' ? console.log('ban chua nhap name') :  console.log('ban da nhap name')
-
-  //     }
-  //     if (i === 'password'){
-  //       console.log('phone')
-  //       }
-  // }
-
-  //   }
-
-  // /axios test api
-  //axios post data api
-  // const user = '1'
-  //   useEffect(() => {
-  //     axios.post(`https://jsonplaceholder.typicode.com/users`, { user })
-  //     .then(res => {
-  //       console.log(res);
-  //       console.log(res.formData);
-  //     })
-  //     .catch(error => console.log(error));
-  //   },[])
-
-  // GỌI API VỚI FETCH
-  // var api = 'http://localhost:3000/users'
-  // fetch(api)
-  // .then(function(response){
-  //   return response.json();
-  // })
-  // .then(function(person){
-  //   console.log('person',person)
-
-  // })
 
   const handleSignIn = () => {
     setIsRegister(true);
+    SetIsForgotPassword(false);
     setFormData({
       phone: "",
       name: "",
@@ -202,8 +176,10 @@ export default function Login() {
     });
     setIsInvalid([]);
   };
+
   const handleLogIn = () => {
     setIsRegister(false);
+    SetIsForgotPassword(false);
     setFormData({
       phone: "",
       name: "",
@@ -211,74 +187,62 @@ export default function Login() {
       password: "",
       avatar:
         "https://asset.cloudinary.com/dx3nwkh2i/7d1e9bf5e5c43ab5b11b4e0040ee34b9",
+    });
+    setIsInvalid([]);
+  };
+
+  const handleForgotPassword = () => {
+    SetIsForgotPassword(true);
+    setIsRegister(false);
+    setFormData({
+      email: "",
     });
     setIsInvalid([]);
   };
   const handleSubmit = async () => {
-    let apiData = isResgister
-      ? formData
-      : {
-          email: formData.email,
-          password: formData.password,
-        };
-    let error = validate(apiData);
-    //   axios.post(`http://localhost:3000/users`, { apiData })
-    // .then(res => {
-    //   console.log(res);
-    // })
-    // .catch(error => console.log(error));
+    let apiData =
+      isResgister || isForgotPassword
+        ? formData
+        : {
+            email: formData.email,
+            password: formData.password,
+          };
+    console.log('api', apiData)
+    let checkValidate = validate(apiData);
 
-    // axios.get(`http://localhost:3000/users`,{
-    //   // headers: {
-    //   //   'Content-Type': 'application/json'
-    //   // } })
-    //   header : { 'Access-Control-Allow-Origin': 'http://localhost:3000/users'}
-    // })
-    // .then(res => {
-    //   console.log(res.status);
-    // })
-    // .catch(error => console.log(error));
-
-    if (error) {
-      // const response = await callApiRegister(formData)
-      // console.log('response', response)
+    if (checkValidate) {
       {
-        isResgister
-          ? dispatch(registerAction(apiData))
-          : dispatch(loginAction(apiData));
+        isResgister ? dispatch(registerAction(apiData))
+        : isForgotPassword ? dispatch(forgotPasswordAction(apiData))
+        : dispatch(loginAction(apiData));
       }
     }
 
-    console.log("error", error);
+    console.log("error", checkValidate);
   };
-
-  // call api get user
-  // useEffect(() => {
-  //   const getApiUser = async () => {
-  //     const response = await callApiUserInfor();
-  //   };
-  //   const a = getApiUser();
-  // }, []);
-  //post
-
-  // axios.post(`http://localhost:3005/users`, { formData })
-  //   .then(res => {
-  //     console.log(res);
-  //     console.log(res.data);
-  //   })
-  //   .catch(error => console.log(error));
-
   return (
-    <div className="">
-      {/* <form action="" method="POST" className='w-[30rem] min-h-28 px-6 py-8 text-center border-[#1dbfaf] bg-white border rounded-sm m-6 self-center' id="form-1"> */}
+    <div className="flex w-full h-full justify-center items-center">
       <div className="w-[30rem] min-h-28 px-6 py-8 text-center border-[#1dbfaf] bg-white border rounded-sm m-6 self-center">
         <h1 className="text-3xl font-[600] mb-[1rem]">
-          {" "}
-          {isResgister ? "Đăng ký" : "Đăng nhập"}{" "}
+          {isResgister
+            ? "Đăng ký"
+            : isForgotPassword
+              ? "Xác nhận Email"
+              : "Đăng nhập"}
         </h1>
-        <p className="text-[1.2rem] leading-10 mb-2 mt-4 text-center font-light">
-          Đăng nhập ngay để tìm được phòng ưng ý nhất❤️
-        </p>
+        {isResgister ? (
+          <p className="text-[1.2rem] leading-10 mb-2 mt-4 text-center font-light">
+            Đăng ký ngay để tìm được phòng ưng ý nhất ❤️
+          </p>
+        ) : isForgotPassword ? (
+          <p className="text-[1.2rem] leading-10 mb-2 mt-4 text-center font-light">
+            Vui lòng nhập đúng email bạn dùng để đăng nhập
+          </p>
+        ) : (
+          <p className="text-[1.2rem] leading-10 mb-2 mt-4 text-center font-light">
+            Đăng nhập ngay để tìm được phòng ưng ý nhất ❤️
+          </p>
+        )}
         {isResgister && (
           <>
             <InputGroup
@@ -313,16 +277,18 @@ export default function Login() {
           labelChild={"Email"}
           placeholder={"Mời bạn nhập Email"}
         />
-        <InputGroup
-          setIsInvalid={setIsInvalid}
-          value={formData.password}
-          setFormData={setFormData}
-          type={"password"}
-          typeInput={"password"}
-          isInvalid={isInvalid}
-          labelChild={"Mật khẩu"}
-          placeholder={"Mời bạn nhập Mật khẩu"}
-        />
+        {!isForgotPassword && (
+          <InputGroup
+            setIsInvalid={setIsInvalid}
+            value={formData.password}
+            setFormData={setFormData}
+            type={"password"}
+            typeInput={"password"}
+            isInvalid={isInvalid}
+            labelChild={"Mật khẩu"}
+            placeholder={"Mời bạn nhập Mật khẩu"}
+          />
+        )}
         {isResgister && (
           <InputGroup
             setIsInvalid={setIsInvalid}
@@ -336,7 +302,9 @@ export default function Login() {
           />
         )}
         <Button
-          children={isResgister ? "Đăng ký" : "Đăng nhập"}
+          children={
+            isResgister ? "Đăng ký" : isForgotPassword ? "Gửi" : "Đăng nhập"
+          }
           bgColor={"bg-[#1dbfaf]"}
           textColor={"text-white"}
           borderColor={"border-white"}
@@ -345,7 +313,7 @@ export default function Login() {
           hovercolor={"hover:bgColor-[#18ad9e]"}
         />
         <div className="flex justify-between mt-4 text-blue-600">
-          {isResgister ? (
+          {isResgister || isForgotPassword ? (
             <p onClick={handleLogIn} className="cursor-pointer hover:underline">
               Đăng nhập ngay
             </p>
@@ -357,14 +325,16 @@ export default function Login() {
               >
                 Bạn chưa có tài khoản?
               </p>
-              <p className="cursor-pointer hover:underline">
+              <p
+                onClick={handleForgotPassword}
+                className="cursor-pointer hover:underline"
+              >
                 Bạn quên mật khẩu ?
               </p>
             </>
           )}
         </div>
       </div>
-      {/* </form> */}
     </div>
   );
 }

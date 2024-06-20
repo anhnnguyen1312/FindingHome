@@ -5,6 +5,7 @@ const initialState = {
   isLoggedOut: false,
   msg: "",
   data: "",
+  alert:"",
   update: false,
 };
 
@@ -48,12 +49,36 @@ export const authenReducer = (state = initialState, action) => {
         isLoggedIn: true,
         msg: action.msg,
       };
+    case actionTypes.VALIDATION_EMAIL_SUC:
+      return {
+        ...state,
+        isCheckedEmail: "checked",
+        msg: action.msg,
+      };
+    case actionTypes.VALIDATION_EMAIL_FAIL:
+      return {
+        ...state,
+        isCheckedEmail: "unChecked",
+        msg: action.msg,
+      };
+    case actionTypes.RESET_PASSWORD_SUC:
+      return {
+        ...state,
+        isResetPassword: "success",
+        alert: action.msg,
+      };
+    case actionTypes.RESET_PASSWORD_FAIL:
+      return {
+        ...state,
+        isResetPassword: "fail",
+        alert: action.msg,
+      };
     case actionTypes.LOGOUT:
       return {
         ...state,
         msg: action.msg,
         isLoggedIn: false,
-        isLoggedOut: true
+        isLoggedOut: true,
       };
     default:
       return state;
