@@ -1,7 +1,7 @@
 // GeocodingComponent.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Map from './Map';ssssssssssssssssssssssssssssssssssssssss
+import Map from './Map';
 
 const GeoCoding = ({ address }) => {
   const [latLng, setLatLng] = useState(null);
