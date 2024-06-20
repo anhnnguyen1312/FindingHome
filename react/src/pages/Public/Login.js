@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { InputGroup } from "../../components";
 import { useNavigate } from "react-router-dom";
-// import { path } from "../../ultils/path";
+import { path } from "../../ultils/path";
 import { useLocation } from "react-router-dom";
 import Button from "../../components/Button";
 // import axios from "axios";
@@ -54,7 +54,7 @@ export default function Login() {
         timer: 2000,
       });
     }
-    stateAuth.isLoggedIn && usenavi(-1, { replace: true });
+    stateAuth.isLoggedIn && usenavi(`${path.HOME}`);
   }, [stateAuth.isLoggedIn]);
 
   useEffect(() => {
