@@ -46,28 +46,7 @@ const NewPost = ({ updatePostData }) => {
     provinceForm: "",
     districtForm: "",
     wardForm: "",
-    streetForm: "",
   });
-
-  // const [formData, setFormData] = useState({
-  //   title: "",
-  //   address: "",
-  //   zalo: "",
-  //   status: "0",
-  //   price: "",
-  //   area: "",
-  //   otherFee: "",
-  //   nearby: "",
-  //   typeRoom: "",
-  //   description: "",
-  //   furniture: "",
-  //   rule: "",
-  //   dateCreateAt: "",
-  //   dateExpired: "",
-  //   userId: "",
-  //   check: "0",
-  //   urlImages: "",
-  // });
 
   const [formData, setFormData] = useState(() => {
     const data = {
@@ -87,12 +66,11 @@ const NewPost = ({ updatePostData }) => {
       dateExpired: updatePostData?.dateExpired || "",
       userId: updatePostData?.userId || "",
       check: updatePostData?.check || "0",
-      // urlImages: JSON.parse(updatePostData?.urlImages) || "",
       urlImages: updatePostData?.urlImages || "",
     };
     return data;
   });
-  console.log("updatePostData", updatePostData);
+
   const handleFiles = async (e) => {
     setIsInvalid([]);
     setLoading(true);
@@ -491,7 +469,7 @@ const NewPost = ({ updatePostData }) => {
     console.log("addressData", addressData);
     setFormData((prevState) => ({
       ...prevState,
-      address: ` ${addressData.streetForm ? `${addressData.streetForm}, ` : ""} ${addressData.wardForm ? `${addressData.wardForm}, ` : ""} ${addressData.districtForm ? `${addressData.districtForm}, ` : ""} ${addressData.provinceForm ? `${addressData.provinceForm}` : ""}`,
+      address: ` ${addressData.numberAddress ? `${addressData.numberAddress}, ` : ""} ${addressData.wardForm ? `${addressData.wardForm}, ` : ""} ${addressData.districtForm ? `${addressData.districtForm}, ` : ""} ${addressData.provinceForm ? `${addressData.provinceForm}` : ""}`,
     }));
   }, [addressData]);
 
@@ -635,7 +613,7 @@ const NewPost = ({ updatePostData }) => {
             IsInValid={IsInValid}
             title={"Giá"}
             id={"price"}
-            suffix="tr/tháng"
+            suffix="triệu/tháng"
             setFormData={setFormData}
           />
           <InputNewPost
@@ -653,6 +631,7 @@ const NewPost = ({ updatePostData }) => {
             IsInValid={IsInValid}
             title={"Chi Phí khác"}
             id={"otherFee"}
+            rows={4}
             setFormData={setFormData}
           />
 

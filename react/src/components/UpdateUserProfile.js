@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
-import { AvatarUpload } from "./index";
+import { AvatarUpload, Loading } from "./index";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import validator from "validator";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,55 +8,53 @@ import swal from "sweetalert";
 
 import {
   updateUserAction,
-  registerAction,
-  logoutAction,
+  updateUserActionAccess,
 } from "../redux/store/action/authenAction";
 import { path } from "../ultils/path";
+import { FaBullseye } from "react-icons/fa6";
 const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
   const dispatch = useDispatch();
   const usenavi = useNavigate();
   const useLocate = useLocation();
-  const [userData, setUserData] = useState([]);
+
   const [IsInValid, setIsInvalid] = useState([]);
-  //   const [updateClick, setUpdateClick] = useState(false);
+  // const [updateClick, setUpdateClick] = useState(false);
   const [clickPassword, setClickPassword] = useState(false);
+  const [errorPassword, setErrorPassword] = useState(true);
+
+  const [loading, setLoading] = useState(false);
+
   const [avatarClick, setAvatarClick] = useState(false);
 
   const [passwordForm, setPasswordForm] = useState({
     oldPassword: "",
     newPassword: "",
-    confirmPassword: "",
+    // confirmPassword: "",
   });
 
   const stateAuth = useSelector((state) => state.auth);
   const { posts } = useSelector((state) => state.post);
+  const [userData, setUserData] = useState(() => {
+    const data = {
+      avatar: stateAuth.data?.avatar || "",
+      email: stateAuth.data?.email || "",
+      name: stateAuth.data?.name || "",
+      newPs: "",
+      phone: stateAuth.data?.phone || "",
+      role: stateAuth.data?.role || "",
+      userId: stateAuth.data?.userId || "",
+    };
+    return data;
+  });
 
   useEffect(() => {
-    console.log("userData then setUserData(stateAuth.data)", userData);
-
-    stateAuth.isLoggedIn && setUserData(stateAuth.data);
-  }, [stateAuth.data]);
-
-  //   useEffect(() => {
-  //     if (stateAuth.msg) {
-  //       swal({
-  //         text: stateAuth.msg,
-  //         icon: "error",
-  //         timer: 3000,
-  //       });
-  //     } else {
-  //       swal({
-  //         text: "update thông tin thành công",
-  //         icon: "success",
-  //         timer: 3000,
-  //       });
-  //     }
-  //   }, [stateAuth.msg]);
-
-  useEffect(() => {
-    console.log("userData then setUserData(stateAuth.data)", userData);
-    stateAuth.isLoggedIn && setUserData(stateAuth.data);
+    // stateAuth.isLoggedIn && setUserData(stateAuth.data);
+    setIsInvalid([]);
   }, []);
+  // useEffect(() => {
+  //   console.log("data change lại ne");
+  //   stateAuth.isLoggedIn && setUserData(stateAuth.data);
+  // }, [stateAuth.data]);
 
   const handleFormUserData = (e) => {
     setUserData((prevState) => ({
@@ -75,6 +73,7 @@ const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
   };
   const validate = (formData) => {
     let isInvalidCount = true;
+
     const IsNull = (value, i, title) => {
       if (value.trim() === "") {
         setIsInvalid((prevState) => [
@@ -111,20 +110,13 @@ const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
           isInvalidCount = false;
         }
       }
-      if (i === "avatar") {
-        if (userData.avatar?.length == 0) {
-          console.log("userData.avatar?.length", userData.avatar?.length);
-          // setUserData((prevState) => ({
-          //   ...prevState,
-          //   [i]: avatarDefault.avatar,
-          // }));
-        }
-      }
     }
+    // setLoading(false);
     return isInvalidCount;
   };
-  const handleConfirmPassword = (passwordForm) => {
+  const handleConfirmPassword = () => {
     let isInvalidCount = true;
+    console.log(stateAuth.data?.password);
     if (passwordForm.oldPassword) {
       if (!(passwordForm.oldPassword === stateAuth.data?.password)) {
         setIsInvalid((prevState) => [
@@ -159,29 +151,31 @@ const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
               ]);
               isInvalidCount = false;
             } else {
-              if (passwordForm.confirmPassword) {
-                if (passwordForm.confirmPassword != passwordForm.newPassword) {
+              if (userData.newPs) {
+                if (userData.newPs != passwordForm.newPassword) {
                   setIsInvalid((prevState) => [
                     ...prevState,
                     {
-                      name: "confirmPassword",
+                      name: "newPs",
                       msg: `Mật khẩu xác nhận không đúng`,
                     },
                   ]);
                   // isInvalidCount++
                   isInvalidCount = false;
                 } else {
-                  setUserData((prevState) => ({
-                    ...prevState,
-                    ["password"]: passwordForm.confirmPassword,
-                  }));
+                  console.log(userData.newPs);
+
+                  // setUserData((prevState) => ({
+                  //   ...prevState,
+                  //   ["password"]: passwordForm.confirmPassword,
+                  // }));
                   console.log(" doi password thanh cong");
                 }
               } else {
                 setIsInvalid((prevState) => [
                   ...prevState,
                   {
-                    name: "confirmPassword",
+                    name: "newPs",
                     msg: `ban chưa nhập lại mật khẩu mới`,
                   },
                 ]);
@@ -190,7 +184,6 @@ const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
             }
           }
         } else {
-          console.log("ban chưa nhập mật khẩu mới");
           setIsInvalid((prevState) => [
             ...prevState,
             {
@@ -202,8 +195,7 @@ const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
         }
       }
     } else {
-      if (!passwordForm.newPassword && !passwordForm.confirmPassword) {
-        console.log("khong thay doi password");
+      if (!passwordForm.newPassword || !userData.newPs) {
       } else {
         setIsInvalid((prevState) => [
           ...prevState,
@@ -215,25 +207,65 @@ const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
         isInvalidCount = false;
       }
     }
+    // setLoading(false);
+    // isInvalidCount ? setErrorPassword(true) : setErrorPassword(false);
     return isInvalidCount;
   };
-
+  console.log("userData", userData);
+  // api tra về theo form: có lỗi thì trả về msg, k thì k trả msg
   const handleSave = async () => {
+    setLoading(true);
     const error = validate(userData);
     const errorPassword = handleConfirmPassword(passwordForm);
-    console.log("userData", userData);
+    console.log("userData save", userData);
     if (error && errorPassword) {
+      console.log("dispatch", userData);
+
       dispatch(updateUserAction(userData));
-      setPasswordForm({
-        oldPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-      });
+    } else {
+      setLoading(false);
     }
   };
-  console.log("passwordForm", passwordForm);
+
+  useEffect(() => {
+    if (stateAuth.msg === "fail") {
+      setLoading(false);
+      swal({
+        text: stateAuth.msg,
+        icon: "error",
+        timer: 3000,
+      });
+    }
+
+    if (stateAuth.msg === "success") {
+      setLoading(false);
+      swal({
+        text: "update thông tin thành công",
+        icon: "success",
+        timer: 3000,
+      }).then(() => {
+        setPasswordForm({
+          oldPassword: "",
+          newPassword: "",
+          // confirmPassword: "",
+        });
+        setUserData((prevState) => ({
+          ...prevState,
+          [newPs]: "",
+        }));
+      });
+    }
+
+    dispatch(updateUserActionAccess());
+  }, [stateAuth.msg && stateAuth.update])
+  
   return (
     <>
+      {/* {loading && (
+        <div class="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600" />
+      )} */}
+      {/* //loading  */}
+      {loading && <Loading />}
       <div className=" bg-white max-w-screen-md border  shadow-xl px-4 md:mx-auto">
         <div className="flex flex-col border-b py-4 sm:flex-row sm:items-start">
           <div className="shrink-0 mr-auto sm:py-3">
@@ -321,13 +353,14 @@ const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
         {clickPassword && (
           <>
             <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
-              <p className="shrink-0 w-32 font-normal">Mật khẩu cũ</p>
+              <p className="shrink-0 w-32 font-normal">Mật khẩu hiện tại</p>
 
               <input
                 value={passwordForm.oldPassword}
                 type="password"
                 id={"oldPassword"}
                 onFocus={handleOnFocus}
+                // onBlur={handleConfirmPassword}
                 onChange={(e) => handlePasswordForm(e)}
                 placeholder="Nhập mật khẩu cũ"
                 className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
@@ -348,6 +381,7 @@ const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
                 type="password"
                 id={"newPassword"}
                 onFocus={handleOnFocus}
+                // onBlur={handleConfirmPassword}
                 onChange={(e) => handlePasswordForm(e)}
                 placeholder="Nhập Mật khẩu mới"
                 className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
@@ -364,29 +398,30 @@ const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
             <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
               <p className="shrink-0 w-32 font-normal">Nhập lại mật khẩu mới</p>
               <input
-                value={passwordForm.confirmPassword}
+                // value={passwordForm.confirmPassword}
+                value={userData.newPs}
                 type="password"
-                id={"confirmPassword"}
+                id={"newPs"}
                 onFocus={handleOnFocus}
-                onChange={(e) => handlePasswordForm(e)}
+                // onBlur={handleConfirmPassword}
+                // onChange={(e) => handlePasswordForm(e)}
+                onChange={(e) => handleFormUserData(e)}
                 placeholder="Nhập lại mật khẩu mới"
                 className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
               />
               {IsInValid.length > 0 &&
-                IsInValid.some(
-                  (element) => element.name === "confirmPassword"
-                ) && (
+                IsInValid.some((element) => element.name === "newPs") && (
                   <span className="italic text-[#f33a58] text-center text-md">
                     {" "}
-                    {
-                      IsInValid.find((e) => e.name === "confirmPassword")?.msg
-                    }{" "}
+                    {IsInValid.find((e) => e.name === "newPs")?.msg}{" "}
                   </span>
                 )}
             </div>
           </>
         )}
+
         {/* /avatar*/}
+
         <div
           onClick={() => setAvatarClick(!avatarClick)}
           className="shrink-0 mr-auto  flex  items-center justify-between sm:py-3"

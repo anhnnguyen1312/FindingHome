@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import actionTypes from "./actionTypes";
-import { callApiRegister, callApiLogin } from "../../../api/authenLogin";
+import { callApiRegister, callApiLogin, checkEmailUser, resetPassword} from "../../../api/authenLogin";
 import { callApiUpdateProfile } from "../../../api/getUserApi";
 import {
   setAuthToken,
-  removeAuthToken,
   getAuthToken,
 } from "../../../api/cookieServices";
 import NumCalculator from "antd/es/theme/util/calc/NumCalculator";
@@ -63,6 +62,50 @@ export const loginAction = (payload) => async (dispatch) => {
     });
   }
 };
+export const forgotPasswordAction = (payload) => async (dispatch) => {
+  try {
+    const response = await checkEmailUser(payload)
+    if(response?.data.success){
+      dispatch({
+        type: actionTypes.VALIDATION_EMAIL_SUC,
+        msg: response.data.success,
+      });
+    }else{
+      dispatch({
+        type: actionTypes.VALIDATION_EMAIL_FAIL,
+        msg: response.data.fail,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: actionTypes.VALIDATION_EMAIL_FAIL,
+      msg: null,
+    });
+  }
+}
+
+export const resetPasswordAction = (payload) => async (dispatch) => {
+  try {
+    const response = await resetPassword(payload)
+    console.log(response.data);
+    if(response?.data.success){
+      dispatch({
+        type: actionTypes.RESET_PASSWORD_SUC,
+        msg: response.data.success,
+      });
+    }else{
+      dispatch({
+        type: actionTypes.RESET_PASSWORD_FAIL,
+        msg: response.data.fail,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: actionTypes.RESET_PASSWORD_FAIL,
+      msg: null,
+    });
+  }
+}
 
 export const getUserAction = (cookie) => ({
   type: actionTypes.GET_USER,
@@ -87,7 +130,7 @@ export const updateUserAction = (payload) => async (dispatch) => {
         // msg: response.data.message,
         msg: "success",
       });
-    } else {
+    } else {  
       dispatch({
         type: actionTypes.UPDATE_PROFILE_FAIL,
         // msg: response.data.message,

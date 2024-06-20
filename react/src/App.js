@@ -9,6 +9,7 @@ import {
   EstateRental,
   HomePage,
   DetailProduct,
+  ResetPassword,
 } from "./pages/Public";
 import Profile from "./pages/LoggedIn/Profile";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,6 +52,10 @@ function App() {
         <Route path={path.HOME_LOGGED_IN} element={<HomeLoggedIn />}>
           <Route path={path.NEWPOST} element={<NewPost />} />
           <Route path={path.PROFILE} element={<Profile />} />
+          <Route path={path.UPLOADPOST} element={<UploadPost />} />
+          <Route path={path.CREATEPOST} element={<CreatePost />} />
+          <Route path={path.NEWPOST} element={<NewPost />} />
+          <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
         </Route>
       </Routes>
     </Router>

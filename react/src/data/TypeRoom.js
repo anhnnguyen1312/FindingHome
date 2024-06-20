@@ -5,7 +5,7 @@ const TypeRoom = [
   },
   {
     type_key: "Phòng",
-    type_value: "phòng",
+    type_value: "Phòng",
   },
   {
     type_key: "Ở ghép",

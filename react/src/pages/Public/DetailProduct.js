@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { path } from "../../ultils/path";
-import ch3 from "../../assets/images/canho/ch3.jpg";
-import user1 from "../../assets/images/user/user1.jpg";
-import user2 from "../../assets/images/user/user2.jpg";
-import { TbAirConditioning } from "react-icons/tb";
-import { MdOutlineRule } from "react-icons/md";
+import userAvatar from "../../assets/images/userAvatar.jpg";
 import { FaTableList } from "react-icons/fa6";
-import { Map } from "../../components/index";
+import { GeoCoding } from "../../components/index";
 import { callApiDetailPost } from "../../api/getPostApi";
 import { useNavigate, useLocation } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import SlideShow from "../../components/SlideShow";
 
 const DetailProduct = () => {
-  const usenavi = useNavigate();
   const useLocate = useLocation();
-  const [isHoverHeart, setIsHoverHeart] = useState(false);
   const [detailPost, setDetailPost] = useState([]);
   const [descriptionSplit, setDescriptionSplit] = useState([]);
   const [ruleSplit, setRuleSplit] = useState([]);
@@ -24,8 +20,8 @@ const DetailProduct = () => {
   useEffect(() => {
     const getApiDetailPost = async () => {
       const response = await callApiDetailPost(id);
-      console.log("dang goi api", response.data);
-      setDetailPost(response.data);
+      const decodeToken = jwtDecode(response.data.token);
+      setDetailPost(decodeToken);
     };
     getApiDetailPost();
   }, []);
@@ -52,55 +48,25 @@ const DetailProduct = () => {
 
   return (
     <>
-      <div className="w-full ">
+      <div className="w-full">
         {/* img */}
         <div className="border-b-4 border-rose-500">
-          <Link to={path.DETAIL_PRODUCT} className="bloc relative min-h-64">
-            <img
-              src={ch3}
-              className="block object-cover w-full min-h-64 max-h-128 relative"
-            />
-            <div className="absolute text-[#1E95A6] right-0 top-0 btn btn-white mr-3 mt-3 flex">
-              <div>
-                <i class="fa-solid fa-camera"></i>
-              </div>
-              <div className="pl-[13px]">xem thêm 10 ảnh</div>
-            </div>
-            {/* // heart  */}
-            <span
-              className="text-rose-500 absolute right-5 bottom-1"
-              onMouseEnter={() => setIsHoverHeart(true)}
-              onMouseLeave={() => setIsHoverHeart(false)}
-              onClick={() => setIsHoverHeart(true)}
-            >
-              {isHoverHeart ? (
-                <i class="fa-solid fa-heart"></i>
-              ) : (
-                <i class="fa-regular fa-heart"></i>
-              )}
-            </span>
-          </Link>
+          {detailPost.urlImages && <SlideShow images={detailPost.urlImages} />}
         </div>
         {/* thong tin ve phonng */}
         <div className="px-[20px] lg:px-[0px]">
           <div className="max-w-2xl mx-auto">
             <div className="-mt-4 mb-10 h-8  flex gap-1 items-center relative border-b-4 border-transparent">
-              <div className="inline-flex items-center bg-rose-500 text-white text-sm font-semibold rounded-full px-3 py-1">
-                10 + phòng
-              </div>
-              <div className="inline-flex items-center bg-rose-500 text-white text-sm font-semibold rounded-full px-3 py-1">
-                20 + đánh giá
-                <div>
-                  <i class="fa-solid fa-badge-check"></i>
-                </div>
-              </div>
               <div className="flex-shrink-0 relative flex justify-center items-center self-stretch ">
                 <div className="absolute inset-0 text-teal">
                   <i class="fa-solid fa-badge-check"></i>
                 </div>
               </div>
               <div className="hidden sm:flex ml-auto border-4 bg-gray-200 border-gray-50 rounded-full h-24 w-24">
-                <img className="block rounded-full" src={user2} />
+                <img
+                  className="block rounded-full"
+                  src={detailPost.avatar || userAvatar}
+                />
               </div>
             </div>
           </div>
@@ -114,44 +80,39 @@ const DetailProduct = () => {
                 </div>
                 {detailPost.address}
               </h1>
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-10">
                 <h1 className="flex gap-[10px] text-red-600 font-bold text-xl items-center">
-                  {" "}
-                  <i class="fa-solid fa-money-bill-wave"></i> {detailPost.price}{" "}
-                  tr/ Tháng
+                  {detailPost.price + " triệu/ Tháng"}
                 </h1>
+                {detailPost.status == 0 ? (
+                  <h1 className="items-center flex gap-[10px]">
+                    {"Tình trạng: còn trống"}
+                  </h1>
+                ) : (
+                  <h1 className="items-center flex gap-[10px]">
+                    {"Tình trạng: đã hết"}
+                  </h1>
+                )}
                 <h1 className="items-center flex gap-[10px]">
-                  {" "}
-                  <i class="fa-solid fa-chart-area"></i> {detailPost.area}
-                </h1>
-                <h1 className="items-center flex gap-[10px]">
-                  {" "}
-                  {/* /// date */}
-                  <i class="fa-regular fa-clock"></i> Hôm nay
+                  {"Ngày đăng: " + detailPost.dateCreateAt}
                 </h1>
               </div>
             </div>
             <div className="flex  text-[#d1d100] text-center">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star mt-[5px]"></i>
+              <i class="fa-solid fa-star mt-[5px]"></i>
+              <i class="fa-solid fa-star mt-[5px]"></i>
+              <i class="fa-solid fa-star mt-[5px]"></i>
+              <i class="fa-solid fa-star mt-[5px]"></i>
               <div className="pl-[20px] text-gray-700">(40 lượt đánh giá)</div>
             </div>
           </div>
           {/* //table */}
           <div className="mb-8">
-            <div className="bg-inherit py-2 ">
-              <div className="container grid grid-cols-2">
-                <div className="text-gray-700">Giá</div>
-                {detailPost.price}tr/ tháng
-              </div>
-            </div>
             <div className="bg-white py-2">
               <div className="container grid grid-cols-2">
                 <div className="text-gray-700">Diện tích</div>
-                {detailPost.area}
+                {detailPost.area} m&#178;
               </div>
             </div>
             <div className="bg-inherit py-2">
@@ -169,33 +130,13 @@ const DetailProduct = () => {
             <div className="bg-inherit py-2">
               <div className="container grid grid-cols-2">
                 <div className="text-gray-700">tiện ích gần đây </div>
-                {detailPost.placesNearby}
-              </div>
-            </div>
-
-            {/* /// date */}
-            <div className="bg-white py-2">
-              <div className="container grid grid-cols-2">
-                <div className="text-gray-700">Ngày đăng tin</div>
-                5/6/2024
-              </div>
-            </div>
-            {/* <div className="bg-white py-2">
-              <div className="container grid grid-cols-2">
-                <div className="text-gray-700">Ngày tin hết hạn</div>
-                5/7/2024
-              </div>
-            </div> */}
-            <div className="bg-inherit py-2">
-              <div className="container grid grid-cols-2">
-                <div className="text-gray-700">tình trạng</div>
-                {detailPost.status}
+                {detailPost.nearby}
               </div>
             </div>
           </div>
           {/* tag */}
           <div className="mb-16 ">
-            <div className="  border border-[#1E95A6] mx-[10px] bg-white text-gray-800 inline-flex items-center rounded px-3 py-1 mb-2">
+            <div className="  border border-[#1E95A6] bg-white text-gray-800 inline-flex items-center rounded px-3 py-1 mb-2">
               <div className=" flex gap-[10px] items-center">
                 <div>
                   <i class="fa-solid fa-motorcycle"></i>
@@ -230,7 +171,6 @@ const DetailProduct = () => {
               </div>
             </div>
           </div>
-          {/* Rule */}
 
           <div className="flex flex-col gap-[20px]">
             <div className="flex gap-[10px] text-red-600 font-bold text-2xl items-center">
@@ -314,41 +254,19 @@ const DetailProduct = () => {
                 {detailPost.zalo}
               </div>
             </div>
-
-            <div className="bg-inherit py-2">
-              <div className="container grid grid-cols-2  relative group/item group-hover/tooltip:visible hover/tooltip:opacity-100">
-                <div className="text-gray-700 flex ">
-                  <div className="px-[10px] text-[#1E95A6]">
-                    <i class="fa-brands fa-square-facebook"></i>
-                  </div>
-                  Mạng xã hội, website
-                </div>
-                <Link className=" text-blue-500 truncate" to="/">
-                  {detailPost.socialLink}
-                </Link>
-                {/* https://www.facebook.com/anhnguyen/ */}
-                <div className=" group/tooltip invisible  opacity-0 bg-[#555] group-hover/item:visible hover/item:opacity-100 text-[#fff] rounded-[6px] absolute left-[30%] sm:left-[50%] top-[-175%] p-[5px] z-10 after:absolute after:top-[120%] sm:after:left-0  after:left-[30%] after:content-['*'] after:w-full">
-                  {detailPost.socialLink}
-                </div>
-              </div>
-            </div>
           </div>
-          {/* thoog tin liên hệ  */}
-
-          {/* gg map  */}
           <div>
             <div className="flex gap-[20px] mb-[10px]">
               <div className="text-[#F2545B] ">
-                <i class="fa-solid fa-map-pin"></i>
+                <i class="fa-solid fa fa-map-marker"></i>
               </div>
               <div className=" text-xl font-medium">{detailPost.address}</div>
             </div>
 
-            <p className="mb-[20px]"> {detailPost.placesNearby}</p>
+            <p className="mb-[20px]"> {detailPost.nearby}</p>
             <div className="w-full h-[60%vh]  mb-[30px]">
-              <Map />
+              <GeoCoding address={detailPost.address} />
             </div>
-            <div></div>
           </div>
         </div>
       </div>

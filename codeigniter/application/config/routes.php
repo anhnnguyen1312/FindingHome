@@ -55,8 +55,12 @@ $route['translate_uri_dashes'] = FALSE;
 $route['register'] = 'AuthenController/register';
 $route['login'] = 'AuthenController/login';
 $route['handle-profile'] = 'AuthenController/handle_profile';
+$route['check-email-user'] = 'AuthenController/check_email_user';
+$route['reset-password'] = 'AuthenController/reset_password';
 //Post
 $route['create-post'] = 'PostController/create_post';
 $route['list-all-post'] = 'PostController/list_all_post';
+$route['post-detail/(:any)'] = 'PostController/post_detail/$1';
+
 
 
