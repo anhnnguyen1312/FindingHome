@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { InputGroup } from "../../components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { path } from "../../ultils/path";
-import { useLocation } from "react-router-dom";
 import Button from "../../components/Button";
 // import axios from "axios";
 import swal from "sweetalert";
@@ -330,7 +329,7 @@ export default function Login() {
                 className="cursor-pointer hover:underline"
               >
                 Bạn quên mật khẩu ?
-              </p>
+              </Link>
             </>
           )}
         </div>

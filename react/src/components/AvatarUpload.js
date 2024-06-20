@@ -1,18 +1,12 @@
 import React, { useState } from "react";
 import userAvatar from "../assets/images/userAvatar.jpg";
-
+import { Loading } from "./index";
 import { callApiUploadImages } from "../api/uploadImage";
 const AvatarUpload = ({ setUserData, avatar, id }) => {
   const [image, setImage] = useState("");
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // const handleFormUserData = (e) => {
-  //   setUserData((prevState) => ({
-  //     ...prevState,
-  //     [e.target.id]: url,
-  //   }));
-  // };
   console.log("userData avatarUpload ", avatar);
 
   const uploadImage = async (e) => {
@@ -25,14 +19,11 @@ const AvatarUpload = ({ setUserData, avatar, id }) => {
     try {
       const response = await callApiUploadImages(data);
       if (response.status === 200)
-        console.log(
-          "images gop api tải lên từng ảnh",
-          response.data?.secure_url
-        );
-      setUserData((prevState) => ({
-        ...prevState,
-        [id]: response.data?.secure_url,
-      }));
+        setUserData((prevState) => ({
+          ...prevState,
+          [id]: response.data?.secure_url,
+        }));
+      setLoading(false);
     } catch (error) {
       setLoading(false);
     }
@@ -57,6 +48,8 @@ const AvatarUpload = ({ setUserData, avatar, id }) => {
   //   };
   return (
     <>
+      {/* //loading  */}
+      {loading && <Loading />}
       <div className="flex flex-col gap-4 py-4  lg:flex-row">
         <div className="shrink-0 w-32  sm:py-4">
           <p className="mb-auto font-medium">Ảnh đại diện</p>

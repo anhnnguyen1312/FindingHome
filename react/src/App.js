@@ -9,24 +9,35 @@ import {
   EstateRental,
   HomePage,
   DetailProduct,
-  ResetPassword
+  ResetPassword,
 } from "./pages/Public";
 import Profile from "./pages/LoggedIn/Profile";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthToken } from "../src/api/cookieServices";
 import { getUserAction } from "../src/redux/store/action/authenAction";
+import HomeLoggedIn from "./pages/LoggedIn/HomeLoggedIn";
 
-import UploadPost from "./pages/LoggedIn/UploadPost";
 // import {SideBar} from './components/SideBar'
-import CreatePost from "./pages/LoggedIn/CreatePost";
+
 import NewPost from "./pages/LoggedIn/NewPost";
 function App() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   const cookie = getAuthToken();
+  //   console.log("cookie", cookie);
 
-  useEffect(() => {
-    const cookie = getAuthToken();
-    cookie && dispatch(getUserAction(cookie));
-  }, []);
+  //   cookie && dispatch(getUserAction(cookie));
+  //   console.log("dispatch xong getusser");
+  // }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     const cookie = getAuthToken();
+  //     console.log("cookie", cookie);
+  //     if (cookie) {
+  //       dispatch(getUserAction(cookie));
+  //     }
+  //   }, 1000);
+  // }, []);
   return (
     <Router>
       <Routes>
@@ -37,6 +48,9 @@ function App() {
           <Route path={path.ROOM_RENTAL} element={<RoomRental />} />
           <Route path={path.ESTATE_RENTAL} element={<EstateRental />} />
           <Route path={path.DETAIL_PRODUCT} element={<DetailProduct />} />
+        </Route>
+        <Route path={path.HOME_LOGGED_IN} element={<HomeLoggedIn />}>
+          <Route path={path.NEWPOST} element={<NewPost />} />
           <Route path={path.PROFILE} element={<Profile />} />
           <Route path={path.UPLOADPOST} element={<UploadPost />} />
           <Route path={path.CREATEPOST} element={<CreatePost />} />

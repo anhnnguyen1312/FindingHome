@@ -252,9 +252,9 @@ const WhyUs = () => {
                   </svg>
                 </div>
                 <h2 class="md: mt-6 flex items-center text-base font-semibold tracking-wide text-gray-800 md:mt-6 md:text-2xl">
-                  <span class="mr-5 text-2xl">5 Năm</span>
-                  <span class="mr-5 text-2xl"> 2.000+ User </span>
-                  <span class="mr-5 text-2xl">5.000+ Tin</span>
+                  {/* <span class="mr-5 text-2xl">5 Năm</span>
+                  <span class="mr-5 text-2xl"> 2.000+ User </span> */}
+                  <span class="mr-5 text-2xl">Phổ biến</span>
                 </h2>
                 <p class="md: mt-1 text-sm tracking-normal text-gray-800 md:mt-1 md:text-xl">
                   Phổ biến trên nhiều nền tảng mạng xã hội

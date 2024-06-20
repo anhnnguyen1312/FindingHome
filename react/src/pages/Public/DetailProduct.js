@@ -15,11 +15,12 @@ const DetailProduct = () => {
   const [descriptionSplit, setDescriptionSplit] = useState([]);
   const [ruleSplit, setRuleSplit] = useState([]);
   const [id, setId] = useState(useLocate.state?.idPost);
+  console.log("useLocate.state?.idPost", useLocate.state?.idPost);
 
   useEffect(() => {
     const getApiDetailPost = async () => {
       const response = await callApiDetailPost(id);
-      const decodeToken = jwtDecode(response.data.token)
+      const decodeToken = jwtDecode(response.data.token);
       setDetailPost(decodeToken);
     };
     getApiDetailPost();
@@ -34,9 +35,15 @@ const DetailProduct = () => {
     splitData();
   }, [detailPost]);
 
-  const ruleItem = ruleSplit.map((rule, id) => <div key={id}>{rule} </div>);
+  const ruleItem = ruleSplit.map((rule, id) => (
+    <div className="whitespace-pre-line" key={id}>
+      {rule}{" "}
+    </div>
+  ));
   const descriptionItem = descriptionSplit.map((description, id) => (
-    <div key={id}>{description} </div>
+    <div className="whitespace-pre-line" key={id}>
+      {description}{" "}
+    </div>
   ));
 
   return (
@@ -44,7 +51,7 @@ const DetailProduct = () => {
       <div className="w-full">
         {/* img */}
         <div className="border-b-4 border-rose-500">
-        { detailPost.urlImages && <SlideShow images={detailPost.urlImages} />}
+          {detailPost.urlImages && <SlideShow images={detailPost.urlImages} />}
         </div>
         {/* thong tin ve phonng */}
         <div className="px-[20px] lg:px-[0px]">
@@ -56,7 +63,10 @@ const DetailProduct = () => {
                 </div>
               </div>
               <div className="hidden sm:flex ml-auto border-4 bg-gray-200 border-gray-50 rounded-full h-24 w-24">
-                <img className="block rounded-full" src={detailPost.avatar||userAvatar} />
+                <img
+                  className="block rounded-full"
+                  src={detailPost.avatar || userAvatar}
+                />
               </div>
             </div>
           </div>
@@ -71,15 +81,21 @@ const DetailProduct = () => {
                 {detailPost.address}
               </h1>
               <div className="flex justify-between gap-10">
-                <h1 className="flex gap-[10px] text-red-600 font-bold text-xl items-center">{detailPost.price+" triệu/ Tháng"}</h1>
-                {detailPost.status == 0 ?(
-                  <h1 className="items-center flex gap-[10px]">{"Tình trạng: còn trống"}</h1>
-
-                ):
-                (
-                  <h1 className="items-center flex gap-[10px]">{"Tình trạng: đã hết"}</h1>
+                <h1 className="flex gap-[10px] text-red-600 font-bold text-xl items-center">
+                  {detailPost.price + " triệu/ Tháng"}
+                </h1>
+                {detailPost.status == 0 ? (
+                  <h1 className="items-center flex gap-[10px]">
+                    {"Tình trạng: còn trống"}
+                  </h1>
+                ) : (
+                  <h1 className="items-center flex gap-[10px]">
+                    {"Tình trạng: đã hết"}
+                  </h1>
                 )}
-                <h1 className="items-center flex gap-[10px]">{"Ngày đăng: " +  detailPost.dateCreateAt}</h1>
+                <h1 className="items-center flex gap-[10px]">
+                  {"Ngày đăng: " + detailPost.dateCreateAt}
+                </h1>
               </div>
             </div>
             <div className="flex  text-[#d1d100] text-center">
@@ -160,10 +176,13 @@ const DetailProduct = () => {
             <div className="flex gap-[10px] text-red-600 font-bold text-2xl items-center">
               <FaTableList /> <h1 className="">Mô tả và Quy Định</h1>
             </div>
-            <h1 className="text-red-500 font-semibold text-lg">Mô tả </h1>
-            {descriptionItem}
-            <h1 className="text-red-500 font-semibold text-lg">Quy Định </h1>
-            {ruleItem}
+            <h1 className="text-blue-600 font-bold  text-lg">Mô tả </h1>
+            <div className=" whitespace-pre-line">{descriptionItem} </div>
+            <h1 className="text-red-500 font-semibold text-lg whitespace-pre-line ">
+              Quy Định{" "}
+            </h1>
+            <div className=" whitespace-pre-line">{ruleItem} </div>
+
             {/* <h1 className="">Không dùng chất kích thích, tiệc BBQ, Karaoke</h1>
             <h1 className="">
               khai báo với chủ trọ khi dẫn người ngoài về nhà qua đêm
@@ -246,7 +265,7 @@ const DetailProduct = () => {
 
             <p className="mb-[20px]"> {detailPost.nearby}</p>
             <div className="w-full h-[60%vh]  mb-[30px]">
-                <GeoCoding address={detailPost.address} />           
+              <GeoCoding address={detailPost.address} />
             </div>
           </div>
         </div>

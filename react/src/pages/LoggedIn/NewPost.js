@@ -3,7 +3,7 @@ import Address from "../../components/address";
 import { getProvince, getDistrict, getWard } from "../../api/getProvince";
 import { Flex, Form } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-
+import { UpdatePostActionClearData } from "../../redux/store/action/postAction";
 import {
   AddressNewPostProvince,
   AddressNewPostDistrict,
@@ -18,15 +18,17 @@ import {
   InputNewPost,
   TextAreaNewPost,
   SelectNewPost,
+  Loading,
 } from "../../components/index";
 import TypeRoom from "../../data/TypeRoom";
 import validator from "validator";
-import { callApiCreatePost } from "../../api/getPostApi";
+import { callApiCreatePost, callApiUpdatePost } from "../../api/getPostApi";
 import { useLocation } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import { Image, Upload } from "antd";
 import { callApiUploadImages } from "../../api/uploadImage";
-const NewPost = () => {
+import swal from "sweetalert";
+const NewPost = ({ updatePostData }) => {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -36,37 +38,41 @@ const NewPost = () => {
   const [IsInValid, setIsInvalid] = useState([]);
   const [preview, setPreview] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const dispatch = useDispatch();
   const stateAuth = useSelector((state) => state.auth);
+  // const { updatePostData } = useSelector((state) => state.post);
 
   const [addressData, setAddressData] = useState({
-    numberAddress: "",
     provinceForm: "",
     districtForm: "",
     wardForm: "",
   });
 
-  const [formData, setFormData] = useState({
-    title: "",
-    address: "",
-    zalo: "",
-    status: "0",
-    price: "",
-    area: "",
-    otherFee: "",
-    nearby: "",
-    typeRoom: "",
-    description: "",
-    furniture: "",
-    rule: "",
-    dateCreateAt: "",
-    dateExpired: "",
-    userId: "",
-    check: "0",
-    urlImages: "",
+  const [formData, setFormData] = useState(() => {
+    const data = {
+      title: updatePostData?.title || "",
+      address: updatePostData?.address || "",
+      zalo: updatePostData?.zalo || "",
+      status: updatePostData?.status || "0",
+      price: updatePostData?.price || "",
+      area: updatePostData?.area || "",
+      otherFee: updatePostData?.otherFee || "",
+      nearby: updatePostData?.nearby || "",
+      typeRoom: updatePostData?.typeRoom || "",
+      description: updatePostData?.description || "",
+      furniture: updatePostData?.furniture || "",
+      rule: updatePostData?.rule || "",
+      dateCreateAt: updatePostData?.dateCreateAt || "",
+      dateExpired: updatePostData?.dateExpired || "",
+      userId: updatePostData?.userId || "",
+      check: updatePostData?.check || "0",
+      urlImages: updatePostData?.urlImages || "",
+    };
+    return data;
   });
 
   const handleFiles = async (e) => {
+    setIsInvalid([]);
     setLoading(true);
     let images = [];
     const files = e.target.files;
@@ -75,13 +81,11 @@ const NewPost = () => {
     for (let file of files) {
       dataImages.append("file", file);
       dataImages.append("upload_preset", "ml_default");
-      console.log("dataImages", dataImages.upload_preset);
 
       try {
         const response = await callApiUploadImages(dataImages);
         if (response.status === 200)
           images = [...images, response.data?.secure_url];
-        console.log("images gop api tải lên từng ảnh", images);
       } catch (error) {
         setLoading(false);
       }
@@ -92,9 +96,7 @@ const NewPost = () => {
       ...prev,
       urlImages: [...prev.urlImages, ...images],
     }));
-    console.log("setFormData sau chọn file 1 lần", formData);
   };
-  console.log("setFormData sau khi reder lại ra ngoài", formData);
 
   const handleResetClick = () => {
     setPreview(null);
@@ -111,7 +113,6 @@ const NewPost = () => {
     }));
   };
 
-  console.log(("IsInValid", IsInValid));
   const validate = (formData) => {
     let isInvalidCount = true;
     const IsNull = (value, i, title) => {
@@ -222,7 +223,6 @@ const NewPost = () => {
 
       if (i === "urlImages") {
         const title = `Ảnh`;
-        // console.log(formData.urlImages.length)
 
         IsNullImage(formData[i], i, title);
       }
@@ -231,19 +231,184 @@ const NewPost = () => {
   };
 
   const handleSubmitPost = () => {
+    setLoading(true);
     let IsError = validate(formData);
     // let IsError = true;
     if (IsError) {
-      const PostNewPost = async () => {
-        const response = await callApiCreatePost(formData);
-        console.log("submit form thành công", response.data);
-      };
-      PostNewPost();
+      if (updatePostData) {
+        const PostNewPost = async () => {
+          try {
+            const response = await callApiUpdatePost(formData);
+            if (response.data.msg) {
+              swal({
+                text: "Cập nhật bài đăng không thành công",
+                icon: "error",
+                timer: 2000,
+              });
+            } else {
+              swal({
+                text: "Cập nhật bài đăng thành công",
+                icon: "success",
+                timer: 2000,
+              }).then(() => dispatch(UpdatePostActionClearData()));
+            }
+            console.log("submit form thành công", response);
+          } catch (error) {
+            setLoading(false);
+            console.log(error);
+            swal({
+              text: "Cập nhật bài đăng không thành công",
+              icon: "error",
+              timer: 2000,
+            });
+          }
+        };
+        PostNewPost();
+        setLoading(false);
+      } else {
+        const PostNewPost = async () => {
+          try {
+            const response = await callApiCreatePost(formData);
+            if (response.data.msg) {
+              swal({
+                text: "Tạo bài đăng mới không thành công",
+                icon: "error",
+                timer: 2000,
+              });
+            } else {
+              swal({
+                text: "Tạo bài đăng mới thành công",
+                icon: "success",
+                timer: 2000,
+              }).then(() => {
+                setFormData({
+                  title: "",
+                  address: "",
+                  zalo: "",
+                  status: "0",
+                  price: "",
+                  area: "",
+                  otherFee: "",
+                  nearby: "",
+                  typeRoom: "",
+                  description: "",
+                  furniture: "",
+                  rule: "",
+                  dateCreateAt: "",
+                  dateExpired: "",
+                  userId: "",
+                  check: "0",
+                  urlImages: "",
+                });
+              });
+            }
+            console.log("submit form thành công", response);
+          } catch (error) {
+            setLoading(false);
+            console.log("error", error);
+            swal({
+              text: "Tạo bài đăng mới không thành công",
+              icon: "error",
+              timer: 2000,
+            });
+          }
+        };
+        PostNewPost();
+        setLoading(false);
+      }
     }
+    setLoading(false);
   };
+  console.log("province", province);
+
+  console.log("district", district);
+  console.log("districts", districts);
 
   useEffect(() => {
-    const handleDate = () => {
+    // const handleDate = () => {
+    //   const today = new Date();
+    //   const endDate = new Date(new Date().setDate(today.getDate() + 90));
+    //   setFormData((prevState) => ({
+    //     ...prevState,
+    //     dateCreateAt: formatDate(today),
+    //     dateExpired: formatDate(endDate),
+    //   }));
+    // };
+    // handleDate();
+    const callProvinceApi = async () => {
+      try {
+        const response = await getProvince();
+
+        if (response.status === 200) {
+          setProvinces(response?.data.results);
+          console.log("provinces api", response?.data.results);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    callProvinceApi();
+  }, []);
+  useEffect(() => {
+    if (updatePostData) {
+      setPreview(updatePostData?.urlImages);
+    }
+  }, [updatePostData]);
+
+  useEffect(() => {
+    if (updatePostData) {
+      let addressData = updatePostData?.address?.split(",");
+      let userProvince =
+        provinces.length > 0 &&
+        provinces?.find(
+          (province) =>
+            province.province_name ===
+            addressData[addressData?.length - 1]?.trim()
+        );
+      console.log("userProvince", userProvince);
+
+      userProvince && setProvince(userProvince);
+    }
+  }, [provinces]);
+
+  useEffect(() => {
+    if (updatePostData) {
+      let addressData = updatePostData?.address?.split(",");
+      let userDistrict =
+        districts.length > 0 &&
+        districts?.find(
+          (district) =>
+            district.district_name ===
+            addressData[addressData?.length - 2]?.trim()
+        );
+      userDistrict && setDistrict(userDistrict);
+    }
+  }, [districts]);
+
+  useEffect(() => {
+    if (updatePostData) {
+      let addressData = updatePostData?.address?.split(",");
+      let userWard =
+        wards?.length > 0 &&
+        wards?.find(
+          (ward) =>
+            ward.ward_name === addressData[addressData?.length - 3]?.trim()
+        );
+
+      userWard && setWard(userWard);
+      setAddressData({
+        provinceForm: addressData[addressData?.length - 1],
+
+        districtForm: addressData[addressData?.length - 2],
+        wardForm: addressData[addressData?.length - 3],
+        streetForm: addressData[addressData?.length - 4],
+      });
+    }
+  }, [wards]);
+
+  useEffect(() => {
+    if (!updatePostData) {
       const today = new Date();
       const endDate = new Date(new Date().setDate(today.getDate() + 90));
       setFormData((prevState) => ({
@@ -251,17 +416,10 @@ const NewPost = () => {
         dateCreateAt: formatDate(today),
         dateExpired: formatDate(endDate),
       }));
-    };
-    handleDate();
-    const callProvinceApi = async () => {
-      const response = await getProvince();
-      if (response.status === 200) {
-        setProvinces(response?.data.results);
-      }
-    };
-    callProvinceApi();
+    }
   }, []);
-
+  console.log("formData", formData);
+  console.log("");
   useEffect(() => {
     setDistrict(null);
     setWard(null);
@@ -269,9 +427,13 @@ const NewPost = () => {
     setWards(null);
 
     const callDistrictApi = async () => {
-      const response = await getDistrict(province);
-      if (response.status === 200) {
-        setDistricts(response?.data.results);
+      try {
+        const response = await getDistrict(province.province_id || province);
+        if (response.status === 200) {
+          setDistricts(response?.data.results);
+        }
+      } catch (error) {
+        console.log(error);
       }
     };
     province && callDistrictApi();
@@ -281,9 +443,13 @@ const NewPost = () => {
   useEffect(() => {
     setWard(null);
     const callWardtApi = async () => {
-      const response = await getWard(district);
-      if (response.status === 200) {
-        setWards(response?.data.results);
+      try {
+        const response = await getWard(district.district_id || district);
+        if (response.status === 200) {
+          setWards(response?.data.results);
+        }
+      } catch (error) {
+        console.log(error);
       }
     };
     district && callWardtApi();
@@ -291,13 +457,16 @@ const NewPost = () => {
   }, [district]);
 
   useEffect(() => {
-    ward &&
-      setFormData((prevState) => ({
-        ...prevState,
-        userId: stateAuth.data.userId,
-      }));
+    if (updatePostData) {
+      ward &&
+        setFormData((prevState) => ({
+          ...prevState,
+          userId: stateAuth.data.userId,
+        }));
+    }
   }, [ward]);
   useEffect(() => {
+    console.log("addressData", addressData);
     setFormData((prevState) => ({
       ...prevState,
       address: ` ${addressData.numberAddress ? `${addressData.numberAddress}, ` : ""} ${addressData.wardForm ? `${addressData.wardForm}, ` : ""} ${addressData.districtForm ? `${addressData.districtForm}, ` : ""} ${addressData.provinceForm ? `${addressData.provinceForm}` : ""}`,
@@ -326,22 +495,13 @@ const NewPost = () => {
 
           <div className="mt-[40px]">
             <InputNewPost
+              value={formData.zalo}
               setIsInvalid={setIsInvalid}
               IsInValid={IsInValid}
               title={"zalo"}
               id={"zalo"}
               setFormData={setFormData}
             />
-          </div>
-
-          <div className="mt-[20px]">
-          <InputNewPost
-            setIsInvalid={setIsInvalid}
-            IsInValid={IsInValid}
-            title={"Số nhà, tên đường"}
-            id={"numberAddress"}
-            setFormData={setAddressData}
-          />
           </div>
 
           <Form.Item
@@ -360,6 +520,9 @@ const NewPost = () => {
                 IsInValid={IsInValid}
                 name={"provinceForm"}
                 value={provinces}
+                provinceForm={addressData.provinceForm}
+                // valueSelect={addressData.provinceForm}
+                valueSelect={province.province_name}
                 setProvince={setProvince}
                 setAddressData={setAddressData}
                 style={{ paddingRight: "10px" }}
@@ -370,6 +533,8 @@ const NewPost = () => {
                 IsInValid={IsInValid}
                 name={"districtForm"}
                 value={districts}
+                districtForm={addressData.districtForm}
+                valueSelect={district?.district_name}
                 setDistrict={setDistrict}
                 setAddressData={setAddressData}
                 district={district}
@@ -378,18 +543,29 @@ const NewPost = () => {
                 setIsInvalid={setIsInvalid}
                 IsInValid={IsInValid}
                 name={"wardForm"}
+                wardForm={addressData.wardForm}
                 value={wards}
+                valueSelect={ward?.ward_name}
                 setWard={setWard}
                 setAddressData={setAddressData}
               />
             </div>
           </Form.Item>
+          <InputNewPost
+            value={addressData.streetForm}
+            setIsInvalid={setIsInvalid}
+            IsInValid={IsInValid}
+            title={"Số nhà, tên đường"}
+            id={"streetForm"}
+            setFormData={setAddressData}
+          />
           <InputReadOnly title={"Địa chỉ đầy đủ"} value={formData.address} />
           {/* thong tin phong */}
           <div className="shrink-0 mr-auto sm:py-3">
             <p className="font-medium"> Thông Tin Phòng</p>
           </div>
           <InputNewPost
+            value={formData.title}
             id={"title"}
             setIsInvalid={setIsInvalid}
             IsInValid={IsInValid}
@@ -400,13 +576,15 @@ const NewPost = () => {
             id={"typeRoom"}
             placeholder={"Chọn Loại"}
             typeRoom={TypeRoom}
+            valueSelect={formData.typeRoom}
             setFormData={setFormData}
             title={"Phân Loại"}
             setIsInvalid={setIsInvalid}
             IsInValid={IsInValid}
           />
           <TextAreaNewPost
-            title={"Mô tả"}
+            value={formData.description}
+            title={"Mô tả phòng"}
             id={"description"}
             rows={4}
             setFormData={setFormData}
@@ -414,6 +592,7 @@ const NewPost = () => {
             IsInValid={IsInValid}
           />
           <InputNewPost
+            value={formData.nearby}
             setIsInvalid={setIsInvalid}
             IsInValid={IsInValid}
             title={"Tiện ích xung quanh"}
@@ -421,6 +600,7 @@ const NewPost = () => {
             setFormData={setFormData}
           />
           <InputNewPost
+            value={formData.furniture}
             setIsInvalid={setIsInvalid}
             IsInValid={IsInValid}
             title={"Nội thất"}
@@ -428,6 +608,7 @@ const NewPost = () => {
             setFormData={setFormData}
           />
           <InputNewPost
+            value={formData.price}
             setIsInvalid={setIsInvalid}
             IsInValid={IsInValid}
             title={"Giá"}
@@ -436,6 +617,7 @@ const NewPost = () => {
             setFormData={setFormData}
           />
           <InputNewPost
+            value={formData.area}
             setIsInvalid={setIsInvalid}
             IsInValid={IsInValid}
             suffix="m&#178;"
@@ -443,7 +625,8 @@ const NewPost = () => {
             id={"area"}
             setFormData={setFormData}
           />
-          <TextAreaNewPost
+          <InputNewPost
+            value={formData.otherFee}
             setIsInvalid={setIsInvalid}
             IsInValid={IsInValid}
             title={"Chi Phí khác"}
@@ -453,6 +636,7 @@ const NewPost = () => {
           />
 
           <TextAreaNewPost
+            value={formData.rule}
             title={"Quy định"}
             id={"rule"}
             rows={4}
@@ -476,6 +660,15 @@ const NewPost = () => {
             </div>
           </label>
           <input onChange={handleFiles} hidden type="file" id="file" multiple />
+          {IsInValid && IsInValid.length > 0
+            ? IsInValid.some((element) => element.name === "urlImages") && (
+                <span className="italic text-[#f33a58] text-center text-xl">
+                  {" "}
+                  {IsInValid.find((e) => e.name === "urlImages")?.msg}{" "}
+                </span>
+              )
+            : ""}
+          {loading && <Loading />}
           {preview && preview.length > 0 ? (
             <div className="w-full">
               {/* <div className="flex items-center justify-between"> */}
@@ -522,7 +715,7 @@ const NewPost = () => {
             onClick={handleSubmitPost}
             className="rounded-lg py-[5px] my-[20px] border-2 border-transparent bg-blue-500 px-4 py-2 font-medium text-white focus:outline-none focus:ring hover:bg-blue-700"
           >
-            Đăng bài
+            {updatePostData ? "Lưu Cập nhật" : "Đăng bài"}
           </button>
         </div>
       </div>

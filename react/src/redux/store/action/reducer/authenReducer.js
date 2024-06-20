@@ -42,11 +42,19 @@ export const authenReducer = (state = initialState, action) => {
         isLoggedIn: true,
         data: action.data,
         msg: action.msg,
+        update: !state.update,
       };
     case actionTypes.UPDATE_PROFILE_FAIL:
       return {
         ...state,
         isLoggedIn: true,
+        msg: action.msg,
+        update: !state.update,
+      };
+    case actionTypes.UPDATE_PROFILE_ACCESS:
+      return {
+        ...state,
+
         msg: action.msg,
       };
     case actionTypes.VALIDATION_EMAIL_SUC:

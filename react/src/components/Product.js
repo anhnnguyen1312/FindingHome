@@ -4,7 +4,9 @@ import ProductData from "../data/ProductData";
 import { Search, CardProduct, Button } from "./index";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { postAction } from "../redux/store/action/postAction";
+import { postAction, postActionDemo } from "../redux/store/action/postAction";
+import { Pagination } from "antd";
+
 const Product = (props) => {
   const ch2 = "../assets/images/canho/ch1.jpg";
 
@@ -14,19 +16,21 @@ const Product = (props) => {
   const handleClickFilter = () => {
     setButton(!button);
   };
-  useEffect(() => {
-    dispatch(postAction());
-  }, []);
+  // useEffect(() => {
+  //   // dispatch(postAction());
+
+  //   dispatch(postActionDemo());
+  // }, []);
   console.log("posts", posts);
   return (
-    <div className="">
+    <div className="flex flex-col items-center justify-center gap-[30px]">
       <div className=" flex lg:flex-row flex-col gap-[2vw]   ">
         <div className="lg:hidden flex bg-gray">
           <div className=" w-full p-[20px] flex flex-col items-center justify-center gap-[20px] ">
             <div className=" flex-col md:flex-row bg-F8FAFC w-full p-[10px] flex items-center justify-center gap-[10px] ">
               <Search />
             </div>
-          </div>``
+          </div>
         </div>
         <div className="lg:flex-[80%] flex flex-col gap-[20px] p-[5px] ">
           <h1 className="mt-[5vh] text-[30px] font-semibold ">
@@ -37,19 +41,20 @@ const Product = (props) => {
               posts.map((product) => {
                 return (
                   <CardProduct
-                    key={product.id}
-                    address={product.address}
-                    price={product.price}
-                    area={product.area}
-                    status={product.status}
-                    description={product.description}
-                    nearby={product.nearby}
-                    username={product.username}
-                    phone={product.phone}
-                    zalo={product.zalo}
-                    title={product.title}
-                    id={product.id}
-                    urlImages={product.urlImages}
+                    props={product}
+                    // key={product.id}
+                    // address={product.address}
+                    // price={product.price}
+                    // area={product.area}
+                    // status={product.status}
+                    // description={product.description}
+                    // nearby={product.nearby}
+                    // username={product.username}
+                    // phone={product.phone}
+                    // zalo={product.zalo}
+                    // title={product.title}
+                    // id={product.id}
+                    // urlImages={product.urlImages}
                   />
                 );
               })}
@@ -75,6 +80,7 @@ const Product = (props) => {
           </div>
         </div>
       </div>
+      <Pagination defaultCurrent={1} total={posts.length} />
     </div>
   );
 };

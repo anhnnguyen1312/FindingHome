@@ -6,24 +6,22 @@ import { useNavigate } from "react-router-dom";
 import AutoSlideShow from "./AutoSlideShow";
 
 import DetailProduct from "../pages/Public/DetailProduct";
-const CardProduct = (props) => {
+const CardProduct = ({ props }) => {
   const [isHoverHeart, setIsHoverHeart] = useState(false);
   const navigate = useNavigate();
   function handleNavigate(idPost) {
-    navigate(path.DETAIL_PRODUCT, { state: { idPost } });
+    navigate(`/${path.DETAIL_PRODUCT}`, { state: { idPost } });
   }
+
   return (
     <div>
       <li className=" ">
-
         <div
           className="flex hover:bg-[#E9F4F6] h-full border border-transparent bg-white shadow flex-col md:flex-row px-4 active:border-rose-500 rounded-2xl"
           onClick={() => handleNavigate(props.id)}
         >
-          <figure
-            className="m-0 flex-[30%] my-4 overflow-hidden rounded-2xl relative"
-          >
-            { props.urlImages && <AutoSlideShow images={props.urlImages} />}
+          <figure className="m-0 flex-[30%] my-4 overflow-hidden rounded-2xl relative">
+            {props.urlImages && <AutoSlideShow images={props.urlImages} />}
             <span
               className="text-rose-500 absolute right-5 top-1"
               onMouseEnter={() => setIsHoverHeart(true)}
@@ -44,8 +42,7 @@ const CardProduct = (props) => {
             </div>
             <div className="justify-start gap-[1vw] flex ">
               <div className="text-white font-medium flex items-center color:white px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">
-                <div className="flex items-center px-[3px]">
-                </div>
+                <div className="flex items-center px-[3px]"></div>
                 {`${props.price} triệu/tháng`}
               </div>
 
@@ -54,12 +51,15 @@ const CardProduct = (props) => {
                   {props.area} m&#178;
                 </div>
               )}
-              
-              {props.status == 0  ? (
-                  <div className="  text-white font-medium px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">Còn trống</div>
-              ):
-              (
-                <div className="  text-white font-medium px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">Đã hết</div>
+
+              {props.status == 0 ? (
+                <div className="  text-white font-medium px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">
+                  Còn trống
+                </div>
+              ) : (
+                <div className="  text-white font-medium px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">
+                  Đã hết
+                </div>
               )}
             </div>
 
@@ -72,9 +72,13 @@ const CardProduct = (props) => {
               </div>
               {props.address}
             </div>
-            <div className="text-black">{props.description}</div>
+            <div className=" overflow-hidden text-ellipsis whitespace-normal leading-6 h-[3rem] text-black">
+              {props.description} <p> ...</p>
+            </div>
 
-            <div className="text-black"><b>{props.nearby}</b></div>
+            <div className="overflow-hidden text-ellipsis whitespace-normal leading-6 h-[3rem] text-black">
+              <b>{props.nearby} ... </b>
+            </div>
 
             <div className="flex justify-between text-cyan-600 font-medium">
               <div className="owner--name">{props.username}</div>

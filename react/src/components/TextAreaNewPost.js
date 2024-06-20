@@ -9,6 +9,7 @@ const TextAreaNewPost = ({
   setIsInvalid,
   setFormData,
   rows,
+  value,
 }) => {
   const handeChangeSelect = (e) => {
     setFormData((prevState) => ({
@@ -23,6 +24,7 @@ const TextAreaNewPost = ({
     <div className="flex flex-col mb-2">
       <Form.Item label={title}>
         <TextArea
+          value={value}
           onFocus={() => handeFocus()}
           rows={rows}
           id={id}

@@ -1,9 +1,9 @@
-import React from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import React from "react";
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
 const mapContainerStyle = {
   height: "500px",
-  width: "100%"
+  width: "100%",
 };
 
 const Map = ({ latLng }) => {

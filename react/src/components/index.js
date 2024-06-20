@@ -20,5 +20,7 @@ export { default as InputNewPost } from "./InputNewPost";
 export { default as ManagePostUser } from "./ManagePostUser";
 export { default as AvatarUpload } from "./AvatarUpload";
 export { default as UpdateUserProfile } from "./UpdateUserProfile";
+export { default as Loading } from "./Loading";
+export { default as StatisticPost } from "./StatisticPost";
 
 export { default as formatDate } from "./formatDate";
