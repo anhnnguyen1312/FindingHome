@@ -7,7 +7,6 @@ export const callApiRegister = (payload) =>
     try {
       const response = await axiosConfig({
         method: "post",
-
         url: "http://localhost:8000/register",
         data: payload,
       });
@@ -33,16 +32,30 @@ export const callApiLogin = (payload) =>
     }
   });
 
-// export const callApiUserInfor = () =>
-//   new Promise(async (resolve, reject) => {
-//     try {
-//       const response = await axiosConfig({
-//         method: "get",
+export const checkEmailUser = (payload) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosConfig({
+        method: "post",
+        url: "http://localhost:8000/check-email-user",
+        data: payload,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
 
-//         url: "",
-//       });
-//       resolve(response);
-//     } catch (error) {
-//       reject(error);
-//     }
-//   });
+export const resetPassword = (payload) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosConfig({
+        method: "post",
+        url: "http://localhost:8000/reset-password",
+        data: payload,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
