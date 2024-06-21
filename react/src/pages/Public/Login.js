@@ -68,22 +68,19 @@ export default function Login() {
     }
   }, [stateAuth.msg, stateAuth.update]);
 
-  useEffect(() =>{
-    stateAuth.isCheckedEmail == "checked" ? (
-      swal({
-        text: stateAuth.msg,
-        icon: "success",
-        timer: 2000,
-      })
-    )
-    :stateAuth.isCheckedEmail == "unChecked" &&
-    (
-      swal({
-        text: stateAuth.msg,
-        icon: "error",
-        timer: 2000,
-      })
-    )
+  useEffect(() => {
+    stateAuth.isCheckedEmail == "checked"
+      ? swal({
+          text: stateAuth.msg,
+          icon: "success",
+          timer: 2000,
+        })
+      : stateAuth.isCheckedEmail == "unChecked" &&
+        swal({
+          text: stateAuth.msg,
+          icon: "error",
+          timer: 2000,
+        });
   }, [stateAuth.isCheckedEmail]);
 
   const validate = (formData) => {
@@ -206,14 +203,16 @@ export default function Login() {
             email: formData.email,
             password: formData.password,
           };
-    console.log('api', apiData)
+    console.log("api", apiData);
     let checkValidate = validate(apiData);
 
     if (checkValidate) {
       {
-        isResgister ? dispatch(registerAction(apiData))
-        : isForgotPassword ? dispatch(forgotPasswordAction(apiData))
-        : dispatch(loginAction(apiData));
+        isResgister
+          ? dispatch(registerAction(apiData))
+          : isForgotPassword
+            ? dispatch(forgotPasswordAction(apiData))
+            : dispatch(loginAction(apiData));
       }
     }
 
@@ -329,7 +328,7 @@ export default function Login() {
                 className="cursor-pointer hover:underline"
               >
                 Bạn quên mật khẩu ?
-              </Link>
+              </p>
             </>
           )}
         </div>

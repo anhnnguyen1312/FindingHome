@@ -19,9 +19,13 @@ const DetailProduct = () => {
 
   useEffect(() => {
     const getApiDetailPost = async () => {
-      const response = await callApiDetailPost(id);
-      const decodeToken = jwtDecode(response.data.token);
-      setDetailPost(decodeToken);
+      try {
+        const response = await callApiDetailPost(id);
+        const decodeToken = jwtDecode(response.data.token);
+        setDetailPost(decodeToken);
+      } catch (error) {
+        console.log(error);
+      }
     };
     getApiDetailPost();
   }, []);
