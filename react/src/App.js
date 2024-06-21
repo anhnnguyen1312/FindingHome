@@ -52,7 +52,6 @@ function App() {
         <Route path={path.HOME_LOGGED_IN} element={<HomeLoggedIn />}>
           <Route path={path.NEWPOST} element={<NewPost />} />
           <Route path={path.PROFILE} element={<Profile />} />
-
           <Route path={path.NEWPOST} element={<NewPost />} />
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
         </Route>

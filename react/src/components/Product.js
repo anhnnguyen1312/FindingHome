@@ -1,29 +1,40 @@
 import React, { useState, useEffect } from "react";
-import ProductData from "../data/ProductData";
-// import { callApiPost } from "../api/getPostApi";
-import { Search, CardProduct, Button } from "./index";
+import { CardProduct, Search } from "./index";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { postAction, postActionDemo } from "../redux/store/action/postAction";
 import { Pagination } from "antd";
 
-const Product = (props) => {
-  const ch2 = "../assets/images/canho/ch1.jpg";
-
+const Product = ({ type }) => {
+  console.log(type);
   const [button, setButton] = useState(false);
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.post);
+  
+  const allPosts = Object.values(posts).flat();
+  const filteredProducts = type ? allPosts.filter(post => post.typeRoom === type) : allPosts;
+  const initialPage = parseInt(localStorage.getItem('currentPage')) || 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const pageSize = 2;
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const currentPosts = filteredProducts.slice(startIndex, endIndex);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   const handleClickFilter = () => {
     setButton(!button);
   };
-  // useEffect(() => {
-  //   // dispatch(postAction());
 
-  //   dispatch(postActionDemo());
-  // }, []);
-  console.log("posts", posts);
+  useEffect(() => {
+    localStorage.setItem('currentPage', currentPage);
+  }, [currentPage]);
+
+  console.log("posts", filteredProducts);
+
   return (
-    <div className="flex flex-col items-center justify-center gap-[30px]">
+    <div className="flex flex-col justify-center gap-[30px]">
       <div className=" flex lg:flex-row flex-col gap-[2vw]   ">
         <div className="lg:hidden flex bg-gray">
           <div className=" w-full p-[20px] flex flex-col items-center justify-center gap-[20px] ">
@@ -34,31 +45,23 @@ const Product = (props) => {
         </div>
         <div className="lg:flex-[80%] flex flex-col gap-[20px] p-[5px] ">
           <h1 className="mt-[5vh] text-[30px] font-semibold ">
-            Phòng Đang Cho Thuê{" "}
+            Danh Sách Tất Cả Bài Đăng{" "}
           </h1>
           <ul className="flex flex-col gap-[20px]  ">
-            {posts?.length > 0 &&
-              posts.map((product) => {
-                return (
-                  <CardProduct
-                    props={product}
-                    // key={product.id}
-                    // address={product.address}
-                    // price={product.price}
-                    // area={product.area}
-                    // status={product.status}
-                    // description={product.description}
-                    // nearby={product.nearby}
-                    // username={product.username}
-                    // phone={product.phone}
-                    // zalo={product.zalo}
-                    // title={product.title}
-                    // id={product.id}
-                    // urlImages={product.urlImages}
-                  />
-                );
-              })}
+            {currentPosts?.length > 0 &&
+              currentPosts.map((product, index) => (
+                <CardProduct key={index} props={product} />
+              ))}
           </ul>
+          <div className="flex items-center justify-center">
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              total={filteredProducts.length}
+              onChange={handlePageChange}
+              hideOnSinglePage={true}
+            />
+          </div>
         </div>
         <div className="lg:flex-[20%] flex-col hidden lg:flex bg-gray">
           {/* Button */}
@@ -80,7 +83,6 @@ const Product = (props) => {
           </div>
         </div>
       </div>
-      <Pagination defaultCurrent={1} total={posts.length} />
     </div>
   );
 };

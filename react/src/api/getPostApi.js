@@ -15,20 +15,20 @@ export const callApiPost = (payload) =>
     }
   });
 
-export const callApiPostDemo = () =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const response = await axiosConfig({
-        method: "get",
-        // url: "http://localhost:8000/list-all-post",
-        url: "http://localhost:3000/allPosts",
-      });
-      resolve(response);
-      console.log("response", response);
-    } catch (error) {
-      reject(error);
-    }
-  });
+// export const callApiPostDemo = () =>
+//   new Promise(async (resolve, reject) => {
+//     try {
+//       const response = await axiosConfig({
+//         method: "get",
+//         // url: "http://localhost:8000/list-all-post",
+//         url: "http://localhost:3000/allPosts",
+//       });
+//       resolve(response);
+//       console.log("response", response);
+//     } catch (error) {
+//       reject(error);
+//     }
+//   });
 
 export const callApiCreatePost = (payload) =>
   new Promise(async (resolve, reject) => {
@@ -79,8 +79,7 @@ export const callApiDetailPost = (payload) =>
     try {
       const response = await axiosConfig({
         method: "get",
-        // url: `http://localhost:8000/post-detail/${payload}`,
-        url: `http://localhost:3000/allPosts/${payload}`,
+        url: `http://localhost:8000/post-detail/${payload}`,
         data: payload,
       });
       resolve(response);

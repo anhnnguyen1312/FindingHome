@@ -6,7 +6,6 @@ export const path = {
   ESTATE_RENTAL: "tim-mat-bang",
   DETAIL_PRODUCT: "detail",
   PROFILE: "profile",
-
   NEWPOST: "newpost",
   HOME_LOGGED_IN: "/logged-in/*",
   RESET_PASSWORD: "reset-password",
