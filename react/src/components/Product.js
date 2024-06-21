@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { CardProduct, Search } from "./index";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Pagination } from "antd";
 
 const Product = ({ type }) => {
-  console.log(type);
+  console.log("render")
   const [button, setButton] = useState(false);
-  const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.post);
   
   const allPosts = Object.values(posts).flat();
   const filteredProducts = type ? allPosts.filter(post => post.typeRoom === type) : allPosts;
-  const initialPage = parseInt(localStorage.getItem('currentPage')) || 1;
+
+  const savedPageKey = `currentPage-${type || 'all'}`;
+  const initialPage = parseInt(localStorage.getItem(savedPageKey)) || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
   const pageSize = 2;
   const startIndex = (currentPage - 1) * pageSize;
@@ -28,10 +29,13 @@ const Product = ({ type }) => {
   };
 
   useEffect(() => {
-    localStorage.setItem('currentPage', currentPage);
-  }, [currentPage]);
+    localStorage.setItem(savedPageKey, currentPage);
+  }, [currentPage, savedPageKey]);
 
-  console.log("posts", filteredProducts);
+  useEffect(() => {
+    // setCurrentPage(1);
+    localStorage.setItem(savedPageKey, '1');
+  }, [type]);
 
   return (
     <div className="flex flex-col justify-center gap-[30px]">
@@ -44,8 +48,9 @@ const Product = ({ type }) => {
           </div>
         </div>
         <div className="lg:flex-[80%] flex flex-col gap-[20px] p-[5px] ">
+
           <h1 className="mt-[5vh] text-[30px] font-semibold ">
-            Danh Sách Tất Cả Bài Đăng{" "}
+            Danh Sách Bài Đăng{" "}
           </h1>
           <ul className="flex flex-col gap-[20px]  ">
             {currentPosts?.length > 0 &&
@@ -54,7 +59,7 @@ const Product = ({ type }) => {
               ))}
           </ul>
           <div className="flex items-center justify-center">
-            <Pagination
+          <Pagination
               current={currentPage}
               pageSize={pageSize}
               total={filteredProducts.length}
