@@ -16,7 +16,7 @@ const   CardProduct = ({ props}) => {
   return (
       <li>
         <div
-          className="flex hover:bg-[#E9F4F6] h-full border border-transparent bg-white shadow flex-col md:flex-row px-4 active:border-rose-500 rounded-2xl"
+          className="flex hover:bg-[#E9F4F6] h-full border border-transparent bg-white shadow flex-col sm:flex-row md:flex-row px-4 active:border-rose-500 rounded-2xl"
           onClick={() => handleNavigate(props.id)}
         >
           <figure className="m-0 flex-[30%] my-4 overflow-hidden rounded-2xl relative">
