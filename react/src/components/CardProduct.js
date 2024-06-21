@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import AutoSlideShow from "./AutoSlideShow";
 
 import DetailProduct from "../pages/Public/DetailProduct";
-const CardProduct = ({ props }) => {
+const   CardProduct = ({ props}) => {
   const [isHoverHeart, setIsHoverHeart] = useState(false);
   const navigate = useNavigate();
   function handleNavigate(idPost) {
@@ -14,8 +14,7 @@ const CardProduct = ({ props }) => {
   }
 
   return (
-    <div>
-      <li className=" ">
+      <li>
         <div
           className="flex hover:bg-[#E9F4F6] h-full border border-transparent bg-white shadow flex-col md:flex-row px-4 active:border-rose-500 rounded-2xl"
           onClick={() => handleNavigate(props.id)}
@@ -128,7 +127,6 @@ const CardProduct = ({ props }) => {
           </div>
         </div>
       </li>
-    </div>
   );
 };
 

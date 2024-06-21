@@ -68,8 +68,6 @@ export default function NavBar() {
     //   handleLogOut();
     // }
   };
-  console.log("navbar");
-
   // }
   const showButton = () => {
     if (window.innerWidth <= 960) {
@@ -126,32 +124,32 @@ export default function NavBar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link
-                to={"/timphongtro"}
+              <NavLink
+                to={"/tim-phong"}
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
                 Tìm phòng trọ
-              </Link>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <Link
-                to={"/timnha"}
+              <NavLink
+                to={"/tim-nha"}
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
                 Tìm nhà
-              </Link>
+              </NavLink>
             </li>
 
             <li className="nav-item">
-              <Link
-                to={"/timmatbang"}
+              <NavLink
+                to={"/tim-mat-bang"}
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
                 Tìm mặt bằng
-              </Link>
+              </NavLink>
             </li>
             {/* <li className='nav-item'>
             <Button 

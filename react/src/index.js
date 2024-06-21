@@ -7,7 +7,7 @@ import { getAuthToken } from "../src/api/cookieServices";
 import { getUserAction } from "../src/redux/store/action/authenAction";
 import {
   postAction,
-  postActionDemo,
+  // postActionDemo,
 } from "../src/redux/store/action/postAction";
 
 import { PersistGate } from "redux-persist/integration/react";
@@ -20,11 +20,9 @@ import { store, persistor } from "./redux/store";
 
 const Root = () => {
   useEffect(() => {
-    console.log("index dispatch");
     const cookie = getAuthToken();
     cookie && store.dispatch(getUserAction(cookie));
-    store.dispatch(postActionDemo());
-    console.log("index dispatch done");
+    store.dispatch(postAction());
   }, []);
   return (
     <Provider store={store}>

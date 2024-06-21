@@ -38,7 +38,7 @@ class PostController extends CI_Controller {
 					'username' => $data->name,
 					'phone' => $this->encryption->decrypt($data->phone),
 					'address' => $this->encryption->decrypt($data->address),
-					// 'typeRoom' => $data->typeRoom,
+					'typeRoom' => $data->typeRoom,
 					'price' => $data->price,
 					'title' => $data->title,
 					'area' => $data->area,

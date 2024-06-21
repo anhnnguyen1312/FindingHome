@@ -1,11 +1,10 @@
 import React from "react";
 import { Product } from "../../components";
 
+const type = "phòng";
 const RoomRental = () => {
   return (
-    <div>
-      <Product />
-    </div>
+    <Product type={type}/>
   );
 };
 export default RoomRental;
