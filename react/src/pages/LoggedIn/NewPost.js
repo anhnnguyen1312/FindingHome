@@ -28,7 +28,12 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Image, Upload } from "antd";
 import { callApiUploadImages } from "../../api/uploadImage";
 import swal from "sweetalert";
-const NewPost = ({ updatePostData }) => {
+const NewPost = ({
+  updatePostData,
+  setUpdatePostClick,
+  ReUpPostData,
+  setReUpPostClick,
+}) => {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -46,31 +51,32 @@ const NewPost = ({ updatePostData }) => {
     provinceForm: "",
     districtForm: "",
     wardForm: "",
+    streetForm: "",
   });
 
   const [formData, setFormData] = useState(() => {
     const data = {
-      title: updatePostData?.title || "",
-      address: updatePostData?.address || "",
-      zalo: updatePostData?.zalo || "",
+      title: updatePostData?.title || ReUpPostData?.title || "",
+      address: updatePostData?.address || ReUpPostData?.address || "",
+      zalo: updatePostData?.zalo || ReUpPostData?.zalo || "",
       status: updatePostData?.status || "0",
-      price: updatePostData?.price || "",
-      area: updatePostData?.area || "",
-      otherFee: updatePostData?.otherFee || "",
-      nearby: updatePostData?.nearby || "",
-      typeRoom: updatePostData?.typeRoom || "",
-      description: updatePostData?.description || "",
-      furniture: updatePostData?.furniture || "",
-      rule: updatePostData?.rule || "",
+      price: updatePostData?.price || ReUpPostData?.price || "",
+      area: updatePostData?.area || ReUpPostData?.area || "",
+      otherFee: updatePostData?.otherFee || ReUpPostData?.otherFee || "",
+      nearby: updatePostData?.nearby || ReUpPostData?.nearby || "",
+      typeRoom: updatePostData?.typeRoom || ReUpPostData?.typeRoom || "",
+      description:
+        updatePostData?.description || ReUpPostData?.description || "",
+      furniture: updatePostData?.furniture || ReUpPostData?.furniture || "",
+      rule: updatePostData?.rule || ReUpPostData?.title || "",
       dateCreateAt: updatePostData?.dateCreateAt || "",
       dateExpired: updatePostData?.dateExpired || "",
-      userId: updatePostData?.userId || "",
+      userId: updatePostData?.userId || ReUpPostData?.userId || "",
       check: updatePostData?.check || "0",
-      urlImages: updatePostData?.urlImages || "",
+      urlImages: updatePostData?.urlImages || ReUpPostData?.urlImages || "",
     };
     return data;
   });
-
   const handleFiles = async (e) => {
     setIsInvalid([]);
     setLoading(true);
@@ -319,10 +325,6 @@ const NewPost = ({ updatePostData }) => {
     }
     setLoading(false);
   };
-  console.log("province", province);
-
-  console.log("district", district);
-  console.log("districts", districts);
 
   useEffect(() => {
     // const handleDate = () => {
@@ -341,7 +343,6 @@ const NewPost = ({ updatePostData }) => {
 
         if (response.status === 200) {
           setProvinces(response?.data.results);
-          console.log("provinces api", response?.data.results);
         }
       } catch (error) {
         console.log(error);
@@ -351,14 +352,52 @@ const NewPost = ({ updatePostData }) => {
     callProvinceApi();
   }, []);
   useEffect(() => {
-    if (updatePostData) {
-      setPreview(updatePostData?.urlImages);
+    // if (updatePostData) {
+    //   setPreview(updatePostData?.urlImages);
+    //   let addressData = updatePostData?.address?.split(",");
+    //   setFormData((prevState) => ({
+    //     ...prevState,
+    //     ["id"]: updatePostData?.id,
+    //   }));
+    //   setAddressData({
+    //     provinceForm: addressData[addressData?.length - 1],
+
+    //     districtForm: addressData[addressData?.length - 2],
+    //     wardForm: addressData[addressData?.length - 3],
+    //     streetForm: addressData[addressData?.length - 4],
+    //   });
+    //   console.log("setAddressData");
+    // }
+    if (updatePostData || ReUpPostData) {
+      setPreview(
+        updatePostData ? updatePostData?.urlImages : ReUpPostData?.urlImages
+      );
+      let addressData = updatePostData
+        ? updatePostData?.address?.split(",")
+        : ReUpPostData?.address?.split(",");
+      if (updatePostData) {
+        setFormData((prevState) => ({
+          ...prevState,
+          ["id"]: updatePostData?.id,
+        }));
+      }
+      setAddressData({
+        provinceForm: addressData[addressData?.length - 1],
+
+        districtForm: addressData[addressData?.length - 2],
+        wardForm: addressData[addressData?.length - 3],
+        streetForm: addressData[addressData?.length - 4],
+      });
     }
-  }, [updatePostData]);
+  }, [updatePostData, ReUpPostData]);
 
   useEffect(() => {
-    if (updatePostData) {
-      let addressData = updatePostData?.address?.split(",");
+    if (updatePostData || ReUpPostData) {
+      // let addressData = updatePostData?.address?.split(",");
+      let addressData = updatePostData
+        ? updatePostData?.address?.split(",")
+        : ReUpPostData?.address?.split(",");
+
       let userProvince =
         provinces.length > 0 &&
         provinces?.find(
@@ -366,15 +405,18 @@ const NewPost = ({ updatePostData }) => {
             province.province_name ===
             addressData[addressData?.length - 1]?.trim()
         );
-      console.log("userProvince", userProvince);
 
       userProvince && setProvince(userProvince);
     }
   }, [provinces]);
 
   useEffect(() => {
-    if (updatePostData) {
-      let addressData = updatePostData?.address?.split(",");
+    if (updatePostData || ReUpPostData) {
+      // let addressData = updatePostData?.address?.split(",");
+      let addressData = updatePostData
+        ? updatePostData?.address?.split(",")
+        : ReUpPostData?.address?.split(",");
+
       let userDistrict =
         districts.length > 0 &&
         districts?.find(
@@ -382,13 +424,18 @@ const NewPost = ({ updatePostData }) => {
             district.district_name ===
             addressData[addressData?.length - 2]?.trim()
         );
+
       userDistrict && setDistrict(userDistrict);
     }
   }, [districts]);
 
   useEffect(() => {
-    if (updatePostData) {
-      let addressData = updatePostData?.address?.split(",");
+    if (updatePostData || ReUpPostData) {
+      // let addressData = updatePostData?.address?.split(",");
+      let addressData = updatePostData
+        ? updatePostData?.address?.split(",")
+        : ReUpPostData?.address?.split(",");
+
       let userWard =
         wards?.length > 0 &&
         wards?.find(
@@ -397,13 +444,6 @@ const NewPost = ({ updatePostData }) => {
         );
 
       userWard && setWard(userWard);
-      setAddressData({
-        provinceForm: addressData[addressData?.length - 1],
-
-        districtForm: addressData[addressData?.length - 2],
-        wardForm: addressData[addressData?.length - 3],
-        streetForm: addressData[addressData?.length - 4],
-      });
     }
   }, [wards]);
 
@@ -418,8 +458,7 @@ const NewPost = ({ updatePostData }) => {
       }));
     }
   }, []);
-  console.log("formData", formData);
-  console.log("");
+
   useEffect(() => {
     setDistrict(null);
     setWard(null);
@@ -457,19 +496,18 @@ const NewPost = ({ updatePostData }) => {
   }, [district]);
 
   useEffect(() => {
-    if (updatePostData) {
-      ward &&
-        setFormData((prevState) => ({
-          ...prevState,
-          userId: stateAuth.data.userId,
-        }));
-    }
+    // if (updatePostData) {
+    ward &&
+      setFormData((prevState) => ({
+        ...prevState,
+        userId: stateAuth.data.userId,
+      }));
+    // }
   }, [ward]);
   useEffect(() => {
-    console.log("addressData", addressData);
     setFormData((prevState) => ({
       ...prevState,
-      address: ` ${addressData.numberAddress ? `${addressData.numberAddress}, ` : ""} ${addressData.wardForm ? `${addressData.wardForm}, ` : ""} ${addressData.districtForm ? `${addressData.districtForm}, ` : ""} ${addressData.provinceForm ? `${addressData.provinceForm}` : ""}`,
+      address: ` ${addressData.streetForm ? `${addressData.streetForm}, ` : ""} ${addressData.wardForm ? `${addressData.wardForm}, ` : ""} ${addressData.districtForm ? `${addressData.districtForm}, ` : ""} ${addressData.provinceForm ? `${addressData.provinceForm}` : ""}`,
     }));
   }, [addressData]);
 
@@ -711,6 +749,14 @@ const NewPost = ({ updatePostData }) => {
 
         {/* // button */}
         <div className="flex items-center justify-end">
+          <button
+            onClick={() =>
+              ReUpPostData ? setReUpPostClick(false) : setUpdatePostClick(false)
+            }
+            className="mr-4 rounded-lg border-2 px-4 py-2 py-[5px] my-[20px] font-medium text-gray-500 focus:outline-none focus:ring hover:bg-gray-200"
+          >
+            Hủy
+          </button>
           <button
             onClick={handleSubmitPost}
             className="rounded-lg py-[5px] my-[20px] border-2 border-transparent bg-blue-500 px-4 py-2 font-medium text-white focus:outline-none focus:ring hover:bg-blue-700"

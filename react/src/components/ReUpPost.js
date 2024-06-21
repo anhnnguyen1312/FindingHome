@@ -2,12 +2,12 @@ import React from "react";
 import NewPost from "../pages/LoggedIn/NewPost";
 import { useDispatch, useSelector } from "react-redux";
 
-const UpdatePost = ({ updatePostData, setUpdatePostClick }) => {
+const ReUpPost = ({ ReUpPostData, setReUpPostClick }) => {
   // const { updatePostData } = useSelector((state) => state.post);
 
   const handleClickOverlay = (e) => {
     e.stopPropagation();
-    setUpdatePostClick(false);
+    setReUpPostClick(false);
   };
   const handleClickChild = (e) => {
     e.stopPropagation();
@@ -22,12 +22,12 @@ const UpdatePost = ({ updatePostData, setUpdatePostClick }) => {
         className="bg-white max-w-[1000px] w-full overflow-y-auto mt-[60px]"
       >
         <NewPost
-          updatePostData={updatePostData}
-          setUpdatePostClick={setUpdatePostClick}
+          ReUpPostData={ReUpPostData}
+          setReUpPostClick={setReUpPostClick}
         />
       </div>
     </div>
   );
 };
 
-export default UpdatePost;
+export default ReUpPost;

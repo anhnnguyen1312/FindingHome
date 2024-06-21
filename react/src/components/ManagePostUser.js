@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Button, CardProduct } from "./index";
+import { Button, CardProduct, Loading } from "./index";
 import { useDispatch, useSelector } from "react-redux";
-import { SelectNewPost } from "./index";
+import { SelectNewPost, UpdatePost, ReUpPost } from "./index";
 import typePost from "../data/typePost";
-import UpdatePost from "./UpdatePost";
 import { message, Popconfirm } from "antd";
+import { callApiDeletePost } from "../api/getPostApi";
 
 import { UpdatePostAction } from "../redux/store/action/postAction";
 const ManagePostUser = () => {
   const [typePostClick, setTypePostClick] = useState({
-    typePostClick: "",
+    type: "",
   });
   const [updatePostClick, setUpdatePostClick] = useState(false);
-
   const [updatePostData, setUpdatePostData] = useState({});
+  const [reUpPostClick, setReUpPostClick] = useState(false);
+
+  const [ReUpPostData, setReUpPostData] = useState({});
+  const [postDataFilter, setPostDataFilter] = useState([]);
+
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.post);
   const handleLogInNavigate = () => {};
@@ -23,45 +28,50 @@ const ManagePostUser = () => {
     setUpdatePostData(data);
     // dispatch(UpdatePostAction(data));
   };
-  const confirm = (e) => {
-    console.log(e);
-    message.success("Xóa thành công");
+
+  const handleReUpPost = (product) => {
+    setReUpPostClick(true);
+
+    setReUpPostData(product);
+    // dispatch(UpdatePostAction(data));
+  };
+  const confirm = (product) => {
+    setLoading(true);
+    const deletePost = async () => {
+      try {
+        const response = await callApiDeletePost(product.id);
+        if (response.data.msg) {
+          swal({
+            text: "Xóa bài đăng không thành công",
+            icon: "error",
+            timer: 2000,
+          });
+        } else {
+          swal({
+            text: "Xóa bài đăng thành công",
+            icon: "success",
+            timer: 2000,
+          });
+        }
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+        swal({
+          text: "Xóa bài đăng không thành công",
+          icon: "error",
+          timer: 2000,
+        });
+      }
+    };
+    deletePost();
+    setLoading(false);
+    // message.success("Xóa thành công");
   };
   const cancel = (e) => {
-    console.log(e);
     message.error("Xóa không thành công");
   };
 
   const handleStatusTag = (status, check) => {
-    console.log("status, check", status, check);
-    // switch (status) {
-    //   case status == "0":
-    //     console.log("run 0", status);
-
-    //     return (
-    //       <div>
-    //         <i class="fa-solid fa-circle-check text-green-500  mr-2"></i>
-    //         Đang hoạt động
-    //       </div>
-    //     );
-    //   case 1:
-    //     console.log("run 1", status);
-
-    //     return (
-    //       <div>
-    //         <i class="fa-solid fa-stopwatch text-blue-500  mr-2 "></i>
-    //         Chưa được duyệt
-    //       </div>
-    //     );
-    //   // case "3":
-    //   //   return <ComponentThree />;
-    //   // case "4":
-    //   //   return <ComponentFour />;
-    //   default:
-    //     console.log("default", status);
-
-    //     return "fail";
-    // }
     if (status && check) {
       if (status === "0" && check === "1") {
         return (
@@ -105,8 +115,33 @@ const ManagePostUser = () => {
       }
     }
   };
+  console.log("postDataFilter", postDataFilter);
+  useEffect(() => {
+    if (typePostClick) {
+      if (typePostClick.type === "Tất cả") {
+        setPostDataFilter(posts);
+      } else if (typePostClick.type === "chưa được duyệt") {
+        const postFilter = posts.filter((post) => post.check === "0");
+        setPostDataFilter(postFilter);
+      } else if (typePostClick.type === "đã hết hạn") {
+        const postFilter = posts.filter((post) => post.check === "3");
+        setPostDataFilter(postFilter);
+      } else if (typePostClick.type === "đã bị từ chối") {
+        const postFilter = posts.filter((post) => post.check === "2");
+        setPostDataFilter(postFilter);
+      } else if (typePostClick.type === "đã đăng thành công") {
+        const postFilter = posts.filter(
+          (post) => post.check === "1" && post.status === "0"
+        );
+        setPostDataFilter(postFilter);
+      } else {
+        setPostDataFilter(posts);
+      }
+    }
+  }, [typePostClick]);
   return (
     <>
+      {loading && <Loading />}
       <div className="flex flex-col gap-[20px] m-[10px]">
         <div className="flex items-center justify-between mt-[5vh]">
           <h1 className=" mb-[24px] text-[30px] font-semibold text-rose-500">
@@ -115,7 +150,7 @@ const ManagePostUser = () => {
           <div className="w-[180px] flex items-center m-0 justify-center">
             <SelectNewPost
               placeholder={"Phân loại"}
-              id={"typePost"}
+              id={"type"}
               typeRoom={typePost}
               setFormData={setTypePostClick}
               style={{ width: "180px", margin: 0 }}
@@ -124,8 +159,9 @@ const ManagePostUser = () => {
         </div>
 
         <ul className="flex flex-col gap-[20px]  ">
-          {posts?.length > 0 &&
-            posts.map((product) => {
+          {postDataFilter &&
+            postDataFilter?.length > 0 &&
+            postDataFilter.map((product) => {
               return (
                 <div
                   key={product.id}
@@ -152,13 +188,13 @@ const ManagePostUser = () => {
                       bgColor={"bg-[#2EAFA1]"}
                       textColor={"text-white"}
                       borderColor={"border-white"}
-                      onClick={() => handleLogInNavigate(true)}
+                      onClick={() => handleReUpPost(product)}
                     />
 
                     <Popconfirm
                       title="Xóa bài đăng"
                       description="Bạn có chắc chắn muốn xóa bài đăng này"
-                      onConfirm={confirm}
+                      onConfirm={() => confirm(product)}
                       onCancel={cancel}
                       okText="Xóa"
                       cancelText="Hủy"
@@ -180,6 +216,12 @@ const ManagePostUser = () => {
           <UpdatePost
             updatePostData={updatePostData}
             setUpdatePostClick={setUpdatePostClick}
+          />
+        )}
+        {reUpPostClick && (
+          <ReUpPost
+            ReUpPostData={ReUpPostData}
+            setReUpPostClick={setReUpPostClick}
           />
         )}
       </div>

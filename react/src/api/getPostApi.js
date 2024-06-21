@@ -60,6 +60,20 @@ export const callApiUpdatePost = (payload) =>
     }
   });
 
+export const callApiDeletePost = (id) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosConfig({
+        method: "post",
+        url: `http://localhost:3000/allPosts/${id}`,
+      });
+      resolve(response);
+      // window.location.reload();
+    } catch (error) {
+      reject(error);
+    }
+  });
+
 export const callApiDetailPost = (payload) =>
   new Promise(async (resolve, reject) => {
     try {

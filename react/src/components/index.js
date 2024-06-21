@@ -11,7 +11,7 @@ export { default as CardComponent } from "./CardComponent";
 export { default as CardPlaces } from "./CardPlaces";
 export { default as Product } from "./Product";
 export { default as CardProduct } from "./CardProduct";
-export { default as GeoCoding} from "./GeoCoding";
+export { default as GeoCoding } from "./GeoCoding";
 export { default as Footer } from "./Footer";
 export { default as InputReadOnly } from "./InputReadOnly";
 export { default as TextAreaNewPost } from "./TextAreaNewPost";
@@ -22,5 +22,7 @@ export { default as AvatarUpload } from "./AvatarUpload";
 export { default as UpdateUserProfile } from "./UpdateUserProfile";
 export { default as Loading } from "./Loading";
 export { default as StatisticPost } from "./StatisticPost";
+export { default as ReUpPost } from "./ReUpPost";
+export { default as UpdatePost } from "./UpdatePost";
 
 export { default as formatDate } from "./formatDate";
