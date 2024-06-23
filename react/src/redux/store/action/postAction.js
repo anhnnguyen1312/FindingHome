@@ -28,33 +28,6 @@ export const postAction = () => async (dispatch) => {
   }
 };
 
-// export const postActionDemo = () => async (dispatch) => {
-//   try {
-//     const response = await callApiPostDemo();
-
-//     if (response?.data) {
-//       console.log("call api", response);
-//       dispatch({
-//         type: actionTypes.GET_POST,
-//         posts: response.data,
-//         msg: null,
-//       });
-//     } else {
-//       dispatch({
-//         type: actionTypes.GET_POST,
-//         msg: "get post fail",
-//         posts: null,
-//       });
-//     }
-//   } catch (error) {
-//     dispatch({
-//       type: actionTypes.GET_POST,
-//       posts: null,
-//       msg: "get post fail",
-//     });
-//   }
-// };
-
 export const UpdatePostAction = (updatePostData) => ({
   type: actionTypes.UPDATE_POST,
   updatePostData: updatePostData,

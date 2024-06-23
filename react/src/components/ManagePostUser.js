@@ -42,16 +42,18 @@ const ManagePostUser = () => {
         const response = await callApiDeletePost(product.id);
         if (response.data.msg) {
           swal({
-            text: "Xóa bài đăng không thành công",
+            text: response.data.fail,
             icon: "error",
             timer: 2000,
           });
         } else {
           swal({
-            text: "Xóa bài đăng thành công",
+            text: response.data.success,
             icon: "success",
             timer: 2000,
           });
+          
+          window.location.reload();
         }
       } catch (error) {
         setLoading(false);
@@ -65,11 +67,10 @@ const ManagePostUser = () => {
     };
     deletePost();
     setLoading(false);
-    // message.success("Xóa thành công");
   };
-  const cancel = (e) => {
-    message.error("Xóa không thành công");
-  };
+  // const cancel = (e) => {
+  //   message.error("Xóa không thành công");
+  // };
 
   const handleStatusTag = (status, check) => {
     if (status && check) {
@@ -195,7 +196,7 @@ const ManagePostUser = () => {
                       title="Xóa bài đăng"
                       description="Bạn có chắc chắn muốn xóa bài đăng này"
                       onConfirm={() => confirm(product)}
-                      onCancel={cancel}
+                      // onCancel={cancel}
                       okText="Xóa"
                       cancelText="Hủy"
                     >

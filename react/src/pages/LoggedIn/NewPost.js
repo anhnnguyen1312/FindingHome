@@ -245,15 +245,15 @@ const NewPost = ({
         const PostNewPost = async () => {
           try {
             const response = await callApiUpdatePost(formData);
-            if (response.data.msg) {
+            if (response.data.fail) {
               swal({
-                text: "Cập nhật bài đăng không thành công",
+                text: response.data.fail,
                 icon: "error",
                 timer: 2000,
               });
             } else {
               swal({
-                text: "Cập nhật bài đăng thành công",
+                text: response.data.success,
                 icon: "success",
                 timer: 2000,
               }).then(() => dispatch(UpdatePostActionClearData()));
@@ -275,40 +275,42 @@ const NewPost = ({
         const PostNewPost = async () => {
           try {
             const response = await callApiCreatePost(formData);
-            if (response.data.msg) {
+            if (response.data.fail) {
               swal({
-                text: "Tạo bài đăng mới không thành công",
+                text: response.data.fail,
                 icon: "error",
                 timer: 2000,
               });
             } else {
               swal({
-                text: "Tạo bài đăng mới thành công",
+                text: response.data.success,
                 icon: "success",
                 timer: 2000,
-              }).then(() => {
-                setFormData({
-                  title: "",
-                  address: "",
-                  zalo: "",
-                  status: "0",
-                  price: "",
-                  area: "",
-                  otherFee: "",
-                  nearby: "",
-                  typeRoom: "",
-                  description: "",
-                  furniture: "",
-                  rule: "",
-                  dateCreateAt: "",
-                  dateExpired: "",
-                  userId: "",
-                  check: "0",
-                  urlImages: "",
-                });
-              });
+              })
+              // .then(() => {
+              //   setFormData({
+              //     title: "",
+              //     address: "",
+              //     zalo: "",
+              //     status: "0",
+              //     price: "",
+              //     area: "",
+              //     otherFee: "",
+              //     nearby: "",
+              //     typeRoom: "",
+              //     description: "",
+              //     furniture: "",
+              //     rule: "",
+              //     dateCreateAt: "",
+              //     dateExpired: "",
+              //     userId: "",
+              //     check: "0",
+              //     urlImages: "",
+              //   });
+              // });
+
+              window.location.reload();
             }
-            console.log("submit form thành công", response);
           } catch (error) {
             setLoading(false);
             console.log("error", error);
