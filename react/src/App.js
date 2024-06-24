@@ -53,7 +53,6 @@ function App() {
           <Route path={path.NEWPOST} element={<NewPost />} />
           <Route path={path.PROFILE} element={<Profile />} />
 
-          <Route path={path.NEWPOST} element={<NewPost />} />
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
         </Route>
       </Routes>

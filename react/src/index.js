@@ -23,7 +23,7 @@ const Root = () => {
     console.log("index dispatch");
     const cookie = getAuthToken();
     cookie && store.dispatch(getUserAction(cookie));
-    store.dispatch(postActionDemo());
+    store.dispatch(postAction());
     console.log("index dispatch done");
   }, []);
   return (

@@ -1,9 +1,5 @@
 const typePost = [
   {
-    type_key: "Tất cả",
-    type_value: "Tất cả",
-  },
-  {
     type_key: "chưa được duyệt",
     type_value: "chưa được duyệt",
   },

@@ -127,7 +127,7 @@ export default function NavBar() {
             </li>
             <li className="nav-item">
               <Link
-                to={"/timphongtro"}
+                to={`/${path.ROOM_RENTAL}`}
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
@@ -136,7 +136,7 @@ export default function NavBar() {
             </li>
             <li className="nav-item">
               <Link
-                to={"/timnha"}
+                to={`/${path.HOUSE_RENTAL}`}
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
@@ -146,7 +146,7 @@ export default function NavBar() {
 
             <li className="nav-item">
               <Link
-                to={"/timmatbang"}
+                to={`/${path.ESTATE_RENTAL}`}
                 className="nav-links"
                 onClick={closeMobileMenu}
               >

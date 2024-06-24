@@ -1,5 +1,7 @@
 import React from "react";
 import { Select } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
+
 export const AddressNewPostProvince = ({
   name,
   setAddressData,
@@ -11,26 +13,31 @@ export const AddressNewPostProvince = ({
   provinceForm,
 }) => {
   const handeChangeSelect = (e) => {
+    console.log("e", e);
     setProvince(e);
     setAddressData((prevState) => ({
       ...prevState,
       [name]: e
         ? value?.find((province) => province.province_id === e)?.province_name
         : "",
-      districtForm: "",
-      wardForm: "",
+      districtForm: null,
+      wardForm: null,
+      streetForm: null,
     }));
   };
   const handeFocus = () => {
-    setIsInvalid([]);
+    setIsInvalid && setIsInvalid([]);
   };
   return (
-    <div className="flex flex-col mb-2 w-[33%]">
+    <div className="flex flex-col mb-2 w-[100%] md:grow ">
       <Select
         placeholder="Chọn tỉnh/Thành phố"
-        style={{
-          width: 200,
-        }}
+        // style={{
+        //   width: 200,
+        // }}
+        allowClear={
+          <CloseOutlined style={{ fontSize: "20px", color: "#FF0000" }} />
+        }
         showSearch
         value={provinceForm}
         onFocus={() => handeFocus()}
@@ -69,20 +76,23 @@ export const AddressNewPostDistrict = ({
       [name]: e
         ? value?.find((district) => district.district_id === e)?.district_name
         : "",
-      wardForm: "",
+      wardForm: null,
+      streetForm: null,
     }));
   };
   const handeFocus = () => {
-    setIsInvalid([]);
+    setIsInvalid && setIsInvalid([]);
   };
   return (
-    <div className="flex flex-col mb-2  w-[33%]">
+    <div className="flex flex-col mb-2 w-[100%] md:grow ">
       <Select
         placeholder="Chọn Quận/huyện"
-        style={{
-          width: 200,
-        }}
-        allowClear={false}
+        // style={{
+        //   width: 200,
+        // }}
+        allowClear={
+          <CloseOutlined style={{ fontSize: "20px", color: "#FF0000" }} />
+        }
         value={districtForm}
         onFocus={() => handeFocus()}
         // defaultValue={value[0].district_name}
@@ -121,19 +131,22 @@ export const AddressNewPostWard = ({
     setAddressData((prevState) => ({
       ...prevState,
       [name]: e ? value?.find((ward) => ward.ward_id === e)?.ward_name : "",
+      streetForm: null,
     }));
   };
   const handeFocus = () => {
-    setIsInvalid([]);
+    setIsInvalid && setIsInvalid([]);
   };
   return (
-    <div className="flex flex-col mb-2  w-[33%]">
+    <div className="flex flex-col mb-2 w-[100%] md:grow ">
       <Select
         placeholder="Chọn Phường/xã"
-        style={{
-          width: 200,
-        }}
-        allowClear={false}
+        // style={{
+        //   width: 200,
+        // }}
+        allowClear={
+          <CloseOutlined style={{ fontSize: "20px", color: "#FF0000" }} />
+        }
         value={wardForm}
         onFocus={() => handeFocus()}
         // defaultValue={value[0].district_name}

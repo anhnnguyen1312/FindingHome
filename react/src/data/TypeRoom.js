@@ -1,7 +1,7 @@
 const TypeRoom = [
   {
     type_key: "Căn hộ",
-    type_value: "căn hộ",
+    type_value: "Căn hộ",
   },
   {
     type_key: "Phòng",
