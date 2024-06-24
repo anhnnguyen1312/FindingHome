@@ -1,15 +1,15 @@
 const TypeRoom = [
   {
     type_key: "Căn hộ",
-    type_value: "Căn hộ",
+    type_value: "căn hộ",
   },
   {
     type_key: "Phòng",
-    type_value: "Phòng",
+    type_value: "phòng",
   },
   {
     type_key: "Ở ghép",
-    type_value: "Ở ghép",
+    type_value: "ở ghép",
   },
   {
     type_key: "Mặt bằng",

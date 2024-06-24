@@ -3,28 +3,30 @@ import { CardProduct, Search } from "./index";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { Pagination } from "antd";
+import no_data_img from "../assets/images/no-data-icon-10.png";
 
-const Product = (posts, isHomePage, type ) => {
-  const ch2 = "../assets/images/canho/ch1.jpg";
-
+const Product = ({ type }) => {
   const [button, setButton] = useState(false);
   const [searchButtonClick, setSearchButtonClick] = useState(false);
 
   const [postData, setPostData] = useState([]);
   const [searchData, setSearchData] = useState();
 
-  // const { posts } = useSelector((state) => state.post);
-  
-  const allPosts = Object.values(posts).flat();
-  const filteredProducts = type ? allPosts.filter(post => post.typeRoom === type) : allPosts;
+  const { posts } = useSelector((state) => state.post);
 
-  const savedPageKey = `currentPage-${type || 'all'}`;
+  const allPosts = Object.values(posts).flat();
+  const filteredProducts = type
+    ? allPosts.filter((post) => post.typeRoom === type)
+    : allPosts;
+
+  const savedPageKey = `currentPage-${type || "all"}`;
   const initialPage = parseInt(localStorage.getItem(savedPageKey)) || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
   const pageSize = 2;
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const currentPosts = filteredProducts.slice(startIndex, endIndex);
+  const currentpostData = postData.slice(startIndex, endIndex);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -39,7 +41,7 @@ const Product = (posts, isHomePage, type ) => {
 
   useEffect(() => {
     // setCurrentPage(1);
-    localStorage.setItem(savedPageKey, '1');
+    localStorage.setItem(savedPageKey, "1");
   }, [type]);
 
   const checkPrice = (dataPostSearch) => {
@@ -132,7 +134,7 @@ const Product = (posts, isHomePage, type ) => {
 
         if (searchData.type) {
           console.log("searchData.type true", searchData.type);
-          const postType = posts.filter(
+          const postType = filteredProducts.filter(
             (post) => post.typeRoom === searchData.type
           );
           console.log("postType", postType);
@@ -149,13 +151,13 @@ const Product = (posts, isHomePage, type ) => {
           console.log("dataPostSearch type", dataPostSearch);
         } else {
           if (searchData.address?.trim()) {
-            const postAddress = posts.filter((post) =>
+            const postAddress = filteredProducts.filter((post) =>
               post.address.trim().includes(searchData.address.trim())
             );
             dataPostSearch = postAddress;
             console.log("dataPostSearch address", dataPostSearch);
           } else {
-            dataPostSearch = posts;
+            dataPostSearch = filteredProducts;
           }
         }
         //check price- area
@@ -192,8 +194,10 @@ const Product = (posts, isHomePage, type ) => {
     };
     const data = checkFilter();
     data && setPostData(data);
-    console.log("postData", postData);
   }, [searchData]);
+  console.log(posts);
+  console.log("postData", postData);
+  console.log("currentpostData", currentpostData);
 
   return (
     <div className="flex flex-col items-center justify-center gap-[30px]">
@@ -202,7 +206,7 @@ const Product = (posts, isHomePage, type ) => {
           <div className=" w-full p-[20px] flex flex-col items-center justify-center gap-[20px] ">
             <div className=" flex-col lg:flex-row bg-F8FAFC w-full p-[10px] flex items-center justify-center gap-[10px] ">
               <Search
-                isHomePage
+                type={type}
                 setSearchData={setSearchData}
                 setSearchButtonClick={setSearchButtonClick}
               />
@@ -210,31 +214,31 @@ const Product = (posts, isHomePage, type ) => {
           </div>
         </div>
         <div className="lg:flex-[80%] flex flex-col gap-[20px] p-[5px] ">
-
           <h1 className="mt-[5vh] text-[30px] font-semibold ">
             Danh Sách Bài Đăng{" "}
           </h1>
           <ul className="flex flex-col gap-[20px]  ">
-          {searchButtonClick &&
-              postData?.length > 0 &&
-              postData.map((product) => {
+            {searchButtonClick &&
+              currentpostData?.length > 0 &&
+              currentpostData.map((product) => {
                 return <CardProduct props={product} />;
               })}
             {searchButtonClick && postData?.length === 0 && (
               <img src={no_data_img}></img>
             )}
             {searchButtonClick ||
-              (posts?.length > 0 &&
-                posts.map((product) => {
+              (currentPosts?.length > 0 &&
+                currentPosts.map((product) => {
                   return <CardProduct props={product} />;
                 }))}
-
           </ul>
           <div className="flex items-center justify-center">
-          <Pagination
+            <Pagination
               current={currentPage}
               pageSize={pageSize}
-              total={filteredProducts.length}
+              total={
+                searchButtonClick ? postData.length : filteredProducts.length
+              }
               onChange={handlePageChange}
               hideOnSinglePage={true}
             />
@@ -255,7 +259,7 @@ const Product = (posts, isHomePage, type ) => {
             {button && (
               <div className=" flex-col bg-F8FAFC w-full p-[10px] flex items-center justify-center gap-[10px] ">
                 <Search
-                  isHomePage
+                  type={type}
                   setSearchData={setSearchData}
                   setSearchButtonClick={setSearchButtonClick}
                 />
