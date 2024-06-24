@@ -14,13 +14,13 @@ class PostController extends CI_Controller {
 
 			$result = $this->Post_model->insert_new_post($post_data);
 	
-			if($result == true){
+			if($result){
 				echo json_encode([
-					'message' => 'Đăng bài thành công'
+					'success' => 'Đăng bài thành công'
 				]);
 			}else{
 				echo json_encode([
-					'message' => 'Đăng bài thất bại'
+					'fail' => 'Hệ thống đang gặp lỗi trong quá trình bài đăng. Chúng tôi sẽ khắc phục sớm nhất'
 				]);
 			}
 		}
@@ -30,7 +30,6 @@ class PostController extends CI_Controller {
 	public function list_all_post(){
 		$jwt = new JWT();
 		$list_post_data = $this->Post_model->get_all_post();
-		//print_r($list_post_data);
 		if($list_post_data){
 			foreach ($list_post_data as $data){
 				$list_post=([
@@ -38,19 +37,19 @@ class PostController extends CI_Controller {
 					'username' => $data->name,
 					'phone' => $this->encryption->decrypt($data->phone),
 					'address' => $this->encryption->decrypt($data->address),
-					// 'typeRoom' => $data->typeRoom,
+					'typeRoom' => $data->typeRoom,
 					'price' => $data->price,
 					'title' => $data->title,
 					'area' => $data->area,
 					'zalo' => $this->encryption->decrypt($data->zalo),
-					// 'furniture' => $data->furniture,
+					'furniture' => $data->furniture,
 					'description' => $data->description,
-					// 'otherFee' => $data->otherFee,
-					// 'rule' => $data->rule,
+					'otherFee' => $data->otherFee,
+					'rule' => $data->rule,
 					'nearby' => $data->nearby,
 					'urlImages' => json_decode($this->encryption->decrypt($data->urlImages)),
-					// 'dateCreateAt' => $data->dateCreateAt,
-					// 'dateExpired' => $data->dateExpired,
+					'dateCreateAt' => $data->dateCreateAt,
+					'dateExpired' => $data->dateExpired,
 					'check' => $data->check,
 					'status' => $data->status
 
@@ -61,7 +60,7 @@ class PostController extends CI_Controller {
 			echo json_encode(['token' => $token ]);
 		}else{
 			echo json_encode([
-				'message' => 'Không lấy được danh sách bài đăng'
+				'fail' => 'Hệ thống đang gặp lỗi trong quá trình lấy bài đăng. Chúng tôi sẽ khắc phục sớm nhất'
 			]);
 		}
 	}
@@ -122,12 +121,31 @@ class PostController extends CI_Controller {
 				echo json_encode(['token' => $token ]);
 			}else{
 				echo json_encode([
-					'message' => 'Không lấy được chi tiết của bài đăng'
+					'success' => 'Hệ thống gặp lỗi trong quá trình lấy thông tin chi tiết của bài đăng. Chúng tôi sẽ khắc phục sớm nhất'
 				]);
 			}
 		}else{
 			echo json_encode([
-				'message' => 'không nhận được id của items'
+				'fail' => 'Hệ thống gặp lỗi trong quá trình lấy thông tin chi tiết của bài đăng. Chúng tôi sẽ khắc phục sớm nhất'
+			]);
+		}
+	}
+
+	public function post_delete($id){
+		if($id){
+			$result = $this->Post_model->post_delete($id);
+			if($result){
+				echo json_encode([
+					'success' => 'Xóa bài đăng thành công'
+				]);
+			}else{
+				echo json_encode([
+					'fail' => 'Hệ thống gặp lỗi trong quá trình xóa bài đăng. Chúng tôi sẽ khắc phục sớm nhất'
+				]);
+			}
+		}else{
+			echo json_encode([
+				'fail' => 'Hệ thống gặp lỗi trong quá trình xóa bài đăng. Chúng tôi sẽ khắc phục sớm nhất'
 			]);
 		}
 	}

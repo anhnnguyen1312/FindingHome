@@ -74,4 +74,20 @@ class Post_model extends CI_Model {
 		}
 		
 	}
+
+	public function post_delete($id){
+		$this->db->trans_start();
+			$this->db->where('id', $id);
+			$this->db->delete('posts');
+
+			$this->db->where('postId', $id);
+			$this->db->delete('statusPost');
+		$this->db->trans_complete();
+
+		if($this->db->trans_status() === false){
+			return false;
+		}else{
+			return true;
+		}
+	}
 }

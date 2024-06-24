@@ -12,6 +12,10 @@ const HeroSection = () => {
   const navigate = useNavigate();
   const stateAuth = useSelector((state) => state.auth);
 
+  function handleCreatePostNavigate(UserId) {
+    navigate(path.NEWPOST, { state: { UserId } });
+  }
+
   const handleCreatePost = () => {
     if (stateAuth.isLoggedIn) {
       navigate("/logged-in/newpost");
@@ -24,6 +28,7 @@ const HeroSection = () => {
       navigate(path.LOGIN);
     }
   };
+  
   const handlePost = () => {
     navigate(path.ROOM_RENTAL);
   };

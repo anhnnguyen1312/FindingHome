@@ -61,6 +61,7 @@ $route['reset-password'] = 'AuthenController/reset_password';
 $route['create-post'] = 'PostController/create_post';
 $route['list-all-post'] = 'PostController/list_all_post';
 $route['post-detail/(:any)'] = 'PostController/post_detail/$1';
+$route['post-delete/(:any)'] = 'PostController/post_delete/$1';
 
 
 

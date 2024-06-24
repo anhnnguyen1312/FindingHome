@@ -13,7 +13,7 @@ const TypeRoom = [
   },
   {
     type_key: "Mặt bằng",
-    type_value: "Mặt bằng",
+    type_value: "mặt bằng",
   },
 ];
 export default TypeRoom;
