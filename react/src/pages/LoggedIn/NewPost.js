@@ -9,6 +9,7 @@ import {
   AddressNewPostDistrict,
   AddressNewPostWard,
 } from "../../components/AddressNewPost";
+import { path } from "../../ultils/path";
 // import InputNewPost from "../../components/InputNewPost";
 // import TextAreaNewPost from "../../components/TextAreaNewPost";
 // import SelectNewPost from "../../components/SelectNewPost";
@@ -23,7 +24,7 @@ import {
 import TypeRoom from "../../data/TypeRoom";
 import validator from "validator";
 import { callApiCreatePost, callApiUpdatePost } from "../../api/getPostApi";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import { Image, Upload } from "antd";
 import { callApiUploadImages } from "../../api/uploadImage";
@@ -44,14 +45,15 @@ const NewPost = ({
   const [preview, setPreview] = useState([]);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const stateAuth = useSelector((state) => state.auth);
   // const { updatePostData } = useSelector((state) => state.post);
 
   const [addressData, setAddressData] = useState({
-    provinceForm: "",
-    districtForm: "",
-    wardForm: "",
-    streetForm: "",
+    provinceForm: null,
+    districtForm: null,
+    wardForm: null,
+    streetForm: null,
   });
 
   const [formData, setFormData] = useState(() => {
@@ -77,6 +79,9 @@ const NewPost = ({
     };
     return data;
   });
+  const handleNavigateToLogin = () => {
+    navigate(path.HOME);
+  };
   const handleFiles = async (e) => {
     setIsInvalid([]);
     setLoading(true);
@@ -393,61 +398,65 @@ const NewPost = ({
     }
   }, [updatePostData, ReUpPostData]);
 
-  useEffect(() => {
-    if (updatePostData || ReUpPostData) {
-      // let addressData = updatePostData?.address?.split(",");
-      let addressData = updatePostData
-        ? updatePostData?.address?.split(",")
-        : ReUpPostData?.address?.split(",");
+  // useEffect(() => {
+  //   if (updatePostData || ReUpPostData) {
+  //     // let addressData = updatePostData?.address?.split(",");
+  //     let addressData = updatePostData
+  //       ? updatePostData?.address?.split(",")
+  //       : ReUpPostData?.address?.split(",");
 
-      let userProvince =
-        provinces.length > 0 &&
-        provinces?.find(
-          (province) =>
-            province.province_name ===
-            addressData[addressData?.length - 1]?.trim()
-        );
+  //     let userProvince =
+  //       provinces.length > 0 &&
+  //       provinces?.find(
+  //         (province) =>
+  //           province.province_name ===
+  //           addressData[addressData?.length - 1]?.trim()
+  //       );
+  //     console.log("userProvince", userProvince);
+  //     userProvince && setProvince(userProvince);
+  //   }
+  // }, [provinces]);
+  console.log("province", province);
+  console.log("formData", formData);
 
-      userProvince && setProvince(userProvince);
-    }
-  }, [provinces]);
+  console.log("addressData", addressData);
 
-  useEffect(() => {
-    if (updatePostData || ReUpPostData) {
-      // let addressData = updatePostData?.address?.split(",");
-      let addressData = updatePostData
-        ? updatePostData?.address?.split(",")
-        : ReUpPostData?.address?.split(",");
+  // useEffect(() => {
+  //   if (updatePostData || ReUpPostData) {
+  //     // let addressData = updatePostData?.address?.split(",");
+  //     let addressData = updatePostData
+  //       ? updatePostData?.address?.split(",")
+  //       : ReUpPostData?.address?.split(",");
 
-      let userDistrict =
-        districts.length > 0 &&
-        districts?.find(
-          (district) =>
-            district.district_name ===
-            addressData[addressData?.length - 2]?.trim()
-        );
+  //     let userDistrict =
+  //       districts.length > 0 &&
+  //       districts?.find(
+  //         (district) =>
+  //           district.district_name ===
+  //           addressData[addressData?.length - 2]?.trim()
+  //       );
 
-      userDistrict && setDistrict(userDistrict);
-    }
-  }, [districts]);
+  //     userDistrict && setDistrict(userDistrict);
+  //   }
+  // }, [districts]);
 
-  useEffect(() => {
-    if (updatePostData || ReUpPostData) {
-      // let addressData = updatePostData?.address?.split(",");
-      let addressData = updatePostData
-        ? updatePostData?.address?.split(",")
-        : ReUpPostData?.address?.split(",");
+  // useEffect(() => {
+  //   if (updatePostData || ReUpPostData) {
+  //     // let addressData = updatePostData?.address?.split(",");
+  //     let addressData = updatePostData
+  //       ? updatePostData?.address?.split(",")
+  //       : ReUpPostData?.address?.split(",");
 
-      let userWard =
-        wards?.length > 0 &&
-        wards?.find(
-          (ward) =>
-            ward.ward_name === addressData[addressData?.length - 3]?.trim()
-        );
+  //     let userWard =
+  //       wards?.length > 0 &&
+  //       wards?.find(
+  //         (ward) =>
+  //           ward.ward_name === addressData[addressData?.length - 3]?.trim()
+  //       );
 
-      userWard && setWard(userWard);
-    }
-  }, [wards]);
+  //     userWard && setWard(userWard);
+  //   }
+  // }, [wards]);
 
   useEffect(() => {
     if (!updatePostData) {
@@ -506,6 +515,7 @@ const NewPost = ({
       }));
     // }
   }, [ward]);
+
   useEffect(() => {
     setFormData((prevState) => ({
       ...prevState,
@@ -553,8 +563,9 @@ const NewPost = ({
                 message: `bạn phải nhập Địa chỉ`,
               },
             ]}
+            className="flex-col"
           >
-            <div className="flex">
+            <div className="flex gap-[10px] md:flex-row flex-col ">
               <AddressNewPostProvince
                 setIsInvalid={setIsInvalid}
                 IsInValid={IsInValid}
@@ -562,7 +573,7 @@ const NewPost = ({
                 value={provinces}
                 provinceForm={addressData.provinceForm}
                 // valueSelect={addressData.provinceForm}
-                valueSelect={province.province_name}
+                // valueSelect={province.province_name}
                 setProvince={setProvince}
                 setAddressData={setAddressData}
                 style={{ paddingRight: "10px" }}
@@ -753,7 +764,13 @@ const NewPost = ({
         <div className="flex items-center justify-end">
           <button
             onClick={() =>
-              ReUpPostData ? setReUpPostClick(false) : setUpdatePostClick(false)
+              //   ReUpPostData
+              //     ? setReUpPostClick(false)
+              //     : setUpdatePostClick(false) || useNavigate(path.HOME)
+              //
+              (ReUpPostData && setReUpPostClick(false)) ||
+              (updatePostData && setUpdatePostClick(false)) ||
+              handleNavigateToLogin()
             }
             className="mr-4 rounded-lg border-2 px-4 py-2 py-[5px] my-[20px] font-medium text-gray-500 focus:outline-none focus:ring hover:bg-gray-200"
           >

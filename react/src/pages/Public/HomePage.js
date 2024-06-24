@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { CardPlaces, HeroSection, Product } from "../../components/index";
 import { SideBar } from "../../components/SideBar";
 import WhyUs from "../../components/WhyUs";
 import AboutUs from "../../components/AboutUs";
+import { useSelector } from "react-redux";
+
 const HomePage = () => {
+  const [isHomePage, setIsHomePage] = useState(true);
+
+  const { posts } = useSelector((state) => state.post);
+
   return (
     <>
       {/* <FilterSearch/> */}
@@ -16,7 +22,9 @@ const HomePage = () => {
 
         <HeroSection />
         <CardPlaces />
-        <Product />
+        {/* <CardRoom /> */}
+        <Product posts={posts} isHomePage />
+
         <AboutUs />
         <WhyUs />
 

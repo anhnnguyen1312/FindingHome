@@ -136,10 +136,17 @@ const ManagePostUser = () => {
         );
         setPostDataFilter(postFilter);
       } else {
+        console.log("none type");
         setPostDataFilter(posts);
       }
     }
   }, [typePostClick]);
+
+  useEffect(() => {
+    if (!typePostClick) {
+      setPostDataFilter(posts);
+    }
+  }, []);
   return (
     <>
       {loading && <Loading />}
@@ -160,8 +167,7 @@ const ManagePostUser = () => {
         </div>
 
         <ul className="flex flex-col gap-[20px]  ">
-          {postDataFilter &&
-            postDataFilter?.length > 0 &&
+          {postDataFilter?.length > 0 &&
             postDataFilter.map((product) => {
               return (
                 <div

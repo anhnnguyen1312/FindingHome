@@ -4,10 +4,16 @@ import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { Pagination } from "antd";
 
-const Product = ({ type }) => {
-  console.log("render")
+const Product = (posts, isHomePage, type ) => {
+  const ch2 = "../assets/images/canho/ch1.jpg";
+
   const [button, setButton] = useState(false);
-  const { posts } = useSelector((state) => state.post);
+  const [searchButtonClick, setSearchButtonClick] = useState(false);
+
+  const [postData, setPostData] = useState([]);
+  const [searchData, setSearchData] = useState();
+
+  // const { posts } = useSelector((state) => state.post);
   
   const allPosts = Object.values(posts).flat();
   const filteredProducts = type ? allPosts.filter(post => post.typeRoom === type) : allPosts;
@@ -27,7 +33,6 @@ const Product = ({ type }) => {
   const handleClickFilter = () => {
     setButton(!button);
   };
-
   useEffect(() => {
     localStorage.setItem(savedPageKey, currentPage);
   }, [currentPage, savedPageKey]);
@@ -37,13 +42,170 @@ const Product = ({ type }) => {
     localStorage.setItem(savedPageKey, '1');
   }, [type]);
 
+  const checkPrice = (dataPostSearch) => {
+    console.log("dataPostSearch", dataPostSearch);
+    let postPrice = [];
+    switch (searchData.price) {
+      case "DUOI_2TR":
+        postPrice = dataPostSearch.filter((post) => post.price <= 2);
+
+        return postPrice;
+
+      case "Tu2TR_4TR":
+        postPrice = dataPostSearch.filter(
+          (post) => post.price > 2 && post.price <= 4
+        );
+        return postPrice;
+
+      case "Tu4TR_6TR":
+        postPrice = dataPostSearch.filter(
+          (post) => post.price > 4 && post.price <= 6
+        );
+        return postPrice;
+
+      case "Tu6TR_8TR":
+        postPrice = dataPostSearch.filter(
+          (post) => post.price > 6 && post.price <= 8
+        );
+        return postPrice;
+
+      case "TREN_8TR":
+        postPrice = dataPostSearch.filter(
+          (post) => post.price > 8 && post.price < 19.9
+        );
+        return postPrice;
+
+      case "TREN_20TR":
+        postPrice = dataPostSearch.filter((post) => post.price > 20);
+        return postPrice;
+
+      default:
+        return (postPrice = [123]);
+    }
+  };
+  const checkArea = (dataPostSearch) => {
+    let postArea = [];
+    switch (searchData.area) {
+      case "DUOI_10m2":
+        postArea = dataPostSearch.filter((post) => post.area < 10);
+
+        return postArea;
+
+      case "Tu10m2_20m2":
+        postArea = dataPostSearch.filter(
+          (post) => post.area > 10 && post.area < 20
+        );
+        return postArea;
+      case "Tu20m2_30m2":
+        postArea = dataPostSearch.filter(
+          (post) => post.area > 20 && post.area < 30
+        );
+        return postArea;
+      case "Tu30m2_40m2":
+        postArea = dataPostSearch.filter(
+          (post) => post.area > 30 && post.area < 40
+        );
+        return postArea;
+      case "TREN_40m2":
+        postArea = dataPostSearch.filter(
+          (post) => post.area > 40 && post.area < 79.9
+        );
+        return postArea;
+      case "TREN_80m2":
+        postArea = dataPostSearch.filter(
+          (post) => post.area > 80 && post.area < 149.9
+        );
+        return postArea;
+      case "TREN_150m2":
+        postArea = dataPostSearch.filter((post) => post.area > 150);
+        return postArea;
+      default:
+        return postArea;
+    }
+  };
+  useEffect(() => {
+    const checkFilter = () => {
+      let dataPostSearch = [];
+      if (searchData) {
+        //check type- address
+        console.log("searchData có", searchData);
+
+        if (searchData.type) {
+          console.log("searchData.type true", searchData.type);
+          const postType = posts.filter(
+            (post) => post.typeRoom === searchData.type
+          );
+          console.log("postType", postType);
+
+          dataPostSearch = postType;
+          if (searchData.address.trim()) {
+            console.log("searchData", searchData);
+
+            const postAddress = dataPostSearch.filter((post) =>
+              post.address.trim().includes(searchData.address.trim())
+            );
+            dataPostSearch = postAddress;
+          }
+          console.log("dataPostSearch type", dataPostSearch);
+        } else {
+          if (searchData.address?.trim()) {
+            const postAddress = posts.filter((post) =>
+              post.address.trim().includes(searchData.address.trim())
+            );
+            dataPostSearch = postAddress;
+            console.log("dataPostSearch address", dataPostSearch);
+          } else {
+            dataPostSearch = posts;
+          }
+        }
+        //check price- area
+        if (searchData.price && dataPostSearch) {
+          // if (searchData.price === "DUOI_2TR") {
+          //   const postPrice = dataPostSearch.filter((post) => post.price < 2);
+          //   dataPostSearch = postPrice;
+          // }
+          console.log("dataPostSearch price", dataPostSearch);
+
+          const dataPrice = checkPrice(dataPostSearch);
+          dataPostSearch = dataPrice;
+          console.log("dataPostSearch price", dataPostSearch);
+          if (searchData.area?.trim() && dataPrice) {
+            const dataArea = checkArea(dataPrice);
+            dataPostSearch = dataArea;
+            console.log("dataPostSearch price area ", dataPostSearch);
+          }
+        } else {
+          if (searchData.area?.trim() && dataPostSearch) {
+            const dataArea = checkArea(dataPostSearch);
+            console.log("dataArea", dataArea);
+            dataPostSearch = dataArea;
+            console.log("dataPostSearch dataArea", dataPostSearch);
+          } else {
+            return dataPostSearch;
+          }
+        }
+        console.log("dataPostSearch", dataPostSearch);
+
+        // setPostData(dataPostSearch);
+      }
+      return dataPostSearch;
+    };
+    const data = checkFilter();
+    data && setPostData(data);
+    console.log("postData", postData);
+  }, [searchData]);
+
   return (
-    <div className="flex flex-col justify-center gap-[30px]">
-      <div className=" flex lg:flex-row flex-col gap-[2vw]   ">
+    <div className="flex flex-col items-center justify-center gap-[30px]">
+      <div className=" flex lg:flex-row flex-col gap-[2vw] w-full ">
         <div className="lg:hidden flex bg-gray">
           <div className=" w-full p-[20px] flex flex-col items-center justify-center gap-[20px] ">
-            <div className=" flex-col md:flex-row bg-F8FAFC w-full p-[10px] flex items-center justify-center gap-[10px] ">
-              <Search />
+            <div className=" flex-col lg:flex-row bg-F8FAFC w-full p-[10px] flex items-center justify-center gap-[10px] ">
+              <Search
+                isHomePage
+                setSearchData={setSearchData}
+                setSearchButtonClick={setSearchButtonClick}
+              />
             </div>
           </div>
         </div>
@@ -53,10 +215,20 @@ const Product = ({ type }) => {
             Danh Sách Bài Đăng{" "}
           </h1>
           <ul className="flex flex-col gap-[20px]  ">
-            {currentPosts?.length > 0 &&
-              currentPosts.map((product, index) => (
-                <CardProduct key={index} props={product} />
-              ))}
+          {searchButtonClick &&
+              postData?.length > 0 &&
+              postData.map((product) => {
+                return <CardProduct props={product} />;
+              })}
+            {searchButtonClick && postData?.length === 0 && (
+              <img src={no_data_img}></img>
+            )}
+            {searchButtonClick ||
+              (posts?.length > 0 &&
+                posts.map((product) => {
+                  return <CardProduct props={product} />;
+                }))}
+
           </ul>
           <div className="flex items-center justify-center">
           <Pagination
@@ -82,7 +254,11 @@ const Product = ({ type }) => {
             </div>
             {button && (
               <div className=" flex-col bg-F8FAFC w-full p-[10px] flex items-center justify-center gap-[10px] ">
-                <Search />
+                <Search
+                  isHomePage
+                  setSearchData={setSearchData}
+                  setSearchButtonClick={setSearchButtonClick}
+                />
               </div>
             )}
           </div>

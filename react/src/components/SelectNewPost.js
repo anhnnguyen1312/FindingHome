@@ -30,12 +30,8 @@ const SelectNewPost = ({
           onFocus={() => handeFocus()}
           // defaultValue={value[0].district_name}
           onChange={(e) => handeChangeSelect(e)}
-          // options={typeRoom?.map((item) => ({
-          //   label: item.type_key,
-          //   value: item.type_value,
-          // }))}\
           style={style || ""}
-          value={valueSelect}
+          // value={valueSelect}
         >
           {typeRoom?.map((option) => (
             <Select.Option value={option.type_value} key={option.type_value}>

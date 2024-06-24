@@ -18,7 +18,7 @@ const HeroSection = () => {
 
   const handleCreatePost = () => {
     if (stateAuth.isLoggedIn) {
-      handleCreatePostNavigate(stateAuth.data?.id);
+      navigate("/logged-in/newpost");
     } else {
       swal({
         text: "Bạn cần đăng nhập",

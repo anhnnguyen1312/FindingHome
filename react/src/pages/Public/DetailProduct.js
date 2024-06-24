@@ -8,6 +8,7 @@ import { callApiDetailPost } from "../../api/getPostApi";
 import { useNavigate, useLocation } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import SlideShow from "../../components/SlideShow";
+import GgMapReact from "../../components/GgMapReact";
 
 const DetailProduct = () => {
   const useLocate = useLocation();
@@ -270,6 +271,7 @@ const DetailProduct = () => {
             <p className="mb-[20px]"> {detailPost.nearby}</p>
             <div className="w-full h-[60%vh]  mb-[30px]">
               <GeoCoding address={detailPost.address} />
+              <GgMapReact address={detailPost.address} />
             </div>
           </div>
         </div>
