@@ -9,7 +9,7 @@ const HomePage = () => {
   const [isHomePage, setIsHomePage] = useState(true);
 
   const { posts } = useSelector((state) => state.post);
-
+  console.log(posts, typeof posts);
   return (
     <>
       {/* <FilterSearch/> */}
@@ -23,7 +23,7 @@ const HomePage = () => {
         <HeroSection />
         <CardPlaces />
         {/* <CardRoom /> */}
-        <Product posts={posts} isHomePage />
+        <Product />
 
         <AboutUs />
         <WhyUs />

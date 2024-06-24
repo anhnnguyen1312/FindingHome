@@ -1,13 +1,13 @@
-import React from 'react'
-import { Product } from '../../components'
+import React from "react";
+import { Product } from "../../components";
 
 const type = "căn hộ";
 const HouseRental = () => {
   return (
     <div>
-      <Product type={type}/>
+      return <Product type={type} isHomePage={false} />;
     </div>
-  )
-}
+  );
+};
 
-export default HouseRental
+export default HouseRental;

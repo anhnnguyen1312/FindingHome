@@ -8,7 +8,7 @@ import {
   AddressNewPostDistrict,
   AddressNewPostWard,
 } from "./AddressNewPost";
-const Search = ({ setSearchData, setSearchButtonClick, isHomePage }) => {
+const Search = ({ setSearchData, setSearchButtonClick, type }) => {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -91,14 +91,12 @@ const Search = ({ setSearchData, setSearchButtonClick, isHomePage }) => {
     setSearchData(selectData);
     console.log("search");
   };
-  console.log("province", province);
-  console.log("district", district);
-  console.log("ward", ward);
 
-  console.log("addressData", addressData);
   return (
     <>
-      {isHomePage && (
+      {type ? (
+        ""
+      ) : (
         <SelectSearch
           placeholder={"Phân loại"}
           id={"type"}
