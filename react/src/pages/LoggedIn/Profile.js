@@ -33,8 +33,7 @@ const Profile = () => {
 
   const stateAuth = useSelector((state) => state.auth);
   const { posts } = useSelector((state) => state.post);
-  console.log("posts", posts);
-
+  const userId = stateAuth?.data.userId
   // useEffect(() => {
   //   !stateAuth.isLoggedIn && usenavi("/");
   // }, [stateAuth.isLoggedIn]);
@@ -158,7 +157,7 @@ const Profile = () => {
             </div>
           </div>
           {/* // tin ddax ddangw */}
-          {managePostClick && <ManagePostUser />}
+          {managePostClick && <ManagePostUser userId={userId} />}
         </div>
       </div>
     </>

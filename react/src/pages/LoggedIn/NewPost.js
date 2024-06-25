@@ -29,12 +29,12 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Image, Upload } from "antd";
 import { callApiUploadImages } from "../../api/uploadImage";
 import swal from "sweetalert";
+
 const NewPost = ({
-  updatePostData,
-  setUpdatePostClick,
-  ReUpPostData,
-  setReUpPostClick,
+  updatePostData
 }) => {
+  const usenavi = useNavigate();
+
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -58,24 +58,23 @@ const NewPost = ({
 
   const [formData, setFormData] = useState(() => {
     const data = {
-      title: updatePostData?.title || ReUpPostData?.title || "",
-      address: updatePostData?.address || ReUpPostData?.address || "",
-      zalo: updatePostData?.zalo || ReUpPostData?.zalo || "",
-      status: updatePostData?.status || "0",
-      price: updatePostData?.price || ReUpPostData?.price || "",
-      area: updatePostData?.area || ReUpPostData?.area || "",
-      otherFee: updatePostData?.otherFee || ReUpPostData?.otherFee || "",
-      nearby: updatePostData?.nearby || ReUpPostData?.nearby || "",
-      typeRoom: updatePostData?.typeRoom || ReUpPostData?.typeRoom || "",
-      description:
-        updatePostData?.description || ReUpPostData?.description || "",
-      furniture: updatePostData?.furniture || ReUpPostData?.furniture || "",
-      rule: updatePostData?.rule || ReUpPostData?.title || "",
+      title: updatePostData?.title || "",
+      address: updatePostData?.address || "",
+      zalo: updatePostData?.zalo || "",
+      status: "0",
+      price: updatePostData?.price || "",
+      area: updatePostData?.area || "",
+      otherFee: updatePostData?.otherFee || "",
+      nearby: updatePostData?.nearby || "",
+      typeRoom: updatePostData?.typeRoom || "",
+      description: updatePostData?.description || "",
+      furniture: updatePostData?.furniture || "",
+      rule: updatePostData?.rule || "",
       dateCreateAt: updatePostData?.dateCreateAt || "",
       dateExpired: updatePostData?.dateExpired || "",
-      userId: updatePostData?.userId || ReUpPostData?.userId || "",
-      check: updatePostData?.check || "0",
-      urlImages: updatePostData?.urlImages || ReUpPostData?.urlImages || "",
+      userId: updatePostData?.userId || "",
+      check: "0",
+      urlImages: updatePostData?.urlImages || "",
     };
     return data;
   });
@@ -108,13 +107,14 @@ const NewPost = ({
       urlImages: [...prev.urlImages, ...images],
     }));
   };
+  const handleCancelPost = () => {
+    window.location.href =`/logged-in/${path.PROFILE}` ;
+    localStorage?.removeItem('currentPage');
+
+  };
 
   const handleResetClick = () => {
     setPreview(null);
-    // setFormData((prev) => ({
-    //   ...prev,
-    //   urlImages: "",
-    // }));
   };
   const handleDeleteImage = (image) => {
     setPreview((prev) => prev?.filter((item) => item !== image));
@@ -375,13 +375,12 @@ const NewPost = ({
     //   });
     //   console.log("setAddressData");
     // }
-    if (updatePostData || ReUpPostData) {
+    if (updatePostData) {
       setPreview(
-        updatePostData ? updatePostData?.urlImages : ReUpPostData?.urlImages
+        updatePostData ? updatePostData?.urlImages : ""
       );
       let addressData = updatePostData
-        ? updatePostData?.address?.split(",")
-        : ReUpPostData?.address?.split(",");
+        ? updatePostData?.address?.split(",") : "";
       if (updatePostData) {
         setFormData((prevState) => ({
           ...prevState,
@@ -396,7 +395,7 @@ const NewPost = ({
         streetForm: addressData[addressData?.length - 4],
       });
     }
-  }, [updatePostData, ReUpPostData]);
+  }, [updatePostData]);
 
   // useEffect(() => {
   //   if (updatePostData || ReUpPostData) {
@@ -763,18 +762,10 @@ const NewPost = ({
         {/* // button */}
         <div className="flex items-center justify-end">
           <button
-            onClick={() =>
-              //   ReUpPostData
-              //     ? setReUpPostClick(false)
-              //     : setUpdatePostClick(false) || useNavigate(path.HOME)
-              //
-              (ReUpPostData && setReUpPostClick(false)) ||
-              (updatePostData && setUpdatePostClick(false)) ||
-              handleNavigateToLogin()
-            }
+            onClick= {handleCancelPost}
             className="mr-4 rounded-lg border-2 px-4 py-2 py-[5px] my-[20px] font-medium text-gray-500 focus:outline-none focus:ring hover:bg-gray-200"
           >
-            Hủy
+            Quay về
           </button>
           <button
             onClick={handleSubmitPost}
