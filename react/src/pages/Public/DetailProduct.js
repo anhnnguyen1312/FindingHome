@@ -5,7 +5,7 @@ import userAvatar from "../../assets/images/userAvatar.jpg";
 import { FaTableList } from "react-icons/fa6";
 import { GeoCoding } from "../../components/index";
 import { callApiDetailPost } from "../../api/getPostApi";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import SlideShow from "../../components/SlideShow";
 import GgMapReact from "../../components/GgMapReact";
@@ -16,7 +16,6 @@ const DetailProduct = () => {
   const [descriptionSplit, setDescriptionSplit] = useState([]);
   const [ruleSplit, setRuleSplit] = useState([]);
   const [id, setId] = useState(useLocate.state?.idPost);
-  console.log("useLocate.state?.idPost", useLocate.state?.idPost);
 
   useEffect(() => {
     const getApiDetailPost = async () => {

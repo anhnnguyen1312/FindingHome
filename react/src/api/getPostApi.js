@@ -35,7 +35,7 @@ export const callApiUpdatePost = (payload) =>
     try {
       const response = await axiosConfig({
         method: "post",
-        url: "http://localhost:3000/allPosts",
+        url: "http://localhost:8000/update-post",
         data: payload,
       });
       resolve(response);

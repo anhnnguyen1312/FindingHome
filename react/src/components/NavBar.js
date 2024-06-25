@@ -348,7 +348,7 @@ export default function NavBar() {
             <div className="flex items-center gap-[5px] ml-[30px] ">
               <div
                 className="cursor-pointer "
-                onClick={() => handleUserProfileNavigate()}
+                onClick={() => handleManagePostNavigate()}
               >
                 {stateAuth.data?.name}
               </div>

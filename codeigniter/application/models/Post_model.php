@@ -5,7 +5,7 @@ class Post_model extends CI_Model {
 	public function __construct(){
 		parent::__construct();
 	}
-	public function insert_new_post($data){
+	public function handle_post($data, $id){
 		
 		$data_Post['userId'] = $data['userId'];
 		$data_Post['address'] = $this->encryption->encrypt($data['address']);
@@ -20,26 +20,31 @@ class Post_model extends CI_Model {
 		$data_Post['rule'] = $data['rule'];
 		$data_Post['nearby'] = $data['nearby'];
 		$data_Post['urlImages'] = $this->encryption->encrypt($data['urlImages']);
-
-		$this->db->insert('posts', $data_Post);
-		$post_id = $this->db->insert_id();
-
-		if(!empty($post_id)){
-			$data_statusPost['postId'] = $post_id;
-			$data_statusPost['dateCreateAt'] = $data['dateCreateAt'];
-			$data_statusPost['dateExpired'] = $data['dateExpired'];
-			$data_statusPost['status'] = $data['status'];
-			$data_statusPost['check'] = $data['check'];
-
-			 $query =$this->db->insert('statusPost', $data_statusPost);
-
-			 if(!empty($query)){
-				return true;
-			 }else{
-				return false;
-			 }
+		if(!empty($id)){
+			$this->db->where('id', $id);
+			$query = $this->db->update('posts', $data_Post);
+			return $query;
 		}else{
-			return false;
+			$this->db->insert('posts', $data_Post);
+			$post_id = $this->db->insert_id();
+	
+			if(!empty($post_id)){
+				$data_statusPost['postId'] = $post_id;
+				$data_statusPost['dateCreateAt'] = $data['dateCreateAt'];
+				$data_statusPost['dateExpired'] = $data['dateExpired'];
+				$data_statusPost['status'] = $data['status'];
+				$data_statusPost['check'] = $data['check'];
+	
+				 $query =$this->db->insert('statusPost', $data_statusPost);
+	
+				 if(!empty($query)){
+					return true;
+				 }else{
+					return false;
+				 }
+			}else{
+				return false;
+			}
 		}
 
 	}

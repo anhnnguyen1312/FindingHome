@@ -6,12 +6,45 @@ import { useNavigate } from "react-router-dom";
 import AutoSlideShow from "./AutoSlideShow";
 
 import DetailProduct from "../pages/Public/DetailProduct";
-const CardProduct = ({ props }) => {
+const CardProduct = ({ props, checked }) => {
   const [isHoverHeart, setIsHoverHeart] = useState(false);
   const navigate = useNavigate();
   function handleNavigate(idPost) {
     navigate(`/${path.DETAIL_PRODUCT}`, { state: { idPost } });
   }
+  
+  const handleStatusTag = (check) => {
+    if (check) {
+      switch (check) {
+        case "1":
+          return (
+            <span className="bg-[#9bfaa3] border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
+              Đang hoạt động
+            </span>
+          );
+        case "0":
+          return (
+            <span className="bg-[#fcf683] border border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
+              Chưa được duyệt
+            </span>
+          );
+        case "2":
+          return (
+            <span className="bg-[#f78888] border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
+              Từ chối
+            </span>
+          );
+        case "3":
+          return (
+            <span className="bg-[#b9bfc9] border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
+              Hết hạn
+            </span>
+          );
+        default:
+          return null;
+      }
+    }
+  };
 
   return (
     <li>
@@ -36,8 +69,9 @@ const CardProduct = ({ props }) => {
         </figure>
 
         <div className="gap-[1vh] flex flex-col flex-[70%] p-[1vh]  border-y-[#E2E8F0] border-l-red rounded-r-2xl  ">
-          <div className="text-red">
-            <h2 className="text-red-500 font-medium">{props.title} </h2>
+          <div className="flex flex-row items-center flex-wrap">
+            <h2 className="text-red-500 font-medium mr-2">{props.title}</h2>
+            {handleStatusTag(checked)}
           </div>
           <div className="justify-start gap-[1vw] flex ">
             <div className="text-white font-medium flex items-center color:white px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">

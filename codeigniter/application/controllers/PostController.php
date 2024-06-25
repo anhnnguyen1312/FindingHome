@@ -12,7 +12,7 @@ class PostController extends CI_Controller {
 		if($post_data){
 			$post_data['urlImages'] = json_encode($post_data['urlImages']);
 
-			$result = $this->Post_model->insert_new_post($post_data);
+			$result = $this->Post_model->handle_post($post_data);
 	
 			if($result){
 				echo json_encode([
@@ -26,6 +26,28 @@ class PostController extends CI_Controller {
 		}
 
 	}
+	
+	
+	public function update_post(){
+		$post_data = json_decode($this->input->raw_input_stream, true);
+		$id = $post_data["id"];
+		if($post_data){
+			$post_data['urlImages'] = json_encode($post_data['urlImages']);
+
+			$result = $this->Post_model->handle_post($post_data, $id);
+	
+			if($result){
+				echo json_encode([
+					'success' => 'Bài đăng đã được cập nhật thành công'
+				]);
+			}else{
+				echo json_encode([
+					'fail' => 'Hệ thống đang gặp lỗi trong quá trình cập nhật bài đăng. Chúng tôi sẽ khắc phục sớm nhất'
+				]);
+			}
+		}
+
+	}
 
 	public function list_all_post(){
 		$jwt = new JWT();
@@ -34,6 +56,7 @@ class PostController extends CI_Controller {
 			foreach ($list_post_data as $data){
 				$list_post=([
 					'id' => $data->id,
+					'userId' => $data->userId,
 					'username' => $data->name,
 					'phone' => $this->encryption->decrypt($data->phone),
 					'address' => $this->encryption->decrypt($data->address),
