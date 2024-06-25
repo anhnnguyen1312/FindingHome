@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { CardProduct, Search } from "./index";
+import { CardProduct, Search, Button } from "./index";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { Pagination } from "antd";
 import no_data_img from "../assets/images/no-data-icon-10.png";
 
-const Product = ({ type }) => {
+const Product = ({ type, isSystem }) => {
   const [button, setButton] = useState(false);
   const [searchButtonClick, setSearchButtonClick] = useState(false);
 
@@ -200,11 +200,11 @@ const Product = ({ type }) => {
   console.log("currentpostData", currentpostData);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-[30px]">
-      <div className=" flex lg:flex-row flex-col gap-[2vw] w-full ">
-        <div className="lg:hidden flex bg-gray">
+    <div className="flex flex-col items-center justify-center gap-[30px] w-full">
+      <div className=" flex lxl:flex-row flex-col gap-[2vw] w-full ">
+        <div className="xl:hidden flex bg-gray">
           <div className=" w-full p-[20px] flex flex-col items-center justify-center gap-[20px] ">
-            <div className=" flex-col lg:flex-row bg-F8FAFC w-full p-[10px] flex items-center justify-center gap-[10px] ">
+            <div className=" flex-col xl:flex-row bg-F8FAFC w-full p-[10px] flex items-center justify-center gap-[10px] ">
               <Search
                 type={type}
                 setSearchData={setSearchData}
@@ -213,7 +213,9 @@ const Product = ({ type }) => {
             </div>
           </div>
         </div>
-        <div className="lg:flex-[80%] flex flex-col gap-[20px] p-[5px] ">
+        <div className="xl:flex-[80%] flex flex-col gap-[10px] p-[5px] ">
+          {/* {isSystem ? <div className="xl:flex-[80%] flex flex-col gap-[20px] p-[5px]"> : <div className="lg:flex-[80%] flex flex-col gap-[20px] p-[5px]"> } */}
+
           <h1 className="mt-[5vh] text-[30px] font-semibold ">
             Danh Sách Bài Đăng{" "}
           </h1>
@@ -221,7 +223,7 @@ const Product = ({ type }) => {
             {searchButtonClick &&
               currentpostData?.length > 0 &&
               currentpostData.map((product) => {
-                return <CardProduct props={product} />;
+                return <CardProduct key={product.id} props={product} />;
               })}
             {searchButtonClick && postData?.length === 0 && (
               <img src={no_data_img}></img>
@@ -229,7 +231,57 @@ const Product = ({ type }) => {
             {searchButtonClick ||
               (currentPosts?.length > 0 &&
                 currentPosts.map((product) => {
-                  return <CardProduct props={product} />;
+                  return (
+                    <>
+                      {isSystem ? (
+                        <>
+                          <div
+                            key={product.id}
+                            className="flex  gap-[20px] items-center justify-center "
+                          >
+                            <div className="w-[90%]">
+                              <CardProduct props={product} />
+                            </div>
+                            <div className="w-[10%] flex flex-col gap-[5px] items-center justify-between">
+                              <Button
+                                children={"Chỉnh sửa"}
+                                bgColor={"bg-[#6F7B92]"}
+                                textColor={"text-white"}
+                                borderColor={"border-white"}
+                                //  onClick={() => handleUpdatePost(product)}
+                              />
+                              <Button
+                                children={"Đăng lại"}
+                                bgColor={"bg-[#2EAFA1]"}
+                                textColor={"text-white"}
+                                borderColor={"border-white"}
+                                //  onClick={() => handleReUpPost(product)}
+                              />
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <CardProduct key={product.id} props={product} />
+                      )}
+
+                      {/* <Popconfirm
+                   title="Xóa bài đăng"
+                   description="Bạn có chắc chắn muốn xóa bài đăng này"
+                   onConfirm={() => confirm(product)}
+                   // onCancel={cancel}
+                   okText="Xóa"
+                   cancelText="Hủy"
+                 >
+                   <Button
+                     children={"xóa"}
+                     bgColor={"bg-[#DE3E36]"}
+                     textColor={"text-white "}
+                     borderColor={"border-[#DE3E36]"}
+                     // onClick={() => handleLogInNavigate(true)}
+                   />
+                 </Popconfirm> */}
+                    </>
+                  );
                 }))}
           </ul>
           <div className="flex items-center justify-center">
@@ -244,8 +296,10 @@ const Product = ({ type }) => {
             />
           </div>
         </div>
-        <div className="lg:flex-[20%] flex-col hidden lg:flex bg-gray">
+        <div className="xl:flex-[20%] flex-col hidden xl:flex bg-gray">
           {/* Button */}
+          {/* {isSystem ? <div className="xl:flex-[20%]  xl:flex  flex-col bg-gray hidden">: <div className="bg-gray lg:flex-[20%]  lg:flex  flex-col hidden">} */}
+
           <div className=" w-full flex flex-col items-center justify-start gap-[20px]  mt-[5vh] pt-[2px]  ">
             <div className="flex w-full items-center justify-end">
               <button

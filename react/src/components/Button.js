@@ -1,17 +1,26 @@
-import React from 'react'
+import React from "react";
 
- const Button = ({children, textColor, borderRounded, bgColor, custom, hovercolor,borderColor, onClick, fullWidth}) =>{
+const Button = ({
+  children,
+  textColor,
+  borderRounded,
+  bgColor,
+  custom,
+  hovercolor,
+  borderColor,
+  onClick,
+  fullWidth,
+}) => {
   return (
     <>
-     <button
-        type='button'
+      <button
+        type="button"
         onClick={onClick}
-        className={`  py-1 w-40 text-base font-thin ${textColor} ${custom} ${hovercolor} ${fullWidth && 'w-full'} ${bgColor} ${borderColor} ${borderRounded || 'rounded'}  border border-1 rounded ` }
-    >
+        className={`  py-1 w-24 text-base font-thin ${textColor} ${custom} ${hovercolor} ${fullWidth && "w-full"} ${bgColor} ${borderColor} ${borderRounded || "rounded"}  border border-1 rounded `}
+      >
         {children}
-    </button>
+      </button>
     </>
-   
-  )
-}
+  );
+};
 export default Button;

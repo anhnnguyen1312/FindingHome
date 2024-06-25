@@ -15,7 +15,15 @@ import Profile from "./pages/LoggedIn/Profile";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthToken } from "../src/api/cookieServices";
 import { getUserAction } from "../src/redux/store/action/authenAction";
-import HomeLoggedIn from "./pages/LoggedIn/HomeLoggedIn";
+import { HomeLoggedIn } from "./pages/LoggedIn/";
+import {
+  System,
+  ManagePostSystem,
+  CensorshipPostSytem,
+  ManageUserSystem,
+  ManagePostExpiredSystem,
+  CreateAccountAdmin,
+} from "./pages/System/";
 
 // import {SideBar} from './components/SideBar'
 
@@ -53,6 +61,28 @@ function App() {
           <Route path={path.PROFILE} element={<Profile />} />
           <Route path={path.NEWPOST} element={<NewPost />} />
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
+        </Route>
+        <Route path={path.SYSTEM} element={<System />}>
+          <Route
+            path={path.MANAGE_POST_SYSTEM}
+            element={<ManagePostSystem />}
+          />
+          <Route
+            path={path.CENSORSHIP_POST_SYSTEM}
+            element={<CensorshipPostSytem />}
+          />
+          <Route
+            path={path.MANAGE_POST_EXPIRED_SYSTEM}
+            element={<ManagePostExpiredSystem />}
+          />
+          <Route
+            path={path.MANAGE_USER_SYSTEM}
+            element={<ManageUserSystem />}
+          />
+          <Route
+            path={path.CREATE_ACCOUNT_ADMIN}
+            element={<CreateAccountAdmin />}
+          />
         </Route>
       </Routes>
     </Router>
