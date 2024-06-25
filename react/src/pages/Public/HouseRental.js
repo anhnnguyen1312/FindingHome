@@ -3,11 +3,7 @@ import { Product } from "../../components";
 
 const type = "căn hộ";
 const HouseRental = () => {
-  return (
-    <div>
-      return <Product type={type} isHomePage={false} />;
-    </div>
-  );
+  return <Product type={type} isHomePage={false} />;
 };
 
 export default HouseRental;

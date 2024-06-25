@@ -9,4 +9,10 @@ export const path = {
   NEWPOST: "newpost",
   HOME_LOGGED_IN: "/logged-in/*",
   RESET_PASSWORD: "reset-password",
+  SYSTEM: "/system/*",
+  MANAGE_POST_SYSTEM: "manage-post-system",
+  CENSORSHIP_POST_SYSTEM: "censorship-post-system",
+  MANAGE_POST_EXPIRED_SYSTEM: "manage-post-expired-system",
+  MANAGE_USER_SYSTEM: "manage-user-system",
+  CREATE_ACCOUNT_ADMIN: "create-account-admin",
 };

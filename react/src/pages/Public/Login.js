@@ -52,10 +52,12 @@ export default function Login() {
         icon: "success",
         timer: 2000,
       });
+      stateAuth.data.role === "1"
+        ? usenavi(`${path.SYSTEM}`)
+        : usenavi(`${path.HOME}`);
     }
-    stateAuth.isLoggedIn && usenavi(`${path.HOME}`);
   }, [stateAuth.isLoggedIn]);
-
+  console.log("role", stateAuth.data);
   useEffect(() => {
     if (stateAuth.msg) {
       if (!stateAuth.isLoggedIn && !stateAuth.isLoggedOut) {

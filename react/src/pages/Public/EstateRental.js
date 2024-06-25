@@ -4,11 +4,7 @@ import { Product } from "../../components";
 const type = "mặt bằng";
 
 const EstateRental = () => {
-  return (
-    <div>
-      return <Product type={type} isHomePage={false} />;
-    </div>
-  );
+  return <Product type={type} isHomePage={false} />;
 };
 
 export default EstateRental;
