@@ -12,7 +12,11 @@ import {
 } from "../redux/store/action/authenAction";
 import { path } from "../ultils/path";
 import { FaBullseye } from "react-icons/fa6";
-const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
+const UpdateUserProfile = ({
+  setUpdateClick,
+  updateClick,
+  setManagePostClick,
+}) => {
   const dispatch = useDispatch();
   const usenavi = useNavigate();
   const useLocate = useLocation();
@@ -257,8 +261,8 @@ const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
     }
 
     dispatch(updateUserActionAccess());
-  }, [stateAuth.msg && stateAuth.update])
-  
+  }, [stateAuth.msg && stateAuth.update]);
+
   return (
     <>
       {/* {loading && (
@@ -275,7 +279,10 @@ const UpdateUserProfile = ({ setUpdateClick, updateClick }) => {
 
           <div>
             <button
-              onClick={() => setUpdateClick(false)}
+              onClick={() => {
+                setUpdateClick(false);
+                setManagePostClick(true);
+              }}
               className="mr-2 hidden rounded-lg border-2 px-4 py-2 font-medium text-gray-500 sm:inline focus:outline-none focus:ring hover:bg-gray-200"
             >
               hủy

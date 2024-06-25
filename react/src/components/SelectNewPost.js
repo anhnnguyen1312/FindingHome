@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { CloseOutlined } from "@ant-design/icons";
 
 import { Form, Select } from "antd";
 const SelectNewPost = ({
@@ -32,6 +33,9 @@ const SelectNewPost = ({
           onChange={(e) => handeChangeSelect(e)}
           style={style || ""}
           // value={valueSelect}
+          allowClear={
+            <CloseOutlined style={{ fontSize: "20px", color: "#FF0000" }} />
+          }
         >
           {typeRoom?.map((option) => (
             <Select.Option value={option.type_value} key={option.type_value}>

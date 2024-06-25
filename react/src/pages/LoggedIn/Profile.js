@@ -33,7 +33,7 @@ const Profile = () => {
 
   const stateAuth = useSelector((state) => state.auth);
   const { posts } = useSelector((state) => state.post);
-  const userId = stateAuth?.data.userId
+  const userId = stateAuth?.data.userId;
   // useEffect(() => {
   //   !stateAuth.isLoggedIn && usenavi("/");
   // }, [stateAuth.isLoggedIn]);
@@ -92,10 +92,7 @@ const Profile = () => {
                       Sửa Thông Tin
                     </div>
                     <div
-                      onClick={() => {
-                        setUpdateClick(false);
-                        setManagePostClick(true);
-                      }}
+                      onClick={() => usenavi(`/logged-in/${path.NEWPOST}`)}
                       className=" cursor-pointer bg-rose-500 hover:bg-rose-400 text-white py-2 px-4 rounded"
                     >
                       Đăng tin
@@ -149,6 +146,7 @@ const Profile = () => {
               {updateClick && (
                 <UpdateUserProfile
                   setUpdateClick={setUpdateClick}
+                  setManagePostClick={setManagePostClick}
                   updateClick={updateClick}
                 />
               )}
