@@ -44,12 +44,12 @@ const Post = ({ isManagePage, check, isExpired }) => {
       const date = formatDate(today);
       console.log(date);
 
-      const filterIsExpirePosts = filterCheckPosts.filter((post) => {
-        console.log(moment(date).isSameOrAfter(post.dateExpired)) &&
-          moment(date).isSameOrAfter(post.dateExpired);
-      });
+      const filterIsExpirePosts = filterCheckPosts.filter((post) =>
+        moment(date).isSameOrAfter(post.dateExpired)
+      );
 
       console.log("filterIsExpirePosts", filterIsExpirePosts);
+      filterIsExpirePosts && setFilteredProducts(filterIsExpirePosts);
     } else {
       filterCheckPosts && setFilteredProducts(filterCheckPosts);
     }
@@ -232,6 +232,34 @@ const Post = ({ isManagePage, check, isExpired }) => {
     denyPost();
   };
 
+  const handleIsExpiredPost = (product) => {
+    const censorPost = async () => {
+      try {
+        console.log("product.id", product.id);
+        const censorData = {
+          idPost: product.id,
+          userId: product.userId,
+          check: "3",
+        };
+
+        const response = await callApiCensorPost(censorData);
+
+        // window.location.reload();
+
+        if (response.data.fail) {
+          message.error(response.data.fail);
+        } else {
+          message.success(response.data.success);
+          dispatch(postAction());
+        }
+      } catch (error) {
+        console.error(error);
+        message.error("Duyệt bài hết hạn không thành công");
+      }
+    };
+    censorPost();
+  };
+
   console.log("currentpostData", currentpostData);
   console.log("currentPosts", currentPosts);
   console.log("filteredProducts", filteredProducts);
@@ -313,6 +341,18 @@ const Post = ({ isManagePage, check, isExpired }) => {
                               textColor={"text-white"}
                               borderColor={"border-[#DE3E36]"}
                               onClick={() => handleDenyPost(product)}
+                            />
+                          </>
+                        )}
+                        {isExpired && (
+                          <>
+                            <Button
+                              children={"Duyệt hết hạn"}
+                              bgColor={"bg-[#374151]"}
+                              textColor={"text-white"}
+                              borderColor={"border-white"}
+                              style={"hover:bg-slate-600"}
+                              onClick={() => handleIsExpiredPost(product)}
                             />
                           </>
                         )}
