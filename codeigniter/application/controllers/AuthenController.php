@@ -5,22 +5,6 @@ use Firebase\JWT\JWT;
 
 class AuthenController extends CI_Controller
 {
-
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/userguide3/general/urls.html
-	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -225,6 +209,26 @@ class AuthenController extends CI_Controller
 					'message' => 'Chỉnh sửa tiểu sử thất bại'
 				]);
 			}
+		}
+	}
+
+	public function delete_user(){
+		$post_data = json_decode($this->input->raw_input_stream, true);
+		if($post_data){
+			$result = $this->Authen_model->delete_user($post_data);
+			if($result){
+				echo json_encode([
+					'success' => 'Xóa tài khoản thành công'
+				]);
+			}else{
+				echo json_encode([
+					'fail' => 'Hệ thống gặp lỗi trong quá trình xóa tài khoản. Vui lòng quay lại sau'
+				]);
+			}
+		}else{
+			echo json_encode([
+				'fail' => 'Xóa tài khoản thất bại'
+			]);
 		}
 	}
 

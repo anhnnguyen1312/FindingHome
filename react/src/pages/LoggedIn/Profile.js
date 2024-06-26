@@ -11,32 +11,36 @@ import userAvatar from "../../assets/images/userAvatar.jpg";
 import { removeAuthToken } from "../../api/cookieServices";
 import { logoutAction } from "../../redux/store/action/authenAction";
 import { path } from "../../ultils/path";
+import {message, Popconfirm } from "antd";
+import {callApiDeleteUser} from "../../../src/api/authenLogin"
 const Profile = () => {
   const [updateClick, setUpdateClick] = useState(false);
   const [managePostClick, setManagePostClick] = useState(false);
   const usenavi = useNavigate();
   const dispatch = useDispatch();
   const useLocate = useLocation();
-
-  // useEffect(() => {
-  //   if (stateAuth.isLoggedIn) {
-  //     const getApiuserProfile = async () => {
-  //       // const response = await callApiUserProfile(userId);
-  //       const response = await callApiUserProfile("1");
-
-  //       setUserData(response.data);
-  //     };
-  //     getApiuserProfile();
-  //     dispatch(postAction());
-  //   }
-  // }, []);
-
   const stateAuth = useSelector((state) => state.auth);
-  const { posts } = useSelector((state) => state.post);
   const userId = stateAuth?.data.userId;
-  // useEffect(() => {
-  //   !stateAuth.isLoggedIn && usenavi("/");
-  // }, [stateAuth.isLoggedIn]);
+
+  const confirm =  async (userId) => {
+      try {
+        const response = await callApiDeleteUser(userId);
+        if (response.data.fail) {
+          message.error(response.data.fail);
+        } else {
+          const success = response.data.success;
+          handleDeleteUser(success)
+        }
+      } catch (error) {
+        console.error(error);
+        message.error("Xóa tài khoản không thành công");
+      }
+  };
+  
+  const handleDeleteUser = (success) => {
+    removeAuthToken();
+    dispatch(logoutAction(success));
+  };
 
   const handleLogOut = () => {
     removeAuthToken();
@@ -125,12 +129,18 @@ const Profile = () => {
                     <li className=" cursor-pointer mb-4 border-b-[1px] border-[#dfdfdf] ">
                       Lịch sử hoạt động
                     </li>
-                    <li
-                      className=" cursor-pointer mb-4 border-b-[1px] border-[#dfdfdf] "
-                      onClick={() => handleLogOut()}
+                    <Popconfirm
+                      title="Xóa Tài Khoản"
+                      description="Bạn có chắc chắn muốn xóa tài khoản"
+                      onConfirm={() => confirm(userId)}
+                      okText="Xóa"
+                      cancelText="Hủy"
                     >
-                      xóa tài khoản
-                    </li>
+                        <li className=" cursor-pointer mb-4 border-b-[1px] border-[#dfdfdf] ">
+                          xóa tài khoản
+                        </li>
+                    </Popconfirm>
+
                     <li
                       className=" cursor-pointer mb-4 border-b-[1px] border-[#dfdfdf] "
                       onClick={() => handleLogOut()}

@@ -114,4 +114,30 @@ class Authen_model extends CI_Model {
 		return $query;
 	}
 
+	public function delete_user($userId){
+		$this->db->trans_start();
+			$this->db->where('id', $userId);
+			$this->db->delete('users');
+
+			$this->db->where('userId', $userId);
+			$this->db->delete('userToken');
+
+			$Posts = $this->db->get_where('posts', ['userId' => $userId])->result();
+			foreach($Posts as $Post){
+				$postId = $Post->id;
+				$this->db->where('postId', $postId);
+				$this->db->delete('statusPost');
+			}
+
+			$this->db->where('userId', $userId);
+			$this->db->delete('posts');
+		$this->db->trans_complete();
+
+		if($this->db->trans_status() === false){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
 }
