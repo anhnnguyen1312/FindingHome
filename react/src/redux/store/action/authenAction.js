@@ -112,10 +112,11 @@ export const getUserAction = (cookie) => ({
   data: cookie,
 });
 
-export const logoutAction = () => ({
+export const logoutAction = (success) => ({
   type: actionTypes.LOGOUT,
-  msg: "Đăng xuất thành công",
+  msg: success ? success : "Đăng xuất thành công",
 });
+
 export const updateUserAction = (payload) => async (dispatch) => {
   try {
     const response = await callApiUpdateProfile(payload);

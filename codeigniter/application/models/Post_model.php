@@ -54,6 +54,7 @@ class Post_model extends CI_Model {
 		$this->db->from('posts');
 		$this->db->join('users','posts.userId = users.id');
 		$this->db->join('statusPost', 'posts.id = statusPost.postId');
+		$this->db->where(['check' => 1, 'status' => 1]);
 		$query =  $this->db->get();
 
 		if(!empty($query)){

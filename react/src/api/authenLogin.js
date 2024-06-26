@@ -59,3 +59,17 @@ export const resetPassword = (payload) =>
       reject(error);
     }
   });
+
+  export const callApiDeleteUser = (payload) =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const response = await axiosConfig({
+          method: "post",
+          url: "http://localhost:8000/delete-user",
+          data: payload,
+        });
+        resolve(response);
+      } catch (error) {
+        reject(error);
+      }
+    });

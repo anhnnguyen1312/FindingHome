@@ -128,19 +128,23 @@ const ManagePostUser = ({ userId }) => {
             currentPosts?.map((product) => (
               <div
                 key={product.id}
-                className="flex gap-[20px] items-center justify-center"
+                className="flex gap-[20px] items-center justify-center group"
               >
-                <div className="w-[80%]">
+                <div className="w-[90%]">
                   <div className="relative">
                     <CardProduct props={product} checked={product.check} />
                   </div>
                 </div>
-                <div className="w-[20%] flex flex-col gap-[20px] items-center justify-between">
+                <div className="w-[10%] flex flex-col gap-[10px] items-center justify-between hidden group-hover:flex">
                   <Button
-                    children={product.check === "3" ? "Đăng lại" : "Chỉnh sửa"}
-                    bgColor={"bg-[#6F7B92]"}
+                    icon={product.check === "3" ? "fa-solid fa-rotate-left" : "fa-solid fa-pen-to-square"}
+                    bgColor={product.check === "3" ? "bg-[#6F7B92]" : "bg-[#3064f2]"}
                     textColor={"text-white"}
                     borderColor={"border-white"}
+                    width={"w-12"}
+                    height={"h-12"}
+                    fullRounded={"rounded-full"}
+                    title={product.check === "3" ? "Đăng lại" : "Chỉnh sửa"}
                     onClick={() => handleUpdatePost(product)}
                   />
                   <Popconfirm
@@ -151,10 +155,14 @@ const ManagePostUser = ({ userId }) => {
                     cancelText="Hủy"
                   >
                     <Button
-                      children={"xóa"}
+                      icon={"fa-solid fa-trash-can"}
                       bgColor={"bg-[#DE3E36]"}
                       textColor={"text-white"}
                       borderColor={"border-[#DE3E36]"}
+                      width={"w-12"}
+                      height={"h-12"}
+                      fullRounded={"rounded-full"}
+                      title={"xóa"}
                     />
                   </Popconfirm>
                 </div>
@@ -175,5 +183,4 @@ const ManagePostUser = ({ userId }) => {
     </>
   );
 };
-
 export default ManagePostUser;
