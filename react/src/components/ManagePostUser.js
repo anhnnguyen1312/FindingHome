@@ -60,9 +60,14 @@ const ManagePostUser = ({ userId }) => {
           (post) => post.check === "2"
         );
         setPostDataFilter(postFilter);
-      } else if (typePostClick.type === "đã đăng thành công") {
+      } else if (typePostClick.type === "đang hoạt động") {
         const postFilter = filteredProducts?.filter(
-          (post) => post.check === "1"
+          (post) => post.check === "1" && post.status === "0"
+        );
+        setPostDataFilter(postFilter);
+      } else if (typePostClick.type === "hết phòng") {
+        const postFilter = filteredProducts?.filter(
+          (post) => post.check === "1" && post.status === "1"
         );
         setPostDataFilter(postFilter);
       }

@@ -13,6 +13,7 @@ import { getAuthToken, removeAuthToken } from "../api/cookieServices";
 const { Search } = Input;
 import ch3 from "../assets/images/canho/ch3.jpg";
 import userAvatar from "../assets/images/userAvatar.jpg";
+import logo from "../assets/images/logo.jpg";
 
 export default function NavBar() {
   const [click, setClick] = useState(false);
@@ -103,7 +104,10 @@ export default function NavBar() {
             onClick={closeMobileMenu}
           >
             {/* Anh-Phú */}
-            <i class="fa-brands fa-suse" />
+            {/* <i class="fa-brands fa-suse" /> */}
+            <span class="mr-2 w-10">
+              <img src={logo} alt="findingHouse" className="rounded-full" />
+            </span>
           </Link>
           <div className="menu-icon" onClick={handleClick}>
             <i className={click ? "fas fa-times" : "fas fa-bars"} />
@@ -370,6 +374,17 @@ export default function NavBar() {
                       className="font-thin flex flex-col gap-[20px] bg-white"
                       // onClick={() => handleUserProfile()}
                     >
+                      {stateAuth.data.role === "1" && (
+                        <Link
+                          className="cursor-pointer flex items-center justify-between"
+                          to={path.SYSTEM}
+                        >
+                          {" "}
+                          Hệ thống quản lí
+                          <i class="fa-solid fa-gear text-rose-600"></i>
+                        </Link>
+                      )}
+
                       <li
                         onClick={() => handleUserProfileNavigate()}
                         className="cursor-pointer flex items-center justify-between"

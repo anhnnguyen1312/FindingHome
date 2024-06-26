@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Product } from "../../components";
+import Post from "../../components/system/Post";
 
 const ManagePostSystem = () => {
   return (
     <>
-      <Product isSystem />
+      <Post isManagePage />
     </>
   );
 };

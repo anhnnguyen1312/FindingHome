@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../assets/images/logo.jpg";
 
 import { Button } from "./index";
 import { Link } from "react-router-dom";
@@ -97,8 +98,10 @@ const Footer = () => {
                 to="/"
                 className="social-logo text-[#fff] justify-start ml-[20px] pointer font-xl flex items-center mb-[10px]"
               >
+                <span class="mr-2 w-8">
+                  <img src={logo} alt="findingHouse" className="rounded-full" />
+                </span>
                 Anh-Phu
-                <i class="fa-brands fa-suse" />
               </Link>
             </div>
             <div class="flex justify-between items-center w-[240px]">

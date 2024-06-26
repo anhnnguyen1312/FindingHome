@@ -8,8 +8,6 @@ import { useSelector } from "react-redux";
 const HomePage = () => {
   const [isHomePage, setIsHomePage] = useState(true);
 
-  const { posts } = useSelector((state) => state.post);
-  console.log(posts, typeof posts);
   return (
     <>
       {/* <FilterSearch/> */}

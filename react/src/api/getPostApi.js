@@ -15,6 +15,18 @@ export const callApiPost = (payload) =>
     }
   });
 
+export const callApiHomepagePost = () =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosConfig({
+        method: "get",
+        url: "http://localhost:8000/list-all-post",
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
 
 export const callApiCreatePost = (payload) =>
   new Promise(async (resolve, reject) => {
@@ -50,6 +62,19 @@ export const callApiDeletePost = (id) =>
       const response = await axiosConfig({
         method: "post",
         url: `http://localhost:8000/post-delete/${id}`,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+export const callApiCensorPost = (data) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosConfig({
+        method: "post",
+        url: `http://localhost:8000/post-censor/${data}`,
       });
       resolve(response);
     } catch (error) {

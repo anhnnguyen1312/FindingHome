@@ -6,7 +6,7 @@ import { Link, NavLink } from "react-router-dom";
 import { path } from "../ultils/path";
 import { removeAuthToken } from "../api/cookieServices";
 import { logoutAction } from "../redux/store/action/authenAction";
-
+import logo from "../assets/images/logo.jpg";
 const SideBarSystem = () => {
   const [selectBtn, setSelectBtn] = useState(false);
 
@@ -230,7 +230,7 @@ const SideBarSystem = () => {
                 </Link>
 
                 <Link
-                  to={path.MANAGE_POST_EXPIRED_SYSTEM}
+                  to={path.CENSORSHIP_POST_SYSTEM}
                   className="flex cursor-pointer items-center border-l-rose-600 py-2 px-4 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
                 >
                   <svg
@@ -382,19 +382,19 @@ const SideBarSystem = () => {
         </div>
       </div>
 
-      <header class="lg:hidden flex text-slate-700 container relative mx-auto  flex-col overflow-hidden px-4 py-4 lg:flex-row lg:items-center">
+      <header class="lg:hidden text-gray-300 bg-[#374151] flex w-full  relative mx-auto  flex-col overflow-hidden px-8 py-2 lg:flex-row lg:items-center">
         <a
           href="#"
-          class="flex items-center whitespace-nowrap text-2xl font-black"
+          class="flex items-center whitespace-nowrap text-2xl text-gray-300"
         >
-          <span class="mr-2 w-8">
-            <img src="/images/JOJj79gp_Djhwdp_ZOKLL.png" alt="" />
+          <span class="mr-2 w-10">
+            <img src={logo} alt="findingHouse" className="rounded-full" />
           </span>
-          spline
+          <p class="text-xs text-gray-300">{stateAuth.data.name}</p>
         </a>
         <input type="checkbox" class="peer hidden" id="navbar-open" />
         <label
-          class="absolute top-5 right-5 cursor-pointer lg:hidden"
+          class="absolute top-3 right-10 cursor-pointer lg:hidden"
           for="navbar-open"
         >
           <svg
@@ -414,59 +414,203 @@ const SideBarSystem = () => {
         </label>
         <nav
           aria-label="Header Navigation"
-          class="peer-checked:pt-8 peer-checked:max-h-60 flex max-h-0 w-full flex-col items-center overflow-hidden transition-all lg:ml-24 lg:max-h-full lg:flex-row"
+          class="peer-checked:pt-8 peer-checked:max-h-96 flex max-h-0 w-full flex-col items-center overflow-hidden transition-all lg:ml-24 lg:max-h-full lg:flex-row"
         >
           <ul class="flex w-full flex-col items-center space-y-2 lg:flex-row lg:justify-center lg:space-y-0">
             <li class="lg:mr-12">
-              <a
-                class="rounded text-gray-700 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
-                href="#"
+              <Link
+                to={path.HOME}
+                className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
               >
-                Components
-              </a>
+                <svg
+                  class="mr-4 h-5 w-5 align-middle"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                    class=""
+                  ></path>
+                </svg>
+                Trang chủ
+              </Link>
             </li>
             <li class="lg:mr-12">
-              <a
-                class="rounded text-gray-700 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
-                href="#"
+              <Link
+                to={path.HOME}
+                className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
               >
-                Pricing
-              </a>
+                <svg
+                  class="mr-4 h-5 w-5 align-middle"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                  />
+                </svg>
+                Thông báo
+              </Link>
             </li>
             <li class="lg:mr-12">
-              <a
-                class="rounded text-gray-700 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
-                href="#"
+              <Link
+                to={path.HOME}
+                className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
               >
-                Contact
-              </a>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                </svg>
+                Thống kê
+              </Link>
             </li>
             <li class="lg:mr-12">
-              <a
-                class="rounded text-gray-700 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
-                href="#"
+              <Link
+                to={path.HOME}
+                className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
               >
-                FAQ
-              </a>
+                <svg
+                  class="mr-4 h-5 w-5 align-middle"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                    class=""
+                  ></path>
+                </svg>
+                Quản lí bài đăng
+              </Link>
+            </li>
+            <li class="lg:mr-12">
+              <Link
+                to={path.HOME}
+                className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
+              >
+                <svg
+                  class="mr-4 h-5 w-5 align-middle"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                  />
+                </svg>
+                Duyệt bài đăng
+              </Link>
+            </li>
+            <li class="lg:mr-12">
+              <Link
+                to={path.HOME}
+                className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
+              >
+                <svg
+                  class="mr-4 h-5 w-5 align-middle"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
+                </svg>
+                Xử lí bài hết hạn
+              </Link>
+            </li>
+            <li class="lg:mr-12">
+              <Link
+                to={path.HOME}
+                className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
+              >
+                <svg
+                  class="mr-4 h-5 w-5 align-middle"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                    class=""
+                  ></path>
+                </svg>
+                Quản lí người dùng
+              </Link>
+            </li>
+            <li class="lg:mr-12">
+              <Link
+                to={path.HOME}
+                className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
+              >
+                <svg
+                  class="mr-4 h-5 w-5 align-middle"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                  />
+                </svg>
+                Tạo tài khoản admin
+              </Link>
             </li>
           </ul>
           <hr class="mt-4 w-full lg:hidden" />
           <div class="my-4 flex items-center space-x-6 space-y-2 lg:my-0 lg:ml-auto lg:space-x-8 lg:space-y-0">
-            <a
-              href="#"
-              title=""
-              class="whitespace-nowrap rounded font-medium transition-all duration-200 focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2 hover:text-opacity-50"
+            <Link
+              to={path.HOME}
+              className="whitespace-nowrap flex rounded font-medium transition-all duration-200 focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2 hover:text-opacity-50"
             >
-              {" "}
-              Log in{" "}
-            </a>
-            <a
-              href="#"
-              title=""
-              class="whitespace-nowrap rounded-xl bg-blue-700 px-5 py-3 font-medium text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 hover:bg-blue-600"
+              Finding House
+            </Link>
+            <div
+              onClick={() => handleLogOut()}
+              class="whitespace-nowrap rounded-xl bg-rose-600 px-5 py-3 font-medium text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 hover:bg-rose-700"
             >
-              Get free trial
-            </a>
+              Đăng xuất
+            </div>
           </div>
         </nav>
       </header>
