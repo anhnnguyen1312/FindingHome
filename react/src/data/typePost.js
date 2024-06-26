@@ -12,8 +12,12 @@ const typePost = [
     type_value: "đã hết hạn",
   },
   {
-    type_key: "đã đăng thành công",
-    type_value: "đã đăng thành công",
+    type_key: "đang hoạt động",
+    type_value: "đang hoạt động",
+  },
+  {
+    type_key: "hết phòng",
+    type_value: "hết phòng",
   },
 ];
 export default typePost;

@@ -30,9 +30,7 @@ import { Image, Upload } from "antd";
 import { callApiUploadImages } from "../../api/uploadImage";
 import swal from "sweetalert";
 
-const NewPost = ({
-  updatePostData
-}) => {
+const NewPost = ({ updatePostData }) => {
   const usenavi = useNavigate();
 
   const [provinces, setProvinces] = useState([]);
@@ -108,9 +106,8 @@ const NewPost = ({
     }));
   };
   const handleCancelPost = () => {
-    window.location.href =`/logged-in/${path.PROFILE}` ;
-    localStorage?.removeItem('currentPage');
-
+    window.location.href = `/logged-in/${path.PROFILE}`;
+    localStorage?.removeItem("currentPage");
   };
 
   const handleResetClick = () => {
@@ -291,7 +288,7 @@ const NewPost = ({
                 text: response.data.success,
                 icon: "success",
                 timer: 2000,
-              })
+              });
               // .then(() => {
               //   setFormData({
               //     title: "",
@@ -376,11 +373,10 @@ const NewPost = ({
     //   console.log("setAddressData");
     // }
     if (updatePostData) {
-      setPreview(
-        updatePostData ? updatePostData?.urlImages : ""
-      );
+      setPreview(updatePostData ? updatePostData?.urlImages : "");
       let addressData = updatePostData
-        ? updatePostData?.address?.split(",") : "";
+        ? updatePostData?.address?.split(",")
+        : "";
       if (updatePostData) {
         setFormData((prevState) => ({
           ...prevState,
@@ -524,7 +520,7 @@ const NewPost = ({
 
   return (
     <>
-      <div className="my-4 m-auto bg-white sm:w-4/5 w-full border  shadow-xl px-4 sm:px-8 md:mx-auto">
+      <div className="my-4 m-auto bg-white  w-full border  shadow-xl px-4 sm:px-8 md:mx-auto">
         <div>
           <div className="flex flex-col border-b py-4 sm:flex-row sm:items-start">
             <div className="shrink-0 mr-auto sm:py-3">
@@ -762,7 +758,7 @@ const NewPost = ({
         {/* // button */}
         <div className="flex items-center justify-end">
           <button
-            onClick= {handleCancelPost}
+            onClick={handleCancelPost}
             className="mr-4 rounded-lg border-2 px-4 py-2 py-[5px] my-[20px] font-medium text-gray-500 focus:outline-none focus:ring hover:bg-gray-200"
           >
             Quay về

@@ -152,10 +152,11 @@ const Search = ({ setSearchData, setSearchButtonClick, type }) => {
           children={"Tim kiem"}
           textColor={"text-white"}
           fullWidth={"flex"}
-          bgColor={"bg-primary"}
+          bgColor={"bg-[#374151]"}
           borderRounded={"rounded-[6px]"}
-          borderColor={"border-primary"}
+          borderColor={"border-white"}
           onClick={() => handleSearch()}
+          style={"hover:bg-slate-600"}
         />
       </div>
       {/* //   </div>

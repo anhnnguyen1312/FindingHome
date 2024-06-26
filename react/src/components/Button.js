@@ -11,10 +11,11 @@ const Button = ({
   borderColor,
   onClick,
   fullWidth,
+  style,
   height,
   width,
   fullRounded,
-  title
+  title,
 }) => {
   return (
     <>
@@ -22,7 +23,7 @@ const Button = ({
         type="button"
         onClick={onClick}
         title={title}
-        className={`  py-1 w-15 text-base font-thin ${textColor} ${fullRounded} ${custom} ${width} ${height} ${hovercolor} ${fullWidth && "w-full"} ${bgColor} ${borderColor} ${borderRounded || "rounded"}  border border-1 rounded `}
+        className={`  py-1 w-15 ${style} text-base font-thin ${textColor} ${fullRounded} ${custom} ${width} ${height} ${hovercolor} ${fullWidth && "w-full"} ${bgColor} ${borderColor} ${borderRounded || "rounded"}  border border-1 rounded `}
       >
         <i className={`${icon}`}></i>
         {children}

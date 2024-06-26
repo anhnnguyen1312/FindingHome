@@ -6,6 +6,7 @@ import { Outlet, Navigate } from "react-router-dom";
 import { SideBarSystem } from "../../components";
 const System = () => {
   const stateAuth = useSelector((state) => state.auth);
+  console.log(stateAuth.data);
   if (!stateAuth.isLoggedIn || stateAuth.data.role === "0")
     return <Navigate to={`/${path.LOGIN}`} replace={true} />;
   return (

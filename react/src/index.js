@@ -7,7 +7,7 @@ import { getAuthToken } from "../src/api/cookieServices";
 import { getUserAction } from "../src/redux/store/action/authenAction";
 import {
   postAction,
-  // postActionDemo,
+  homepagePostAction,
 } from "../src/redux/store/action/postAction";
 
 import { PersistGate } from "redux-persist/integration/react";
@@ -23,6 +23,7 @@ const Root = () => {
     const cookie = getAuthToken();
     cookie && store.dispatch(getUserAction(cookie));
     store.dispatch(postAction());
+    //store.dispatch(homepagePostAction());
   }, []);
   return (
     <Provider store={store}>

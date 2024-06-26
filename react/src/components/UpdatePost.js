@@ -2,7 +2,7 @@ import React from "react";
 import NewPost from "../pages/LoggedIn/NewPost";
 import { useDispatch, useSelector } from "react-redux";
 
-const UpdatePost = ({ updatePostData}) => {
+const UpdatePost = ({ updatePostData }) => {
   // const { updatePostData } = useSelector((state) => state.post);
   const handleClickOverlay = (e) => {
     e.stopPropagation();
@@ -17,11 +17,9 @@ const UpdatePost = ({ updatePostData}) => {
     >
       <div
         onClick={(e) => handleClickChild(e)}
-        className="bg-white max-w-[1000px] w-full overflow-y-auto mt-[60px]"
+        className="bg-white max-w-[700px] w-full overflow-y-auto mt-[60px]"
       >
-        <NewPost
-          updatePostData={updatePostData}
-        />
+        <NewPost updatePostData={updatePostData} />
       </div>
     </div>
   );

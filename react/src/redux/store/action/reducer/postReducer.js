@@ -4,8 +4,7 @@ const initialState = {
   posts: [],
   msg: "",
   // count: 0,
-  newPosts: [],
-  updatePostData: [123],
+  homepagePosts: [],
 };
 
 export const postReducer = (state = initialState, action) => {
@@ -17,16 +16,14 @@ export const postReducer = (state = initialState, action) => {
         posts: action.posts || [],
         msg: action.msg || "get post Success",
       };
-    case actionTypes.UPDATE_POST:
+    case actionTypes.GET_POST_HOMEPAGE:
       return {
         ...state,
-        updatePostData: action.updatePostData || [],
+
+        homepagePosts: action.posts || [],
+        msg: action.msg || "get post Success",
       };
-    case actionTypes.UPDATE_POST_CLEAR:
-      return {
-        ...state,
-        updatePostData: null,
-      };
+
     default:
       return state;
   }

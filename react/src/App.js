@@ -56,11 +56,11 @@ function App() {
           <Route path={path.ROOM_RENTAL} element={<RoomRental />} />
           <Route path={path.ESTATE_RENTAL} element={<EstateRental />} />
           <Route path={path.DETAIL_PRODUCT} element={<DetailProduct />} />
+          <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
         </Route>
         <Route path={path.HOME_LOGGED_IN} element={<HomeLoggedIn />}>
           <Route path={path.PROFILE} element={<Profile />} />
           <Route path={path.NEWPOST} element={<NewPost />} />
-          <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
         </Route>
         <Route path={path.SYSTEM} element={<System />}>
           <Route
