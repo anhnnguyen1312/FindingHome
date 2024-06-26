@@ -5,7 +5,7 @@ class Post_model extends CI_Model {
 	public function __construct(){
 		parent::__construct();
 	}
-	public function handle_post($data, $id){
+	public function handle_post($data, $id=null){
 		
 		$data_Post['userId'] = $data['userId'];
 		$data_Post['address'] = $this->encryption->encrypt($data['address']);
@@ -49,7 +49,7 @@ class Post_model extends CI_Model {
 
 	}
 	
-	public function get_all_post(){
+	public function get_homepage_post(){
 		$this->db->select('users.name as name, users.phone as phone, posts.*, statusPost.dateCreateAt as dateCreateAt, statusPost.dateExpired as dateExpired, statusPost.status as status, statusPost.check as check');
 		$this->db->from('posts');
 		$this->db->join('users','posts.userId = users.id');
@@ -62,7 +62,20 @@ class Post_model extends CI_Model {
 		}else{
 			return false;
 		}
-		
+	}
+
+	public function get_all_post(){
+		$this->db->select('users.name as name, users.phone as phone, posts.*, statusPost.dateCreateAt as dateCreateAt, statusPost.dateExpired as dateExpired, statusPost.status as status, statusPost.check as check');
+		$this->db->from('posts');
+		$this->db->join('users','posts.userId = users.id');
+		$this->db->join('statusPost', 'posts.id = statusPost.postId');
+		$query =  $this->db->get();
+
+		if(!empty($query)){
+			return $query->result();
+		}else{
+			return false;
+		}
 	}
 
 	public function get_post_detail($id){
@@ -81,13 +94,28 @@ class Post_model extends CI_Model {
 		
 	}
 
+	public function update_check_post($data, $postId){
+		if($postId){
+			$check = $data['check'];
+			$this->db->where('postId', $postId);
+			$query = $this->db->update('statusPost',['check' => $check]);
+			return $query;
+		}else{
+			return false;
+		}
+	}
+
 	public function post_delete($id){
 		$this->db->trans_start();
+
 			$this->db->where('id', $id);
 			$this->db->delete('posts');
 
 			$this->db->where('postId', $id);
 			$this->db->delete('statusPost');
+
+			// $this->db->where('postId', $id);
+			// $this->db->delete('notifications')
 		$this->db->trans_complete();
 
 		if($this->db->trans_status() === false){

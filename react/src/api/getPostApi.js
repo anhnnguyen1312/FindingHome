@@ -1,13 +1,12 @@
 import axiosConfig from "../axiosConfig";
 
-export const callApiPost = (payload) =>
+export const callApiPost = () =>
+
   new Promise(async (resolve, reject) => {
     try {
       const response = await axiosConfig({
         method: "get",
         url: "http://localhost:8000/list-all-post",
-
-        data: payload,
       });
       resolve(response);
     } catch (error) {
@@ -20,7 +19,7 @@ export const callApiHomepagePost = () =>
     try {
       const response = await axiosConfig({
         method: "get",
-        url: "http://localhost:8000/list-all-post",
+        url: "http://localhost:8000/list-homepage-post",
       });
       resolve(response);
     } catch (error) {
@@ -69,12 +68,13 @@ export const callApiDeletePost = (id) =>
     }
   });
 
-export const callApiCensorPost = (data) =>
+export const callApiCensorPost = (payload) =>
   new Promise(async (resolve, reject) => {
     try {
       const response = await axiosConfig({
         method: "post",
-        url: `http://localhost:8000/post-censor/${data}`,
+        url: `http://localhost:8000/handle-check-post`,
+        data: payload,
       });
       resolve(response);
     } catch (error) {
