@@ -23,7 +23,7 @@ const Root = () => {
     const cookie = getAuthToken();
     cookie && store.dispatch(getUserAction(cookie));
     store.dispatch(postAction());
-    //store.dispatch(homepagePostAction());
+    store.dispatch(homepagePostAction());
   }, []);
   return (
     <Provider store={store}>
