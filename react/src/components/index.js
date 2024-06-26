@@ -22,8 +22,7 @@ export { default as AvatarUpload } from "./AvatarUpload";
 export { default as UpdateUserProfile } from "./UpdateUserProfile";
 export { default as Loading } from "./Loading";
 export { default as StatisticPost } from "./StatisticPost";
-// export { default as ReUpPost } from "./ReUpPost";
+export { default as Notifications } from "./Notifications";
 export { default as UpdatePost } from "./UpdatePost";
 export { default as SideBarSystem } from "./SideBarSystem";
-
 export { default as formatDate } from "./formatDate";

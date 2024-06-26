@@ -131,6 +131,10 @@ class Authen_model extends CI_Model {
 
 			$this->db->where('userId', $userId);
 			$this->db->delete('posts');
+
+			
+			// $this->db->where('userId', $userId);
+			// $this->db->delete('notifications')
 		$this->db->trans_complete();
 
 		if($this->db->trans_status() === false){

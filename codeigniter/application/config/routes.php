@@ -62,8 +62,10 @@ $route['delete-user'] = 'AuthenController/delete_user';
 $route['create-post'] = 'PostController/create_post';
 $route['update-post'] = 'PostController/update_post';
 $route['list-all-post'] = 'PostController/list_all_post';
+$route['list-homepage-post'] = 'PostController/list_homepage_post';
 $route['post-detail/(:any)'] = 'PostController/post_detail/$1';
 $route['post-delete/(:any)'] = 'PostController/post_delete/$1';
+$route['handle-check-post'] ='PostController/handle_check_post';
 
 
 

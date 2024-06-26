@@ -49,6 +49,45 @@ class PostController extends CI_Controller {
 
 	}
 
+	public function list_homepage_post(){
+		$jwt = new JWT();
+		$list_post_data = $this->Post_model->get_homepage_post();
+		if($list_post_data){
+			foreach ($list_post_data as $data){
+				$list_post=([
+					'id' => $data->id,
+					'userId' => $data->userId,
+					'username' => $data->name,
+					'phone' => $this->encryption->decrypt($data->phone),
+					'address' => $this->encryption->decrypt($data->address),
+					'typeRoom' => $data->typeRoom,
+					'price' => $data->price,
+					'title' => $data->title,
+					'area' => $data->area,
+					'zalo' => $this->encryption->decrypt($data->zalo),
+					'furniture' => $data->furniture,
+					'description' => $data->description,
+					'otherFee' => $data->otherFee,
+					'rule' => $data->rule,
+					'nearby' => $data->nearby,
+					'urlImages' => json_decode($this->encryption->decrypt($data->urlImages)),
+					'dateCreateAt' => $data->dateCreateAt,
+					'dateExpired' => $data->dateExpired,
+					'check' => $data->check,
+					'status' => $data->status
+
+				]);
+				
+				$token[] = $jwt->encode($list_post, '$/0ne_punch_m4n/$', 'HS256');
+			}
+			echo json_encode(['token' => $token ]);
+		}else{
+			echo json_encode([
+				'fail' => 'Hệ thống đang gặp lỗi trong quá trình lấy bài đăng. Chúng tôi sẽ khắc phục sớm nhất'
+			]);
+		}
+	}
+
 	public function list_all_post(){
 		$jwt = new JWT();
 		$list_post_data = $this->Post_model->get_all_post();
@@ -150,6 +189,27 @@ class PostController extends CI_Controller {
 		}else{
 			echo json_encode([
 				'fail' => 'Hệ thống gặp lỗi trong quá trình lấy thông tin chi tiết của bài đăng. Chúng tôi sẽ khắc phục sớm nhất'
+			]);
+		}
+	}
+
+	public function handle_check_post(){
+		$post_data = json_decode($this->input->raw_input_stream, true);
+		if($post_data){
+			$postId = $post_data['postId'];
+			$result = $this->Post_model->update_check_post($post_data, $postId);
+			if($result){
+				echo json_encode([
+					'success' => 'Update trạng thái bài viết thành công'
+				]);
+			}else{
+				echo json_encode([
+					'fail' => 'Hệ thống gặp lỗi trong quá trình Update trạng thái bài viết. Chúng tôi sẽ khắc phục sớm nhất'
+				]);
+			}
+		}else{
+			echo json_encode([
+				'fail' => 'Hệ thống gặp lỗi trong quá trình Update trạng thái bài viết. Chúng tôi sẽ khắc phục sớm nhất'
 			]);
 		}
 	}

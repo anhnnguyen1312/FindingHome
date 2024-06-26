@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { CardProduct, Search, Button } from "../index";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
-import { Pagination, message } from "antd";
+import { Pagination, message, Popconfirm } from "antd";
 import no_data_img from "../../assets/images/no-data-icon-10.png";
 import { callApiDeletePost, callApiCensorPost } from "../../api/getPostApi";
 import { SelectNewPost, formatDate } from "../index";
@@ -180,9 +180,8 @@ const Post = ({ isManagePage, check, isExpired }) => {
   const handleCensorPost = (product) => {
     const censorPost = async () => {
       try {
-        console.log("product.id", product.id);
         const censorData = {
-          idPost: product.id,
+          postId: product.id,
           userId: product.userId,
           check: "1",
         };
@@ -209,14 +208,14 @@ const Post = ({ isManagePage, check, isExpired }) => {
     const denyPost = async () => {
       try {
         const censorData = {
-          idPost: product.id,
+          postId: product.id,
           userId: product.userId,
           check: "2",
         };
 
         const response = await callApiCensorPost(censorData);
-        console.log("response", response);
-        window.location.reload();
+        // console.log("response", response);
+        // window.location.reload();
 
         if (response.data.fail) {
           message.error(response.data.fail);
@@ -303,7 +302,7 @@ const Post = ({ isManagePage, check, isExpired }) => {
               </div>
             )}
           </div>
-          <ul className="flex flex-col gap-[20px]  ">
+          <ul className="flex flex-col gap-[20px] group  ">
             {currentPosts?.length > 0 &&
               currentPosts.map((product) => {
                 return (
@@ -315,29 +314,50 @@ const Post = ({ isManagePage, check, isExpired }) => {
                       <div className="w-[90%]">
                         <CardProduct props={product} />
                       </div>
-                      <div className="w-[10%] flex flex-col gap-[5px] items-center justify-between">
+                      <div className="w-[10%] flex flex-col gap-[20px] items-center justify-between hidden group-hover:flex">
                         {isManagePage && (
-                          <Button
-                            children={"xóa"}
-                            bgColor={"bg-[#DE3E36]"}
-                            textColor={"text-white"}
-                            borderColor={"border-[#DE3E36]"}
-                            onClick={() => handleDeletePost(product)}
-                          />
+                          <Popconfirm
+                            title="Xóa bài đăng"
+                            description="Bạn có chắc chắn muốn xóa bài đăng này"
+                            onConfirm={() => handleDeletePost(product)}
+                            okText="Xóa"
+                            cancelText="Hủy"
+                          >
+                            <Button
+                              icon={"fa-solid fa-trash-can"}
+                              style={"hover:bg-[#eb4d4d]"}
+                              bgColor={"bg-[#DE3E36]"}
+                              textColor={"text-white"}
+                              borderColor={"border-[#DE3E36]"}
+                              width={"w-12"}
+                              height={"h-12"}
+                              fullRounded={"rounded-full"}
+                              title={"xóa"}
+                            />
+                          </Popconfirm>
                         )}
                         {check === "0" && (
                           <>
                             <Button
-                              children={"Duyệt"}
-                              bgColor={"bg-[#374151]"}
+                              icon={"fa-solid fa-check"}
+                              width={"w-12"}
+                              height={"h-12"}
+                              fullRounded={"rounded-full"}
+                              title={"Duyệt"}
+                              bgColor={"bg-[#4ecc5a]"}
+                              style={"hover:bg-[#8bf794]"}
                               textColor={"text-white"}
                               borderColor={"border-white"}
-                              style={"hover:bg-slate-600"}
                               onClick={() => handleCensorPost(product)}
                             />
                             <Button
-                              children={"Từ chối"}
-                              bgColor={"bg-[#DE3E36]"}
+                              icon={"fa-solid fa-ban"}
+                              width={"w-12"}
+                              height={"h-12"}
+                              fullRounded={"rounded-full"}
+                              title={"Từ chối"}
+                              bgColor={"bg-[#de2828]"}
+                              style={"hover:bg-[#eb4d4d]"}
                               textColor={"text-white"}
                               borderColor={"border-[#DE3E36]"}
                               onClick={() => handleDenyPost(product)}
