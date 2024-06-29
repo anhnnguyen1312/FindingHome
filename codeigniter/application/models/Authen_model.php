@@ -116,11 +116,6 @@ class Authen_model extends CI_Model {
 
 	public function delete_user($userId){
 		$this->db->trans_start();
-			$this->db->where('id', $userId);
-			$this->db->delete('users');
-
-			$this->db->where('userId', $userId);
-			$this->db->delete('userToken');
 
 			$Posts = $this->db->get_where('posts', ['userId' => $userId])->result();
 			foreach($Posts as $Post){
@@ -129,12 +124,13 @@ class Authen_model extends CI_Model {
 				$this->db->delete('statusPost');
 			}
 
-			$this->db->where('userId', $userId);
-			$this->db->delete('posts');
+			$this->db->where('id', $userId);
+			$this->db->delete('users');
 
-			
-			// $this->db->where('userId', $userId);
-			// $this->db->delete('notifications')
+			$tables = ['userToken', 'posts','userNotifications', 'adminNotifications'];
+			$this->db->where('userId', $userId);
+			$this->db->delete($tables);
+
 		$this->db->trans_complete();
 
 		if($this->db->trans_status() === false){

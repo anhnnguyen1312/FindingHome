@@ -3,18 +3,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require_once 'vendor/autoload.php';
 use Firebase\JWT\JWT;
 class PostController extends CI_Controller {
+
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Post_model');
+		$this->load->model('Notification_model');
+		$this->load->model('Authen_model');
 	}
+
 	public function create_post(){
 		$post_data = json_decode($this->input->raw_input_stream, true);
 		if($post_data){
 			$post_data['urlImages'] = json_encode($post_data['urlImages']);
+			
+			$userId = $post_data['userId'];
+			$user_data = $this->Authen_model->get_detail_user($userId);
+			if($user_data){
+				$post_data['userName'] = $user_data->name;
+			}
 
-			$result = $this->Post_model->handle_post($post_data);
+			$postId = $this->Post_model->handle_post($post_data);
+			$notifcation_result = $this->Notification_model->user_update_notification_post($post_data, $postId);
+
 	
-			if($result){
+			if($postId && $notifcation_result){
 				echo json_encode([
 					'success' => 'Đăng bài thành công'
 				]);
@@ -34,9 +46,18 @@ class PostController extends CI_Controller {
 		if($post_data){
 			$post_data['urlImages'] = json_encode($post_data['urlImages']);
 
+			$userId = $post_data['userId'];
+			$user_data = $this->Authen_model->get_detail_user($userId);
+			if($user_data){
+				$post_data['userName'] = $user_data->name;
+			}
+
+
+			$notifcation_result = $this->Notification_model->user_update_notification_post($post_data, $id);
+
 			$result = $this->Post_model->handle_post($post_data, $id);
 	
-			if($result){
+			if($result && $notifcation_result){
 				echo json_encode([
 					'success' => 'Bài đăng đã được cập nhật thành công'
 				]);
@@ -132,53 +153,28 @@ class PostController extends CI_Controller {
 		if(!empty($id)){
 			$data = $this->Post_model->get_post_detail($id);
 			if($data){
-				if(!empty($data->avatar)){
-					$post_detail=([
-						'id' => $data->id,
-						'username' => $data->name,
-						'phone' => $this->encryption->decrypt($data->phone),
-						'address' => $this->encryption->decrypt($data->address),
-						'typeRoom' => $data->typeRoom,
-						'price' => $data->price,
-						'title' => $data->title,
-						'area' => $data->area,
-						'zalo' => $this->encryption->decrypt($data->zalo),
-						'furniture' => $data->furniture,
-						'description' => $data->description,
-						'otherFee' => $data->otherFee,
-						'rule' => $data->rule,
-						'nearby' => $data->nearby,
-						'urlImages' => json_decode($this->encryption->decrypt($data->urlImages)),
-						'dateCreateAt' => $data->dateCreateAt,
-						'dateExpired' => $data->dateExpired,
-						'check' => $data->check,
-						'status' => $data->status,
-						'avatar' => $this->encryption->decrypt($data->avatar),
-					]);
-				}else{
-					$post_detail=([
-						'id' => $data->id,
-						'username' => $data->name,
-						'phone' => $this->encryption->decrypt($data->phone),
-						'address' => $this->encryption->decrypt($data->address),
-						'typeRoom' => $data->typeRoom,
-						'price' => $data->price,
-						'title' => $data->title,
-						'area' => $data->area,
-						'zalo' => $this->encryption->decrypt($data->zalo),
-						'furniture' => $data->furniture,
-						'description' => $data->description,
-						'otherFee' => $data->otherFee,
-						'rule' => $data->rule,
-						'nearby' => $data->nearby,
-						'urlImages' => json_decode($this->encryption->decrypt($data->urlImages)),
-						'dateCreateAt' => $data->dateCreateAt,
-						'dateExpired' => $data->dateExpired,
-						'check' => $data->check,
-						'status' => $data->status,
-						'avatar' =>"",
-					]);
-				}
+				$post_detail = [
+					'id' => $data->id,
+					'username' => $data->name,
+					'phone' => $this->encryption->decrypt($data->phone),
+					'address' => $this->encryption->decrypt($data->address),
+					'typeRoom' => $data->typeRoom,
+					'price' => $data->price,
+					'title' => $data->title,
+					'area' => $data->area,
+					'zalo' => $this->encryption->decrypt($data->zalo),
+					'furniture' => $data->furniture,
+					'description' => $data->description,
+					'otherFee' => $data->otherFee,
+					'rule' => $data->rule,
+					'nearby' => $data->nearby,
+					'urlImages' => json_decode($this->encryption->decrypt($data->urlImages)),
+					'dateCreateAt' => $data->dateCreateAt,
+					'dateExpired' => $data->dateExpired,
+					'check' => $data->check,
+					'status' => $data->status,
+					'avatar' => !empty($data->avatar) ? $this->encryption->decrypt($data->avatar) : "",
+				];				
 				$token = $jwt->encode($post_detail, '$/0ne_punch_m4n/$', 'HS256');
 				echo json_encode(['token' => $token ]);
 			}else{
@@ -193,12 +189,15 @@ class PostController extends CI_Controller {
 		}
 	}
 
-	public function handle_check_post(){
+	public function handle_new_post(){		
 		$post_data = json_decode($this->input->raw_input_stream, true);
 		if($post_data){
 			$postId = $post_data['postId'];
-			$result = $this->Post_model->update_check_post($post_data, $postId);
-			if($result){
+
+			$check_result = $this->Post_model->update_check_post($post_data, $postId);
+			$notifcation_result = $this->Notification_model->admin_update_notification_post($post_data, $postId);
+
+			if($check_result && $notifcation_result){
 				echo json_encode([
 					'success' => 'Update trạng thái bài viết thành công'
 				]);

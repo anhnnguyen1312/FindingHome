@@ -48,7 +48,6 @@ class AuthenController extends CI_Controller
 		if (!empty($post_data)) {
 			$result = $this->Authen_model->check_login($post_data);
 			if ($result) {
-				if (!empty($result->avatar)) {
 					$userData = ([
 						'userId' => $result->id,
 						'name' => $result->name,
@@ -56,20 +55,8 @@ class AuthenController extends CI_Controller
 						'phone' => $this->encryption->decrypt($result->phone),
 						'role' => $result->role,
 						'password' => $this->encryption->decrypt($result->password),
-						'avatar' => $this->encryption->decrypt($result->avatar)
+						'avatar' => !empty($result->avatar) ? $this->encryption->decrypt($result->avatar) : ""
 					]);
-				} else {
-					$userData = ([
-						'userId' => $result->id,
-						'name' => $result->name,
-						'email' => $result->email,
-						'phone' => $this->encryption->decrypt($result->phone),
-						'role' => $result->role,
-						'password' => $this->encryption->decrypt($result->password),
-						'avatar' => ''
-					]);
-				}
-
 				$token = $jwt->encode($userData, '$/0ne_punch_m4n/$', 'HS256');
 				echo json_encode([
 					'token' => $token,
@@ -178,7 +165,6 @@ class AuthenController extends CI_Controller
 			$result = $this->Authen_model->update_user_profile($post_data);
 			if ($result) {
 				$data = $this->Authen_model->get_detail_user($post_data['userId']);
-				if (!empty($data->avatar)) {
 					$userData = ([
 						'userId' => $data->id,
 						'name' => $data->name,
@@ -186,19 +172,8 @@ class AuthenController extends CI_Controller
 						'phone' => $this->encryption->decrypt($data->phone),
 						'role' => $data->role,
 						'password' => $this->encryption->decrypt($data->password),
-						'avatar' => $this->encryption->decrypt($data->avatar)
+						'avatar' => !empty($data->avatar) ? $this->encryption->decrypt($data->avatar) : ""
 					]);
-				} else {
-					$userData = ([
-						'userId' => $data->id,
-						'name' => $data->name,
-						'email' => $data->email,
-						'phone' => $this->encryption->decrypt($data->phone),
-						'role' => $data->role,
-						'password' => $this->encryption->decrypt($data->password),
-						'avatar' => ''
-					]);
-				}
 				$token = $jwt->encode($userData, '$/0ne_punch_m4n/$', 'HS256');
 				echo json_encode([
 					'token' => $token,

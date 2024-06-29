@@ -61,9 +61,9 @@ const CardProduct = ({ props, checked }) => {
             onClick={() => setIsHoverHeart(true)}
           >
             {isHoverHeart ? (
-              <i class="fa-solid fa-heart"></i>
+              <i className="fa-solid fa-heart"></i>
             ) : (
-              <i class="fa-regular fa-heart"></i>
+              <i className="fa-regular fa-heart"></i>
             )}
           </span>
         </figure>
@@ -101,7 +101,7 @@ const CardProduct = ({ props, checked }) => {
               style={{ color: "blue" }}
               className="flex items-center px-[3px] "
             >
-              <i class="fa-solid fa-location-dot"></i>
+              <i className="fa-solid fa-location-dot"></i>
             </div>
             {props.address}
           </div>

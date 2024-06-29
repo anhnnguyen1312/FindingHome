@@ -23,16 +23,12 @@ const Post = ({ isManagePage, check, isExpired }) => {
   const [searchData, setSearchData] = useState();
 
   const { posts } = useSelector((state) => state.post);
+  const stateAuth = useSelector((state) => state.auth);
   const savedPageKey = `currentPage-${"all"}`;
   const initialPage = parseInt(localStorage.getItem(savedPageKey)) || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
   const pageSize = 2;
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(postAction());
-  //   console.log("distpatch");
-  // }, []);
 
   useEffect(() => {
     const allPosts = Object.values(posts).flat();
@@ -178,11 +174,14 @@ const Post = ({ isManagePage, check, isExpired }) => {
     deletePost();
   };
   const handleCensorPost = (product) => {
+    
     const censorPost = async () => {
       try {
         const censorData = {
+          adminId: stateAuth.data.userId,
           postId: product.id,
           userId: product.userId,
+          title: product.title,
           check: "1",
         };
 
@@ -208,8 +207,10 @@ const Post = ({ isManagePage, check, isExpired }) => {
     const denyPost = async () => {
       try {
         const censorData = {
+          adminId: stateAuth.data.userId,
           postId: product.id,
           userId: product.userId,
+          title: product.title,
           check: "2",
         };
 

@@ -63,7 +63,7 @@ const DetailProduct = () => {
             <div className="-mt-4 mb-10 h-8  flex gap-1 items-center relative border-b-4 border-transparent">
               <div className="flex-shrink-0 relative flex justify-center items-center self-stretch ">
                 <div className="absolute inset-0 text-teal">
-                  <i class="fa-solid fa-badge-check"></i>
+                  <i className="fa-solid fa-badge-check"></i>
                 </div>
               </div>
               <div className="hidden sm:flex ml-auto border-4 bg-gray-200 border-gray-50 rounded-full h-24 w-24">
@@ -80,7 +80,7 @@ const DetailProduct = () => {
               <h1 className="text-red-600">{detailPost.title}</h1>
               <h1 className="  flex gap-[10px]">
                 <div className="text-[#4ca976]">
-                  <i class="fa-solid fa-map-location-dot"></i>
+                  <i className="fa-solid fa-map-location-dot"></i>
                 </div>
                 {detailPost.address}
               </h1>
@@ -103,11 +103,11 @@ const DetailProduct = () => {
               </div>
             </div>
             <div className="flex  text-[#d1d100] text-center">
-              <i class="fa-solid fa-star mt-[5px]"></i>
-              <i class="fa-solid fa-star mt-[5px]"></i>
-              <i class="fa-solid fa-star mt-[5px]"></i>
-              <i class="fa-solid fa-star mt-[5px]"></i>
-              <i class="fa-solid fa-star mt-[5px]"></i>
+              <i className="fa-solid fa-star mt-[5px]"></i>
+              <i className="fa-solid fa-star mt-[5px]"></i>
+              <i className="fa-solid fa-star mt-[5px]"></i>
+              <i className="fa-solid fa-star mt-[5px]"></i>
+              <i className="fa-solid fa-star mt-[5px]"></i>
               <div className="pl-[20px] text-gray-700">(40 lượt đánh giá)</div>
             </div>
           </div>
@@ -143,7 +143,7 @@ const DetailProduct = () => {
             <div className="  border border-[#1E95A6] bg-white text-gray-800 inline-flex items-center rounded px-3 py-1 mb-2">
               <div className=" flex gap-[10px] items-center">
                 <div>
-                  <i class="fa-solid fa-motorcycle"></i>
+                  <i className="fa-solid fa-motorcycle"></i>
                 </div>
                 bãi đậu xe
               </div>
@@ -152,7 +152,7 @@ const DetailProduct = () => {
             <div className="bg-white border border-[#1E95A6] mx-[10px] text-gray-800 inline-flex items-center rounded px-3 py-1 mb-2">
               <div className="flex gap-[10px] items-center">
                 <div>
-                  <i class="fa-solid fa-wifi"></i>
+                  <i className="fa-solid fa-wifi"></i>
                 </div>
                 wifi
               </div>
@@ -160,7 +160,7 @@ const DetailProduct = () => {
             <div className="bg-white border border-[#1E95A6]  mx-[10px] text-gray-800 inline-flex items-center rounded px-3 py-1 mb-2">
               <div className="flex gap-[10px] items-center">
                 <div>
-                  <i class="fa-solid fa-cat"></i>{" "}
+                  <i className="fa-solid fa-cat"></i>{" "}
                 </div>
                 thú cưng
               </div>
@@ -168,8 +168,8 @@ const DetailProduct = () => {
             <div className="bg-white border border-[#1E95A6] mx-[10px] text-gray-800 inline-flex items-center rounded px-3 py-1 mb-2">
               <div className="flex gap-[10px] items-center">
                 <div className="">
-                  {/* <i class="fa-sharp fa-thin fa-child-reaching"></i> */}
-                  <i class="fa-solid fa-child-reaching"></i>
+                  {/* <i className="fa-sharp fa-thin fa-child-reaching"></i> */}
+                  <i className="fa-solid fa-child-reaching"></i>
                 </div>
                 trẻ em
               </div>
@@ -198,7 +198,7 @@ const DetailProduct = () => {
           </div>
           <div className="mb-16">
             <div className=" mb-[20px] flex gap-[10px] text-red-600 font-bold text-2xl items-center">
-              <i class="fa-regular fa-address-card"></i>{" "}
+              <i className="fa-regular fa-address-card"></i>{" "}
               <h1 className="">Thông Tin Liên Hệ</h1>
             </div>
 
@@ -207,7 +207,7 @@ const DetailProduct = () => {
                 <div className="text-gray-700 flex ">
                   {" "}
                   <div className="px-[10px] text-[#1E95A6]">
-                    <i class="fa-solid fa-phone"></i>
+                    <i className="fa-solid fa-phone"></i>
                   </div>{" "}
                   Số điện thoại
                 </div>
@@ -262,7 +262,7 @@ const DetailProduct = () => {
           <div>
             <div className="flex gap-[20px] mb-[10px]">
               <div className="text-[#F2545B] ">
-                <i class="fa-solid fa fa-map-marker"></i>
+                <i className="fa-solid fa fa-map-marker"></i>
               </div>
               <div className=" text-xl font-medium">{detailPost.address}</div>
             </div>

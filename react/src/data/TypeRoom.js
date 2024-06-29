@@ -8,10 +8,6 @@ const TypeRoom = [
     type_value: "phòng",
   },
   {
-    type_key: "Ở ghép",
-    type_value: "ở ghép",
-  },
-  {
     type_key: "Mặt bằng",
     type_value: "mặt bằng",
   },
