@@ -28,35 +28,35 @@ const SideBarSystem = () => {
   }, [stateAuth.isLoggedOut]);
   return (
     <>
-      <div class="h-screen hidden   lg:block pb-10">
-        <div class=" h-full w-56 hidden lg:flex flex-grow flex-col overflow-y-auto rounded-br-lg rounded-tr-lg bg-white pt-5 shadow-md">
-          <div class="flex mt-10 items-center px-4">
+      <div className="h-screen hidden   lg:block pb-10">
+        <div className=" h-full w-56 hidden lg:flex flex-grow flex-col overflow-y-auto rounded-br-lg rounded-tr-lg bg-white pt-5 shadow-md">
+          <div className="flex mt-10 items-center px-4">
             <img
-              class="h-12 w-auto max-w-full align-middle rounded-full"
+              className="h-12 w-auto max-w-full align-middle rounded-full"
               src={stateAuth.data.avatar}
               alt=""
             />
-            <div class="flex ml-3 flex-col">
-              <h3 class="font-medium">{stateAuth.data.name}</h3>
-              <p class="text-xs text-gray-500">
+            <div className="flex ml-3 flex-col">
+              <h3 className="font-medium">{stateAuth.data.name}</h3>
+              <p className="text-xs text-gray-500">
                 {stateAuth.data.role === "1" && "Admin"}
               </p>
             </div>
           </div>
 
-          <span class="ml-3 mt-10 mb-2 block text-xs font-semibold text-gray-500">
+          <span className="ml-3 mt-10 mb-2 block text-xs font-semibold text-gray-500">
             {/* Analytics */}
           </span>
 
-          <div class="flex mt-3 flex-1 justify-between flex-col">
-            <div class="">
-              <nav class="flex-1">
+          <div className="flex mt-3 flex-1 justify-between flex-col">
+            <div className="">
+              <nav className="flex-1">
                 <Link
                   to={path.HOME}
                   className="flex cursor-pointer items-center border-l-4 border-l-rose-600 py-2 px-4 text-sm font-medium text-rose-600 outline-none transition-all duration-100 ease-in-out focus:border-l-4"
                 >
                   <svg
-                    class="mr-4 h-5 w-5 align-middle"
+                    className="mr-4 h-5 w-5 align-middle"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -67,7 +67,7 @@ const SideBarSystem = () => {
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                      class=""
+                      className=""
                     ></path>
                   </svg>
                   Trang chủ
@@ -78,7 +78,7 @@ const SideBarSystem = () => {
                   className="flex cursor-pointer items-center border-l-rose-600 py-2 px-4 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
                 >
                   <svg
-                    class="mr-4 h-5 w-5 align-middle"
+                    className="mr-4 h-5 w-5 align-middle"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -92,25 +92,25 @@ const SideBarSystem = () => {
                     />
                   </svg>
                   Thông báo
-                  <span class="ml-auto rounded-full bg-rose-600 px-2 text-xs text-white">
+                  <span className="ml-auto rounded-full bg-rose-600 px-2 text-xs text-white">
                     6
                   </span>
                 </Link>
-                <div class="relative transition">
+                <div className="relative transition">
                   <input
-                    class="peer hidden"
+                    className="peer hidden"
                     type="checkbox"
                     id="menu-1"
                     checked
                   />
                   <button
                     onClick={() => setSelectBtn(!selectBtn)}
-                    class="flex peer relative w-full items-center border-l-rose-600 py-3 px-4 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:text-rose-600 focus:border-l-4"
+                    className="flex peer relative w-full items-center border-l-rose-600 py-3 px-4 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:text-rose-600 focus:border-l-4"
                   >
-                    <span class="flex mr-5 w-5  text-sm font-medium text-gray-600">
+                    <span className="flex mr-5 w-5  text-sm font-medium text-gray-600">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5"
+                        className="h-5 w-5"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -130,12 +130,12 @@ const SideBarSystem = () => {
 
                     <label
                       for="menu-1"
-                      class="absolute inset-0 h-full w-full cursor-pointer"
+                      className="absolute inset-0 h-full w-full cursor-pointer"
                     ></label>
                   </button>
                   {/* <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="absolute right-0 top-4 ml-auto mr-5 h-4 text-gray-600 transition peer-checked:rotate-180 peer-hover:text-rose-600"
+                    className="absolute right-0 top-4 ml-auto mr-5 h-4 text-gray-600 transition peer-checked:rotate-180 peer-hover:text-rose-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -148,16 +148,16 @@ const SideBarSystem = () => {
                     />
                   </svg> */}
                   {selectBtn && (
-                    <ul class="duration-400 flex m-2 max-h-0 flex-col overflow-hidden rounded-xl bg-gray-100 font-medium transition-all duration-300 peer-checked:max-h-96">
-                      <li class="">
+                    <ul className="duration-400 flex m-2 max-h-0 flex-col overflow-hidden rounded-xl bg-gray-100 font-medium transition-all duration-300 peer-checked:max-h-96">
+                      <li className="">
                         <Link
                           to={path.MANAGE_POST_SYSTEM}
                           className="flex m-2 cursor-pointer border-l-rose-600 py-3 pl-5 text-sm text-gray-600 transition-all duration-100 ease-in-out hover:border-l-4 hover:text-rose-600"
                         >
-                          <span class="mr-5">
+                          <span className="mr-5">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
-                              class="h-5 w-5"
+                              className="h-5 w-5"
                               fill="none"
                               viewBox="0 0 24 24"
                               stroke="currentColor"
@@ -173,15 +173,15 @@ const SideBarSystem = () => {
                           Báo cáo
                         </Link>
                       </li>
-                      <li class="">
+                      <li className="">
                         <Link
                           to={path.MANAGE_POST_SYSTEM}
                           className="flex m-2 cursor-pointer border-l-rose-600 py-3 pl-5 text-sm text-gray-600 transition-all duration-100 ease-in-out hover:border-l-4 hover:text-rose-600"
                         >
-                          <span class="mr-5">
+                          <span className="mr-5">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
-                              class="h-5 w-5"
+                              className="h-5 w-5"
                               fill="none"
                               viewBox="0 0 24 24"
                               stroke="currentColor"
@@ -202,17 +202,17 @@ const SideBarSystem = () => {
                 </div>
               </nav>
 
-              <span class="ml-3 mt-10 mb-2 block text-xs font-semibold text-gray-500">
+              <span className="ml-3 mt-10 mb-2 block text-xs font-semibold text-gray-500">
                 Quản lí bài đăng
               </span>
 
-              <nav class="flex-1">
+              <nav className="flex-1">
                 <Link
                   to={path.MANAGE_POST_SYSTEM}
                   className="flex cursor-pointer items-center border-l-rose-600 py-2 px-4 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
                 >
                   <svg
-                    class="mr-4 h-5 w-5 align-middle"
+                    className="mr-4 h-5 w-5 align-middle"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -223,7 +223,7 @@ const SideBarSystem = () => {
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                      class=""
+                      className=""
                     ></path>
                   </svg>
                   Quản lí chung
@@ -234,7 +234,7 @@ const SideBarSystem = () => {
                   className="flex cursor-pointer items-center border-l-rose-600 py-2 px-4 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
                 >
                   <svg
-                    class="mr-4 h-5 w-5 align-middle"
+                    className="mr-4 h-5 w-5 align-middle"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -255,7 +255,7 @@ const SideBarSystem = () => {
                   className="flex cursor-pointer items-center border-l-rose-600 py-2 px-4 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
                 >
                   <svg
-                    class="mr-4 h-5 w-5 align-middle"
+                    className="mr-4 h-5 w-5 align-middle"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -272,17 +272,17 @@ const SideBarSystem = () => {
                 </Link>
               </nav>
 
-              <span class="ml-3 mt-10 mb-2 block text-xs font-semibold text-gray-500">
+              <span className="ml-3 mt-10 mb-2 block text-xs font-semibold text-gray-500">
                 Quản lí người dùng
               </span>
 
-              <nav class="flex-1">
+              <nav className="flex-1">
                 <Link
                   to={path.MANAGE_POST_EXPIRED_SYSTEM}
                   className="flex cursor-pointer items-center border-l-rose-600 py-2 px-4 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
                 >
                   <svg
-                    class="mr-4 h-5 w-5 align-middle"
+                    className="mr-4 h-5 w-5 align-middle"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -293,7 +293,7 @@ const SideBarSystem = () => {
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                      class=""
+                      className=""
                     ></path>
                   </svg>
                   Quản lí chung
@@ -303,7 +303,7 @@ const SideBarSystem = () => {
                   className="flex cursor-pointer items-center border-l-rose-600 py-2 px-4 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
                 >
                   <svg
-                    class="mr-4 h-5 w-5 align-middle"
+                    className="mr-4 h-5 w-5 align-middle"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -320,17 +320,17 @@ const SideBarSystem = () => {
                 </Link>
               </nav>
 
-              <span class="ml-3 mt-10 mb-2 block text-xs font-semibold text-gray-500">
+              <span className="ml-3 mt-10 mb-2 block text-xs font-semibold text-gray-500">
                 Xử lí báo cáo
               </span>
 
-              <nav class="flex-1">
+              <nav className="flex-1">
                 <Link
                   to={path.MANAGE_POST_EXPIRED_SYSTEM}
                   className="flex cursor-pointer items-center border-l-rose-600 py-2 px-4 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
                 >
                   <svg
-                    class="mr-4 h-5 w-5 align-middle"
+                    className="mr-4 h-5 w-5 align-middle"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -350,7 +350,7 @@ const SideBarSystem = () => {
                   className="flex cursor-pointer items-center border-l-rose-600 py-2 px-4 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
                 >
                   <svg
-                    class="mr-4 h-5 w-5 align-middle"
+                    className="mr-4 h-5 w-5 align-middle"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -368,12 +368,12 @@ const SideBarSystem = () => {
               </nav>
             </div>
             <div className="mb-4 ">
-              <nav class="flex-1 ">
+              <nav className="flex-1 ">
                 <div
                   onClick={() => handleLogOut()}
-                  class="flex cursor-pointer items-center border-l-rose-600 py-2 px-4 text-sm font-medium text-rose-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
+                  className="flex cursor-pointer items-center border-l-rose-600 py-2 px-4 text-sm font-medium text-rose-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
                 >
-                  <i class="fa-solid fa-arrow-right-from-bracket text-rose-600 mr-4"></i>
+                  <i className="fa-solid fa-arrow-right-from-bracket text-rose-600 mr-4"></i>
                   Đăng xuất
                 </div>
               </nav>
@@ -382,23 +382,23 @@ const SideBarSystem = () => {
         </div>
       </div>
 
-      <header class="lg:hidden text-gray-300 bg-[#374151] flex w-full  relative mx-auto  flex-col overflow-hidden px-8 py-2 lg:flex-row lg:items-center">
+      <header className="lg:hidden text-gray-300 bg-[#374151] flex w-full  relative mx-auto  flex-col overflow-hidden px-8 py-2 lg:flex-row lg:items-center">
         <a
           href="#"
-          class="flex items-center whitespace-nowrap text-2xl text-gray-300"
+          className="flex items-center whitespace-nowrap text-2xl text-gray-300"
         >
-          <span class="mr-2 w-10">
+          <span className="mr-2 w-10">
             <img src={logo} alt="findingHouse" className="rounded-full" />
           </span>
-          <p class="text-xs text-gray-300">{stateAuth.data.name}</p>
+          <p className="text-xs text-gray-300">{stateAuth.data.name}</p>
         </a>
-        <input type="checkbox" class="peer hidden" id="navbar-open" />
+        <input type="checkbox" className="peer hidden" id="navbar-open" />
         <label
-          class="absolute top-3 right-10 cursor-pointer lg:hidden"
+          className="absolute top-3 right-10 cursor-pointer lg:hidden"
           for="navbar-open"
         >
           <svg
-            class="h-7 w-7"
+            className="h-7 w-7"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -414,16 +414,16 @@ const SideBarSystem = () => {
         </label>
         <nav
           aria-label="Header Navigation"
-          class="peer-checked:pt-8 peer-checked:max-h-96 flex max-h-0 w-full flex-col items-center overflow-hidden transition-all lg:ml-24 lg:max-h-full lg:flex-row"
+          className="peer-checked:pt-8 peer-checked:max-h-96 flex max-h-0 w-full flex-col items-center overflow-hidden transition-all lg:ml-24 lg:max-h-full lg:flex-row"
         >
-          <ul class="flex w-full flex-col items-center space-y-2 lg:flex-row lg:justify-center lg:space-y-0">
-            <li class="lg:mr-12">
+          <ul className="flex w-full flex-col items-center space-y-2 lg:flex-row lg:justify-center lg:space-y-0">
+            <li className="lg:mr-12">
               <Link
                 to={path.HOME}
                 className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
               >
                 <svg
-                  class="mr-4 h-5 w-5 align-middle"
+                  className="mr-4 h-5 w-5 align-middle"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -434,19 +434,19 @@ const SideBarSystem = () => {
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                    class=""
+                    className=""
                   ></path>
                 </svg>
                 Trang chủ
               </Link>
             </li>
-            <li class="lg:mr-12">
+            <li className="lg:mr-12">
               <Link
                 to={path.HOME}
                 className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
               >
                 <svg
-                  class="mr-4 h-5 w-5 align-middle"
+                  className="mr-4 h-5 w-5 align-middle"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -462,14 +462,14 @@ const SideBarSystem = () => {
                 Thông báo
               </Link>
             </li>
-            <li class="lg:mr-12">
+            <li className="lg:mr-12">
               <Link
                 to={path.HOME}
                 className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
+                  className="h-5 w-5"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -484,13 +484,13 @@ const SideBarSystem = () => {
                 Thống kê
               </Link>
             </li>
-            <li class="lg:mr-12">
+            <li className="lg:mr-12">
               <Link
                 to={path.HOME}
                 className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
               >
                 <svg
-                  class="mr-4 h-5 w-5 align-middle"
+                  className="mr-4 h-5 w-5 align-middle"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -501,19 +501,19 @@ const SideBarSystem = () => {
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                    class=""
+                    className=""
                   ></path>
                 </svg>
                 Quản lí bài đăng
               </Link>
             </li>
-            <li class="lg:mr-12">
+            <li className="lg:mr-12">
               <Link
                 to={path.HOME}
                 className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
               >
                 <svg
-                  class="mr-4 h-5 w-5 align-middle"
+                  className="mr-4 h-5 w-5 align-middle"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -529,13 +529,13 @@ const SideBarSystem = () => {
                 Duyệt bài đăng
               </Link>
             </li>
-            <li class="lg:mr-12">
+            <li className="lg:mr-12">
               <Link
                 to={path.HOME}
                 className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
               >
                 <svg
-                  class="mr-4 h-5 w-5 align-middle"
+                  className="mr-4 h-5 w-5 align-middle"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -551,13 +551,13 @@ const SideBarSystem = () => {
                 Xử lí bài hết hạn
               </Link>
             </li>
-            <li class="lg:mr-12">
+            <li className="lg:mr-12">
               <Link
                 to={path.HOME}
                 className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
               >
                 <svg
-                  class="mr-4 h-5 w-5 align-middle"
+                  className="mr-4 h-5 w-5 align-middle"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -568,19 +568,19 @@ const SideBarSystem = () => {
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                    class=""
+                    className=""
                   ></path>
                 </svg>
                 Quản lí người dùng
               </Link>
             </li>
-            <li class="lg:mr-12">
+            <li className="lg:mr-12">
               <Link
                 to={path.HOME}
                 className="rounded flex hover:text-white text-gray-300 transition focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2"
               >
                 <svg
-                  class="mr-4 h-5 w-5 align-middle"
+                  className="mr-4 h-5 w-5 align-middle"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -597,8 +597,8 @@ const SideBarSystem = () => {
               </Link>
             </li>
           </ul>
-          <hr class="mt-4 w-full lg:hidden" />
-          <div class="my-4 flex items-center space-x-6 space-y-2 lg:my-0 lg:ml-auto lg:space-x-8 lg:space-y-0">
+          <hr className="mt-4 w-full lg:hidden" />
+          <div className="my-4 flex items-center space-x-6 space-y-2 lg:my-0 lg:ml-auto lg:space-x-8 lg:space-y-0">
             <Link
               to={path.HOME}
               className="whitespace-nowrap flex rounded font-medium transition-all duration-200 focus:outline-none focus:ring-1 focus:ring-blue-700 focus:ring-offset-2 hover:text-opacity-50"
@@ -607,7 +607,7 @@ const SideBarSystem = () => {
             </Link>
             <div
               onClick={() => handleLogOut()}
-              class="whitespace-nowrap rounded-xl bg-rose-600 px-5 py-3 font-medium text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 hover:bg-rose-700"
+              className="whitespace-nowrap rounded-xl bg-rose-600 px-5 py-3 font-medium text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 hover:bg-rose-700"
             >
               Đăng xuất
             </div>

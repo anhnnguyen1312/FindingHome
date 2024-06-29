@@ -65,7 +65,16 @@ $route['list-all-post'] = 'PostController/list_all_post';
 $route['list-homepage-post'] = 'PostController/list_homepage_post';
 $route['post-detail/(:any)'] = 'PostController/post_detail/$1';
 $route['post-delete/(:any)'] = 'PostController/post_delete/$1';
-$route['handle-check-post'] ='PostController/handle_check_post';
+$route['handle-new-post'] ='PostController/handle_new_post';
+//Notifications
+$route['admin-notification'] = 'NotificationController/get_admin_notification';
+$route['user-notification'] = 'NotificationController/get_user_notification';
+$route['admin-mark-read/(:any)'] = 'NotificationController/admin_mark_read/$1';
+$route['user-mark-read/(:any)'] = 'NotificationController/user_mark_read/$1';
+$route['admin-mark-read'] = 'NotificationController/admin_mark_read';
+$route['user-mark-read'] = 'NotificationController/user_mark_read';
+
+
 
 
 

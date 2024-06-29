@@ -6,7 +6,7 @@ const AnyReactComponent = ({ text }) => <div>{text}</div>;
 const Marker = (props) => {
   return (
     <div style={{ color: "red" }} className="flex items-center px-[10px] ">
-      <i class="fa-solid fa-location-dot"></i>
+      <i className="fa-solid fa-location-dot"></i>
     </div>
   );
 };

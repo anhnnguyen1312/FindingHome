@@ -289,27 +289,6 @@ const NewPost = ({ updatePostData }) => {
                 icon: "success",
                 timer: 2000,
               });
-              // .then(() => {
-              //   setFormData({
-              //     title: "",
-              //     address: "",
-              //     zalo: "",
-              //     status: "0",
-              //     price: "",
-              //     area: "",
-              //     otherFee: "",
-              //     nearby: "",
-              //     typeRoom: "",
-              //     description: "",
-              //     furniture: "",
-              //     rule: "",
-              //     dateCreateAt: "",
-              //     dateExpired: "",
-              //     userId: "",
-              //     check: "0",
-              //     urlImages: "",
-              //   });
-              // });
 
               window.location.reload();
             }
@@ -742,7 +721,7 @@ const NewPost = ({ updatePostData }) => {
                         className="absolute top-0 right-1   cursor-pointer  rounded-full"
                       >
                         <div className="text-red-600 hover:text-red-300 ">
-                          <i class="fa-solid fa-x"></i>
+                          <i className="fa-solid fa-x"></i>
                         </div>
                       </span>
                     </div>

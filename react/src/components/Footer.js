@@ -33,9 +33,9 @@ const Footer = () => {
             {/* </form>*/}
           </div>
         </section>
-        <div class=" flex justify-center w-full max-w-[1000px]">
+        <div className=" flex justify-center w-full max-w-[1000px]">
           <div className="flex">
-            <div class="flex flex-col items-start text-[#fff] m-[16px] w-[160px] text-left ">
+            <div className="flex flex-col items-start text-[#fff] m-[16px] w-[160px] text-left ">
               {/* <h2 className="mb-[16px] text-[#fff] ">About Us</h2> */}
               <Link className="mb-[10px]" to="/">
                 Giới thiệu
@@ -53,7 +53,7 @@ const Footer = () => {
                 Tìm Mặt bằng
               </Link>
             </div>
-            <div class="flex flex-col items-start text-[#fff] m-[16px] w-[160px] text-left footer-link-items ">
+            <div className="flex flex-col items-start text-[#fff] m-[16px] w-[160px] text-left footer-link-items ">
               {/* <h2 className="mb-[16px] text-[#fff] ">Contact Us</h2> */}
               <Link className="mb-[10px] " to="/">
                 Liên hệ
@@ -71,7 +71,7 @@ const Footer = () => {
                 Chính Sách
               </Link>
             </div>
-            <div class="flex flex-col items-start text-[#fff] m-[16px] w-[160px] text-left footer-link-items ">
+            <div className="flex flex-col items-start text-[#fff] m-[16px] w-[160px] text-left footer-link-items ">
               {/* <h2 className="mb-[16px] text-[#fff] ">Contact Us</h2> */}
               <Link className="mb-[10px] " to="/">
                 Hỗ trợ khách hàng
@@ -91,59 +91,59 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <section class="social-media max-w-[1000px] w-full">
-          <div class="social-media-wrap flex justify-between items-center w-[90%] max-w-[1000px] mt-[5px] mx-auto ">
-            <div class="footer-logo">
+        <section className="social-media max-w-[1000px] w-full">
+          <div className="social-media-wrap flex justify-between items-center w-[90%] max-w-[1000px] mt-[5px] mx-auto ">
+            <div className="footer-logo">
               <Link
                 to="/"
                 className="social-logo text-[#fff] justify-start ml-[20px] pointer font-xl flex items-center mb-[10px]"
               >
-                <span class="mr-2 w-8">
+                <span className="mr-2 w-8">
                   <img src={logo} alt="findingHouse" className="rounded-full" />
                 </span>
-                Anh-Phu
+                Finding House corp.
               </Link>
             </div>
-            <div class="flex justify-between items-center w-[240px]">
+            <div className="flex justify-between items-center w-[240px]">
               <Link
-                class="social-icon-link text-[#fff] font-xl facebook"
+                className="social-icon-link text-[#fff] font-xl facebook"
                 to="/"
                 target="_blank"
                 aria-label="Facebook"
               >
-                <i class="fab fa-facebook-f" />
+                <i className="fab fa-facebook-f" />
               </Link>
               <Link
-                class="social-icon-link text-[#fff] font-xl instagram"
+                className="social-icon-link text-[#fff] font-xl instagram"
                 to="/"
                 target="_blank"
                 aria-label="Instagram"
               >
-                <i class="fab fa-instagram" />
+                <i className="fab fa-instagram" />
               </Link>
               <Link
-                class="social-icon-link text-[#fff] font-xl youtube"
+                className="social-icon-link text-[#fff] font-xl youtube"
                 to="/"
                 target="_blank"
                 aria-label="Youtube"
               >
-                <i class="fab fa-youtube" />
+                <i className="fab fa-youtube" />
               </Link>
               <Link
-                class="social-icon-link text-[#fff] font-xl twitter"
+                className="social-icon-link text-[#fff] font-xl twitter"
                 to="/"
                 target="_blank"
                 aria-label="Twitter"
               >
-                <i class="fab fa-twitter" />
+                <i className="fab fa-twitter" />
               </Link>
               <Link
-                class="social-icon-link text-[#fff] font-xl twitter"
+                className="social-icon-link text-[#fff] font-xl twitter"
                 to="/"
                 target="_blank"
                 aria-label="LinkedIn"
               >
-                <i class="fab fa-linkedin" />
+                <i className="fab fa-linkedin" />
               </Link>
             </div>
           </div>

@@ -68,7 +68,7 @@ const AvatarUpload = ({ setUserData, avatar, id }) => {
               className="absolute top-0 right-1   cursor-pointer  rounded-full"
             >
               <div className="text-red-600 hover:text-red-300 ">
-                <i class="fa-solid fa-x"></i>
+                <i className="fa-solid fa-x"></i>
               </div>
             </span>
           </div>

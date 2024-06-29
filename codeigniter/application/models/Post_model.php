@@ -20,10 +20,22 @@ class Post_model extends CI_Model {
 		$data_Post['rule'] = $data['rule'];
 		$data_Post['nearby'] = $data['nearby'];
 		$data_Post['urlImages'] = $this->encryption->encrypt($data['urlImages']);
+		
 		if(!empty($id)){
 			$this->db->where('id', $id);
-			$query = $this->db->update('posts', $data_Post);
-			return $query;
+			$result = $this->db->update('posts', $data_Post);
+			if($result){
+				$data_statusPost['dateCreateAt'] = $data['dateCreateAt'];
+				$data_statusPost['dateExpired'] = $data['dateExpired'];
+				$data_statusPost['status'] = $data['status'];
+				$data_statusPost['check'] = $data['check'];
+				
+				$this->db->where("postId", $id);
+				$query =$this->db->update('statusPost', $data_statusPost);
+				return $query;
+			}else{
+				return false;
+			}
 		}else{
 			$this->db->insert('posts', $data_Post);
 			$post_id = $this->db->insert_id();
@@ -35,18 +47,12 @@ class Post_model extends CI_Model {
 				$data_statusPost['status'] = $data['status'];
 				$data_statusPost['check'] = $data['check'];
 	
-				 $query =$this->db->insert('statusPost', $data_statusPost);
-	
-				 if(!empty($query)){
-					return true;
-				 }else{
-					return false;
-				 }
+				$this->db->insert('statusPost', $data_statusPost);
+				return $post_id;
 			}else{
 				return false;
 			}
 		}
-
 	}
 	
 	public function get_homepage_post(){
@@ -54,7 +60,7 @@ class Post_model extends CI_Model {
 		$this->db->from('posts');
 		$this->db->join('users','posts.userId = users.id');
 		$this->db->join('statusPost', 'posts.id = statusPost.postId');
-		$this->db->where(['check' => 1, 'status' => 1]);
+		$this->db->where(['check' => 1, 'status' => 0]);
 		$query =  $this->db->get();
 
 		if(!empty($query)){
@@ -114,8 +120,6 @@ class Post_model extends CI_Model {
 			$this->db->where('postId', $id);
 			$this->db->delete('statusPost');
 
-			// $this->db->where('postId', $id);
-			// $this->db->delete('notifications')
 		$this->db->trans_complete();
 
 		if($this->db->trans_status() === false){

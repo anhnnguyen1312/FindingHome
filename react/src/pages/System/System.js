@@ -11,7 +11,7 @@ const System = () => {
     return <Navigate to={`/${path.LOGIN}`} replace={true} />;
   return (
     <>
-      <div class="w-screen bg-gray-100 flex lg:flex-row flex-col">
+      <div className="w-screen bg-gray-100 flex lg:flex-row flex-col">
         <SideBarSystem />
         <div className="w-full   h-full flex items-center justify-center ">
           <Outlet />

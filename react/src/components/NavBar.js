@@ -7,16 +7,20 @@ import { path } from "../ultils/path";
 import swal from "sweetalert";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../redux/store/action/authenAction";
-import {  removeAuthToken } from "../api/cookieServices";
-import ch3 from "../assets/images/canho/ch3.jpg";
+import { removeAuthToken } from "../api/cookieServices";
 import userAvatar from "../assets/images/userAvatar.jpg";
 import logo from "../assets/images/logo.jpg";
-import {Notifications} from "./index"
+import { Notifications } from "./index";
 
 export default function NavBar() {
+
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
   const [clickUser, setClickUser] = useState(false);
+
+  const stateAuth = useSelector((state) => state.auth);
+  const userRole = stateAuth.data.role;
+  const userId = stateAuth.data.userId;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,7 +33,8 @@ export default function NavBar() {
   function handleManagePostNavigate() {
     navigate("/logged-in/profile", { state: "managepost" });
   }
-  const stateAuth = useSelector((state) => state.auth);
+
+
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
   const handleLogOut = () => {
@@ -57,7 +62,6 @@ export default function NavBar() {
     if (!stateAuth.isLoggedIn) {
       handleLogInNavigate(false);
     }
-
   };
   const showButton = () => {
     if (window.innerWidth <= 960) {
@@ -92,8 +96,8 @@ export default function NavBar() {
             onClick={closeMobileMenu}
           >
             {/* Anh-Phú */}
-            {/* <i class="fa-brands fa-suse" /> */}
-            <span class="mr-2 w-10">
+            {/* <i className="fa-brands fa-suse" /> */}
+            <span className="mr-2 w-10">
               <img src={logo} alt="findingHouse" className="rounded-full" />
             </span>
           </Link>
@@ -101,7 +105,6 @@ export default function NavBar() {
             <i className={click ? "fas fa-times" : "fas fa-bars"} />
           </div>
           <ul className={click ? "nav-menu active" : "nav-menu"}>
-
             <li className="nav-item">
               <Link
                 to={path.HOME}
@@ -161,31 +164,28 @@ export default function NavBar() {
             )}
           </ul>
           <div className="navbar_search">
-            <Link
-              to={path.LOGIN}
-              className="icon-navbar"
-            >
-              <i class="fa-solid fa-heart white_icon"></i>
+            <Link to={path.LOGIN} className="icon-navbar">
+              <i className="fa-solid fa-heart white_icon"></i>
             </Link>
             {!stateAuth.isLoggedIn && (
               <div className="icon-navbar" onClick={() => handleClickUser()}>
-                <i class="fa-solid fa-user white_icon"></i>
+                <i className="fa-solid fa-user white_icon"></i>
               </div>
             )}
             {stateAuth.isLoggedIn ? (
               <Link to={"/logged-in/newpost"} className="icon-navbar">
-                <i class="fa-solid fa-square-plus"></i>
+                <i className="fa-solid fa-square-plus"></i>
               </Link>
             ) : (
               <div className="icon-navbar" onClick={() => handleNavIcon()}>
-                <i class="fa-solid fa-square-plus"></i>
+                <i className="fa-solid fa-square-plus"></i>
               </div>
             )}
             {stateAuth.isLoggedIn ? (
-                <Notifications/>
-              ) : (
-              <div className="icon-navbar" onClick={() => handleNavIcon()}>
-                <i class="fa-solid fa-bell white_icon"></i>
+                <Notifications userId={userId} userRole={userRole}/>
+            ) : (
+              <div className="icon-navbar" onClick={handleNavIcon}>
+                <i className="fa-solid fa-bell white_icon"></i>
               </div>
             )}
           </div>
@@ -201,7 +201,7 @@ export default function NavBar() {
               </div>
               {/* <Link to={"/logged-in/profile"}>{stateAuth.data?.name}</Link> */}
               <div
-                className="cursor-pointer icon-navbar-user font-thin    relative"
+                className="cursor-pointer icon-navbar-user font-thin  relative"
                 onClick={() => setClickUser(!clickUser)}
               >
                 <img
@@ -221,7 +221,7 @@ export default function NavBar() {
                         >
                           {" "}
                           Hệ thống quản lí
-                          <i class="fa-solid fa-gear text-rose-600"></i>
+                          <i className="fa-solid fa-gear text-rose-600"></i>
                         </Link>
                       )}
 
@@ -231,7 +231,7 @@ export default function NavBar() {
                       >
                         {/* <Link to={"/logged-in/profile"}>Tài khoản</Link> */}
                         Tài khoản
-                        <i class="fa-solid fa-user text-black "></i>
+                        <i className="fa-solid fa-user text-black "></i>
                       </li>
                       <li
                         onClick={() => handleManagePostNavigate()}
@@ -239,7 +239,7 @@ export default function NavBar() {
                       >
                         <div>Quản lí bài đăng</div>
 
-                        <i class="fa-solid fa-square-plus text-black "></i>
+                        <i className="fa-solid fa-square-plus text-black "></i>
                       </li>
 
                       <li
@@ -248,7 +248,7 @@ export default function NavBar() {
                       >
                         <div className="text-red">Đăng Xuất</div>
 
-                        <i class="fa-solid fa-arrow-right-from-bracket text-red "></i>
+                        <i className="fa-solid fa-arrow-right-from-bracket text-red "></i>
                       </li>
                     </ul>
                   </div>
