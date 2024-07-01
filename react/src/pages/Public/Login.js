@@ -36,6 +36,7 @@ export default function Login() {
     avatar:
       "https://asset.cloudinary.com/dx3nwkh2i/7d1e9bf5e5c43ab5b11b4e0040ee34b9",
   });
+  console.log("stateAuth", stateAuth);
 
   useEffect(() => {
     setIsRegister(useLocate.state?.stateIsRegister);

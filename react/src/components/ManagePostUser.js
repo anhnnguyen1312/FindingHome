@@ -34,7 +34,7 @@ const ManagePostUser = ({ userId }) => {
       ? allPosts.filter((post) => post.userId === userId)
       : [];
     filteredProducts && setFilteredProducts(filteredProducts);
-  }, [posts]);
+  }, [posts, userId]);
 
   // useEffect(() => {
   //   localStorage.setItem("currentPage", currentPage);
@@ -142,8 +142,14 @@ const ManagePostUser = ({ userId }) => {
                 </div>
                 <div className="w-[10%] flex flex-col gap-[10px] items-center justify-between hidden group-hover:flex">
                   <Button
-                    icon={product.check === "3" ? "fa-solid fa-rotate-left" : "fa-solid fa-pen-to-square"}
-                    bgColor={product.check === "3" ? "bg-[#6F7B92]" : "bg-[#3064f2]"}
+                    icon={
+                      product.check === "3"
+                        ? "fa-solid fa-rotate-left"
+                        : "fa-solid fa-pen-to-square"
+                    }
+                    bgColor={
+                      product.check === "3" ? "bg-[#6F7B92]" : "bg-[#3064f2]"
+                    }
                     textColor={"text-white"}
                     borderColor={"border-white"}
                     width={"w-12"}

@@ -1,5 +1,7 @@
 import actionTypes from "./actionTypes";
-import { callApiPost, callApiHomepagePost } from "../../../api/getPostApi";
+import { callApiHomepagePost } from "../../../api/getPostApi";
+import { callApiPost } from "../../../api/system/getPostListAdmin";
+
 import { jwtDecode } from "jwt-decode";
 
 export const postAction = () => async (dispatch) => {

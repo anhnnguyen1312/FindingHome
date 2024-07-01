@@ -10,6 +10,7 @@ import {
   HomePage,
   DetailProduct,
   ResetPassword,
+  ProfilePublic,
 } from "./pages/Public";
 import Profile from "./pages/LoggedIn/Profile";
 import { useDispatch, useSelector } from "react-redux";
@@ -56,6 +57,8 @@ function App() {
           <Route path={path.ROOM_RENTAL} element={<RoomRental />} />
           <Route path={path.ESTATE_RENTAL} element={<EstateRental />} />
           <Route path={path.DETAIL_PRODUCT} element={<DetailProduct />} />
+          <Route path={path.PROFILE_PUBLIC_ID} element={<ProfilePublic />} />
+
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
         </Route>
         <Route path={path.HOME_LOGGED_IN} element={<HomeLoggedIn />}>
@@ -83,6 +86,9 @@ function App() {
             path={path.CREATE_ACCOUNT_ADMIN}
             element={<CreateAccountAdmin />}
           />
+          <Route path={path.PROFILE_PUBLIC_ID} element={<ProfilePublic />} />
+
+          <Route path={path.DETAIL_PRODUCT} element={<DetailProduct />} />
         </Route>
       </Routes>
     </Router>
