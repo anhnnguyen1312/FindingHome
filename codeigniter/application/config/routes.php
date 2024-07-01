@@ -65,7 +65,7 @@ $route['list-all-post'] = 'PostController/list_all_post';
 $route['list-homepage-post'] = 'PostController/list_homepage_post';
 $route['post-detail/(:any)'] = 'PostController/post_detail/$1';
 $route['post-delete/(:any)'] = 'PostController/post_delete/$1';
-$route['handle-new-post'] ='PostController/handle_new_post';
+$route['handle-user-post'] ='PostController/handle_user_post';
 //Notifications
 $route['admin-notification'] = 'NotificationController/get_admin_notification';
 $route['user-notification'] = 'NotificationController/get_user_notification';

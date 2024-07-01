@@ -189,7 +189,7 @@ class PostController extends CI_Controller {
 		}
 	}
 
-	public function handle_new_post(){		
+	public function handle_user_post(){		
 		$post_data = json_decode($this->input->raw_input_stream, true);
 		if($post_data){
 			$postId = $post_data['postId'];

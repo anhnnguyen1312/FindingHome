@@ -61,7 +61,7 @@ export const callApiCensorPost = (payload) =>
     try {
       const response = await axiosConfig({
         method: "post",
-        url: `http://localhost:8000/handle-new-post`,
+        url: `http://localhost:8000/handle-user-post`,
         data: payload,
       });
       resolve(response);
