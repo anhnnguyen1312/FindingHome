@@ -2,24 +2,23 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   callApiUserNotification,
-  callApiAdminNotification,
   callApiUserMarkAsRead,
-  callApiAdminMarkAsRead
-} from "../api/getNotificationApi";
+} from "../api/getUserNotificationApi";
+import {
+  callApiAdminNotification,
+  callApiAdminMarkAsRead,
+} from "../api/system/getAdminNotificationApi";
 import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import userAvatar from "../assets/images/userAvatar.jpg";
 
 const Notifications = ({ userId, userRole }) => {
   const [notifications, setNotifications] = useState([]);
-  console.log("oke", notifications)
+  console.log("oke", notifications);
   const [error, setError] = useState(null);
 
-
   useEffect(() => {
-
     fetchNotifications();
-
   }, [userId, userRole]);
 
   const fetchNotifications = async () => {
@@ -41,15 +40,17 @@ const Notifications = ({ userId, userRole }) => {
 
   const markAsRead = async (id = null) => {
     try {
-      const apiCall = userRole === "1" ? callApiAdminMarkAsRead : callApiUserMarkAsRead;
+      const apiCall =
+        userRole === "1" ? callApiAdminMarkAsRead : callApiUserMarkAsRead;
       const response = await apiCall(id);
-  
+
       if (response.data.success) {
-        const reApiCall = userRole === "1" ? callApiAdminNotification : callApiUserNotification;
+        const reApiCall =
+          userRole === "1" ? callApiAdminNotification : callApiUserNotification;
         const reResponse = await reApiCall(userId);
-  
+
         if (reResponse.data.token) {
-          await fetchNotifications()
+          await fetchNotifications();
         } else {
           setError(reResponse.data.fail);
         }
@@ -60,7 +61,7 @@ const Notifications = ({ userId, userRole }) => {
       setError(error.message);
     }
   };
-  
+
   return (
     <div className="icon-navbar-user icon-navbar font-thin relative">
       <i className="fa-solid fa-bell white_icon"></i>
@@ -95,13 +96,10 @@ const Notifications = ({ userId, userRole }) => {
                 </Link>
               </li>
             ))
+          ) : error ? (
+            <li className="text-center">{error}</li>
           ) : (
-             error ? (
-              <li className="text-center">{error}</li>
-
-            ):(
-              <li className="text-center">Không có thông báo</li>
-            )
+            <li className="text-center">Không có thông báo</li>
           )}
         </ul>
         <footer className="flex">
