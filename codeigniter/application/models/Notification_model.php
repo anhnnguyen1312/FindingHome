@@ -16,13 +16,13 @@ class Notification_model extends CI_Model {
 
 		switch($check){
 			case 1:
-				$dataDB["message"] = "Admin vừa duyệt bài đăng " .$title;
+				$dataDB["message"] = "Admin, Bài đăng " .$title ."vừa được duyệt";
 				break;
 			case 2:
-					$dataDB["message"] = "Admin vừa từ chối bài đăng " .$title;
+					$dataDB["message"] = "Admin, Bài đăng " .$title. "vừa bị từ chối";
 				break;
 			case 3:
-				$dataDB["message"] = "Bài đăng " .$title. " của bạn vừa hết hạn";
+				$dataDB["message"] = "Admin, Bài đăng " .$title. "vừa hết hạn";
 			break;
 			default:
 				break;
@@ -55,7 +55,7 @@ class Notification_model extends CI_Model {
 
 		switch($check){
 			case 0:
-				$dataDB["message"] = $userName.  " vừa đăng bài viết " .$title ;
+				$dataDB["message"] = $userName.  ", Bài viết " .$title. "vừa được đăng" ;
 				break;
 			default:
 				break;
