@@ -6,13 +6,28 @@ import { useNavigate } from "react-router-dom";
 import AutoSlideShow from "./AutoSlideShow";
 
 import DetailProduct from "../pages/Public/DetailProduct";
-const CardProduct = ({ props, checked }) => {
+const CardProduct = ({ props, checked, isSystem }) => {
   const [isHoverHeart, setIsHoverHeart] = useState(false);
   const navigate = useNavigate();
-  function handleNavigate(idPost) {
-    navigate(`/${path.DETAIL_PRODUCT}`, { state: { idPost } });
+  function handleNavigate(e, idPost) {
+    console.log("IdUser", idPost);
+
+    e.stopPropagation();
+    isSystem
+      ? navigate(`/system/${path.DETAIL}/${idPost}`)
+      : navigate(`/${path.DETAIL}/${idPost}`, { state: { isSystem } });
   }
-  
+  const handleNavigateProfilePublic = (e, IdUser) => {
+    console.log("IdUser", IdUser);
+
+    e.stopPropagation();
+    isSystem
+      ? navigate(`/system/${path.PROFILE_PUBLIC}/${IdUser}`, {
+          state: { isSystem },
+        })
+      : navigate(`/${path.PROFILE_PUBLIC}/${IdUser}`);
+  };
+
   const handleStatusTag = (check) => {
     if (check) {
       switch (check) {
@@ -50,7 +65,7 @@ const CardProduct = ({ props, checked }) => {
     <li>
       <div
         className="flex hover:bg-[#E9F4F6] h-full border border-transparent bg-white shadow flex-col sm:flex-row md:flex-row px-4 active:border-rose-500 rounded-2xl"
-        onClick={() => handleNavigate(props.id)}
+        onClick={(e) => handleNavigate(e, props.id)}
       >
         <figure className="m-0 flex-[30%] my-4 overflow-hidden rounded-2xl relative">
           {props.urlImages && <AutoSlideShow images={props.urlImages} />}
@@ -114,7 +129,12 @@ const CardProduct = ({ props, checked }) => {
           </div>
 
           <div className="flex justify-between text-cyan-600 font-medium">
-            <div className="owner--name">{props.username}</div>
+            <div
+              onClick={(e) => handleNavigateProfilePublic(e, props.userId)}
+              className="cursor-pointer owner--name"
+            >
+              {props.username}
+            </div>
             <div className=" flex items-center">
               <AiFillPhone />
               {props.phone}

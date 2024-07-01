@@ -4,7 +4,9 @@ export const path = {
   ROOM_RENTAL: "tim-phong",
   HOUSE_RENTAL: "tim-nha",
   ESTATE_RENTAL: "tim-mat-bang",
-  DETAIL_PRODUCT: "detail",
+  DETAIL_PRODUCT: "detail/:postId",
+  DETAIL: "detail",
+
   PROFILE: "profile",
   NEWPOST: "newpost",
   HOME_LOGGED_IN: "/logged-in/*",
@@ -15,4 +17,6 @@ export const path = {
   MANAGE_POST_EXPIRED_SYSTEM: "manage-post-expired-system",
   MANAGE_USER_SYSTEM: "manage-user-system",
   CREATE_ACCOUNT_ADMIN: "create-account-admin",
+  PROFILE_PUBLIC: "profile-public",
+  PROFILE_PUBLIC_ID: "profile-public/:userId",
 };

@@ -5,7 +5,7 @@ const ManagePostExpiredSystem = () => {
   return (
     <>
       {" "}
-      <Post isExpired />
+      <Post isExpired check={"1"} />
     </>
   );
 };

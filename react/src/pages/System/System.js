@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { path } from "../../ultils/path";
 
 import { Outlet, Navigate } from "react-router-dom";
-import { SideBarSystem } from "../../components";
+import SideBarSystem from "../../components/system/SideBarSystem";
 const System = () => {
   const stateAuth = useSelector((state) => state.auth);
   console.log(stateAuth.data);
@@ -11,7 +11,7 @@ const System = () => {
     return <Navigate to={`/${path.LOGIN}`} replace={true} />;
   return (
     <>
-      <div className="w-screen bg-gray-100 flex lg:flex-row flex-col">
+      <div class="w-screen bg-gray-100 flex lg:flex-row flex-col font-[sans-serif]">
         <SideBarSystem />
         <div className="w-full   h-full flex items-center justify-center ">
           <Outlet />

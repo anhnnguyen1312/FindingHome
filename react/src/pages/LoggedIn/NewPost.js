@@ -71,7 +71,7 @@ const NewPost = ({ updatePostData }) => {
       dateCreateAt: updatePostData?.dateCreateAt || "",
       dateExpired: updatePostData?.dateExpired || "",
       userId: updatePostData?.userId || "",
-      check: "0",
+      check: stateAuth.data.role === "1" ? "1" : "0",
       urlImages: updatePostData?.urlImages || "",
     };
     return data;
@@ -308,6 +308,7 @@ const NewPost = ({ updatePostData }) => {
     }
     setLoading(false);
   };
+  console.log("role", stateAuth.data.role);
 
   useEffect(() => {
     // const handleDate = () => {

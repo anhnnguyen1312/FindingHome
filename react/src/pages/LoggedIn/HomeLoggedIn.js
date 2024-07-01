@@ -31,7 +31,7 @@ export default function Home() {
     return <Navigate to={`/${path.LOGIN}`} replace={true} />;
 
   return (
-    <div className="w-full bg-[#F8FAFC] font-sans">
+    <div className="w-full bg-[#F8FAFC] font-[sans-serif]">
       {/* relative */}
       <NavBar />
       <div className="w-full m-auto h-full flex flex-col items-start justify-start ">

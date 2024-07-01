@@ -1,19 +1,5 @@
 import axiosConfig from "../axiosConfig";
 
-export const callApiPost = () =>
-
-  new Promise(async (resolve, reject) => {
-    try {
-      const response = await axiosConfig({
-        method: "get",
-        url: "http://localhost:8000/list-all-post",
-      });
-      resolve(response);
-    } catch (error) {
-      reject(error);
-    }
-  });
-
 export const callApiHomepagePost = () =>
   new Promise(async (resolve, reject) => {
     try {
@@ -21,6 +7,7 @@ export const callApiHomepagePost = () =>
         method: "get",
         url: "http://localhost:8000/list-homepage-post",
       });
+      console.log(response);
       resolve(response);
     } catch (error) {
       reject(error);
@@ -35,6 +22,7 @@ export const callApiCreatePost = (payload) =>
         url: "http://localhost:8000/create-post",
         data: payload,
       });
+
       resolve(response);
     } catch (error) {
       reject(error);

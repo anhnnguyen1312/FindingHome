@@ -22,7 +22,7 @@ export default function Home() {
   //   cookie && dispatch(getUserAction(cookie));
   // }, []);
   return (
-    <div className="relative bg-[#F8FAFC] font-sans">
+    <div className="relative bg-[#F8FAFC] font-[sans-serif]">
       {/* relative */}
       <NavBar />
       <div className="md:w-full lg:w-4/5 sm:w-full  xl:w-4/5   m-auto h-full flex flex-col items-center justify-center ">

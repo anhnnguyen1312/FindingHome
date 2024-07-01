@@ -1,6 +1,6 @@
 const checkArea = (dataPostSearch, searchData) => {
   let postArea = [];
-  switch (searchData.area) {
+  switch (searchData?.area) {
     case "DUOI_10m2":
       postArea = dataPostSearch.filter((post) => post.area <= 10);
 

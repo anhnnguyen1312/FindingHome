@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { path } from "../../ultils/path";
 import userAvatar from "../../assets/images/userAvatar.jpg";
 import { FaTableList } from "react-icons/fa6";
@@ -9,19 +9,30 @@ import { useLocation } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import SlideShow from "../../components/SlideShow";
 import GgMapReact from "../../components/GgMapReact";
-
+import VietMap from "../../components/VietMap";
 const DetailProduct = () => {
   const useLocate = useLocation();
   const [detailPost, setDetailPost] = useState([]);
   const [descriptionSplit, setDescriptionSplit] = useState([]);
   const [ruleSplit, setRuleSplit] = useState([]);
-  const [id, setId] = useState(useLocate.state?.idPost);
+  // const [id, setId] = useState(useLocate.state?.idPost);
+  const isSystem = useLocate.state?.isSystem;
+  const params = useParams();
+  const id = params.postId;
+  const address =
+    "187a Lê Văn lương, Xã Phước Kiển, Huyện Nhà Bè, Thành phố Hồ Chí Minh";
+  console.log("id", id);
 
+  console.log("detailPost", detailPost);
   useEffect(() => {
     const getApiDetailPost = async () => {
       try {
         const response = await callApiDetailPost(id);
+        console.log("response", response, id);
+
         const decodeToken = jwtDecode(response.data.token);
+        console.log("decodeToken", decodeToken);
+
         setDetailPost(decodeToken);
       } catch (error) {
         console.log(error);
@@ -52,7 +63,7 @@ const DetailProduct = () => {
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-full px-[15px] ">
         {/* img */}
         <div className="border-b-4 border-rose-500">
           {detailPost.urlImages && <SlideShow images={detailPost.urlImages} />}
@@ -269,8 +280,9 @@ const DetailProduct = () => {
 
             <p className="mb-[20px]"> {detailPost.nearby}</p>
             <div className="w-full h-[60%vh]  mb-[30px]">
-              <GeoCoding address={detailPost.address} />
-              <GgMapReact address={detailPost.address} />
+              {/* <GeoCoding address={detailPost.address} />
+              <GgMapReact address={detailPost.address} /> */}
+              <VietMap address={address} />
             </div>
           </div>
         </div>
