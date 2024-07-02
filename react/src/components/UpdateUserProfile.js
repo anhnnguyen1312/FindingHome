@@ -255,7 +255,7 @@ const UpdateUserProfile = ({
         });
         setUserData((prevState) => ({
           ...prevState,
-          [newPs]: "",
+          newPs: "",
         }));
       });
     }

@@ -5,7 +5,7 @@ import userAvatar from "../../assets/images/userAvatar.jpg";
 import { FaTableList } from "react-icons/fa6";
 import { GeoCoding } from "../../components/index";
 import { callApiDetailPost } from "../../api/getPostApi";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import SlideShow from "../../components/SlideShow";
 import GgMapReact from "../../components/GgMapReact";
@@ -16,6 +16,8 @@ const DetailProduct = () => {
   const [descriptionSplit, setDescriptionSplit] = useState([]);
   const [ruleSplit, setRuleSplit] = useState([]);
   // const [id, setId] = useState(useLocate.state?.idPost);
+  const navigate = useNavigate();
+
   const isSystem = useLocate.state?.isSystem;
   const params = useParams();
   const id = params.postId;
@@ -24,6 +26,18 @@ const DetailProduct = () => {
   console.log("id", id);
 
   console.log("detailPost", detailPost);
+  const handleNavigateProfilePublic = (IdUser) => {
+    console.log("params", params[0]);
+
+    navigate(`/system/${path.PROFILE_PUBLIC}/${IdUser}`, {
+      state: { isSystem },
+    });
+    // isSystem
+    //   ? navigate(`/system/${path.PROFILE_PUBLIC}/${IdUser}`, {
+    //       state: { isSystem },
+    //     })
+    //   : navigate(`/${path.PROFILE_PUBLIC}/${IdUser}`);
+  };
   useEffect(() => {
     const getApiDetailPost = async () => {
       try {
@@ -63,14 +77,14 @@ const DetailProduct = () => {
 
   return (
     <>
-      <div className="w-full px-[15px] ">
+      <div className="w-full ">
         {/* img */}
         <div className="border-b-4 border-rose-500">
           {detailPost.urlImages && <SlideShow images={detailPost.urlImages} />}
         </div>
         {/* thong tin ve phonng */}
-        <div className="px-[20px] lg:px-[0px]">
-          <div className="max-w-2xl mx-auto">
+        <div className="px-[20px] ">
+          <div className="max-w-full mr-[14px]">
             <div className="-mt-4 mb-10 h-8  flex gap-1 items-center relative border-b-4 border-transparent">
               <div className="flex-shrink-0 relative flex justify-center items-center self-stretch ">
                 <div className="absolute inset-0 text-teal">
@@ -79,7 +93,7 @@ const DetailProduct = () => {
               </div>
               <div className="hidden sm:flex ml-auto border-4 bg-gray-200 border-gray-50 rounded-full h-24 w-24">
                 <img
-                  className="block rounded-full"
+                  className="block rounded-full cursor-pointer"
                   src={detailPost.avatar || userAvatar}
                 />
               </div>
@@ -113,13 +127,21 @@ const DetailProduct = () => {
                 </h1>
               </div>
             </div>
-            <div className="flex  text-[#d1d100] text-center">
-              <i className="fa-solid fa-star mt-[5px]"></i>
-              <i className="fa-solid fa-star mt-[5px]"></i>
-              <i className="fa-solid fa-star mt-[5px]"></i>
-              <i className="fa-solid fa-star mt-[5px]"></i>
-              <i className="fa-solid fa-star mt-[5px]"></i>
-              <div className="pl-[20px] text-gray-700">(40 lượt đánh giá)</div>
+            <div
+              className="cursor-pointer text-center"
+              onClick={() => handleNavigateProfilePublic(detailPost.userId)}
+            >
+              <div>{detailPost.username}</div>
+              <div className="flex  text-[#d1d100] text-center justify-center">
+                <i className="fa-solid fa-star mt-[5px]"></i>
+                <i className="fa-solid fa-star mt-[5px]"></i>
+                <i className="fa-solid fa-star mt-[5px]"></i>
+                <i className="fa-solid fa-star mt-[5px]"></i>
+                <i className="fa-solid fa-star mt-[5px]"></i>
+              </div>
+              <div className=" text-gray-700 text-center">
+                (40 lượt đánh giá)
+              </div>
             </div>
           </div>
           {/* //table */}
@@ -282,7 +304,7 @@ const DetailProduct = () => {
             <div className="w-full h-[60%vh]  mb-[30px]">
               {/* <GeoCoding address={detailPost.address} />
               <GgMapReact address={detailPost.address} /> */}
-              {/* <VietMap address={address} /> */}
+              {/* <VietMap address={detailPost.address} /> */}
             </div>
           </div>
         </div>

@@ -13,7 +13,6 @@ import logo from "../assets/images/logo.jpg";
 import { Notifications } from "./index";
 
 export default function NavBar() {
-
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
   const [clickUser, setClickUser] = useState(false);
@@ -33,7 +32,6 @@ export default function NavBar() {
   function handleManagePostNavigate() {
     navigate("/logged-in/profile", { state: "managepost" });
   }
-
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
@@ -182,7 +180,7 @@ export default function NavBar() {
               </div>
             )}
             {stateAuth.isLoggedIn ? (
-                <Notifications userId={userId} userRole={userRole}/>
+              <Notifications userId={userId} userRole={userRole} />
             ) : (
               <div className="icon-navbar" onClick={handleNavIcon}>
                 <i className="fa-solid fa-bell white_icon"></i>
@@ -221,7 +219,7 @@ export default function NavBar() {
                         >
                           {" "}
                           Hệ thống quản lí
-                          <i className="fa-solid fa-gear text-rose-600"></i>
+                          <i className="fa-solid fa-gear text-black"></i>
                         </Link>
                       )}
 

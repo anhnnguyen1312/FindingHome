@@ -4,7 +4,10 @@ import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { Pagination, message, Popconfirm } from "antd";
 import no_data_img from "../../assets/images/no-data-icon-10.png";
-import { callApiDeletePostAdmin, callApiCensorPostAdmin } from "../../api/system/getPostAdminApi";
+import {
+  callApiDeletePostAdmin,
+  callApiCensorPostAdmin,
+} from "../../api/system/getPostAdminApi";
 import { SelectNewPost, formatDate } from "../index";
 import typePost from "../../data/typePost";
 import checkPrice from "../checkPrice";
@@ -47,7 +50,7 @@ const Post = ({ isManagePage, check, isExpired }) => {
     const filterCheckPosts = check
       ? allPosts.filter((post) => post.check === check)
       : allPosts.filter((post) => post.userRole === "0");
-      console.log("hey",check);
+    console.log("hey", check);
 
     if (isExpired) {
       const today = new Date();
@@ -256,18 +259,18 @@ const Post = ({ isManagePage, check, isExpired }) => {
   }, [filteredProducts, currentPage, postData]);
 
   const handleDeletePost = (product, deleteReason) => {
-    console.log("lý do", deleteReason)
-    console.log("mảng", product)
+    console.log("lý do", deleteReason);
+    console.log("mảng", product);
     const deletePost = async () => {
       try {
-        const payload ={
+        const payload = {
           adminId: stateAuth.data.userId,
           userId: product.userId,
           postId: product.id,
           title: product.title,
           check: "delete",
-          deleteReason: deleteReason
-        }
+          deleteReason: deleteReason,
+        };
 
         const response = await callApiDeletePostAdmin(payload);
         // window.location.reload();
@@ -401,14 +404,14 @@ const Post = ({ isManagePage, check, isExpired }) => {
         </div> */}
         <div className="xl:flex-[80%] flex flex-col gap-[10px] p-[10px] ">
           <div
-            class="flex flex-row justify-between border-b
+            className="flex flex-row justify-between border-b
 				dark:border-gray-600 dark:text-gray-400 transition duration-500
 				ease-in-out"
           >
-            <div class="flex">
+            <div className="flex">
               <Link
                 to={`/system/${path.MANAGE_POST_SYSTEM}`}
-                class="py-2 block text-[#374151] border-green-500
+                className="py-2 block text-[#374151] border-green-500
 						dark:text-green-200 dark:border-green-200
 						focus:outline-none border-b-2 font-medium capitalize
 						transition duration-500 ease-in-out flex"
@@ -418,7 +421,7 @@ const Post = ({ isManagePage, check, isExpired }) => {
               </Link>
               <Link
                 to={`/system/${path.MANAGE_USER_SYSTEM}`}
-                class="ml-6 py-2 block border-b-2 border-transparent
+                className="ml-6 py-2 block border-b-2 border-transparent
 						focus:outline-none font-medium capitalize text-center
 						focus:text-green-500 focus:border-green-500
 						dark-focus:text-green-200 dark-focus:border-green-200
@@ -430,7 +433,7 @@ const Post = ({ isManagePage, check, isExpired }) => {
 
               <Link
                 to={`/system/${path.MANAGE_USER_SYSTEM}`}
-                class="ml-6 py-2 block border-b-2 border-transparent
+                className="ml-6 py-2 block border-b-2 border-transparent
 						focus:outline-none font-medium capitalize text-center
 						focus:text-green-500 focus:border-green-500
 						dark-focus:text-green-200 dark-focus:border-green-200
@@ -441,9 +444,9 @@ const Post = ({ isManagePage, check, isExpired }) => {
               </Link>
             </div>
 
-            <div class="flex items-center flex-grow justify-between ml-[20vw] select-none">
+            <div className="flex items-center flex-grow justify-between ml-[20vw] select-none">
               <input
-                class="w-12 bg-transparent flex-grow focus:outline-none"
+                className="w-12 bg-transparent flex-grow focus:outline-none"
                 placeholder="Tìm kiếm"
                 type="text"
                 value={searchInput}
@@ -451,10 +454,10 @@ const Post = ({ isManagePage, check, isExpired }) => {
               />
               <button
                 onClick={() => handleSearchInputClick()}
-                class="hover:text-rose-600 dark-hover:text-green-300
+                className="hover:text-rose-600 dark-hover:text-green-300
 						cursor-pointer mr-3 transition duration-500 ease-in-out  "
               >
-                <svg viewBox="0 0 512 512" class="h-5 w-5 fill-current">
+                <svg viewBox="0 0 512 512" className="h-5 w-5 fill-current">
                   <path
                     d="M505 442.7L405.3
 								343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7
@@ -508,95 +511,102 @@ const Post = ({ isManagePage, check, isExpired }) => {
           <div className="font-[sans-serif] overflow-x-auto">
             <ul className="flex flex-col gap-[20px]  ">
               {currentPostData?.length > 0
-                ? currentPostData.map((product) => {
+                ? currentPostData.map((product, index) => {
                     return (
                       <>
-                        <div
-                          key={product.id}
-                          className="flex  gap-[20px] items-center justify-center "
-                        >
-                          <div className="w-[90%] min-w-[500px]">
-                            <CardProduct props={product} isSystem />
-                          </div>
-                          <div className="w-[10%] flex flex-col gap-[5px] items-center justify-between">
-                            {isManagePage && (
-                              <Button
-                                children={"xóa"}
-                                bgColor={"bg-[#DE3E36]"}
-                                textColor={"text-white"}
-                                borderColor={"border-[#DE3E36]"}
-                                onClick={handleOpenModal}
+                        <div className="flex  gap-[20px] items-center justify-center group ">
+                          <div className="w-[90%] ">
+                            <div className="relative">
+                              <CardProduct
+                                key={index}
+                                props={product}
+                                isSystem
+                                checked={product.check}
                               />
-                            )}
+                            </div>
+                          </div>
+                          <div className="w-[10%] flex flex-col gap-[5px] items-center justify-between  hidden group-hover:flex">
+                            {isManagePage && (
+                              // <Button
+                              //   children={"xóa"}
+                              //   bgColor={"bg-[#DE3E36]"}
+                              //   textColor={"text-white"}
+                              //   borderColor={"border-[#DE3E36]"}
+                              //   onClick={() => handleDeletePost(product)}
+                              // />
 
-                            {isModalOpen && (
-                              <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-                                <div className="bg-white p-6 rounded-lg shadow-lg w-[30%]">
-                                  <h2 className="text-xl font-bold mb-4">
-                                    Nhập lý do xóa
-                                  </h2>
-                                  <textarea
-                                    className="w-full p-2 border border-gray-300 rounded mb-4"
-                                    value={deleteReason}
-                                    onChange={(e) =>
-                                      setDeleteReason(e.target.value)
-                                    }
-                                    placeholder="Lý do xóa..."
-                                  />
-                                  <div className="flex justify-end gap-[10px]">
-                                    <Button
-                                      children={"Hủy"}
-                                      bgColor={"bg-[#636160]"}
-                                      textColor={"text-white"}
-                                      borderColor={"border-white"}
-                                      style={"hover:bg-[#969595]"}
-                                      onClick={() => setIsModalOpen(false)}
-                                    />
-                                    <Button
-                                      children={"Xác Nhận"}
-                                      bgColor={"bg-[#f52907]"}
-                                      textColor={"text-white"}
-                                      borderColor={"border-white"}
-                                      style={"hover:bg-[#f74c2f]"}
-                                      onClick={() => {
-                                        handleDeletePost(product, deleteReason);
-                                        setIsModalOpen(false);
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-
-                            {check === "0" && (
-                              <>
+                              <Popconfirm
+                                title="Xóa bài đăng"
+                                description="Bạn có chắc chắn muốn xóa bài đăng này"
+                                onConfirm={() => handleDeletePost(product)}
+                                okText="Xóa"
+                                cancelText="Hủy"
+                              >
                                 <Button
-                                  children={"Duyệt"}
-                                  bgColor={"bg-[#374151]"}
-                                  textColor={"text-white"}
-                                  borderColor={"border-white"}
-                                  style={"hover:bg-slate-600"}
-                                  onClick={() => handleCensorPost(product)}
-                                />
-                                <Button
-                                  children={"Từ chối"}
+                                  icon={"fa-solid fa-trash-can"}
                                   bgColor={"bg-[#DE3E36]"}
                                   textColor={"text-white"}
                                   borderColor={"border-[#DE3E36]"}
-                                  onClick={() => handleDenyPost(product)}
+                                  width={"w-12"}
+                                  height={"h-12"}
+                                  fullRounded={"rounded-full"}
+                                  title={"xóa"}
                                 />
+                              </Popconfirm>
+                            )}
+                            {check === "0" && (
+                              <>
+                                <Button
+                                  icon={"fa-solid fa-check"}
+                                  bgColor={"bg-[#374151]"}
+                                  textColor={"text-white"}
+                                  borderColor={"border-white"}
+                                  width={"w-12"}
+                                  height={"h-12"}
+                                  fullRounded={"rounded-full"}
+                                  title={"Duyệt"}
+                                  onClick={() => handleCensorPost(product)}
+                                />
+                                <Popconfirm
+                                  title="Từ chối"
+                                  description="Bạn có chắc chắn muốn từ chối bài đăng này"
+                                  onConfirm={() => handleDenyPost(product)}
+                                  okText="Từ chối"
+                                  cancelText="Hủy"
+                                >
+                                  <Button
+                                    icon={"fa-solid fa-trash-can"}
+                                    bgColor={"bg-[#DE3E36]"}
+                                    textColor={"text-white"}
+                                    borderColor={"border-[#DE3E36]"}
+                                    width={"w-12"}
+                                    height={"h-12"}
+                                    fullRounded={"rounded-full"}
+                                    title={"Từ chối"}
+                                  />
+                                </Popconfirm>
                               </>
                             )}
                             {isExpired && (
                               <>
-                                <Button
-                                  children={"Duyệt hết hạn"}
-                                  bgColor={"bg-[#374151]"}
-                                  textColor={"text-white"}
-                                  borderColor={"border-white"}
-                                  style={"hover:bg-slate-600"}
-                                  onClick={() => handleIsExpiredPost(product)}
-                                />
+                                <Popconfirm
+                                  title="Duyệt hết hạn"
+                                  description="Bạn có chắc chắn muốn Duyệt hết hạn bài đăng này"
+                                  onConfirm={() => handleIsExpiredPost(product)}
+                                  okText="Duyệt"
+                                  cancelText="Hủy"
+                                >
+                                  <Button
+                                    icon={"fa-solid fa-trash-can"}
+                                    bgColor={"bg-[#DE3E36]"}
+                                    textColor={"text-white"}
+                                    borderColor={"border-[#DE3E36]"}
+                                    width={"w-12"}
+                                    height={"h-12"}
+                                    fullRounded={"rounded-full"}
+                                    title={"Duyệt hết hạn"}
+                                  />
+                                </Popconfirm>
                               </>
                             )}
                           </div>

@@ -156,6 +156,7 @@ class PostController extends CI_Controller {
 			if($data){
 				$post_detail = [
 					'id' => $data->id,
+					'userId' => $data->userId,
 					'username' => $data->name,
 					'phone' => $this->encryption->decrypt($data->phone),
 					'address' => $this->encryption->decrypt($data->address),

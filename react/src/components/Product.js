@@ -224,13 +224,13 @@ const Product = ({ type, isHomePage }) => {
           </div>
 
           <div
-            class="flex flex-row justify-between border-b-2
+            className="flex flex-row justify-between border-b-2
 				dark:border-[#374151] dark:text-gray-400 transition duration-500
 				ease-in-out"
           >
-            <div class="flex items-center flex-grow justify-between m-4 select-none">
+            <div className="flex items-center flex-grow justify-between m-4 select-none">
               <input
-                class="w-12 bg-transparent flex-grow focus:outline-none"
+                className="w-12 bg-transparent flex-grow focus:outline-none"
                 placeholder="Tìm kiếm"
                 type="text"
                 value={searchInput}
@@ -238,10 +238,10 @@ const Product = ({ type, isHomePage }) => {
               />
               <button
                 onClick={() => handleSearchInputClick()}
-                class="hover:text-rose-600 dark-hover:text-green-300
+                className="hover:text-rose-600 dark-hover:text-green-300
 						cursor-pointer mr-3 transition duration-500 ease-in-out  "
               >
-                <svg viewBox="0 0 512 512" class="h-5 w-5 fill-current">
+                <svg viewBox="0 0 512 512" className="h-5 w-5 fill-current">
                   <path
                     d="M505 442.7L405.3
 								343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7
@@ -268,6 +268,7 @@ const Product = ({ type, isHomePage }) => {
               {buttonFilterClick && (
                 <div className=" flex-col xl:flex-row bg-F8FAFC w-full p-[10px] flex items-center justify-center gap-[10px] ">
                   <Search
+                    type={type}
                     setSearchData={setSearchData}
                     setSearchButtonClick={setSearchButtonClick}
                   />
