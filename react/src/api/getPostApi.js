@@ -56,19 +56,6 @@ export const callApiDeletePost = (id) =>
     }
   });
 
-export const callApiCensorPost = (payload) =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const response = await axiosConfig({
-        method: "post",
-        url: `http://localhost:8000/handle-user-post`,
-        data: payload,
-      });
-      resolve(response);
-    } catch (error) {
-      reject(error);
-    }
-  });
 
 export const callApiDetailPost = (payload) =>
   new Promise(async (resolve, reject) => {

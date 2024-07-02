@@ -4,7 +4,7 @@ import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { Pagination, message, Popconfirm } from "antd";
 import no_data_img from "../../assets/images/no-data-icon-10.png";
-import { callApiDeletePost, callApiCensorPost } from "../../api/getPostApi";
+import { callApiDeletePostAdmin, callApiCensorPostAdmin } from "../../api/system/getPostAdminApi";
 import { SelectNewPost, formatDate } from "../index";
 import typePost from "../../data/typePost";
 import checkPrice from "../checkPrice";
@@ -29,8 +29,12 @@ const Post = ({ isManagePage, check, isExpired }) => {
 
   const [searchData, setSearchData] = useState();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [deleteReason, setDeleteReason] = useState("");
+
   const { posts } = useSelector((state) => state.post);
-  const { data } = useSelector((state) => state.auth);
+  const stateAuth = useSelector((state) => state.auth);
 
   const savedPageKey = `currentPage-${"all"}`;
   const initialPage = parseInt(localStorage.getItem(savedPageKey)) || 1;
@@ -38,37 +42,13 @@ const Post = ({ isManagePage, check, isExpired }) => {
   const pageSize = 2;
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(postAction());
-  //   console.log("distpatch");
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!isManagePage) {
-  //     const allPosts = Object.values(posts).flat();
-  //     const filterCheckPosts = check
-  //       ? allPosts.filter((post) => post.check === check)
-  //       : allPosts;
-  //     if (isExpired) {
-  //       const today = new Date();
-  //       const date = formatDate(today);
-  //       const filterIsExpirePosts = filterCheckPosts.filter((post) =>
-  //         moment(date).isSameOrAfter(post.dateExpired)
-  //       );
-
-  //       filterIsExpirePosts && setFilteredProducts(filterIsExpirePosts);
-  //     } else {
-  //       filterCheckPosts && setFilteredProducts(filterCheckPosts);
-  //     }
-  //     console.log("set lai data ne");
-  //   }
-  // }, [posts, searchData]);
-
   useEffect(() => {
     const allPosts = Object.values(posts).flat();
     const filterCheckPosts = check
       ? allPosts.filter((post) => post.check === check)
-      : allPosts;
+      : allPosts.filter((post) => post.userRole === "0");
+      console.log("hey",check);
+
     if (isExpired) {
       const today = new Date();
       const date = formatDate(today);
@@ -80,10 +60,7 @@ const Post = ({ isManagePage, check, isExpired }) => {
     } else {
       filterCheckPosts && setFilteredProducts(filterCheckPosts);
     }
-    console.log("set lai data ne");
   }, [posts, searchData]);
-  console.log("filteredProducts", filteredProducts);
-  console.log("typepostClick", typePostClick && `value`);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -117,38 +94,6 @@ const Post = ({ isManagePage, check, isExpired }) => {
   useEffect(() => {
     localStorage.setItem(savedPageKey, currentPage);
   }, [currentPage, savedPageKey]);
-
-  // useEffect(() => {
-  //   if (typePostClick) {
-  //     setCurrentPage(1);
-  //     if (typePostClick.type === "chưa được duyệt") {
-  //       const postFilter = filteredProducts?.filter(
-  //         (post) => post.check === "0"
-  //       );
-  //       setFilteredProducts(postFilter);
-  //     } else if (typePostClick.type === "đã hết hạn") {
-  //       const postFilter = filteredProducts?.filter(
-  //         (post) => post.check === "3"
-  //       );
-  //       setFilteredProducts(postFilter);
-  //     } else if (typePostClick.type === "đã bị từ chối") {
-  //       const postFilter = filteredProducts?.filter(
-  //         (post) => post.check === "2"
-  //       );
-  //       setFilteredProducts(postFilter);
-  //     } else if (typePostClick.type === "đang hoạt động") {
-  //       const postFilter = filteredProducts?.filter(
-  //         (post) => post.check === "1" && post.status === "0"
-  //       );
-  //       setFilteredProducts(postFilter);
-  //     } else if (typePostClick.type === "hết phòng") {
-  //       const postFilter = filteredProducts?.filter(
-  //         (post) => post.check === "1" && post.status === "1"
-  //       );
-  //       setFilteredProducts(postFilter);
-  //     }
-  //   }
-  // }, [typePostClick]);
 
   useEffect(() => {
     if (!isManagePage) {
@@ -310,10 +255,21 @@ const Post = ({ isManagePage, check, isExpired }) => {
     postData && setCurrentPostData(postData?.slice(startIndex, endIndex));
   }, [filteredProducts, currentPage, postData]);
 
-  const handleDeletePost = (product) => {
+  const handleDeletePost = (product, deleteReason) => {
+    console.log("lý do", deleteReason)
+    console.log("mảng", product)
     const deletePost = async () => {
       try {
-        const response = await callApiDeletePost(product.id);
+        const payload ={
+          adminId: stateAuth.data.userId,
+          userId: product.userId,
+          postId: product.id,
+          title: product.title,
+          check: "delete",
+          deleteReason: deleteReason
+        }
+
+        const response = await callApiDeletePostAdmin(payload);
         // window.location.reload();
 
         if (response.data.fail) {
@@ -329,6 +285,11 @@ const Post = ({ isManagePage, check, isExpired }) => {
     };
     deletePost();
   };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
   const handleCensorPost = (product) => {
     const censorPost = async () => {
       try {
@@ -340,7 +301,7 @@ const Post = ({ isManagePage, check, isExpired }) => {
           check: "1",
         };
 
-        const response = await callApiCensorPost(censorData);
+        const response = await callApiCensorPostAdmin(censorData);
 
         // window.location.reload();
 
@@ -369,7 +330,7 @@ const Post = ({ isManagePage, check, isExpired }) => {
           check: "2",
         };
 
-        const response = await callApiCensorPost(censorData);
+        const response = await callApiCensorPostAdmin(censorData);
         window.location.reload();
 
         if (response.data.fail) {
@@ -390,12 +351,14 @@ const Post = ({ isManagePage, check, isExpired }) => {
     const censorPost = async () => {
       try {
         const censorData = {
-          idPost: product.id,
+          postId: product.id,
+          adminId: stateAuth.data.userId,
           userId: product.userId,
+          title: product.title,
           check: "3",
         };
 
-        const response = await callApiCensorPost(censorData);
+        const response = await callApiCensorPostAdmin(censorData);
 
         // window.location.reload();
 
@@ -562,9 +525,49 @@ const Post = ({ isManagePage, check, isExpired }) => {
                                 bgColor={"bg-[#DE3E36]"}
                                 textColor={"text-white"}
                                 borderColor={"border-[#DE3E36]"}
-                                onClick={() => handleDeletePost(product)}
+                                onClick={handleOpenModal}
                               />
                             )}
+
+                            {isModalOpen && (
+                              <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+                                <div className="bg-white p-6 rounded-lg shadow-lg w-[30%]">
+                                  <h2 className="text-xl font-bold mb-4">
+                                    Nhập lý do xóa
+                                  </h2>
+                                  <textarea
+                                    className="w-full p-2 border border-gray-300 rounded mb-4"
+                                    value={deleteReason}
+                                    onChange={(e) =>
+                                      setDeleteReason(e.target.value)
+                                    }
+                                    placeholder="Lý do xóa..."
+                                  />
+                                  <div className="flex justify-end gap-[10px]">
+                                    <Button
+                                      children={"Hủy"}
+                                      bgColor={"bg-[#636160]"}
+                                      textColor={"text-white"}
+                                      borderColor={"border-white"}
+                                      style={"hover:bg-[#969595]"}
+                                      onClick={() => setIsModalOpen(false)}
+                                    />
+                                    <Button
+                                      children={"Xác Nhận"}
+                                      bgColor={"bg-[#f52907]"}
+                                      textColor={"text-white"}
+                                      borderColor={"border-white"}
+                                      style={"hover:bg-[#f74c2f]"}
+                                      onClick={() => {
+                                        handleDeletePost(product, deleteReason);
+                                        setIsModalOpen(false);
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+
                             {check === "0" && (
                               <>
                                 <Button
@@ -604,64 +607,6 @@ const Post = ({ isManagePage, check, isExpired }) => {
                 : currentPostData?.length === 0 && (
                     <img src={no_data_img}></img>
                   )}
-              {/* {!(typePostClick || searchButtonClick) && currentPosts?.length > 0
-                ? currentPosts.map((product) => {
-                    return (
-                      <>
-                        <div
-                          key={product.id}
-                          className="flex  gap-[20px] items-center justify-center "
-                        >
-                          <div className="w-[90%]">
-                            <CardProduct props={product} />
-                          </div>
-                          <div className="w-[10%] flex flex-col gap-[5px] items-center justify-between">
-                            {isManagePage && (
-                              <Button
-                                children={"xóa"}
-                                bgColor={"bg-[#DE3E36]"}
-                                textColor={"text-white"}
-                                borderColor={"border-[#DE3E36]"}
-                                onClick={() => handleDeletePost(product)}
-                              />
-                            )}
-                            {check === "0" && (
-                              <>
-                                <Button
-                                  children={"Duyệt"}
-                                  bgColor={"bg-[#374151]"}
-                                  textColor={"text-white"}
-                                  borderColor={"border-white"}
-                                  style={"hover:bg-slate-600"}
-                                  onClick={() => handleCensorPost(product)}
-                                />
-                                <Button
-                                  children={"Từ chối"}
-                                  bgColor={"bg-[#DE3E36]"}
-                                  textColor={"text-white"}
-                                  borderColor={"border-[#DE3E36]"}
-                                  onClick={() => handleDenyPost(product)}
-                                />
-                              </>
-                            )}
-                            {isExpired && (
-                              <>
-                                <Button
-                                  children={"Duyệt hết hạn"}
-                                  bgColor={"bg-[#374151]"}
-                                  textColor={"text-white"}
-                                  borderColor={"border-white"}
-                                  style={"hover:bg-slate-600"}
-                                  onClick={() => handleIsExpiredPost(product)}
-                                />
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      </>
-                    );
-                  })
-                : currentPosts?.length === 0 && <img src={no_data_img}></img>} */}
             </ul>
             <div className="flex items-center justify-center mt-[10px]">
               <Pagination
