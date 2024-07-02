@@ -24,6 +24,7 @@ import {
   ManageUserSystem,
   ManagePostExpiredSystem,
   CreateAccountAdmin,
+  Notification,
 } from "./pages/System/";
 
 // import {SideBar} from './components/SideBar'
@@ -63,6 +64,8 @@ function App() {
         </Route>
         <Route path={path.HOME_LOGGED_IN} element={<HomeLoggedIn />}>
           <Route path={path.PROFILE} element={<Profile />} />
+          <Route path={path.NOTIFICATION} element={<Notification />} />
+
           <Route path={path.NEWPOST} element={<NewPost />} />
         </Route>
         <Route path={path.SYSTEM} element={<System />}>
@@ -82,6 +85,7 @@ function App() {
             path={path.MANAGE_USER_SYSTEM}
             element={<ManageUserSystem />}
           />
+          <Route path={path.NOTIFICATION} element={<Notification />} />
           <Route
             path={path.CREATE_ACCOUNT_ADMIN}
             element={<CreateAccountAdmin />}

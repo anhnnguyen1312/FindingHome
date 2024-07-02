@@ -21,7 +21,7 @@ const WhyUs = () => {
                     x="0px"
                     y="0px"
                     viewBox="0 0 512 512"
-                    enable-background="new 0 0 512 512"
+                    enableBackground="new 0 0 512 512"
                     xmlSpace="preserve"
                   >
                     <linearGradient
@@ -36,12 +36,12 @@ const WhyUs = () => {
                       <stop
                         offset="0"
                         className="primary-color-gradient"
-                        style={{ "stop-color": "#d500f9" }}
+                        style={{ stopColor: "#d500f9" }}
                       ></stop>
                       <stop
                         offset="1"
                         className="secondary-color-gradient"
-                        style={{ "stop-color": "#ffea00" }}
+                        style={{ stopColor: "#ffea00" }}
                       ></stop>
                     </linearGradient>
                     <path
@@ -69,8 +69,8 @@ const WhyUs = () => {
                 </h2>
                 <p className="md: mt-1 text-sm tracking-normal text-gray-800 md:mt-1 md:text-xl">
                   Gồm nhiều lĩnh vực mua bán hoặt động: Phòng trọ, phòng trong
-                  chung cư, phòng trọ, Căn hộ, nhà ở. Thậm chí mặt bằng và bất đọng
-                  sản
+                  chung cư, phòng trọ, Căn hộ, nhà ở. Thậm chí mặt bằng và bất
+                  đọng sản
                 </p>
               </div>
             </div>
@@ -85,7 +85,7 @@ const WhyUs = () => {
                     x="0px"
                     y="0px"
                     viewBox="0 0 512 512"
-                    enable-background="new 0 0 512 512"
+                    enableBackground="new 0 0 512 512"
                     xmlSpace="preserve"
                   >
                     <linearGradient
@@ -100,13 +100,12 @@ const WhyUs = () => {
                       <stop
                         offset="0"
                         className="primary-color-gradient"
-                        ư
-                        style={{ "stop-color": "#d500f9" }}
+                        style={{ stopColor: "#d500f9" }}
                       ></stop>
                       <stop
                         offset="1"
                         className="secondary-color-gradient"
-                        style={{ "stop-color": "#ffea00" }}
+                        style={{ stopColor: "#ffea00" }}
                       ></stop>
                     </linearGradient>
                     <path
@@ -158,7 +157,7 @@ const WhyUs = () => {
                     x="0px"
                     y="0px"
                     viewBox="0 0 512 512"
-                    enable-background="new 0 0 512 512"
+                    enableBackground="new 0 0 512 512"
                     xmlSpace="preserve"
                   >
                     <linearGradient
@@ -173,13 +172,12 @@ const WhyUs = () => {
                       <stop
                         offset="0"
                         className="primary-color-gradient"
-                        st
-                        style={{ "stop-color": "#d500f9" }}
+                        style={{ stopColor: "#d500f9" }}
                       ></stop>
                       <stop
                         offset="1"
                         className="secondary-color-gradient"
-                        style={{ "stop-color": "#ffea00" }}
+                        style={{ stopColor: "#ffea00" }}
                       ></stop>
                     </linearGradient>
                     <path
@@ -220,7 +218,7 @@ const WhyUs = () => {
                     x="0px"
                     y="0px"
                     viewBox="0 0 512 512"
-                    enable-background="new 0 0 512 512"
+                    enableBackground="new 0 0 512 512"
                     xmlSpace="preserve"
                   >
                     <linearGradient
@@ -235,12 +233,12 @@ const WhyUs = () => {
                       <stop
                         offset="0"
                         className="primary-color-gradient"
-                        style={{ "stop-color": "#d500f9" }}
+                        style={{ stopColor: "#d500f9" }}
                       ></stop>
                       <stop
                         offset="1"
                         className="secondary-color-gradient"
-                        style={{ "stop-color": "#ffea00" }}
+                        style={{ stopColor: "#ffea00" }}
                       ></stop>
                     </linearGradient>
                     <path

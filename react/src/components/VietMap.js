@@ -4,7 +4,7 @@ import ReactMapGL, { Marker, Popup } from "react-map-gl";
 
 const VietMap = ({ address }) => {
   const [latLng, setLatLng] = useState(null);
-  const [showPopup, togglePopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(true);
 
   const [viewport, setViewport] = useState({
     latitude: 10.710999,
@@ -53,7 +53,7 @@ const VietMap = ({ address }) => {
   };
   useEffect(() => {
     if (address) {
-      //   getLatLngFromAddress(address);
+      //getLatLngFromAddress(address);
     }
   }, [address]);
   console.log("viewport", viewport);
@@ -67,17 +67,19 @@ const VietMap = ({ address }) => {
           width={"100vw"}
           height={"30vw"}
           mapStyle="mapbox://styles/mapbox/streets-v11"
-          mapboxAccessToken="pk.eyJ1IjoidGhhaS1uZ29jLXBodSIsImEiOiJjbHhpd3p2amwxbGozMnJyMmJhZTExZ3pkIn0.BnFFOObKYnZUOf2wJstUFg"
+          //mapboxAccessToken="pk.eyJ1IjoidGhhaS1uZ29jLXBodSIsImEiOiJjbHhpd3p2amwxbGozMnJyMmJhZTExZ3pkIn0.BnFFOObKYnZUOf2wJstUFg"
           onMove={(evt) => setViewState(evt.viewState)}
         >
           {showPopup && (
             <Popup
               latitude={viewport?.latitude}
               longitude={viewport?.longitude}
+              v
               closeButton={true}
-              closeOnClick={true}
-              onClose={() => togglePopup(false)}
-              anchor="top-right"
+              closeOnClick={false}
+              offsetTop={-10}
+              onClose={() => setShowPopup(false)}
+              anchor="bottom-left"
             >
               <div> Địa chỉ{address}</div>
             </Popup>
@@ -88,8 +90,8 @@ const VietMap = ({ address }) => {
             offsetLeft={-20}
             offsetTop={-30}
           >
-            <div onClick={() => togglePopup(true)} className=" text-rose-600">
-              <i class="fa-solid fa-location-dot text-4xl"></i>
+            <div onClick={() => setShowPopup(true)} className=" text-rose-600">
+              <i className="fa-solid fa-location-dot text-4xl"></i>
             </div>
           </Marker>
         </ReactMapGL>

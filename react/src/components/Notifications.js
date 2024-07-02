@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import userAvatar from "../assets/images/userAvatar.jpg";
-
+import { path } from "../ultils/path";
 const Notifications = ({ userId, userRole }) => {
   const [notifications, setNotifications] = useState([]);
   console.log("oke", notifications);
@@ -77,7 +77,7 @@ const Notifications = ({ userId, userRole }) => {
                 className="flex hover:bg-[#f7f7f7] bg-[#ee4b2b17] mb-[10px]"
               >
                 <Link
-                  to={"/logged-in/thongbao"}
+                  to={`/system/${path.DETAIL}/${notic.postId}`}
                   className="flex p-[8px] w-full gap-[5px] border border-transparent border-2 active:border-rose-500  "
                   onClick={() => markAsRead(notic.id)}
                 >
@@ -110,7 +110,7 @@ const Notifications = ({ userId, userRole }) => {
             Đánh dấu tất cả là đã đọc
           </button>
           <Link
-            to={"/logged-in/thongbao"}
+            to={`/logged-in/${path.NOTIFICATION}`}
             className="flex-1 text-black px-[10px] py-[10px] bg-gray-200 hover:bg-gray-300 rounded text-center"
           >
             Xem tất cả

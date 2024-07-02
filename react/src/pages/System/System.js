@@ -11,9 +11,9 @@ const System = () => {
     return <Navigate to={`/${path.LOGIN}`} replace={true} />;
   return (
     <>
-      <div class="w-screen bg-gray-100 flex lg:flex-row flex-col font-[sans-serif]">
+      <div className="w-full bg-gray-100 flex lg:flex-row flex-col font-[sans-serif]">
         <SideBarSystem />
-        <div className="w-full   h-full flex items-center justify-center ">
+        <div className="w-full lg:w-[calc(100%-224px)]  h-full flex items-center justify-center ">
           <Outlet />
         </div>
       </div>

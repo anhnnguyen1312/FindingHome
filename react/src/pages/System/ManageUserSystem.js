@@ -150,14 +150,14 @@ const ManageUserSystem = () => {
     <>
       <div className="flex flex-col items-center justify-center gap-[30px] w-full">
         <div
-          class="w-full flex flex-row justify-between border-b p-[10px]
+          className="w-full flex flex-row justify-between border-b p-[10px]
 				dark:border-gray-600 dark:text-gray-400 transition duration-500
 				ease-in-out"
         >
-          <div class="flex">
+          <div className="flex">
             <Link
               to={`/system/${path.MANAGE_POST_SYSTEM}`}
-              class="py-2 block text-[#374151] border-green-500
+              className="py-2 block text-[#374151] border-green-500
 						dark:text-green-200 dark:border-green-200
 						focus:outline-none border-b-2 font-medium capitalize
 						transition duration-500 ease-in-out flex"
@@ -167,7 +167,7 @@ const ManageUserSystem = () => {
             </Link>
             <Link
               to={`/system/${path.MANAGE_USER_SYSTEM}`}
-              class="ml-6 py-2 block border-b-2 border-transparent
+              className="ml-6 py-2 block border-b-2 border-transparent
 						focus:outline-none font-medium capitalize text-center
 						focus:text-green-500 focus:border-green-500
 						dark-focus:text-green-200 dark-focus:border-green-200
@@ -179,7 +179,7 @@ const ManageUserSystem = () => {
 
             <Link
               to={`/system/${path.MANAGE_USER_SYSTEM}`}
-              class="ml-6 py-2 block border-b-2 border-transparent
+              className="ml-6 py-2 block border-b-2 border-transparent
 						focus:outline-none font-medium capitalize text-center
 						focus:text-green-500 focus:border-green-500
 						dark-focus:text-green-200 dark-focus:border-green-200
@@ -190,9 +190,9 @@ const ManageUserSystem = () => {
             </Link>
           </div>
 
-          <div class="flex items-center flex-grow justify-between ml-[20vw] select-none">
+          <div className="flex items-center flex-grow justify-between ml-[20vw] select-none">
             <input
-              class="w-12 bg-transparent flex-grow focus:outline-none"
+              className="w-12 bg-transparent flex-grow focus:outline-none"
               placeholder="Tìm kiếm"
               type="text"
               value={searchInput}
@@ -200,17 +200,17 @@ const ManageUserSystem = () => {
             />
             <button
               onClick={() => handleCancelSearch()}
-              class="hover:text-rose-600 dark-hover:text-green-300
+              className="hover:text-rose-600 dark-hover:text-green-300
 						cursor-pointer mr-3 transition duration-500 ease-in-out  "
             >
-              <i class="fa-solid fa-x h-5 w-5 "></i>
+              <i className="fa-solid fa-x h-5 w-5 "></i>
             </button>
             <button
               onClick={() => handleSearchInputClick()}
-              class="hover:text-rose-600 dark-hover:text-green-300
+              className="hover:text-rose-600 dark-hover:text-green-300
 						cursor-pointer mr-3 transition duration-500 ease-in-out  "
             >
-              <svg viewBox="0 0 512 512" class="h-5 w-5 fill-current">
+              <svg viewBox="0 0 512 512" className="h-5 w-5 fill-current">
                 <path
                   d="M505 442.7L405.3
 								343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7
@@ -225,8 +225,8 @@ const ManageUserSystem = () => {
             </button>
           </div>
         </div>
-        <div class="overflow-x-auto font-[sans-serif]">
-          <div className="flex justify-end m-4 gap-[10px]  text-sm font-semibold text-black">
+        <div className="font-[sans-serif] m-2">
+          <div className="flex justify-end m-2 gap-[10px]  text-sm font-semibold text-black">
             <Checkbox
               indeterminate={indeterminate}
               onChange={onCheckAllChange}
@@ -244,7 +244,7 @@ const ManageUserSystem = () => {
               <button title="Xóa">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 fill-red-500 hover:fill-red-700"
+                  className="w-5 fill-red-500 hover:fill-red-700"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -259,15 +259,15 @@ const ManageUserSystem = () => {
               </button>
             </Popconfirm>
           </div>
-          <table class="min-w-full bg-white">
-            <thead class="bg-gray-100 whitespace-nowrap">
+          <table className="min-w-full bg-white overflow-x-auto  ">
+            <thead className="bg-gray-100 whitespace-nowrap">
               <tr>
-                <th class="pl-4 w-8"></th>
-                <th class="pl-4 w-8">ID</th>
-                <th class="p-4 text-left text-sm font-semibold text-black">
+                <th className="pl-4 w-8"></th>
+                <th className="pl-4 w-8">ID</th>
+                <th className="p-2 text-left text-sm font-semibold text-black">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="w-4 h-4 fill-gray-500 inline mr-3"
+                    className="w-4 h-4 fill-gray-500 inline mr-3"
                     viewBox="0 0 512 512"
                   >
                     <path
@@ -277,10 +277,10 @@ const ManageUserSystem = () => {
                   </svg>
                   Tên
                 </th>
-                <th class="p-4 text-left text-sm font-semibold text-black">
+                <th className="p-2 text-left text-sm font-semibold text-black">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="w-4 h-4 fill-gray-500 inline mr-3"
+                    className="w-4 h-4 fill-gray-500 inline mr-3"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -305,21 +305,21 @@ const ManageUserSystem = () => {
                     />
                   </svg>
                   Loại
-                  <svg
+                  {/* <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="w-3 h-3 fill-gray-400 inline cursor-pointer ml-3"
+                    className="w-3 h-3 fill-gray-400 inline cursor-pointer ml-3"
                     viewBox="0 0 401.998 401.998"
                   >
                     <path
                       d="M73.092 164.452h255.813c4.949 0 9.233-1.807 12.848-5.424 3.613-3.616 5.427-7.898 5.427-12.847s-1.813-9.229-5.427-12.85L213.846 5.424C210.232 1.812 205.951 0 200.999 0s-9.233 1.812-12.85 5.424L60.242 133.331c-3.617 3.617-5.424 7.901-5.424 12.85 0 4.948 1.807 9.231 5.424 12.847 3.621 3.617 7.902 5.424 12.85 5.424zm255.813 73.097H73.092c-4.952 0-9.233 1.808-12.85 5.421-3.617 3.617-5.424 7.898-5.424 12.847s1.807 9.233 5.424 12.848L188.149 396.57c3.621 3.617 7.902 5.428 12.85 5.428s9.233-1.811 12.847-5.428l127.907-127.906c3.613-3.614 5.427-7.898 5.427-12.848 0-4.948-1.813-9.229-5.427-12.847-3.614-3.616-7.899-5.42-12.848-5.42z"
                       data-original="#000000"
                     />
-                  </svg>
+                  </svg> */}
                 </th>
-                <th class="p-4 text-left text-sm font-semibold text-black">
+                <th className="p-2 text-left text-sm font-semibold text-black">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="w-4 h-4 fill-gray-500 inline mr-3"
+                    className="w-4 h-4 fill-gray-500 inline mr-3"
                     viewBox="0 0 482.6 482.6"
                   >
                     <path
@@ -329,14 +329,14 @@ const ManageUserSystem = () => {
                   </svg>
                   Số điện thoại
                 </th>
-                <th class="p-4 text-left text-sm font-semibold text-black">
-                  <i class="fa-solid fa-square-plus w-4 h-4 mr-2"></i>
-                  bài đăng
+                <th className="p-2 text-left text-sm font-semibold text-black">
+                  <i className="fa-solid fa-square-plus w-4 h-4 mr-[2px]"></i>
+                  Tin
                 </th>
-                <th class="p-4 text-left text-sm font-semibold text-black">
+                <th className="p-2 text-left text-sm font-semibold text-black">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="w-4 h-4 fill-gray-500 inline mr-3"
+                    className="w-4 h-4 fill-gray-500 inline mr-3"
                     viewBox="0 0 511.987 511"
                   >
                     <path
@@ -345,30 +345,30 @@ const ManageUserSystem = () => {
                     />
                   </svg>
                   Đánh giá
-                  <svg
+                  {/* <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="w-3 h-3 fill-gray-400 inline cursor-pointer ml-3"
+                    className="w-3 h-3 fill-gray-400 inline cursor-pointer ml-3"
                     viewBox="0 0 401.998 401.998"
                   >
                     <path
                       d="M73.092 164.452h255.813c4.949 0 9.233-1.807 12.848-5.424 3.613-3.616 5.427-7.898 5.427-12.847s-1.813-9.229-5.427-12.85L213.846 5.424C210.232 1.812 205.951 0 200.999 0s-9.233 1.812-12.85 5.424L60.242 133.331c-3.617 3.617-5.424 7.901-5.424 12.85 0 4.948 1.807 9.231 5.424 12.847 3.621 3.617 7.902 5.424 12.85 5.424zm255.813 73.097H73.092c-4.952 0-9.233 1.808-12.85 5.421-3.617 3.617-5.424 7.898-5.424 12.847s1.807 9.233 5.424 12.848L188.149 396.57c3.621 3.617 7.902 5.428 12.85 5.428s9.233-1.811 12.847-5.428l127.907-127.906c3.613-3.614 5.427-7.898 5.427-12.848 0-4.948-1.813-9.229-5.427-12.847-3.614-3.616-7.899-5.42-12.848-5.42z"
                       data-original="#000000"
                     />
-                  </svg>
+                  </svg> */}
                 </th>
-                <th class="p-4 text-left text-sm font-semibold text-black">
+                <th className="p-2 text-left text-sm font-semibold text-black">
                   Tùy chọn
                 </th>
               </tr>
             </thead>
 
-            <tbody class="whitespace-nowrap divide-y divide-gray-200">
+            <tbody className="whitespace-nowrap divide-y divide-gray-200">
               {userData?.length > 0 &&
-                userData.map((user) => {
+                userData.map((user, index) => {
                   return (
                     <>
-                      <tr key={user.id}>
-                        <td class="pl-4 w-8">
+                      <tr key={index}>
+                        <td className="pl-4 w-8">
                           {/* <Checkbox.Group
                             // options={user.id}
                             options={userData.id}
@@ -398,15 +398,15 @@ const ManageUserSystem = () => {
                           {/* <input
                             id="checkbox1"
                             type="checkbox"
-                            class="hidden peer"
+                            className="hidden peer"
                           />
                           <label
                             for="checkbox1"
-                            class="relative flex items-center justify-center p-0.5 peer-checked:before:hidden before:block before:absolute before:w-full before:h-full before:bg-white w-5 h-5 cursor-pointer bg-blue-500 border border-gray-400 rounded overflow-hidden"
+                            className="relative flex items-center justify-center p-0.5 peer-checked:before:hidden before:block before:absolute before:w-full before:h-full before:bg-white w-5 h-5 cursor-pointer bg-blue-500 border border-gray-400 rounded overflow-hidden"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
-                              class="w-full fill-white"
+                              className="w-full fill-white"
                               viewBox="0 0 520 520"
                             >
                               <path
@@ -417,32 +417,36 @@ const ManageUserSystem = () => {
                             </svg>
                           </label> */}
                         </td>
-                        <td class="p-4 text-sm">
-                          <div class="flex items-center  w-max">{user.id}</div>
+                        <td className="p-2 text-sm">
+                          <div className="flex items-center  w-max">
+                            {user.id}
+                          </div>
                         </td>
                         <td
                           onClick={() => handleNavigateProfilePublic(user.id)}
-                          class="p-4 cursor-pointer text-sm"
+                          className="p-2 cursor-pointer text-sm"
                         >
-                          <div class="flex items-center cursor-pointer w-max">
+                          <div className="flex items-center cursor-pointer w-max">
                             <img
                               src={user.avatar}
-                              class="w-9 h-9 rounded-full shrink-0"
+                              className="w-9 h-9 rounded-full shrink-0"
                             />
-                            <div class="ml-4">
-                              <p class="text-sm text-black">{user.name} </p>
-                              <p class="text-xs text-gray-500">{user.email}</p>
+                            <div className="ml-4">
+                              <p className="text-sm text-black">{user.name} </p>
+                              <p className="text-xs text-gray-500">
+                                {user.email}
+                              </p>
                             </div>
                           </div>
                         </td>
-                        <td class="p-4 text-sm">
+                        <td className="p-2 text-sm">
                           {user.role === "1" ? "Admin" : "User"}
                         </td>
-                        <td class="px-6 py-3">{user.phone}</td>
-                        <td class="px-6 py-3">{handleCounPost(user.id)}</td>
-                        <td class="px-6 py-3">
+                        <td className="px-6 py-3">{user.phone}</td>
+                        <td className="px-6 py-3">{handleCounPost(user.id)}</td>
+                        <td className="px-6 py-3">
                           <svg
-                            class="w-[18px] h-4 inline mr-1"
+                            className="w-[18px] h-4 inline mr-1"
                             viewBox="0 0 14 13"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -453,7 +457,7 @@ const ManageUserSystem = () => {
                             />
                           </svg>
                           <svg
-                            class="w-[18px] h-4 inline mr-1"
+                            className="w-[18px] h-4 inline mr-1"
                             viewBox="0 0 14 13"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -464,7 +468,7 @@ const ManageUserSystem = () => {
                             />
                           </svg>
                           <svg
-                            class="w-[18px] h-4 inline mr-1"
+                            className="w-[18px] h-4 inline mr-1"
                             viewBox="0 0 14 13"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -475,7 +479,7 @@ const ManageUserSystem = () => {
                             />
                           </svg>
                           <svg
-                            class="w-[18px] h-4 inline mr-1"
+                            className="w-[18px] h-4 inline mr-1"
                             viewBox="0 0 14 13"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -486,7 +490,7 @@ const ManageUserSystem = () => {
                             />
                           </svg>
                           <svg
-                            class="w-[18px] h-4 inline"
+                            className="w-[18px] h-4 inline"
                             viewBox="0 0 14 13"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -497,11 +501,11 @@ const ManageUserSystem = () => {
                             />
                           </svg>
                         </td>
-                        <td class="px-6 py-3">
-                          <button class="mr-4" title="Xem trang cá nhân">
+                        <td className="px-6 py-3">
+                          <button className="mr-4" title="Xem trang cá nhân">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
-                              class="w-5 fill-blue-500 hover:fill-blue-700"
+                              className="w-5 fill-blue-500 hover:fill-blue-700"
                               viewBox="0 0 348.882 348.882"
                             >
                               <path
@@ -527,7 +531,7 @@ const ManageUserSystem = () => {
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                class="w-5 fill-red-500 hover:fill-red-700"
+                                className="w-5 fill-red-500 hover:fill-red-700"
                                 viewBox="0 0 24 24"
                               >
                                 <path

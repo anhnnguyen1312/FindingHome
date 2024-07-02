@@ -40,34 +40,34 @@ const ProfilePublic = () => {
   return (
     <>
       <div className="flex flex-col gap-[10px] w-full">
-        <div class="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-16 bg-white shadow-xl rounded-lg text-gray-900">
-          <div class="rounded-t-lg h-32 overflow-hidden">
+        <div className="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-16 bg-white shadow-xl rounded-lg text-gray-900">
+          <div className="rounded-t-lg h-32 overflow-hidden">
             <img
-              class="object-contain object-center w-full"
+              className="object-contain object-center w-full"
               // src={logo}
               src={cover}
               alt="Ảnh bìa"
             />
           </div>
-          <div class="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
+          <div className="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
             <img
-              class="object-cover object-center h-32"
+              className="object-cover object-center h-32"
               // src={userProfile.avatar}
               src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
               alt="avatar"
             />
           </div>
-          <div class="text-center mt-2">
-            <h2 class="font-semibold">{userProfile.name}</h2>
-            <p class="text-gray-500">{userProfile.phone}</p>
+          <div className="text-center mt-2">
+            <h2 className="font-semibold">{userProfile.name}</h2>
+            <p className="text-gray-500">{userProfile.phone}</p>
           </div>
-          <ul class="py-4 mt-2 text-gray-700 flex items-center justify-around">
+          <ul className="py-4 mt-2 text-gray-700 flex items-center justify-around">
             <li
               title="lượt đánh giá"
-              class="flex flex-col items-center justify-around"
+              className="flex flex-col items-center justify-around"
             >
               <svg
-                class="w-4 fill-current text-blue-900"
+                className="w-4 fill-current text-blue-900"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
               >
@@ -77,10 +77,10 @@ const ProfilePublic = () => {
             </li>
             <li
               title="người theo dõi"
-              class="flex flex-col items-center justify-between"
+              className="flex flex-col items-center justify-between"
             >
               <svg
-                class="w-4 fill-current text-blue-900"
+                className="w-4 fill-current text-blue-900"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
               >
@@ -90,10 +90,10 @@ const ProfilePublic = () => {
             </li>
             <li
               title="số bài đăng"
-              class="flex flex-col items-center justify-around"
+              className="flex flex-col items-center justify-around"
             >
               <svg
-                class="w-4 fill-current text-blue-900"
+                className="w-4 fill-current text-blue-900"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
               >
@@ -102,8 +102,8 @@ const ProfilePublic = () => {
               <div>{handleCounPost()}</div>
             </li>
           </ul>
-          <div class="p-4 border-t mx-8 mt-2">
-            <button class="w-1/2 block mx-auto rounded-full bg-gray-900 hover:shadow-lg font-semibold text-white px-6 py-2">
+          <div className="p-4 border-t mx-8 mt-2">
+            <button className="w-1/2 block mx-auto rounded-full bg-gray-900 hover:shadow-lg font-semibold text-white px-6 py-2">
               Theo dõi
             </button>
           </div>
