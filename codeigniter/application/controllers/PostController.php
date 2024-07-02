@@ -117,6 +117,7 @@ class PostController extends CI_Controller {
 				$list_post=([
 					'id' => $data->id,
 					'userId' => $data->userId,
+					'userRole' => $data->role,
 					'username' => $data->name,
 					'phone' => $this->encryption->decrypt($data->phone),
 					'address' => $this->encryption->decrypt($data->address),
@@ -216,6 +217,11 @@ class PostController extends CI_Controller {
 	public function post_delete($id){
 		if($id){
 			$result = $this->Post_model->post_delete($id);
+			if($this->input->raw_input_stream){
+				$post_data = json_decode($this->input->raw_input_stream, true);
+				$postId = $post_data['postId'];
+				$this->Notification_model->admin_update_notification_post($post_data, $postId);
+			}
 			if($result){
 				echo json_encode([
 					'success' => 'Xóa bài đăng thành công'

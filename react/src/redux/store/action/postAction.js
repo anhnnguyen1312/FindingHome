@@ -1,12 +1,12 @@
 import actionTypes from "./actionTypes";
 import { callApiHomepagePost } from "../../../api/getPostApi";
-import { callApiPost } from "../../../api/system/getPostListAdmin";
+import { callApiPostAdmin } from "../../../api/system/getPostAdminApi";
 
 import { jwtDecode } from "jwt-decode";
 
 export const postAction = () => async (dispatch) => {
   try {
-    const response = await callApiPost();
+    const response = await callApiPostAdmin();
 
     const token = response.data.token;
     const decodetoken = token.map((token) => jwtDecode(token));

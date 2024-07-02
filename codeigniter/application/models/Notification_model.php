@@ -16,14 +16,18 @@ class Notification_model extends CI_Model {
 
 		switch($check){
 			case 1:
-				$dataDB["message"] = "Admin, Bài đăng " .$title ."vừa được duyệt";
+				$dataDB["message"] = "Admin, Bài đăng " .$title ." vừa được duyệt";
 				break;
 			case 2:
-					$dataDB["message"] = "Admin, Bài đăng " .$title. "vừa bị từ chối";
+				$dataDB["message"] = "Admin, Bài đăng " .$title. " vừa bị từ chối";
 				break;
 			case 3:
-				$dataDB["message"] = "Admin, Bài đăng " .$title. "vừa hết hạn";
-			break;
+				$dataDB["message"] = "Admin, Bài đăng " .$title. " vừa hết hạn";
+				break;
+			case "delete":
+				$deleteReason = $data["deleteReason"] ? $data["deleteReason"] : "không có";
+				$dataDB["message"] = "Admin, Bài đăng " .$title. " vừa bị xóa. Lý do: " .$deleteReason;
+				break;
 			default:
 				break;
 		}
