@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ReactMapGL, { Marker, Popup } from "react-map-gl";
-
+import ReactMapGL, {
+  Marker,
+  Popup,
+  NavigationControl,
+  GeolocateControl,
+} from "react-map-gl";
+import SearchLocation from "./SearchLocation";
+// import Geocoder from "react-map-gl-geocoder";
+// import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 const VietMap = ({ address }) => {
-  const [latLng, setLatLng] = useState(null);
   const [showPopup, setShowPopup] = useState(true);
 
   const [viewport, setViewport] = useState({
@@ -12,12 +18,28 @@ const VietMap = ({ address }) => {
     zoom: 15,
   });
 
+  const [viewportGeoLocate, setViewportGeoLocate] = useState({
+    latitude: 37.7577,
+    longitude: -122.4376,
+    zoom: 10,
+  });
   const [viewState, setViewState] = useState({
     latitude: 10.710999,
     longitude: 106.704449,
     zoom: 15,
   });
-
+  const MAPBOX_TOKEN =
+    "pk.eyJ1IjoidGhhaS1uZ29jLXBodSIsImEiOiJjbHhpd3p2amwxbGozMnJyMmJhZTExZ3pkIn0.BnFFOObKYnZUOf2wJstUFg";
+  const geolocateControlStyle = {
+    right: 10,
+    top: 10,
+  };
+  const handleonGeolocate = (e) => {
+    console.log(e);
+  };
+  const matrix = () => {
+    const apiKeyMapbox = "af4284a02ae26231e2a517f30b67d25216a69b76782dfb4c";
+  };
   const getLatLngFromAddress = async (address) => {
     const apiKey = "af4284a02ae26231e2a517f30b67d25216a69b76782dfb4c";
     const url = `https://maps.vietmap.vn/api/search/v3?apikey=${apiKey}&text=${address}`;
@@ -67,9 +89,28 @@ const VietMap = ({ address }) => {
           width={"100vw"}
           height={"30vw"}
           mapStyle="mapbox://styles/mapbox/streets-v11"
-          //mapboxAccessToken="pk.eyJ1IjoidGhhaS1uZ29jLXBodSIsImEiOiJjbHhpd3p2amwxbGozMnJyMmJhZTExZ3pkIn0.BnFFOObKYnZUOf2wJstUFg"
+          mapboxAccessToken="pk.eyJ1IjoidGhhaS1uZ29jLXBodSIsImEiOiJjbHhpd3p2amwxbGozMnJyMmJhZTExZ3pkIn0.BnFFOObKYnZUOf2wJstUFg"
           onMove={(evt) => setViewState(evt.viewState)}
         >
+          <GeolocateControl
+            style={geolocateControlStyle}
+            positionOptions={{ enableHighAccuracy: true }}
+            trackUserLocation={true}
+            showUserLocation={true}
+            showAccuracyCircle={true}
+            onGeolocate={(e) => handleonGeolocate(e)}
+          />
+          <NavigationControl position="bottom-right" />
+          <SearchLocation />
+          {/* <Geocoder
+                        mapboxApiAccessToken={MAPBOX_TOKEN} onSelected={(newViewport, item) => {handleViewportChange(newViewport, item); setReady(true)}} viewport={viewport} hideOnSelect={true} initialInputValue={result.location}
+                    /> */}
+          {/* <Geocoder
+            mapboxApiAccessToken={MAPBOX_TOKEN}
+            position="top-left"
+            placeholder="Tìm kiếm!"
+            marker={true}
+          /> */}
           {showPopup && (
             <Popup
               latitude={viewport?.latitude}

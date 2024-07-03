@@ -8,6 +8,7 @@ export const path = {
   LIST_LIKED: "list-liked",
   DETAIL: "detail",
   NOTIFICATION: "thong-bao",
+  FINDROOM: "tim-gan-day",
 
   PROFILE: "profile",
   NEWPOST: "newpost",

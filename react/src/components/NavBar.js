@@ -114,7 +114,16 @@ export default function NavBar() {
             </li>
             <li className="nav-item">
               <NavLink
-                to={"/tim-phong"}
+                to={path.FINDROOM}
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
+                Tìm gần đây
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                to={path.ROOM_RENTAL}
                 className="nav-links"
                 onClick={closeMobileMenu}
               >

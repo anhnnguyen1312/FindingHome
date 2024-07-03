@@ -31,6 +31,7 @@ import {
 // import {SideBar} from './components/SideBar'
 
 import NewPost from "./pages/LoggedIn/NewPost";
+import FindRoom from "./pages/Public/FindRoom";
 function App() {
   // const dispatch = useDispatch();
   // useEffect(() => {
@@ -60,6 +61,7 @@ function App() {
           <Route path={path.ESTATE_RENTAL} element={<EstateRental />} />
           <Route path={path.DETAIL_PRODUCT} element={<DetailProduct />} />
           <Route path={path.PROFILE_PUBLIC_ID} element={<ProfilePublic />} />
+          <Route path={path.FINDROOM} element={<FindRoom />} />
 
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
         </Route>

@@ -20,7 +20,7 @@ const ManagePostUser = ({ userId }) => {
   // const initialPage = parseInt(localStorage.getItem("currentPage")) || 1;
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPosts, setCurrentPosts] = useState([]);
-  const pageSize = 2;
+  const pageSize = 5;
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
 

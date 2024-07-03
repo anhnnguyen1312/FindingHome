@@ -3,13 +3,16 @@ import { Link, useParams } from "react-router-dom";
 import { path } from "../../ultils/path";
 import userAvatar from "../../assets/images/userAvatar.jpg";
 import { FaTableList } from "react-icons/fa6";
-import { GeoCoding } from "../../components/index";
+import { GeoCoding, Button } from "../../components/index";
 import { callApiDetailPost } from "../../api/getPostApi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import SlideShow from "../../components/SlideShow";
 import GgMapReact from "../../components/GgMapReact";
 import VietMap from "../../components/VietMap";
+import { Pagination, message, Popconfirm } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { callApiCensorPostAdmin } from "../../api/system/getPostAdminApi";
 const DetailProduct = () => {
   const useLocate = useLocation();
   const [detailPost, setDetailPost] = useState([]);
@@ -17,6 +20,7 @@ const DetailProduct = () => {
   const [ruleSplit, setRuleSplit] = useState([]);
   // const [id, setId] = useState(useLocate.state?.idPost);
   const navigate = useNavigate();
+  const stateAuth = useSelector((state) => state.auth);
 
   const isSystem = useLocate.state?.isSystem;
   const params = useParams();
@@ -27,16 +31,13 @@ const DetailProduct = () => {
 
   console.log("detailPost", detailPost);
   const handleNavigateProfilePublic = (IdUser) => {
-    console.log("params", params[0]);
-
-    navigate(`/system/${path.PROFILE_PUBLIC}/${IdUser}`, {
-      state: { isSystem },
-    });
-    // isSystem
-    //   ? navigate(`/system/${path.PROFILE_PUBLIC}/${IdUser}`, {
-    //       state: { isSystem },
-    //     })
-    //   : navigate(`/${path.PROFILE_PUBLIC}/${IdUser}`);
+    if (useLocate.pathname.includes("system")) {
+      navigate(`/system/${path.PROFILE_PUBLIC}/${IdUser}`, {
+        state: { isSystem },
+      });
+    } else {
+      navigate(`/${path.PROFILE_PUBLIC}/${IdUser}`);
+    }
   };
   useEffect(() => {
     const getApiDetailPost = async () => {
@@ -75,6 +76,95 @@ const DetailProduct = () => {
     </div>
   ));
 
+  const handleStatusTag = (check) => {
+    if (check) {
+      switch (check) {
+        case "1":
+          return (
+            <span className="bg-[#9bfaa3] border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
+              Đang hoạt động
+            </span>
+          );
+        case "0":
+          return (
+            <span className="bg-[#fcf683] border border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
+              Chưa được duyệt
+            </span>
+          );
+        case "2":
+          return (
+            <span className="bg-[#f78888] border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
+              Từ chối
+            </span>
+          );
+        case "3":
+          return (
+            <span className="bg-[#b9bfc9] border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
+              Hết hạn
+            </span>
+          );
+        default:
+          return null;
+      }
+    }
+  };
+  const handleCensorPost = (detailPost) => {
+    const censorPost = async () => {
+      try {
+        const censorData = {
+          adminId: stateAuth.data.userId,
+          postId: detailPost.id,
+          userId: detailPost.userId,
+          title: detailPost.title,
+          check: "1",
+        };
+
+        const response = await callApiCensorPostAdmin(censorData);
+
+        // window.location.reload();
+
+        if (response.data.fail) {
+          message.error(response.data.fail);
+        } else {
+          message
+            .success(response.data.success)
+            .then(() => window.location.reload());
+        }
+      } catch (error) {
+        console.error(error);
+        message.error("Duyệt bài đăng không thành công");
+      }
+    };
+    censorPost();
+  };
+  const handleDenyPost = (detailPost) => {
+    const denyPost = async () => {
+      try {
+        const censorData = {
+          adminId: stateAuth.data.userId,
+          postId: detailPost.id,
+          userId: detailPost.userId,
+          title: detailPost.title,
+          check: "2",
+        };
+
+        const response = await callApiCensorPostAdmin(censorData);
+        window.location.reload();
+
+        if (response.data.fail) {
+          message.error(response.data.fail);
+        } else {
+          message
+            .success(response.data.success)
+            .then(() => window.location.reload());
+        }
+      } catch (error) {
+        console.error(error);
+        message.error("Từ chối bài đăng không thành công");
+      }
+    };
+    denyPost();
+  };
   return (
     <>
       <div className="w-full ">
@@ -83,7 +173,7 @@ const DetailProduct = () => {
           {detailPost.urlImages && <SlideShow images={detailPost.urlImages} />}
         </div>
         {/* thong tin ve phonng */}
-        <div className="px-[20px] ">
+        <div className="px-[20px] relative ">
           <div className="max-w-full mr-[14px]">
             <div className="-mt-4 mb-10 h-8  flex gap-1 items-center relative border-b-4 border-transparent">
               <div className="flex-shrink-0 relative flex justify-center items-center self-stretch ">
@@ -100,7 +190,69 @@ const DetailProduct = () => {
             </div>
           </div>
           {/* thong tin nguoi dang */}
-          <div className="mb-8 flex sm:flex-row flex-col gap-[20px] justify-between">
+          <div className="mb-4 flex sm:flex-row flex-col-reverse justify-end">
+            {stateAuth.data.role === "1" ||
+            detailPost.userId === stateAuth.data.id ? (
+              <>
+                <div className="flex flex-col gap-[10px] justify-center absolute top-[38px] left-[20px] ">
+                  {handleStatusTag(detailPost.check)}
+                  {detailPost.check === "0" && (
+                    <div className="flex flex-row gap-[20px] justify-center ">
+                      <Button
+                        icon={"fa-solid fa-check"}
+                        bgColor={"bg-[#374151]"}
+                        textColor={"text-white"}
+                        borderColor={"border-white"}
+                        width={"w-12"}
+                        height={"h-12"}
+                        fullRounded={"rounded-full"}
+                        title={"Duyệt"}
+                        onClick={() => handleCensorPost(detailPost)}
+                      />
+                      <Popconfirm
+                        title="Từ chối duyệt bài đăng"
+                        description="Bạn có chắc chắn muốn từ chối bài đăng này"
+                        onConfirm={() => handleDenyPost(detailPost)}
+                        okText="Từ chối"
+                        cancelText="Hủy"
+                      >
+                        <Button
+                          icon={"fa-solid fa-trash-can"}
+                          bgColor={"bg-[#DE3E36]"}
+                          textColor={"text-white"}
+                          borderColor={"border-[#DE3E36]"}
+                          width={"w-12"}
+                          height={"h-12"}
+                          fullRounded={"rounded-full"}
+                          title={"Từ chối Duyệt"}
+                        />
+                      </Popconfirm>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              ""
+            )}
+
+            <div
+              className="cursor-pointer text-center"
+              onClick={() => handleNavigateProfilePublic(detailPost.userId)}
+            >
+              <div>{detailPost.username}</div>
+              <div className="flex  text-[#d1d100] text-center justify-center">
+                <i className="fa-solid fa-star mt-[5px]"></i>
+                <i className="fa-solid fa-star mt-[5px]"></i>
+                <i className="fa-solid fa-star mt-[5px]"></i>
+                <i className="fa-solid fa-star mt-[5px]"></i>
+                <i className="fa-solid fa-star mt-[5px]"></i>
+              </div>
+              <div className=" text-gray-700 text-center">
+                (40 lượt đánh giá)
+              </div>
+            </div>
+          </div>
+          <div className="mb-8 ">
             <div className="mb-6 md:mb-0 flex flex-col gap-[20px]">
               <h1 className="text-red-600">{detailPost.title}</h1>
               <h1 className="  flex gap-[10px]">
@@ -127,7 +279,7 @@ const DetailProduct = () => {
                 </h1>
               </div>
             </div>
-            <div
+            {/* <div
               className="cursor-pointer text-center"
               onClick={() => handleNavigateProfilePublic(detailPost.userId)}
             >
@@ -142,7 +294,7 @@ const DetailProduct = () => {
               <div className=" text-gray-700 text-center">
                 (40 lượt đánh giá)
               </div>
-            </div>
+            </div> */}
           </div>
           {/* //table */}
           <div className="mb-8">
@@ -304,7 +456,7 @@ const DetailProduct = () => {
             <div className="w-full h-[60%vh]  mb-[30px]">
               {/* <GeoCoding address={detailPost.address} />
               <GgMapReact address={detailPost.address} /> */}
-              {/* <VietMap address={detailPost.address} /> */}
+              <VietMap address={address} />
             </div>
           </div>
         </div>

@@ -2,28 +2,33 @@ import React, { useState } from "react";
 import { AiFillPhone } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { path } from "../ultils/path";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import AutoSlideShow from "./AutoSlideShow";
-import {LikeComponent} from "./index"
+import { LikeComponent } from "./index";
 
 import DetailProduct from "../pages/Public/DetailProduct";
 const CardProduct = ({ props, checked, isSystem }) => {
   const navigate = useNavigate();
+  const useLocate = useLocation();
+
   function handleNavigate(e, idPost) {
     e.stopPropagation();
-    isSystem
-      ? navigate(`/system/${path.DETAIL}/${idPost}`)
-      : navigate(`/${path.DETAIL}/${idPost}`, { state: { isSystem } });
+    if (useLocate.pathname.includes("system")) {
+      navigate(`/system/${path.DETAIL}/${idPost}`);
+    } else {
+      navigate(`/${path.DETAIL}/${idPost}`, { state: { isSystem } });
+    }
   }
   const handleNavigateProfilePublic = (e, IdUser) => {
-    console.log("IdUser", IdUser);
-
+    console.log("click");
     e.stopPropagation();
-    isSystem
-      ? navigate(`/system/${path.PROFILE_PUBLIC}/${IdUser}`, {
-          state: { isSystem },
-        })
-      : navigate(`/${path.PROFILE_PUBLIC}/${IdUser}`);
+    if (useLocate.pathname.includes("system")) {
+      navigate(`/system/${path.PROFILE_PUBLIC}/${IdUser}`, {
+        state: { isSystem },
+      });
+    } else {
+      navigate(`/${path.PROFILE_PUBLIC}/${IdUser}`);
+    }
   };
 
   const handleStatusTag = (check) => {
@@ -72,11 +77,12 @@ const CardProduct = ({ props, checked, isSystem }) => {
         <div className="gap-[1vh] flex flex-col flex-[70%] p-[1vh]  border-y-[#E2E8F0] border-l-red rounded-r-2xl  ">
           <div className="flex flex-row items-center flex-wrap justify-between">
             <div className="flex">
-            <h2 className="text-red-500 font-medium mr-2 items-center flex">{props.title}</h2>
-            {handleStatusTag(checked)}
-            </div >
-            <LikeComponent postId={props.id}/>
-
+              <h2 className="text-red-500 font-medium mr-2 items-center flex">
+                {props.title}
+              </h2>
+              {handleStatusTag(checked)}
+            </div>
+            <LikeComponent postId={props.id} />
           </div>
           <div className="justify-start gap-[1vw] flex ">
             <div className="text-white font-medium flex items-center color:white px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">
@@ -118,10 +124,10 @@ const CardProduct = ({ props, checked, isSystem }) => {
             <b>{props.nearby} ... </b>
           </div>
 
-          <div className="flex justify-between text-cyan-600 font-medium">
+          <div className="flex h-[40px] justify-between text-cyan-600 font-medium">
             <div
               onClick={(e) => handleNavigateProfilePublic(e, props.userId)}
-              className="cursor-pointer owner--name"
+              className="cursor-pointer  flex items-center justify-center  w-[50px]"
             >
               {props.username}
             </div>

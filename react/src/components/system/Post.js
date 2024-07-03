@@ -42,7 +42,7 @@ const Post = ({ isManagePage, check, isExpired }) => {
   const savedPageKey = `currentPage-${"all"}`;
   const initialPage = parseInt(localStorage.getItem(savedPageKey)) || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
-  const pageSize = 2;
+  const pageSize = 5;
   const dispatch = useDispatch();
 
   useEffect(() => {

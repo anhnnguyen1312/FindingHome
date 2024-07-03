@@ -36,7 +36,7 @@ const Product = ({ type, isHomePage }) => {
   const [searchInput, setSearchInput] = useState("");
 
   const dispatch = useDispatch();
-  const pageSize = 2;
+  const pageSize = 5;
   // const startIndex = (currentPage - 1) * pageSize;
   // const endIndex = startIndex + pageSize;
   // const currentPosts = filteredProducts.slice(startIndex, endIndex);
