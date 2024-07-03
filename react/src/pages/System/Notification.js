@@ -70,6 +70,10 @@ const Notification = () => {
     const data = message.split(",");
     return data[0];
   };
+  const handleSplitMessege = (message) => {
+    const data = message.split(",");
+    return data[1];
+  };
   const handleNotify = (postId, id) => {
     navigate(`/system/${path.DETAIL}/${postId}`);
     markAsRead(id);
@@ -101,7 +105,7 @@ const Notification = () => {
                   {handleSplitName(notic.message)}
                 </div>
                 <p className="text-sm dark:text-gray-600 text-gray-300">
-                  {notic.message}
+                  {handleSplitMessege(notic.message)}
                 </p>
                 <p className="text-[12px] text-semibold dark:text-gray-700 text-gray-400 text-right">
                   {notic.createAt}
