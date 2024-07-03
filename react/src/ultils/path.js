@@ -5,6 +5,7 @@ export const path = {
   HOUSE_RENTAL: "tim-nha",
   ESTATE_RENTAL: "tim-mat-bang",
   DETAIL_PRODUCT: "detail/:postId",
+  LIST_LIKED: "list-liked",
   DETAIL: "detail",
   NOTIFICATION: "thong-bao",
 

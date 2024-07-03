@@ -4,14 +4,12 @@ import { Link } from "react-router-dom";
 import { path } from "../ultils/path";
 import { useNavigate } from "react-router-dom";
 import AutoSlideShow from "./AutoSlideShow";
+import {LikeComponent} from "./index"
 
 import DetailProduct from "../pages/Public/DetailProduct";
 const CardProduct = ({ props, checked, isSystem }) => {
-  const [isHoverHeart, setIsHoverHeart] = useState(false);
   const navigate = useNavigate();
   function handleNavigate(e, idPost) {
-    console.log("IdUser", idPost);
-
     e.stopPropagation();
     isSystem
       ? navigate(`/system/${path.DETAIL}/${idPost}`)
@@ -69,24 +67,16 @@ const CardProduct = ({ props, checked, isSystem }) => {
       >
         <figure className="m-0 flex-[30%] my-4 overflow-hidden rounded-2xl relative">
           {props.urlImages && <AutoSlideShow images={props.urlImages} />}
-          <span
-            className="text-rose-500 absolute right-5 top-1"
-            onMouseEnter={() => setIsHoverHeart(true)}
-            onMouseLeave={() => setIsHoverHeart(false)}
-            onClick={() => setIsHoverHeart(true)}
-          >
-            {isHoverHeart ? (
-              <i className="fa-solid fa-heart"></i>
-            ) : (
-              <i className="fa-regular fa-heart"></i>
-            )}
-          </span>
         </figure>
 
         <div className="gap-[1vh] flex flex-col flex-[70%] p-[1vh]  border-y-[#E2E8F0] border-l-red rounded-r-2xl  ">
-          <div className="flex flex-row items-center flex-wrap">
-            <h2 className="text-red-500 font-medium mr-2">{props.title}</h2>
+          <div className="flex flex-row items-center flex-wrap justify-between">
+            <div className="flex">
+            <h2 className="text-red-500 font-medium mr-2 items-center flex">{props.title}</h2>
             {handleStatusTag(checked)}
+            </div >
+            <LikeComponent postId={props.id}/>
+
           </div>
           <div className="justify-start gap-[1vw] flex ">
             <div className="text-white font-medium flex items-center color:white px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">

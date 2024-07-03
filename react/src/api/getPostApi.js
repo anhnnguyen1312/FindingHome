@@ -70,3 +70,44 @@ export const callApiDetailPost = (payload) =>
       reject(error);
     }
   });
+
+  export const callApihandleLikePost = (payload) =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const response = await axiosConfig({
+          method: "post",
+          url: `http://localhost:8000/handle-like-post`,
+          data: payload,
+        });
+        resolve(response);
+      } catch (error) {
+        reject(error);
+      }
+    });
+
+    export const callApiCheckLikePost = (payload) =>
+      new Promise(async (resolve, reject) => {
+        try {
+          const response = await axiosConfig({
+            method: "put",
+            url: `http://localhost:8000/check-like-post`,
+            data: payload,
+          });
+          resolve(response);
+        } catch (error) {
+          reject(error);
+        }
+    });
+
+    export const callApiListLikePost = (userId) =>
+      new Promise(async (resolve, reject) => {
+        try {
+          const response = await axiosConfig({
+            method: "get",
+            url: `http://localhost:8000/list-liked-post/${userId}`,
+          });
+          resolve(response);
+        } catch (error) {
+          reject(error);
+        }
+    });
