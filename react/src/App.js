@@ -11,6 +11,7 @@ import {
   DetailProduct,
   ResetPassword,
   ProfilePublic,
+  ListLiked
 } from "./pages/Public";
 import Profile from "./pages/LoggedIn/Profile";
 import { useDispatch, useSelector } from "react-redux";
@@ -67,6 +68,7 @@ function App() {
           <Route path={path.NOTIFICATION} element={<Notification />} />
 
           <Route path={path.NEWPOST} element={<NewPost />} />
+          <Route path={path.LIST_LIKED} element={<ListLiked />} />
         </Route>
         <Route path={path.SYSTEM} element={<System />}>
           <Route

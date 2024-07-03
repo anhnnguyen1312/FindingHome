@@ -111,14 +111,93 @@ class Post_model extends CI_Model {
 		}
 	}
 
+	public function handle_like_post($data)
+	{
+		$userId = $data["userId"];
+		$postId = $data["postId"];
+
+		$checkLike = $this->check_like_post($userId, $postId);
+		if ($checkLike) {
+
+			$this->db->trans_start();
+
+			$this->db->where("userId", $userId);
+			$this->db->where("postId", $postId);
+			$this->db->delete("userLikes");
+
+			$this->db->set('likes', 'likes -1', false);
+			$this->db->where('postId', $postId);
+			$this->db->update("countLikes");
+
+			$this->db->trans_complete();
+
+			if ($this->db->trans_status() === false) {
+				return false;
+			} else {
+				return 2;
+			}
+
+		} else {
+			$this->db->trans_start();
+
+				$dataDB['userId'] = $userId;
+				$dataDB['postId'] = $postId;
+				$this->db->insert('userLikes', $dataDB);
+
+				$countLike = $this->get_count_like_post_by_postId($postId);
+				if ($countLike) {
+					$this->db->set('likes', 'likes +1', false);
+					$this->db->where('postId', $postId);
+					$this->db->update("countLikes");
+				} else {
+					$dataCountLike['likes'] = 1;
+					$dataCountLike['PostId'] = $postId;
+					$this->db->insert("countLikes", $dataCountLike);
+				}
+
+			$this->db->trans_complete();
+
+			if ($this->db->trans_status() === false) {
+				return false;
+			} else {
+				return 1;
+			}
+		}
+	}
+
+	public function check_like_post($userId, $postId){
+		$query = $this->db->get_where('userLikes', ['userId' => $userId, 'postId' => $postId]);
+		return $query->num_rows() > 0;
+	}
+	public function get_count_like_post_by_postId($postId){
+		$query = $this->db->get_where('countLikes', ["postId" => $postId]);
+		return $query->row();
+	}
+	public function get_liked_post_by_userId($userId){
+		$list_liked_post = $this ->db->get_where('userLikes', ['userId' => $userId])->result();
+		if($list_liked_post){
+			foreach ($list_liked_post as $liked_post){
+				$postId = $liked_post->postId;
+				$query = $this->get_post_detail($postId);
+				if($query){
+					$list_post[] = $query;
+				}
+			}
+			return $list_post;
+		}else{
+			return false;
+		}
+	}
+
 	public function post_delete($id){
 		$this->db->trans_start();
 
 			$this->db->where('id', $id);
 			$this->db->delete('posts');
 
+			$tables = ['statusPost', 'countLikes', 'userLikes'];
 			$this->db->where('postId', $id);
-			$this->db->delete('statusPost');
+			$this->db->delete($tables);
 
 		$this->db->trans_complete();
 

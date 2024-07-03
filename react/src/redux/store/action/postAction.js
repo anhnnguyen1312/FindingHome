@@ -10,7 +10,6 @@ export const postAction = () => async (dispatch) => {
 
     const token = response.data.token;
     const decodetoken = token.map((token) => jwtDecode(token));
-    console.log(decodetoken);
     if (response?.data.token) {
       dispatch({
         type: actionTypes.GET_POST,

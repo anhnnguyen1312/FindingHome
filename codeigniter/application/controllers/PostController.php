@@ -136,7 +136,6 @@ class PostController extends CI_Controller {
 					'dateExpired' => $data->dateExpired,
 					'check' => $data->check,
 					'status' => $data->status
-
 				]);
 				
 				$token[] = $jwt->encode($list_post, '$/0ne_punch_m4n/$', 'HS256');
@@ -215,6 +214,80 @@ class PostController extends CI_Controller {
 		}
 	}
 
+	public function handle_like_post(){
+		$post_data = json_decode($this->input->raw_input_stream, true);
+		if($post_data){
+			$result = $this->Post_model->handle_like_post($post_data);
+			if($result == 1){
+				echo json_encode([
+					'isLike' => $result
+				]);
+			}elseif($result == 2){
+				echo json_encode([
+					'isUnLike' => $result
+				]);
+			}
+		}else{
+			echo json_encode([
+				'fail' => 'Hệ thống gặp lỗi trong quá trình cập nhật like bài viết. Chúng tôi sẽ khắc phục sớm nhất'
+			]);
+		}
+	}
+	public function check_like_post(){
+		$post_data = json_decode($this->input->raw_input_stream, true);
+		if($post_data){
+			$userId = $post_data["userId"];
+			$postId = $post_data["postId"];
+			$result = $this->Post_model->check_like_post($userId, $postId);
+			if($result){
+				echo json_encode([
+					'isLike' => $result
+				]);
+			}
+		}else{
+			echo json_encode([
+				'fail' => 'Hệ thống gặp lỗi trong quá trình kiểm tra like bài viết. Chúng tôi sẽ khắc phục sớm nhất'
+			]);
+		}
+	}
+	public function list_liked_post($userId){
+		$jwt = new JWT();
+		$list_liked_post = $this->Post_model->get_liked_post_by_userId($userId);
+		if($list_liked_post){
+			foreach($list_liked_post as $data){
+				$list_post=([
+					'id' => $data->id,
+					'userId' => $data->userId,
+					'username' => $data->name,
+					'phone' => $this->encryption->decrypt($data->phone),
+					'address' => $this->encryption->decrypt($data->address),
+					'typeRoom' => $data->typeRoom,
+					'price' => $data->price,
+					'title' => $data->title,
+					'area' => $data->area,
+					'zalo' => $this->encryption->decrypt($data->zalo),
+					'furniture' => $data->furniture,
+					'description' => $data->description,
+					'otherFee' => $data->otherFee,
+					'rule' => $data->rule,
+					'nearby' => $data->nearby,
+					'urlImages' => json_decode($this->encryption->decrypt($data->urlImages)),
+					'dateCreateAt' => $data->dateCreateAt,
+					'dateExpired' => $data->dateExpired,
+					'check' => $data->check,
+					'status' => $data->status
+				]);
+				
+				$token[] = $jwt->encode($list_post, '$/0ne_punch_m4n/$', 'HS256');
+			}
+			echo json_encode(['token' => $token ]);
+
+		}else{
+			echo json_encode([
+				'fail' => 'Hệ thống gặp lỗi trong quá trình truy xuất bài viết đã thích. Chúng tôi sẽ khắc phục sớm nhất'
+			]);
+		}
+	}
 	public function post_delete($id){
 		if($id){
 			$result = $this->Post_model->post_delete($id);

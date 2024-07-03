@@ -7,5 +7,7 @@ export { default as EstateRental } from "./EstateRental";
 export { default as HomePage } from "./HomePage";
 export { default as DetailProduct } from "./DetailProduct";
 export { default as ResetPassword } from "./ResetPassword";
+export { default as ListLiked } from "./ListLiked";
+
 
 export { default as ProfilePublic } from "./ProfilePublic";

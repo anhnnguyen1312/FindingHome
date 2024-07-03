@@ -162,7 +162,7 @@ export default function NavBar() {
             )}
           </ul>
           <div className="navbar_search">
-            <Link to={path.LOGIN} className="icon-navbar">
+            <Link to={`/logged-in/${path.LIST_LIKED}`} className="icon-navbar">
               <i className="fa-solid fa-heart white_icon"></i>
             </Link>
             {!stateAuth.isLoggedIn && (
