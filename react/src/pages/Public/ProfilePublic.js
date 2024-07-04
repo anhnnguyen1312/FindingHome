@@ -17,7 +17,7 @@ const ProfilePublic = () => {
   // const idUser = useLocate.state?.IdUser;
   const params = useParams();
   const idUser = params.userId;
-  console.log("isSystem", isSystem);
+  console.log("idUser", idUser);
 
   useEffect(() => {
     const getApiDetailPost = async () => {

@@ -6,14 +6,19 @@ import ReactMapGL, {
   NavigationControl,
   GeolocateControl,
 } from "react-map-gl";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import mapboxgl from "mapbox-gl";
 import { UpdateLocationAction } from "../../redux/store/action/locationAction";
 import { useSelector, useDispatch } from "react-redux";
 //import SearchLocation from "../../components/SearchLocation";
 const FindRoom = () => {
+  const [pickMarker, setPickMarker] = useState(false);
+
+  const [confirmed, setConfirmed] = useState(false);
+
   const [showPopup, setShowPopup] = useState(true);
-  const [marker, setMarker] = useState(null);
+  const [marker, setMarker] = useState();
   const [viewport, setViewport] = useState({
     latitude: 10.710999,
     longitude: 106.704449,
@@ -22,11 +27,12 @@ const FindRoom = () => {
   const [viewState, setViewState] = useState({
     latitude: 10.710999,
     longitude: 106.704449,
-    zoom: 15,
+    zoom: 12,
   });
   const dispatch = useDispatch();
 
   //   const location = useSelector((state) => state.location);
+  const VIETMAP_KEY = "af4284a02ae26231e2a517f30b67d25216a69b76782dfb4c";
   const MAPBOX_TOKEN =
     "pk.eyJ1IjoidGhhaS1uZ29jLXBodSIsImEiOiJjbHhpd3p2amwxbGozMnJyMmJhZTExZ3pkIn0.BnFFOObKYnZUOf2wJstUFg";
   const geolocateControlStyle = {
@@ -69,7 +75,7 @@ const FindRoom = () => {
     geocoder.on("result", (event) => {
       console.log("event", event.result.geometry.coordinates[1]);
       console.log("placename", event.result.place_name);
-
+      setConfirmed(true);
       setMarker({
         latitude: event.result.geometry.coordinates[1],
         longitude: event.result.geometry.coordinates[0],
@@ -80,7 +86,7 @@ const FindRoom = () => {
         ...viewState,
         latitude: event.result.geometry.coordinates[1],
         longitude: event.result.geometry.coordinates[0],
-        zoom: 14,
+        zoom: 12,
       });
     });
 
@@ -88,9 +94,70 @@ const FindRoom = () => {
       setMarker(null);
     });
   };
+  const geocodingMapbox = () => {
+    axios
+      .get(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${marker.longitude},${marker.latitude}.json?access_token=${MAPBOX_TOKEN}`
+      )
+      .then((res) => {
+        const { data } = res;
+        console.log("res", res);
+        console.log("data", data);
+        setMarker((prevState) => ({
+          ...prevState,
+          ["place_name"]: data.features[0].place_name,
+        }));
+        setConfirmed(true);
+      });
+  };
+  const geocodingVietMap = () => {
+    axios
+      .get(
+        `https://maps.vietmap.vn/api/reverse/v3?apikey=${VIETMAP_KEY}&lng=${marker.longitude}&lat=${marker.latitude}`
+      )
+      .then((res) => {
+        const data = res.data[0].display;
+        //console.log("res", res);
+        console.log("data", data);
+        setMarker((prevState) => ({
+          ...prevState,
+          ["place_name"]: data,
+        }));
+        setConfirmed(true);
+      });
+  };
+
+  const handlePickMaker = () => {
+    setMarker({
+      latitude: viewState.latitude,
+      longitude: viewState.longitude,
+      place_name: "",
+    });
+    // setPickMarker(true);
+    console.log("handlePickMaker");
+  };
+  console.log("Marker", marker);
+
   return (
     <>
-      <div style={{ height: "50vh", width: "100%" }}>
+      <div className="w-full h-[50vh] relative">
+        <div className="absolute top-[100px] bg-[#687d9f] right-[10px] z-10 text-white p-[5px] ">
+          <button onClick={() => handlePickMaker()}>Chọn địa điểm</button>
+        </div>
+        {(marker || confirmed) && (
+          <div className="absolute top-[140px] bg-[#687d9f] right-[10px] z-10 text-white p-[5px] ">
+            <button
+              onClick={
+                !confirmed
+                  ? () => geocodingVietMap()
+                  : () => console.log("send location", marker)
+              }
+            >
+              {" "}
+              {confirmed ? "Chọn địa chỉ" : "Xem địa chỉ"}
+            </button>
+          </div>
+        )}
         <ReactMapGL
           {...viewState}
           width={"100vw"}
@@ -111,15 +178,7 @@ const FindRoom = () => {
           />
           <NavigationControl position="bottom-right" />
           {/* <SearchLocation /> */}
-          {/* <Geocoder
-                      mapboxApiAccessToken={MAPBOX_TOKEN} onSelected={(newViewport, item) => {handleViewportChange(newViewport, item); setReady(true)}} viewport={viewport} hideOnSelect={true} initialInputValue={result.location}
-                  /> */}
-          {/* <Geocoder
-          mapboxApiAccessToken={MAPBOX_TOKEN}
-          position="top-left"
-          placeholder="Tìm kiếm!"
-          marker={true}
-        /> */}
+
           {marker && (
             <>
               {showPopup && (
@@ -133,12 +192,15 @@ const FindRoom = () => {
                   anchor="bottom-left"
                 >
                   <div>
-                    <p>{` Địa chỉ: ${marker.place_name} `}</p>
-                    <p>{` kinh độ: ${marker.latitude} `}</p>
-                    <p>{` vĩ độ: ${marker.longitude} `}</p>
+                    {marker?.place_name.length > 0 ? (
+                      <p>{` Địa chỉ: ${marker.place_name} `}</p>
+                    ) : (
+                      "nhấn xem địa chỉ để hiển thị"
+                    )}
                   </div>
                 </Popup>
               )}
+
               <Marker
                 latitude={marker?.latitude}
                 longitude={marker?.longitude}
@@ -147,6 +209,7 @@ const FindRoom = () => {
                 draggable={true}
                 onDragEnd={(event) => {
                   console.log("đragend", event);
+                  setConfirmed(false);
                   setMarker({
                     latitude: event.lngLat.lat,
                     longitude: event.lngLat.lng,

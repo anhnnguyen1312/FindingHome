@@ -11,7 +11,8 @@ import {
   DetailProduct,
   ResetPassword,
   ProfilePublic,
-  ListLiked
+  ListLiked,
+  ClusterMap,
 } from "./pages/Public";
 import Profile from "./pages/LoggedIn/Profile";
 import { useDispatch, useSelector } from "react-redux";
@@ -62,6 +63,8 @@ function App() {
           <Route path={path.DETAIL_PRODUCT} element={<DetailProduct />} />
           <Route path={path.PROFILE_PUBLIC_ID} element={<ProfilePublic />} />
           <Route path={path.FINDROOM} element={<FindRoom />} />
+
+          <Route path={path.CLUSTER_MAP} element={<ClusterMap />} />
 
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
         </Route>

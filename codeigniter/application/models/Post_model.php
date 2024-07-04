@@ -20,6 +20,9 @@ class Post_model extends CI_Model {
 		$data_Post['rule'] = $data['rule'];
 		$data_Post['nearby'] = $data['nearby'];
 		$data_Post['urlImages'] = $this->encryption->encrypt($data['urlImages']);
+		$data_Post['lat'] = $data['lat'];
+		$data_Post['lng'] = $data['lng'];
+
 		
 		if(!empty($id)){
 			$this->db->where('id', $id);

@@ -103,7 +103,7 @@ export default function NavBar() {
             <i className={click ? "fas fa-times" : "fas fa-bars"} />
           </div>
           <ul className={click ? "nav-menu active" : "nav-menu"}>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link
                 to={path.HOME}
                 className="nav-links"
@@ -111,7 +111,7 @@ export default function NavBar() {
               >
                 Trang chủ
               </Link>
-            </li>
+            </li> */}
             <li className="nav-item">
               <NavLink
                 to={path.FINDROOM}
@@ -119,6 +119,15 @@ export default function NavBar() {
                 onClick={closeMobileMenu}
               >
                 Tìm gần đây
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                to={path.CLUSTER_MAP}
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
+                Tìm thông minh
               </NavLink>
             </li>
             <li className="nav-item">

@@ -8,6 +8,6 @@ export { default as HomePage } from "./HomePage";
 export { default as DetailProduct } from "./DetailProduct";
 export { default as ResetPassword } from "./ResetPassword";
 export { default as ListLiked } from "./ListLiked";
-
+export { default as ClusterMap } from "./ClusterMap";
 
 export { default as ProfilePublic } from "./ProfilePublic";

@@ -9,6 +9,7 @@ export const path = {
   DETAIL: "detail",
   NOTIFICATION: "thong-bao",
   FINDROOM: "tim-gan-day",
+  CLUSTER_MAP: "tim-thong-minh",
 
   PROFILE: "profile",
   NEWPOST: "newpost",

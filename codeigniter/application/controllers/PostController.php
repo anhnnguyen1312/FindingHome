@@ -175,6 +175,8 @@ class PostController extends CI_Controller {
 					'otherFee' => $data->otherFee,
 					'rule' => $data->rule,
 					'nearby' => $data->nearby,
+					'lat' => $data->lat,
+					'lng' => $data->lng,
 					'urlImages' => json_decode($this->encryption->decrypt($data->urlImages)),
 					'dateCreateAt' => $data->dateCreateAt,
 					'dateExpired' => $data->dateExpired,

@@ -29,6 +29,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Image, Upload } from "antd";
 import { callApiUploadImages } from "../../api/uploadImage";
 import swal from "sweetalert";
+import Location_NewPost from "../../components/Location_NewPost";
 
 const NewPost = ({ updatePostData }) => {
   const usenavi = useNavigate();
@@ -73,6 +74,8 @@ const NewPost = ({ updatePostData }) => {
       userId: updatePostData?.userId || "",
       check: stateAuth.data.role === "1" ? "1" : "0",
       urlImages: updatePostData?.urlImages || "",
+      lat: updatePostData?.lat || 0,
+      lng: updatePostData?.lng || 0,
     };
     return data;
   });
@@ -586,6 +589,10 @@ const NewPost = ({ updatePostData }) => {
             setFormData={setAddressData}
           />
           <InputReadOnly title={"Địa chỉ đầy đủ"} value={formData.address} />
+          <div className="shrink-0 mr-auto sm:py-3">
+            <p className="font-medium"> Chọn tọa độ trên bản đồ</p>
+          </div>
+          <Location_NewPost lat={formData.lat} lng={formData.lng} />
           {/* thong tin phong */}
           <div className="shrink-0 mr-auto sm:py-3">
             <p className="font-medium"> Thông Tin Phòng</p>

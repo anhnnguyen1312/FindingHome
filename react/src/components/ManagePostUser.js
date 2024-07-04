@@ -16,7 +16,8 @@ const ManagePostUser = ({ userId }) => {
   const [filteredProducts, setFilteredProducts] = useState(null);
 
   const { posts } = useSelector((state) => state.post);
-
+  const { data } = useSelector((state) => state.auth);
+  console.log(data);
   // const initialPage = parseInt(localStorage.getItem("currentPage")) || 1;
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPosts, setCurrentPosts] = useState([]);
@@ -141,6 +142,92 @@ const ManagePostUser = ({ userId }) => {
                   </div>
                 </div>
                 <div className="w-[10%] flex flex-col gap-[10px] items-center justify-between hidden group-hover:flex">
+                  {data.role === "1" && data.userId !== userId && (
+                    <Popconfirm
+                      title="Xóa bài đăng"
+                      description="Bạn có chắc chắn muốn xóa bài đăng này"
+                      onConfirm={() => confirm(product)}
+                      okText="Xóa"
+                      cancelText="Hủy"
+                    >
+                      <Button
+                        icon={"fa-solid fa-trash-can"}
+                        bgColor={"bg-[#DE3E36]"}
+                        textColor={"text-white"}
+                        borderColor={"border-[#DE3E36]"}
+                        width={"w-12"}
+                        height={"h-12"}
+                        fullRounded={"rounded-full"}
+                        title={"xóa"}
+                      />
+                    </Popconfirm>
+                  )}
+                  {data.userId === userId && (
+                    <>
+                      <Button
+                        icon={
+                          product.check === "3"
+                            ? "fa-solid fa-rotate-left"
+                            : "fa-solid fa-pen-to-square"
+                        }
+                        bgColor={
+                          product.check === "3"
+                            ? "bg-[#6F7B92]"
+                            : "bg-[#3064f2]"
+                        }
+                        textColor={"text-white"}
+                        borderColor={"border-white"}
+                        width={"w-12"}
+                        height={"h-12"}
+                        fullRounded={"rounded-full"}
+                        title={product.check === "3" ? "Đăng lại" : "Chỉnh sửa"}
+                        onClick={() => handleUpdatePost(product)}
+                      />
+                      <Popconfirm
+                        title="Xóa bài đăng"
+                        description="Bạn có chắc chắn muốn xóa bài đăng này"
+                        onConfirm={() => confirm(product)}
+                        okText="Xóa"
+                        cancelText="Hủy"
+                      >
+                        <Button
+                          icon={"fa-solid fa-trash-can"}
+                          bgColor={"bg-[#DE3E36]"}
+                          textColor={"text-white"}
+                          borderColor={"border-[#DE3E36]"}
+                          width={"w-12"}
+                          height={"h-12"}
+                          fullRounded={"rounded-full"}
+                          title={"xóa"}
+                        />
+                      </Popconfirm>
+                    </>
+                  )}
+                </div>
+                {/* {data.role === "1" &&  data.userId !== userId  ? 
+                  <div className="w-[10%] flex flex-col gap-[10px] items-center justify-between hidden group-hover:flex">
+                <Popconfirm
+                    title="Xóa bài đăng"
+                    description="Bạn có chắc chắn muốn xóa bài đăng này"
+                    onConfirm={() => confirm(product)}
+                    okText="Xóa"
+                    cancelText="Hủy"
+                  >
+                    <Button
+                      icon={"fa-solid fa-trash-can"}
+                      bgColor={"bg-[#DE3E36]"}
+                      textColor={"text-white"}
+                      borderColor={"border-[#DE3E36]"}
+                      width={"w-12"}
+                      height={"h-12"}
+                      fullRounded={"rounded-full"}
+                      title={"xóa"}
+                    />
+                  </Popconfirm>
+                </div> : ""
+                } */}
+                {/* { data.userId === userId && 
+                 <div className="w-[10%] flex flex-col gap-[10px] items-center justify-between hidden group-hover:flex">
                   <Button
                     icon={
                       product.check === "3"
@@ -176,7 +263,9 @@ const ManagePostUser = ({ userId }) => {
                       title={"xóa"}
                     />
                   </Popconfirm>
-                </div>
+                  </div>
+                }
+                */}
               </div>
             ))}
         </ul>

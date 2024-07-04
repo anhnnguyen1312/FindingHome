@@ -438,7 +438,7 @@ const DetailProduct = () => {
             <div className="w-full h-[60%vh]  mb-[30px]">
               {/* <GeoCoding address={detailPost.address} />
               <GgMapReact address={detailPost.address} /> */}
-              <VietMap address={address} />
+              <VietMap address={detailPost.address} />
             </div>
           </div>
         </div>
