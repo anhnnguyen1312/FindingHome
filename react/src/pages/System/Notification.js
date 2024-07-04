@@ -29,7 +29,7 @@ const Notification = () => {
       const response =
         data.role === "1"
           ? await callApiAdminNotification()
-          : await callApiUserNotification(data.id);
+          : await callApiUserNotification(data.userId);
 
       if (response.data.token) {
         setNotifications(response.data.token.map(jwtDecode));

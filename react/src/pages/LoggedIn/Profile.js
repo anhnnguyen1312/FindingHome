@@ -161,7 +161,7 @@ const Profile = () => {
                 />
               )}
 
-              {managePostClick && <StatisticPost />}
+              {managePostClick && <StatisticPost  userId={userId}/>}
             </div>
           </div>
           {/* // tin ddax ddangw */}
