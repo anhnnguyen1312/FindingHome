@@ -14,10 +14,8 @@ import { Link } from "react-router-dom";
 import { path } from "../ultils/path";
 const Product = ({ type, isHomePage }) => {
   const [button, setButton] = useState(false);
-  const [searchButtonClick, setSearchButtonClick] = useState(false);
   const [buttonFilterClick, setButtonFilterClick] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [currentPosts, setCurrentPosts] = useState([]);
   const [currentPostData, setCurrentPostData] = useState([]);
   const [postData, setPostData] = useState([]);
 
@@ -35,7 +33,6 @@ const Product = ({ type, isHomePage }) => {
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [searchInput, setSearchInput] = useState("");
 
-  const dispatch = useDispatch();
   const pageSize = 5;
   // const startIndex = (currentPage - 1) * pageSize;
   // const endIndex = startIndex + pageSize;
@@ -148,9 +145,6 @@ const Product = ({ type, isHomePage }) => {
     // searchButtonClick &&
     checkFilter();
   }, [searchData, filteredProducts]);
-  console.log("currentPostData", currentPostData);
-  console.log("postData", postData);
-
   // useEffect(() => {
   //   const checkFilter = () => {
   //     let dataPostSearch = [];

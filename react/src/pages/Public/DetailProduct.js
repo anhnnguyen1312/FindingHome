@@ -13,6 +13,7 @@ import VietMap from "../../components/VietMap";
 import { Pagination, message, Popconfirm } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { callApiCensorPostAdmin } from "../../api/system/getPostAdminApi";
+import { LikeComponent } from "../../components/index";
 const DetailProduct = () => {
   const useLocate = useLocation();
   const [detailPost, setDetailPost] = useState([]);
@@ -181,11 +182,20 @@ const DetailProduct = () => {
                   <i className="fa-solid fa-badge-check"></i>
                 </div>
               </div>
-              <div className="hidden sm:flex ml-auto border-4 bg-gray-200 border-gray-50 rounded-full h-24 w-24">
-                <img
-                  className="block rounded-full cursor-pointer"
-                  src={detailPost.avatar || userAvatar}
-                />
+              <div  onClick={() => handleNavigateProfilePublic(detailPost.userId)} className="flex flex-col gap-[10px] cursor-pointer ml-auto ">
+                <div className="hidden sm:flex border-4 bg-gray-200 border-gray-50 rounded-full h-24 w-24">
+                  <img
+                    className="block rounded-full"
+                    src={detailPost.avatar || userAvatar}
+                  />
+                </div>
+                <div
+                  className="text-center flex items-center justify-center "
+                 
+                  >
+                  <b>{detailPost.username}</b>
+                </div>
+
               </div>
             </div>
           </div>
@@ -194,7 +204,7 @@ const DetailProduct = () => {
             {stateAuth.data.role === "1" ||
             detailPost.userId === stateAuth.data.id ? (
               <>
-                <div className="flex flex-col gap-[10px] justify-center absolute top-[38px] left-[20px] ">
+                <div className="flex flex-row gap-[10px] justify-center absolute top-[38px] left-[20px] ">
                   {handleStatusTag(detailPost.check)}
                   {detailPost.check === "0" && (
                     <div className="flex flex-row gap-[20px] justify-center ">
@@ -203,9 +213,8 @@ const DetailProduct = () => {
                         bgColor={"bg-[#374151]"}
                         textColor={"text-white"}
                         borderColor={"border-white"}
-                        width={"w-12"}
-                        height={"h-12"}
-                        fullRounded={"rounded-full"}
+                        width={"w-10"}
+                        height={"h-10"}
                         title={"Duyệt"}
                         onClick={() => handleCensorPost(detailPost)}
                       />
@@ -221,9 +230,8 @@ const DetailProduct = () => {
                           bgColor={"bg-[#DE3E36]"}
                           textColor={"text-white"}
                           borderColor={"border-[#DE3E36]"}
-                          width={"w-12"}
-                          height={"h-12"}
-                          fullRounded={"rounded-full"}
+                          width={"w-10"}
+                          height={"h-10"}
                           title={"Từ chối Duyệt"}
                         />
                       </Popconfirm>
@@ -235,26 +243,16 @@ const DetailProduct = () => {
               ""
             )}
 
-            <div
-              className="cursor-pointer text-center"
-              onClick={() => handleNavigateProfilePublic(detailPost.userId)}
-            >
-              <div>{detailPost.username}</div>
-              <div className="flex  text-[#d1d100] text-center justify-center">
-                <i className="fa-solid fa-star mt-[5px]"></i>
-                <i className="fa-solid fa-star mt-[5px]"></i>
-                <i className="fa-solid fa-star mt-[5px]"></i>
-                <i className="fa-solid fa-star mt-[5px]"></i>
-                <i className="fa-solid fa-star mt-[5px]"></i>
-              </div>
-              <div className=" text-gray-700 text-center">
-                (40 lượt đánh giá)
-              </div>
-            </div>
           </div>
           <div className="mb-8 ">
             <div className="mb-6 md:mb-0 flex flex-col gap-[20px]">
-              <h1 className="text-red-600">{detailPost.title}</h1>
+              <div className="flex flex-row items-center gap-[20px]">
+                <h1 className="text-red-600 text-medium mt-[5px]">
+                  {detailPost.title}
+                </h1>
+                <h1 className=" text-gray-700 text-center mt-[5px]">({detailPost.likes} lượt thích)</h1>
+                <LikeComponent postId={detailPost.id} />
+              </div>
               <h1 className="  flex gap-[10px]">
                 <div className="text-[#4ca976]">
                   <i className="fa-solid fa-map-location-dot"></i>
@@ -279,22 +277,6 @@ const DetailProduct = () => {
                 </h1>
               </div>
             </div>
-            {/* <div
-              className="cursor-pointer text-center"
-              onClick={() => handleNavigateProfilePublic(detailPost.userId)}
-            >
-              <div>{detailPost.username}</div>
-              <div className="flex  text-[#d1d100] text-center justify-center">
-                <i className="fa-solid fa-star mt-[5px]"></i>
-                <i className="fa-solid fa-star mt-[5px]"></i>
-                <i className="fa-solid fa-star mt-[5px]"></i>
-                <i className="fa-solid fa-star mt-[5px]"></i>
-                <i className="fa-solid fa-star mt-[5px]"></i>
-              </div>
-              <div className=" text-gray-700 text-center">
-                (40 lượt đánh giá)
-              </div>
-            </div> */}
           </div>
           {/* //table */}
           <div className="mb-8">

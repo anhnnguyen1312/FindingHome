@@ -114,8 +114,11 @@ class PostController extends CI_Controller {
 		$list_post_data = $this->Post_model->get_all_post();
 		if($list_post_data){
 			foreach ($list_post_data as $data){
+				$count_like = $this->Post_model->get_count_like_post_by_postId($data->id);
+				$likes = $count_like ? $count_like->likes : 0;
 				$list_post=([
 					'id' => $data->id,
+					'likes' => $likes,
 					'userId' => $data->userId,
 					'userRole' => $data->role,
 					'username' => $data->name,
@@ -153,8 +156,11 @@ class PostController extends CI_Controller {
 		if(!empty($id)){
 			$data = $this->Post_model->get_post_detail($id);
 			if($data){
+				$count_like = $this->Post_model->get_count_like_post_by_postId($data->id);
+				$likes = $count_like ? $count_like->likes : 0;
 				$post_detail = [
 					'id' => $data->id,
+					'likes' => $likes,
 					'userId' => $data->userId,
 					'username' => $data->name,
 					'phone' => $this->encryption->decrypt($data->phone),
