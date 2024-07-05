@@ -26,11 +26,6 @@ const DetailProduct = () => {
   const isSystem = useLocate.state?.isSystem;
   const params = useParams();
   const id = params.postId;
-  const address =
-    "187a Lê Văn lương, Xã Phước Kiển, Huyện Nhà Bè, Thành phố Hồ Chí Minh";
-  console.log("id", id);
-
-  console.log("detailPost", detailPost);
   const handleNavigateProfilePublic = (IdUser) => {
     if (useLocate.pathname.includes("system")) {
       navigate(`/system/${path.PROFILE_PUBLIC}/${IdUser}`, {
@@ -44,10 +39,7 @@ const DetailProduct = () => {
     const getApiDetailPost = async () => {
       try {
         const response = await callApiDetailPost(id);
-        console.log("response", response, id);
-
         const decodeToken = jwtDecode(response.data.token);
-        console.log("decodeToken", decodeToken);
 
         setDetailPost(decodeToken);
       } catch (error) {

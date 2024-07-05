@@ -191,6 +191,30 @@ class Post_model extends CI_Model {
 			return false;
 		}
 	}
+	public function get_post_by_userId($userId){
+		$query = $this->db->get_where('posts', ['userId' => $userId]);
+		if($query){
+			return $query->result();
+		}
+		return false;
+	}
+	public function sum_liked_by_userId($userId){
+		$all_post = $this->get_post_by_userId($userId);
+		$total_likes = 0;
+		if($all_post){
+			foreach ($all_post as $post){
+				$this->db->select_sum('likes');
+				$this->db->where('postId', $post->id);
+				$query = $this->db->get('countLikes');
+
+				if ($query->num_rows() > 0) {
+					$total_likes += $query->row()->likes;
+				}
+			}
+			return $total_likes;
+		}
+		return false;
+	}
 
 	public function post_delete($id){
 		$this->db->trans_start();

@@ -9,6 +9,7 @@ class AuthenController extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('Authen_model');
+		$this->load->model('Post_model');
 		date_default_timezone_set('Asia/Ho_Chi_Minh');
 	}
 	public function register()
@@ -184,6 +185,33 @@ class AuthenController extends CI_Controller
 					'message' => 'Chỉnh sửa tiểu sử thất bại'
 				]);
 			}
+		}
+	}
+	public function user_profile($userId){
+		$jwt = new JWT();
+		if($userId){
+			$result = $this->Authen_model->get_detail_user($userId);
+			$all_post = $this->Post_model->get_post_by_userId($userId);
+			$sum_liked = $this->Post_model->sum_liked_by_userId($userId);
+			if($result){
+				$userData = ([
+					'name' => $result->name,
+					'email' => $result->email,
+					'phone' => $this->encryption->decrypt($result->phone),
+					'avatar' => !empty($result->avatar) ? $this->encryption->decrypt($result->avatar) : "",
+					'numberPost' => $all_post ? count($all_post) : 0,
+					'sumLiked' => $sum_liked ? $sum_liked :0
+				]);
+				$token = $jwt->encode($userData, '$/0ne_punch_m4n/$', 'HS256');
+				echo json_encode([
+					'token' => $token,
+				]);
+			}
+			
+		}else{
+			echo json_encode([
+				'fail' => 'Hệ thống gặp lỗi trong quá trình lấy thông tin của user. Vui lòng quay lại sau'
+			]);
 		}
 	}
 
