@@ -29,10 +29,6 @@ class NotificationController extends CI_Controller {
 					$token[] = $jwt->encode($list_notification, '$/0ne_punch_m4n/$', 'HS256');
 				}
 				echo json_encode(['token' => $token ]);
-			}else{
-				echo json_encode([
-					'fail' => 'Hệ thống đang gặp lỗi trong quá trình lấy thông báo của bạn. Chúng tôi sẽ khắc phục sớm nhất'
-				]);
 			}
 		}else{
 			echo json_encode([
@@ -56,10 +52,6 @@ class NotificationController extends CI_Controller {
 					$token[] = $jwt->encode($list_notification, '$/0ne_punch_m4n/$', 'HS256');
 				}
 				echo json_encode(['token' => $token ]);
-			}else{
-				echo json_encode([
-					'fail' => 'Hệ thống đang gặp lỗi trong quá trình lấy thông báo của bạn. Chúng tôi sẽ khắc phục sớm nhất'
-				]);
 			}
 	}
 

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import userAvatar from "../../assets/images/userAvatar.jpg";
+import actionTypes from "../../redux/store/action/actionTypes";
 import {
   callApiUserNotification,
   callApiUserMarkAsRead,
@@ -10,19 +11,36 @@ import {
   callApiAdminNotification,
   callApiAdminMarkAsRead,
 } from "../../api/system/getAdminNotificationApi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { path } from "../../ultils/path";
+import { Pagination } from "antd";
 
 const Notification = () => {
+  const dispatch = useDispatch();
   const [notifications, setNotifications] = useState([]);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 5;
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const currentNotification = notifications?.slice(startIndex, endIndex);
 
   const { data } = useSelector((state) => state.auth);
   console.log(data);
   useEffect(() => {
     fetchNotifications();
   }, []);
+
+  useEffect(() => {
+    dispatch({
+      type: actionTypes.COUNT_NOTIFICATIONS,
+      count: notifications.length,
+    });
+  }, [dispatch, notifications]);
 
   const fetchNotifications = async () => {
     try {
@@ -33,8 +51,10 @@ const Notification = () => {
 
       if (response.data.token) {
         setNotifications(response.data.token.map(jwtDecode));
-      } else {
+      } else if (response.data.fail) {
         setError(response.data.fail);
+      } else {
+        setNotifications([]);
       }
     } catch (error) {
       console.log(error.message);
@@ -44,20 +64,23 @@ const Notification = () => {
   const markAsRead = async (id = null) => {
     try {
       const apiCall =
-        userRole === "1" ? callApiAdminMarkAsRead : callApiUserMarkAsRead;
+        data.role === "1" ? callApiAdminMarkAsRead : callApiUserMarkAsRead;
       const response = await apiCall(id);
       console.log("response", response);
 
       if (response.data.success) {
         const reApiCall =
-          userRole === "1" ? callApiAdminNotification : callApiUserNotification;
-        const reResponse = await reApiCall(userId);
-        console.log("reResponse", reResponse);
+          data.role === "1"
+            ? callApiAdminNotification
+            : callApiUserNotification;
+        const reResponse = await reApiCall(data.userId);
 
         if (reResponse.data.token) {
           await fetchNotifications();
-        } else {
+        } else if (reResponse.data.fail) {
           setError(reResponse.data.fail);
+        } else {
+          window.location.reload();
         }
       } else {
         setError(response.data.fail);
@@ -66,6 +89,7 @@ const Notification = () => {
       setError(error.message);
     }
   };
+
   const handleSplitName = (message) => {
     const data = message.split(",");
     return data[0];
@@ -74,30 +98,42 @@ const Notification = () => {
     const data = message.split(",");
     return data[1];
   };
-  const handleNotify = (postId, id) => {
-    navigate(`/system/${path.DETAIL}/${postId}`);
-    markAsRead(id);
+  const handleNotify = (postId) => {
+    {
+      data.role === 1
+        ? navigate(`/system/${path.DETAIL}/${postId}`)
+        : navigate(`/${path.DETAIL}/${postId}`);
+    }
   };
-  console.log("notifications", notifications);
 
   return (
     <>
       <div className="w-full h-[100vh]  py-10 flex flex-col gap-4 items-center justify-start bg-gray-900 dark:bg-white">
         <div className="md:text-4xl sm:text-3xl xs:text-2xl text-center font-serif font-extrabold border-b-2 dark:border-blue-500 rounded-b-md mb-6 border-yellow-500 text-white dark:text-black">
-          Thông báo
+          Thông Báo Chưa Đọc
         </div>
-
-        {notifications && notifications.length > 0 ? (
-          notifications.map((notic) => (
+        <div className="w-[80%] flex justify-end">
+          <Link
+            onClick={() => markAsRead()}
+            className="text-right text-blue-500 px-[10px] py-[10px] rounded mr-[10px] hover:underline"
+          >
+            Đánh dấu tất cả là đã đọc
+          </Link>
+        </div>
+        {currentNotification && currentNotification.length > 0 ? (
+          currentNotification.map((notic) => (
             <li
-              onClick={() => handleNotify(notic.postId, notic.id)}
+              onClick={() => {
+                handleNotify(notic.postId);
+                markAsRead(notic.id);
+              }}
               key={notic.id}
-              className="sm:w-[70%] xs:w-[94%] mx-auto dark:bg-gray-300 bg-gray-700 p-4 rounded-md flex sm:gap-4 xs:gap-2 items-center justify-center"
+              className="sm:w-[80%] xs:w-[94%] mx-auto dark:bg-gray-300 bg-gray-700 p-4 rounded-md flex sm:gap-4 xs:gap-2 items-center justify-center"
             >
               {/* <div className=""> */}
               <img
                 src={notic.avatar ? notic.avatar : userAvatar}
-                alt="Ảnh đại diện"
+                alt="user-avatar"
                 className="w-[5rem] object-cover h-[5rem] outline outline-2 outline-blue-400 dark:outline-teal-400/20 rounded-full"
               />
               <div className="w-[80%] flex flex-col gap-1">
@@ -119,9 +155,22 @@ const Notification = () => {
         ) : (
           <li className="text-center text-white">Không có thông báo</li>
         )}
+        <div className="flex items-center justify-center mt-[10px]">
+          <Pagination
+            current={currentPage}
+            pageSize={pageSize}
+            total={notifications?.length}
+            onChange={handlePageChange}
+            hideOnSinglePage={true}
+            showSizeChanger
+            showQuickJumper
+            showTotal={(total) => `Tổng ${total} bài đăng`}
+          />
+        </div>
       </div>
     </>
   );
 };
 
 export default Notification;
+  
