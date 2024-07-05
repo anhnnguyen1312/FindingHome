@@ -233,7 +233,7 @@ export default function NavBar() {
                       {stateAuth.data.role === "1" && (
                         <Link
                           className="cursor-pointer flex items-center justify-between"
-                          to={path.SYSTEM}
+                          to= {`${path.SYSTEM}`}
                         >
                           {" "}
                           Hệ thống quản lí

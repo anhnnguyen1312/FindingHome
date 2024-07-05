@@ -23,7 +23,12 @@ export const postReducer = (state = initialState, action) => {
         homepagePosts: action.posts || [],
         msg: action.msg || "get post Success",
       };
+    case actionTypes.COUNT_NOTIFICATIONS:
+      return {
+        ...state,
 
+        countNoti: action.count,
+      };
     default:
       return state;
   }

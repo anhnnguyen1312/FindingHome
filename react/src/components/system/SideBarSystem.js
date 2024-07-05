@@ -11,6 +11,8 @@ const SideBarSystem = () => {
   const [selectBtn, setSelectBtn] = useState(false);
 
   const stateAuth = useSelector((state) => state.auth);
+  const {countNoti} = useSelector((state) => state.post);
+
   const dispatch = useDispatch();
 
   const handleLogOut = () => {
@@ -93,7 +95,7 @@ const SideBarSystem = () => {
                   </svg>
                   Thông báo
                   <span className="ml-auto rounded-full bg-rose-600 px-2 text-xs text-white">
-                    6
+                    {countNoti}
                   </span>
                 </Link>
                 <div className="relative transition">

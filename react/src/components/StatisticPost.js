@@ -5,19 +5,10 @@ import { Pagination } from "antd";
 
 const StatisticPost = ({ userId }) => {
   const { posts } = useSelector((state) => state.post);
-  // const [filteredPost, setFilteredPost] = useState();
-
   const [currentPage, setCurrentPage] = useState(1);
-  // const [postData, setPostData] = useState([]);
-
   const pageSize = 5;
-  // useEffect(() => {
     const allPosts = Object.values(posts).flat();
     const filterTypePosts = allPosts.filter((post) => post.userId === userId);
-
-  //   filterTypePosts && setFilteredPost(filterTypePosts);
-  // }, [posts]);
-  // console.log("filteredPost", filteredPost);
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -136,8 +127,7 @@ const StatisticPost = ({ userId }) => {
               showQuickJumper
               showTotal={(total) => `Tổng ${total} bài đăng`}
             />
-            {/* <Pagination total={500} itemRender={itemRender} /> */}
-          </div>
+        </div>
       </div>
     </section>
   );
