@@ -38,7 +38,6 @@ const LikeComponent = ({postId}) => {
       console.log("checklike", response);
       if(response.data.isLike){
         setIsLike(true)
-
       }
       else if(response.data.isUnLike){
         setIsLike(false)

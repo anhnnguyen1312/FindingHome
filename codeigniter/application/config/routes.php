@@ -54,6 +54,7 @@ $route['translate_uri_dashes'] = FALSE;
 //Authen
 $route['register'] = 'AuthenController/register';
 $route['login'] = 'AuthenController/login';
+$route['user-profile/(:any)'] = 'AuthenController/user_profile/$1';
 $route['handle-profile'] = 'AuthenController/handle_profile';
 $route['check-email-user'] = 'AuthenController/check_email_user';
 $route['reset-password'] = 'AuthenController/reset_password';

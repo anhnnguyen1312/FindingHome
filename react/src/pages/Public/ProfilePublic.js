@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import logo from "../../assets/images/logo.jpg";
 import cover from "../../assets/images/cover.png";
-import cover1 from "../../assets/images/cover1.jpg";
 import { ManagePostUser } from "../../components/index";
 import { useLocation, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { jwtDecode } from "jwt-decode";
 
 import { callApiGetUserProfile } from "../../api/system/getUserProfile";
 
@@ -12,31 +11,24 @@ const ProfilePublic = () => {
   const [userProfile, setUserProfile] = useState({});
   const useLocate = useLocation();
   const { posts } = useSelector((state) => state.post);
+  console.log("me me", userProfile)
 
-  const isSystem = useLocate.state?.isSystem;
-  // const idUser = useLocate.state?.IdUser;
   const params = useParams();
-  const idUser = params.userId;
-  console.log("idUser", idUser);
+  const userId = params.userId;
 
   useEffect(() => {
     const getApiDetailPost = async () => {
       try {
-        const response = await callApiGetUserProfile(idUser);
-        // const decodeToken = jwtDecode(response.data.token);
-        // setUserProfile(decodeToken)
-        setUserProfile(response.data);
+        const response = await callApiGetUserProfile(userId);
+        const decodeToken = jwtDecode(response.data.token);
+        setUserProfile(decodeToken)
       } catch (error) {
         console.log(error);
       }
     };
     getApiDetailPost();
   }, []);
-  const handleCounPost = () => {
-    const postCount = posts.filter((post) => post.userId === userProfile.id);
-    return postCount.length;
-  };
-  console.log(userProfile);
+
   return (
     <>
       <div className="flex flex-col gap-[10px] w-full">
@@ -44,7 +36,6 @@ const ProfilePublic = () => {
           <div className="rounded-t-lg h-32 overflow-hidden">
             <img
               className="object-contain object-center w-full"
-              // src={logo}
               src={cover}
               alt="Ảnh bìa"
             />
@@ -52,18 +43,22 @@ const ProfilePublic = () => {
           <div className="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
             <img
               className="object-cover object-center h-32"
-              // src={userProfile.avatar}
-              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
+              src={
+                userProfile.avatar
+                  ? userProfile.avatar
+                  : "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
+              }
               alt="avatar"
             />
           </div>
           <div className="text-center mt-2">
             <h2 className="font-semibold">{userProfile.name}</h2>
             <p className="text-gray-500">{userProfile.phone}</p>
+            <p className="text-gray-500">{userProfile.email}</p>
           </div>
           <ul className="py-4 mt-2 text-gray-700 flex items-center justify-around">
             <li
-              title="lượt đánh giá"
+              title="lượt thích"
               className="flex flex-col items-center justify-around"
             >
               <svg
@@ -73,7 +68,7 @@ const ProfilePublic = () => {
               >
                 <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
               </svg>
-              <div>5.0(3 lượt)</div>
+              <div>({userProfile.sumLiked} lượt)</div>
             </li>
             <li
               title="người theo dõi"
@@ -99,7 +94,7 @@ const ProfilePublic = () => {
               >
                 <path d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z" />
               </svg>
-              <div>{handleCounPost()}</div>
+              <div>{userProfile.numberPost}</div>
             </li>
           </ul>
           <div className="p-4 border-t mx-8 mt-2">
@@ -108,7 +103,7 @@ const ProfilePublic = () => {
             </button>
           </div>
         </div>
-        <ManagePostUser userId={userProfile.id} />
+        <ManagePostUser userId={userId} />
       </div>
     </>
   );
