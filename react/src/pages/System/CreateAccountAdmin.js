@@ -145,10 +145,10 @@ const CreateAccountAdmin = () => {
     <>
       <div className="flex w-full h-full justify-center items-center">
         <div className="w-[30rem] min-h-28 px-6 py-8 text-center border-[#1dbfaf] bg-white border rounded-sm m-6 self-center">
-          <h1 className="text-3xl font-[600] mb-[1rem]">Đăng ký</h1>
+          <h1 className="text-3xl font-[600] mb-[1rem]">Tạo tài khoản Quản Trị Viên</h1>
 
           <p className="text-[1.2rem] leading-10 mb-2 mt-4 text-center font-light">
-            Đăng ký ngay để trở thành Admin của Finding house ❤️
+            Tạo tài khoản Admin Finding house ❤️
           </p>
 
           <>

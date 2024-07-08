@@ -215,18 +215,66 @@ class AuthenController extends CI_Controller
 		}
 	}
 
+	public function list_user(){
+		$jwt = new JWT();
+		$list_user = $this->Authen_model->get_list_user();
+		if($list_user){
+			foreach($list_user as $user){
+				$userId = $user->id;
+				$all_post = $this->Post_model->get_post_by_userId($userId);
+				$sum_liked = $this->Post_model->sum_liked_by_userId($userId);
+				$userData = ([
+					'id' => $user->id,
+					'name' => $user->name,
+					'email' => $user->email,
+					'phone' => $this->encryption->decrypt($user->phone),
+					'avatar' => !empty($user->avatar) ? $this->encryption->decrypt($user->avatar) : "",
+					'numberPost' => $all_post ? count($all_post) : 0,
+					'sumLiked' => $sum_liked ? $sum_liked :0
+				]);
+				$token[] = $jwt->encode($userData, '$/0ne_punch_m4n/$', 'HS256');
+			}
+			echo json_encode(['token' => $token ]);
+		}else{
+			echo json_encode([
+				'fail' => 'Hệ thống gặp lỗi trong quá trình lấy danh sách của user. Vui lòng quay lại sau'
+			]);
+
+		}
+		
+	}
+
 	public function delete_user(){
 		$post_data = json_decode($this->input->raw_input_stream, true);
 		if($post_data){
-			$result = $this->Authen_model->delete_user($post_data);
-			if($result){
-				echo json_encode([
-					'success' => 'Xóa tài khoản thành công'
-				]);
+			if(is_array($post_data) && count($post_data)){
+				$success = [];
+				for($i = 0; $i < count($post_data); $i++){
+					$result_array = $this->Authen_model->delete_user($post_data[$i]);
+					if($result_array){
+						$success[] = $post_data[$i];
+					}
+				}
+				if(count($success) > 0){
+					echo json_encode([
+						'success' => 'Xóa nhiều tài khoản thành công'
+					]);
+				}else{
+					echo json_encode([
+						'fail' => 'Hệ thống gặp lỗi trong quá trình xóa nhiều tài khoản. Vui lòng quay lại sau'
+					]);
+				}
 			}else{
-				echo json_encode([
-					'fail' => 'Hệ thống gặp lỗi trong quá trình xóa tài khoản. Vui lòng quay lại sau'
-				]);
+				$result = $this->Authen_model->delete_user($post_data);
+				if($result){
+					echo json_encode([
+						'success' => 'Xóa tài khoản thành công'
+					]);
+				}else{
+					echo json_encode([
+						'fail' => 'Hệ thống gặp lỗi trong quá trình xóa tài khoản. Vui lòng quay lại sau'
+					]);
+				}
 			}
 		}else{
 			echo json_encode([
@@ -234,5 +282,4 @@ class AuthenController extends CI_Controller
 			]);
 		}
 	}
-
 }

@@ -5,7 +5,7 @@ export const callApiUserList = () =>
     try {
       const response = await axiosConfig({
         method: "get",
-        url: "http://localhost:3000/usersList",
+        url: "http://localhost:8000/list-user",
       });
       resolve(response);
     } catch (error) {

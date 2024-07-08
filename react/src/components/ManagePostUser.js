@@ -5,6 +5,7 @@ import { SelectNewPost, UpdatePost } from "./index";
 import typePost from "../data/typePost";
 import { message, Popconfirm, Pagination } from "antd";
 import { callApiDeletePost } from "../api/getPostApi";
+import {callApiDeletePostAdmin} from "../api/system/getPostAdminApi"
 import { UpdatePostAction } from "../redux/store/action/postAction";
 
 const ManagePostUser = ({ userId }) => {
@@ -21,12 +22,48 @@ const ManagePostUser = ({ userId }) => {
   // const initialPage = parseInt(localStorage.getItem("currentPage")) || 1;
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPosts, setCurrentPosts] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteReason, setDeleteReason] = useState("");
   const pageSize = 5;
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleDeletePost = (product, deleteReason) => {
+    console.log("lý do", deleteReason);
+    console.log("mảng", product);
+    const deletePost = async () => {
+      try {
+        const payload = {
+          adminId: stateAuth.data.userId,
+          userId: product.userId,
+          postId: product.id,
+          title: product.title,
+          check: "delete",
+          deleteReason: deleteReason,
+        };
+
+        const response = await callApiDeletePostAdmin(payload);
+        // window.location.reload();
+
+        if (response.data.fail) {
+          message.error(response.data.fail);
+        } else {
+          message.success(response.data.success);
+          dispatch(postAction());
+        }
+      } catch (error) {
+        console.error(error);
+        message.error("Xóa bài đăng không thành công");
+      }
+    };
+    deletePost();
   };
 
   useEffect(() => {
@@ -143,25 +180,56 @@ const ManagePostUser = ({ userId }) => {
                 </div>
                 <div className="w-[10%] flex flex-col gap-[10px] items-center justify-between hidden group-hover:flex">
                   {data.role === "1" && data.userId !== userId && (
-                    <Popconfirm
-                      title="Xóa bài đăng"
-                      description="Bạn có chắc chắn muốn xóa bài đăng này"
-                      onConfirm={() => confirm(product)}
-                      okText="Xóa"
-                      cancelText="Hủy"
-                    >
-                      <Button
-                        icon={"fa-solid fa-trash-can"}
-                        bgColor={"bg-[#DE3E36]"}
-                        textColor={"text-white"}
-                        borderColor={"border-[#DE3E36]"}
-                        width={"w-12"}
-                        height={"h-12"}
-                        fullRounded={"rounded-full"}
-                        title={"xóa"}
-                      />
-                    </Popconfirm>
+                              <Button
+                              icon={"fa-solid fa-trash-can"}
+                              bgColor={"bg-[#DE3E36]"}
+                              textColor={"text-white"}
+                              borderColor={"border-[#DE3E36]"}
+                              width={"w-12"}
+                              height={"h-12"}
+                              fullRounded={"rounded-full"}
+                              title={"xóa"}
+                              onClick={handleOpenModal}
+                            />
                   )}
+                                              {isModalOpen && (
+                              <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+                                <div className="bg-white p-6 rounded-lg shadow-lg w-[30%]">
+                                  <h2 className="text-xl font-bold mb-4">
+                                    Nhập lý do xóa
+                                  </h2>
+                                  <textarea
+                                    className="w-full p-2 border border-gray-300 rounded mb-4"
+                                    value={deleteReason}
+                                    onChange={(e) =>
+                                      setDeleteReason(e.target.value)
+                                    }
+                                    placeholder="Lý do xóa..."
+                                  />
+                                  <div className="flex justify-end gap-[10px]">
+                                    <Button
+                                      children={"Hủy"}
+                                      bgColor={"bg-[#636160]"}
+                                      textColor={"text-white"}
+                                      borderColor={"border-white"}
+                                      style={"hover:bg-[#969595]"}
+                                      onClick={() => setIsModalOpen(false)}
+                                    />
+                                    <Button
+                                      children={"Xác Nhận"}
+                                      bgColor={"bg-[#f52907]"}
+                                      textColor={"text-white"}
+                                      borderColor={"border-white"}
+                                      style={"hover:bg-[#f74c2f]"}
+                                      onClick={() => {
+                                        handleDeletePost(product, deleteReason);
+                                        setIsModalOpen(false);
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                   {data.userId === userId && (
                     <>
                       <Button
@@ -204,68 +272,6 @@ const ManagePostUser = ({ userId }) => {
                     </>
                   )}
                 </div>
-                {/* {data.role === "1" &&  data.userId !== userId  ? 
-                  <div className="w-[10%] flex flex-col gap-[10px] items-center justify-between hidden group-hover:flex">
-                <Popconfirm
-                    title="Xóa bài đăng"
-                    description="Bạn có chắc chắn muốn xóa bài đăng này"
-                    onConfirm={() => confirm(product)}
-                    okText="Xóa"
-                    cancelText="Hủy"
-                  >
-                    <Button
-                      icon={"fa-solid fa-trash-can"}
-                      bgColor={"bg-[#DE3E36]"}
-                      textColor={"text-white"}
-                      borderColor={"border-[#DE3E36]"}
-                      width={"w-12"}
-                      height={"h-12"}
-                      fullRounded={"rounded-full"}
-                      title={"xóa"}
-                    />
-                  </Popconfirm>
-                </div> : ""
-                } */}
-                {/* { data.userId === userId && 
-                 <div className="w-[10%] flex flex-col gap-[10px] items-center justify-between hidden group-hover:flex">
-                  <Button
-                    icon={
-                      product.check === "3"
-                        ? "fa-solid fa-rotate-left"
-                        : "fa-solid fa-pen-to-square"
-                    }
-                    bgColor={
-                      product.check === "3" ? "bg-[#6F7B92]" : "bg-[#3064f2]"
-                    }
-                    textColor={"text-white"}
-                    borderColor={"border-white"}
-                    width={"w-12"}
-                    height={"h-12"}
-                    fullRounded={"rounded-full"}
-                    title={product.check === "3" ? "Đăng lại" : "Chỉnh sửa"}
-                    onClick={() => handleUpdatePost(product)}
-                  />
-                  <Popconfirm
-                    title="Xóa bài đăng"
-                    description="Bạn có chắc chắn muốn xóa bài đăng này"
-                    onConfirm={() => confirm(product)}
-                    okText="Xóa"
-                    cancelText="Hủy"
-                  >
-                    <Button
-                      icon={"fa-solid fa-trash-can"}
-                      bgColor={"bg-[#DE3E36]"}
-                      textColor={"text-white"}
-                      borderColor={"border-[#DE3E36]"}
-                      width={"w-12"}
-                      height={"h-12"}
-                      fullRounded={"rounded-full"}
-                      title={"xóa"}
-                    />
-                  </Popconfirm>
-                  </div>
-                }
-                */}
               </div>
             ))}
         </ul>

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { callApiUserList } from "../../api/getUserListAdmin";
 import { Link, useNavigate } from "react-router-dom";
 import { path } from "../../ultils/path";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Checkbox, message, Popconfirm } from "antd";
 import { callApiDeleteUser } from "../../../src/api/authenLogin";
+import { jwtDecode } from "jwt-decode";
 
 const ManageUserSystem = () => {
   const [userList, setUserList] = useState([]);
@@ -16,6 +17,9 @@ const ManageUserSystem = () => {
   const { posts } = useSelector((state) => state.post);
   const navigate = useNavigate();
 
+  const allPosts = Object.values(posts).flat();
+  const filterCheckPosts = allPosts.filter((post) => post.userRole === "0");
+
   const checkAll = allUserIdList.length === checkUserID.length;
   const indeterminate =
     checkUserID.length > 0 && checkUserID.length < allUserIdList.length;
@@ -24,8 +28,11 @@ const ManageUserSystem = () => {
     const handleCallApi = async () => {
       try {
         const response = await callApiUserList();
+        if(response.data.token){
+          const decodeToken = response.data.token.map(jwtDecode);
+          setUserList(decodeToken);
+        }
 
-        setUserList(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -35,16 +42,13 @@ const ManageUserSystem = () => {
 
   useEffect(() => {
     if (searchInput === "") {
-      console.log("if ");
       setUserData(userList);
     }
 
-    const idList = userList.filter((user) => user.role !== "1");
+    const idList = userList.filter((user) => user.Role !== "1");
     const userIdList = idList.map((user) => user.id);
     setAllUserIdList(userIdList);
 
-    //   const allIdList = userList.map((user) => user.id);
-    //  const postCount = allIdList.
   }, [userList]);
 
   const handleCounPost = (userId) => {
@@ -64,8 +68,6 @@ const ManageUserSystem = () => {
 
       setCheckUserID(check);
     }
-    // console.log(`checked = ${e.target.checked}`);
-    // console.log(`checked = ${e.target.value}`);
   };
   console.log("checkUserID ", checkUserID);
   console.log("allUserIdList ", allUserIdList);
@@ -162,7 +164,7 @@ const ManageUserSystem = () => {
 						focus:outline-none border-b-2 font-medium capitalize
 						transition duration-500 ease-in-out flex"
             >
-              <p className="text-rose-600 pr-[5px]">{posts?.length}</p>
+              <p className="text-rose-600 pr-[5px]">{filterCheckPosts?.length}</p>
               Bài đăng
             </Link>
             <Link
@@ -173,7 +175,7 @@ const ManageUserSystem = () => {
 						dark-focus:text-green-200 dark-focus:border-green-200
 						transition duration-500 ease-in-out flex"
             >
-              <p className="text-rose-600 pr-[5px]">{posts?.length}</p>
+              <p className="text-rose-600 pr-[5px]">{userData?.length}</p>
               Người dùng
             </Link>
 
@@ -185,7 +187,7 @@ const ManageUserSystem = () => {
 						dark-focus:text-green-200 dark-focus:border-green-200
 						transition duration-500 ease-in-out flex"
             >
-              <p className="text-rose-600 pr-[5px]">{posts.length}</p>
+              <p className="text-rose-600 pr-[5px]">{filterCheckPosts.length}</p>
               Admin
             </Link>
           </div>
@@ -279,43 +281,16 @@ const ManageUserSystem = () => {
                     Tên
                   </th>
                   <th className="whitespace-nowrap p-2 text-left text-sm font-semibold text-black">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-4 h-4 fill-gray-500 inline mr-3"
-                      viewBox="0 0 24 24"
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    viewBox="0 0 24 24"
+                    className="w-4 h-4 fill-gray-500 inline mr-3"
                     >
-                      <path
-                        d="m14 9.09 8.81 1.75c.71.15 1.19.75 1.19 1.46v10.2c0 .83-.67 1.5-1.5 1.5h-9c.28 0 .5-.22.5-.5V23h8.5c.27 0 .5-.22.5-.5V12.3c0-.23-.16-.44-.39-.49L14 10.11z"
-                        data-original="#000000"
-                      />
-                      <path
-                        d="M19.5 14c.28 0 .5.22.5.5s-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm0 3c.28 0 .5.22.5.5s-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm0 3c.28 0 .5.22.5.5s-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zM14 23.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5v-14c0-.15.07-.29.18-.39.12-.09.27-.13.42-.1l.4.08V23z"
-                        data-original="#000000"
-                      />
-                      <path
-                        d="M13 23v.5c0 .28.22.5.5.5h-4c.28 0 .5-.22.5-.5V23zM10.5 5c.28 0 .5.22.5.5s-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm.5 3.5c0 .28-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h2c.28 0 .5.22.5.5zm-.5 2.5c.28 0 .5.22.5.5s-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm0 3c.28 0 .5.22.5.5s-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm-4.5.5c0 .28-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h2c.28 0 .5.22.5.5zM5.5 5c.28 0 .5.22.5.5s-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm0 3c.28 0 .5.22.5.5s-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm0 3c.28 0 .5.22.5.5s-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zM9 18.5c0-.28-.23-.5-.5-.5h-3c-.28 0-.5.22-.5.5V23H4v-4.5c0-.83.67-1.5 1.5-1.5h3c.83 0 1.5.67 1.5 1.5V23H9z"
-                        data-original="#000000"
-                      />
-                      <path
-                        d="M5 23h5v.5c0 .28-.22.5-.5.5h-5c-.28 0-.5-.22-.5-.5V23z"
-                        data-original="#000000"
-                      />
-                      <path
-                        d="m1.75.2 10.99 1.67c.73.12 1.26.74 1.26 1.48v5.74l-.4-.08c-.15-.03-.3.01-.42.1-.11.1-.18.24-.18.39V3.35c0-.25-.18-.46-.42-.5L1.59 1.19c-.03-.01-.06-.01-.09-.01-.12 0-.23.04-.32.12-.12.1-.18.23-.18.38V22.5c0 .28.23.5.5.5H4v.5c0 .28.22.5.5.5h-3C.67 24 0 23.33 0 22.5V1.68C0 1.24.19.82.53.54.87.25 1.31.13 1.75.2z"
-                        data-original="#000000"
-                      />
-                    </svg>
-                    Loại
-                    {/* <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-3 h-3 fill-gray-400 inline cursor-pointer ml-3"
-                      viewBox="0 0 401.998 401.998"
-                    >
-                      <path
-                        d="M73.092 164.452h255.813c4.949 0 9.233-1.807 12.848-5.424 3.613-3.616 5.427-7.898 5.427-12.847s-1.813-9.229-5.427-12.85L213.846 5.424C210.232 1.812 205.951 0 200.999 0s-9.233 1.812-12.85 5.424L60.242 133.331c-3.617 3.617-5.424 7.901-5.424 12.85 0 4.948 1.807 9.231 5.424 12.847 3.621 3.617 7.902 5.424 12.85 5.424zm255.813 73.097H73.092c-4.952 0-9.233 1.808-12.85 5.421-3.617 3.617-5.424 7.898-5.424 12.847s1.807 9.233 5.424 12.848L188.149 396.57c3.621 3.617 7.902 5.428 12.85 5.428s9.233-1.811 12.847-5.428l127.907-127.906c3.613-3.614 5.427-7.898 5.427-12.848 0-4.948-1.813-9.229-5.427-12.847-3.614-3.616-7.899-5.42-12.848-5.42z"
-                        data-original="#000000"
-                      />
-                    </svg> */}
+                    <path d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  </svg>
+
+                    Email
                   </th>
                   <th className="whitespace-nowrap p-2 text-left text-sm font-semibold text-black">
                     <svg
@@ -345,17 +320,7 @@ const ManageUserSystem = () => {
                         data-original="#000000"
                       />
                     </svg>
-                    Đánh giá
-                    {/* <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-3 h-3 fill-gray-400 inline cursor-pointer ml-3"
-                      viewBox="0 0 401.998 401.998"
-                    >
-                      <path
-                        d="M73.092 164.452h255.813c4.949 0 9.233-1.807 12.848-5.424 3.613-3.616 5.427-7.898 5.427-12.847s-1.813-9.229-5.427-12.85L213.846 5.424C210.232 1.812 205.951 0 200.999 0s-9.233 1.812-12.85 5.424L60.242 133.331c-3.617 3.617-5.424 7.901-5.424 12.85 0 4.948 1.807 9.231 5.424 12.847 3.621 3.617 7.902 5.424 12.85 5.424zm255.813 73.097H73.092c-4.952 0-9.233 1.808-12.85 5.421-3.617 3.617-5.424 7.898-5.424 12.847s1.807 9.233 5.424 12.848L188.149 396.57c3.621 3.617 7.902 5.428 12.85 5.428s9.233-1.811 12.847-5.428l127.907-127.906c3.613-3.614 5.427-7.898 5.427-12.848 0-4.948-1.813-9.229-5.427-12.847-3.614-3.616-7.899-5.42-12.848-5.42z"
-                        data-original="#000000"
-                      />
-                    </svg> */}
+                    Lượt thích
                   </th>
                   <th className="whitespace-nowrap p-2 text-left text-sm font-semibold text-black">
                     Tùy chọn
@@ -369,51 +334,20 @@ const ManageUserSystem = () => {
                       <>
                         <tr key={index}>
                           <td className="whitespace-nowrap pl-4 w-8">
-                            {/* <Checkbox.Group
-                              // options={user.id}
-                              options={userData.id}
-                              value={checkUserID}
-                              onChange={onChange}
-                            /> */}
                             {user.role === "1" ? (
                               <Checkbox
                                 onChange={onChange}
-                                // value={true}
                                 disabled
-                                // name={user.id}
                               ></Checkbox>
                             ) : (
                               <Checkbox
                                 onChange={onChange}
                                 value={user.id}
-                                // disabled={user.role === "1" ? true : false}
                                 checked={
                                   checkUserID.includes(user.id) ? true : false
                                 }
-                                // name={user.id}
                               ></Checkbox>
                             )}
-                            {/* <input
-                              id="checkbox1"
-                              type="checkbox"
-                              className="hidden peer"
-                            />
-                            <label
-                              for="checkbox1"
-                              className="relative flex items-center justify-center p-0.5 peer-checked:before:hidden before:block before:absolute before:w-full before:h-full before:bg-white w-5 h-5 cursor-pointer bg-blue-500 border border-gray-400 rounded overflow-hidden"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-full fill-white"
-                                viewBox="0 0 520 520"
-                              >
-                                <path
-                                  d="M79.423 240.755a47.529 47.529 0 0 0-36.737 77.522l120.73 147.894a43.136 43.136 0 0 0 36.066 16.009c14.654-.787 27.884-8.626 36.319-21.515L486.588 56.773a6.13 6.13 0 0 1 .128-.2c2.353-3.613 1.59-10.773-3.267-15.271a13.321 13.321 0 0 0-19.362 1.343q-.135.166-.278.327L210.887 328.736a10.961 10.961 0 0 1-15.585.843l-83.94-76.386a47.319 47.319 0 0 0-31.939-12.438z"
-                                  data-name="7-Check"
-                                  data-original="#000000"
-                                />
-                              </svg>
-                            </label> */}
                           </td>
                           <td className="whitespace-nowrap p-2 text-sm">
                             <div className="flex items-center  w-max">
@@ -442,63 +376,7 @@ const ManageUserSystem = () => {
                           </td>
                           <td className=" whitespace-nowrap px-6 py-3">{user.phone}</td>
                           <td className="whitespace-nowrap px-6 py-3">{handleCounPost(user.id)}</td>
-                          <td className="whitespace-nowrap px-6 py-3">
-                            <svg
-                              className="w-[18px] h-4 inline mr-1"
-                              viewBox="0 0 14 13"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                                fill="#facc15"
-                              />
-                            </svg>
-                            <svg
-                              className="w-[18px] h-4 inline mr-1"
-                              viewBox="0 0 14 13"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                                fill="#facc15"
-                              />
-                            </svg>
-                            <svg
-                              className="w-[18px] h-4 inline mr-1"
-                              viewBox="0 0 14 13"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                                fill="#facc15"
-                              />
-                            </svg>
-                            <svg
-                              className="w-[18px] h-4 inline mr-1"
-                              viewBox="0 0 14 13"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                                fill="#CED5D8"
-                              />
-                            </svg>
-                            <svg
-                              className="w-[18px] h-4 inline"
-                              viewBox="0 0 14 13"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
-                                fill="#CED5D8"
-                              />
-                            </svg>
-                          </td>
+                          <td className="whitespace-nowrap px-6 py-3">{user.sumLiked}</td>
                           <td className="whitespace-nowrap px-6 py-3">
                             <button className="mr-4" title="Xem trang cá nhân">
                               <svg
