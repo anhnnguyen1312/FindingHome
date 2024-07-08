@@ -113,6 +113,11 @@ class Authen_model extends CI_Model {
 		$query = $this->db->update('users', $dataDB);
 		return $query;
 	}
+	
+	public function get_list_user(){
+		$query = $this->db->get("users");
+		return $query->result();
+	}
 
 	public function delete_user($userId){
 		$this->db->trans_start();
