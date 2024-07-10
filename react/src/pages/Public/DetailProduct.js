@@ -10,7 +10,7 @@ import { jwtDecode } from "jwt-decode";
 import SlideShow from "../../components/SlideShow";
 import GgMapReact from "../../components/GgMapReact";
 import VietMap from "../../components/VietMap";
-import { Pagination, message, Popconfirm } from "antd";
+import { Pagination, message, Collapse, Popconfirm } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { callApiCensorPostAdmin } from "../../api/system/getPostAdminApi";
 import { LikeComponent } from "../../components/index";
@@ -19,6 +19,8 @@ const DetailProduct = () => {
   const [detailPost, setDetailPost] = useState([]);
   const [descriptionSplit, setDescriptionSplit] = useState([]);
   const [ruleSplit, setRuleSplit] = useState([]);
+  const [places, setPlaces] = useState();
+
   // const [id, setId] = useState(useLocate.state?.idPost);
   const navigate = useNavigate();
   const stateAuth = useSelector((state) => state.auth);
@@ -26,6 +28,11 @@ const DetailProduct = () => {
   const isSystem = useLocate.state?.isSystem;
   const params = useParams();
   const id = params.postId;
+
+  console.log("places", places);
+
+  console.log("detailPost", detailPost);
+
   const handleNavigateProfilePublic = (IdUser) => {
     if (useLocate.pathname.includes("system")) {
       navigate(`/system/${path.PROFILE_PUBLIC}/${IdUser}`, {
@@ -40,7 +47,6 @@ const DetailProduct = () => {
       try {
         const response = await callApiDetailPost(id);
         const decodeToken = jwtDecode(response.data.token);
-
         setDetailPost(decodeToken);
       } catch (error) {
         console.log(error);
@@ -174,20 +180,19 @@ const DetailProduct = () => {
                   <i className="fa-solid fa-badge-check"></i>
                 </div>
               </div>
-              <div  onClick={() => handleNavigateProfilePublic(detailPost.userId)} className="flex flex-col gap-[10px] cursor-pointer ml-auto ">
+              <div
+                onClick={() => handleNavigateProfilePublic(detailPost.userId)}
+                className="flex flex-col gap-[10px] cursor-pointer ml-auto "
+              >
                 <div className="hidden sm:flex border-4 bg-gray-200 border-gray-50 rounded-full h-24 w-24">
                   <img
                     className="block rounded-full"
                     src={detailPost.avatar || userAvatar}
                   />
                 </div>
-                <div
-                  className="text-center flex items-center justify-center "
-                 
-                  >
+                <div className="text-center flex items-center justify-center ">
                   <b>{detailPost.username}</b>
                 </div>
-
               </div>
             </div>
           </div>
@@ -234,7 +239,6 @@ const DetailProduct = () => {
             ) : (
               ""
             )}
-
           </div>
           <div className="mb-8 ">
             <div className="mb-6 md:mb-0 flex flex-col gap-[20px]">
@@ -242,7 +246,9 @@ const DetailProduct = () => {
                 <h1 className="text-red-600 text-medium mt-[5px]">
                   {detailPost.title}
                 </h1>
-                <h1 className=" text-gray-700 text-center mt-[5px]">({detailPost.likes} lượt thích)</h1>
+                <h1 className=" text-gray-700 text-center mt-[5px]">
+                  ({detailPost.likes} lượt thích)
+                </h1>
                 <LikeComponent postId={detailPost.id} />
               </div>
               <h1 className="  flex gap-[10px]">
@@ -425,12 +431,281 @@ const DetailProduct = () => {
               </div>
               <div className=" text-xl font-medium">{detailPost.address}</div>
             </div>
-
             <p className="mb-[20px]"> {detailPost.nearby}</p>
+            <div className="flex gap-[20px] mb-[10px]">
+              <div className="text-[#F2545B] ">
+                <i className="fa-solid fa fa-map-marker"></i>
+              </div>
+              <div className=" text-xl font-medium">Những tiện ích gần đây</div>
+            </div>
+            {places && (
+              <>
+                <Collapse
+                  className="text-[18px] bg-white text-rose-600 text-bold"
+                  collapsible="header"
+                  bordered={false}
+                  defaultActiveKey={["1"]}
+                  items={[
+                    {
+                      key: "1",
+                      label: "Bệnh viện",
+                      children: (
+                        <div>
+                          {" "}
+                          {places?.hospital?.map((place, index) => (
+                            <div
+                              key={index}
+                              className="flex text-[16px] justify-between p-[5px]"
+                            >
+                              <p title={place.display}>
+                                {place.display.substr(0, 90) + "..."}
+                              </p>
+                              <p className="text-rose-600">
+                                {place.distance.toFixed(2)} km
+                              </p>
+                            </div>
+                          ))}{" "}
+                        </div>
+                      ),
+                    },
+                  ]}
+                />
+                <Collapse
+                  className="text-[18px] bg-white "
+                  collapsible="header"
+                  bordered={false}
+                  defaultActiveKey={["1"]}
+                  items={[
+                    {
+                      key: "2",
+                      label: "Trung tâm thương mại/ Siêu thị/ Chợ",
+                      children: (
+                        <div>
+                          {" "}
+                          {places?.plaza?.map((place, index) => (
+                            <div
+                              key={index}
+                              className="flex  text-[16px]  justify-between p-[5px]"
+                            >
+                              <p>{place.display.substr(0, 80) + "..."}</p>
+                              <p className="text-rose-600">
+                                {place.distance.toFixed(2)} km
+                              </p>
+                            </div>
+                          ))}{" "}
+                        </div>
+                      ),
+                    },
+                  ]}
+                />{" "}
+                <Collapse
+                  className="text-[18px] bg-white "
+                  collapsible="header"
+                  bordered={false}
+                  defaultActiveKey={["2"]}
+                  items={[
+                    {
+                      key: "3",
+                      label: "Đại học/Cao đẳng",
+                      children: (
+                        <div>
+                          {" "}
+                          {places?.university?.map((place, index) => (
+                            <div
+                              key={index}
+                              className="flex  text-[16px] justify-between p-[5px]"
+                            >
+                              <p>{place.display.substr(0, 80) + "..."}</p>
+                              <p className="text-rose-600">
+                                {place.distance.toFixed(2)} km
+                              </p>
+                            </div>
+                          ))}{" "}
+                        </div>
+                      ),
+                    },
+                  ]}
+                />{" "}
+                <Collapse
+                  className="text-[18px] bg-white "
+                  collapsible="header"
+                  bordered={false}
+                  defaultActiveKey={["1"]}
+                  items={[
+                    {
+                      key: "4",
+                      label: "Trường học",
+                      children: (
+                        <div>
+                          {" "}
+                          {places?.school?.map((place, index) => (
+                            <div
+                              key={index}
+                              className="flex  text-[16px]  justify-between p-[5px]"
+                            >
+                              <p>{place.display.substr(0, 80) + "..."}</p>
+                              <p className="text-rose-600">
+                                {place.distance.toFixed(2)} km
+                              </p>
+                            </div>
+                          ))}{" "}
+                        </div>
+                      ),
+                    },
+                  ]}
+                />{" "}
+                <Collapse
+                  className="text-[18px] bg-white "
+                  collapsible="header"
+                  bordered={false}
+                  defaultActiveKey={["1"]}
+                  items={[
+                    {
+                      key: "5",
+                      label: "Cơ quan chính quyền",
+                      children: (
+                        <div>
+                          {" "}
+                          {places?.commitee?.map((place, index) => (
+                            <div
+                              key={index}
+                              className="flex  text-[16px]  justify-between p-[5px]"
+                            >
+                              <p>{place.display.substr(0, 80) + "..."}</p>
+                              <p className="text-rose-600">
+                                {place.distance.toFixed(2)} km
+                              </p>
+                            </div>
+                          ))}{" "}
+                        </div>
+                      ),
+                    },
+                  ]}
+                />{" "}
+                <Collapse
+                  className="text-[18px] bg-white "
+                  collapsible="header"
+                  bordered={false}
+                  defaultActiveKey={["1"]}
+                  items={[
+                    {
+                      key: "6",
+                      label: "phương tiện công cộng",
+                      children: (
+                        <div>
+                          {" "}
+                          {places?.public_transport?.map((place, index) => (
+                            <div
+                              key={index}
+                              className="flex  text-[16px]  justify-between p-[5px]"
+                            >
+                              <p>{place.display.substr(0, 80) + "..."}</p>
+                              <p className="text-rose-600">
+                                {place.distance.toFixed(2)} km
+                              </p>
+                            </div>
+                          ))}{" "}
+                        </div>
+                      ),
+                    },
+                  ]}
+                />{" "}
+                <Collapse
+                  className="text-[18px] bg-white "
+                  collapsible="header"
+                  bordered={false}
+                  defaultActiveKey={["1"]}
+                  items={[
+                    {
+                      key: "7",
+                      label: "Bãi đậu xe - Trạm sạc điện",
+                      children: (
+                        <div>
+                          {" "}
+                          {places?.parking?.map((place, index) => (
+                            <div
+                              key={index}
+                              className="flex  text-[16px]  justify-between p-[5px]"
+                            >
+                              <p>{place.display.substr(0, 80) + "..."}</p>
+                              <p className="text-rose-600">
+                                {place.distance.toFixed(2)} km
+                              </p>
+                            </div>
+                          ))}{" "}
+                        </div>
+                      ),
+                    },
+                  ]}
+                />{" "}
+                {/* <Collapse
+                  className="text-[18px] bg-white "
+                  collapsible="header"
+                  bordered={false}
+                  defaultActiveKey={["1"]}
+                  items={[
+                    {
+                      key: "8",
+                      label: "Trạm sạc xe điện",
+                      children: (
+                        <div>
+                          {" "}
+                          {places?.charging?.map((place, index) => (
+                            <div
+                              key={index}
+                              className="flex  text-[16px]  justify-between p-[5px]"
+                            >
+                              <p>{place.display.substr(0, 80) + "..."}</p>
+                              <p className="text-rose-600">
+                                {place.distance.toFixed(2)} km
+                              </p>
+                            </div>
+                          ))}{" "}
+                        </div>
+                      ),
+                    },
+                  ]}
+                />{" "} */}
+                {/* <Collapse
+                  className="text-[18px] bg-white "
+                  collapsible="header"
+                  bordered={false}
+                  defaultActiveKey={["1"]}
+                  items={[
+                    {
+                      key: "9",
+                      label: "Khu du lịch/ viện bảo tàng",
+                      children: (
+                        <div>
+                          {" "}
+                          {places?.historical?.map((place, index) => (
+                            <div
+                              key={index}
+                              className="flex  text-[16px]  justify-between p-[5px]"
+                            >
+                              <p>{place.display.substr(0, 80) + "..."}</p>
+                              <p className="text-rose-600">
+                                {place.distance.toFixed(2)} km
+                              </p>
+                            </div>
+                          ))}{" "}
+                        </div>
+                      ),
+                    },
+                  ]}
+                />{" "} */}
+              </>
+            )}
+
             <div className="w-full h-[60%vh]  mb-[30px]">
               {/* <GeoCoding address={detailPost.address} />
               <GgMapReact address={detailPost.address} /> */}
-              <VietMap address={detailPost.address} />
+              <VietMap
+                lat={detailPost.lat}
+                lng={detailPost.lng}
+                address={detailPost.address}
+                setPlaces={setPlaces}
+              />
             </div>
           </div>
         </div>

@@ -1,21 +1,38 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import "../../components/NavBar.css";
 import ReactMapGL, {
   Marker,
   Popup,
   NavigationControl,
   GeolocateControl,
 } from "react-map-gl";
+import { Avatar, Paper, Tooltip } from "@mui/material";
+import uPhoto from "../../assets/images/userAvatar.jpg";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import mapboxgl from "mapbox-gl";
 import { UpdateLocationAction } from "../../redux/store/action/locationAction";
 import { useSelector, useDispatch } from "react-redux";
-//import SearchLocation from "../../components/SearchLocation";
+import { PopUpInfor } from "../../components/index";
+// import useSupercluster from "use-supercluster";
+import useSuperCluster from "use-supercluster";
+import { FindPlacesNearby } from "../../components/FindPlacesNearby";
+import hospital from "../../assets/images/iconPlaces/hospital.png";
+import parking from "../../assets/images/iconPlaces/parking.png";
+import univer from "../../assets/images/iconPlaces/univer.png";
+import bus3 from "../../assets/images/iconPlaces/bus3.png";
+import shopping from "../../assets/images/iconPlaces/shopping.png";
+import education from "../../assets/images/iconPlaces/education.png";
+
 const FindRoom = () => {
   const [pickMarker, setPickMarker] = useState(false);
+  const [popUpInfor, setPopUpInfor] = useState(null);
+  const [showPlacesIcon, setShowPlacesIcon] = useState(false);
+  const [isShow, setIsShow] = useState(false);
 
   const [confirmed, setConfirmed] = useState(false);
+  const [popUpAddress, setPopupAddress] = useState();
 
   const [showPopup, setShowPopup] = useState(true);
   const [marker, setMarker] = useState();
@@ -29,8 +46,121 @@ const FindRoom = () => {
     longitude: 106.704449,
     zoom: 12,
   });
-  const dispatch = useDispatch();
+  const [placesNearby, setPlacesNearby] = useState({
+    hospital: [],
+    kinderGarten: [],
+    school: [],
+    university: [],
+    plaza: [],
+    market: [],
+    relax: [],
+    historical: [],
+    commitee: [],
+    public_transport: [],
+    parking: [],
+    charging: [],
+  });
+  const { homepagePosts } = useSelector((state) => state.post);
+  console.log("homepagePosts", homepagePosts);
+  console.log("placesNearby", placesNearby);
 
+  const dispatch = useDispatch();
+  const mapRef = useRef(null);
+  const points = homepagePosts.map((post) => ({
+    type: "Feature",
+    properties: {
+      cluster: false,
+      id: post.id,
+      address: post.address,
+      price: post.price,
+      uName: post.username,
+      title: post.title,
+      phone: post.phone,
+      typeRoom: post.typeRoom,
+      images: post.urlImages,
+      uPhoto: post.urlImages[0],
+    },
+    geometry: {
+      type: "Point",
+      coordinates: [parseFloat(post.lng), parseFloat(post.lat)],
+    },
+  }));
+  const data = [
+    {
+      type: "Feature",
+      properties: {
+        cluster: false,
+        id: 1,
+        price: 5,
+      },
+      geometry: {
+        type: "Point",
+        coordinates: [106.704449, 10.710999],
+      },
+    },
+    {
+      type: "Feature",
+      properties: {
+        cluster: false,
+        id: 2,
+        price: 6,
+      },
+      geometry: {
+        type: "Point",
+        coordinates: [106.734029, 10.704685],
+      },
+    },
+    {
+      type: "Feature",
+      properties: {
+        cluster: false,
+        id: 3,
+        price: 7,
+      },
+      geometry: {
+        type: "Point",
+        coordinates: [108.186969, 16.025567],
+      },
+    },
+    {
+      type: "Feature",
+      properties: {
+        cluster: false,
+        id: 4,
+        price: 8,
+      },
+      geometry: {
+        type: "Point",
+        coordinates: [106.687824, 10.771772],
+      },
+    },
+  ];
+
+  const bounds = mapRef.current
+    ? mapRef.current.getMap().getBounds().toArray().flat()
+    : null;
+
+  //   const { clusters, supercluster } = useSuperCluster({
+  //   points,
+  //   bounds,
+  //   zoom: viewState.zoom,
+  //   options: { radius: 75, maxZoom: 20 },
+  // });
+  const { clusters, supercluster } = useSuperCluster({
+    points,
+    bounds,
+    // bounds: [
+    //   viewState.longitude - viewState.zoom * 2,
+    //   viewState.latitude - viewState.zoom,
+    //   viewState.longitude + viewState.zoom * 2,
+    //   viewState.latitude + viewState.zoom,
+    // ],
+    zoom: viewState.zoom,
+    options: { radius: 200, maxZoom: 13 },
+  });
+  console.log("clusters", clusters);
+
+  console.log("supercluster", supercluster);
   //   const location = useSelector((state) => state.location);
   const VIETMAP_KEY = "af4284a02ae26231e2a517f30b67d25216a69b76782dfb4c";
   const MAPBOX_TOKEN =
@@ -60,7 +190,7 @@ const FindRoom = () => {
     //   dispatch(UpdateLocationAction(data));
   };
   console.log("load");
-  const mapRef = useRef(null);
+
   const initializeGeocoder = (map) => {
     const geocoder = new MapboxGeocoder({
       accessToken: MAPBOX_TOKEN,
@@ -123,7 +253,8 @@ const FindRoom = () => {
           ...prevState,
           ["place_name"]: data,
         }));
-        setConfirmed(true);
+        // setConfirmed(true);
+        setShowPopup(true);
       });
   };
 
@@ -136,27 +267,76 @@ const FindRoom = () => {
     // setPickMarker(true);
     console.log("handlePickMaker");
   };
+
+  const handleClickPopUpInfor = (latitude, longitude, cluster) => {
+    setPopUpInfor(cluster);
+    setShowPlacesIcon(true);
+    setIsShow(false);
+    setPopupAddress({ latitude: latitude, longitude: longitude });
+    FindPlacesNearby(latitude, longitude, setPlacesNearby);
+  };
+  const handleDeleteMaker = () => {
+    setMarker();
+    setShowPopup(false);
+  };
+  const distanceCalc = () => {
+    axios
+      .get(
+        `https://api.mapbox.com/directions/v5/mapbox/driving/${marker.longitude},${marker.latitude};${popUpAddress.longitude},${popUpAddress.latitude}.json?access_token=${MAPBOX_TOKEN}`
+      )
+      .then((res) => {
+        // const { data } = res;
+        console.log("distanceCalc", res);
+        const distance = res.data.routes[0].distance / 1000;
+        const duration = res.data.routes[0].duration / 60;
+        setMarker((prevState) => ({
+          ...prevState,
+          ["distance"]: distance.toFixed(2),
+          ["duration"]: duration.toFixed(2),
+        }));
+        setShowPopup(true);
+      });
+  };
+
   console.log("Marker", marker);
 
   return (
     <>
       <div className="w-full h-[50vh] relative">
-        <div className="absolute top-[100px] bg-[#687d9f] right-[10px] z-10 text-white p-[5px] ">
-          <button onClick={() => handlePickMaker()}>Chọn địa điểm</button>
-        </div>
-        {(marker || confirmed) && (
-          <div className="absolute top-[140px] bg-[#687d9f] right-[10px] z-10 text-white p-[5px] ">
-            <button
-              onClick={
-                !confirmed
-                  ? () => geocodingVietMap()
-                  : () => console.log("send location", marker)
-              }
-            >
+        {showPlacesIcon && (
+          <div className="absolute top-[100px] bg-rose-500 right-[10px] z-10 text-white p-[5px] ">
+            <button onClick={() => setIsShow(!isShow)}>
               {" "}
-              {confirmed ? "Chọn địa chỉ" : "Xem địa chỉ"}
+              {isShow ? "Ẩn tiện ích gần đây" : "Xem tiện ích gần đây"}
             </button>
           </div>
+        )}
+        <div className="absolute top-[140px] bg-[#687d9f] right-[10px] z-10 text-white p-[5px] ">
+          <button className="  text-white" onClick={() => handlePickMaker()}>
+            <i class="fa-solid fa-plus"></i>{" "}
+            <i className="fa-solid fa-location-dot text-xl"></i>{" "}
+          </button>{" "}
+        </div>
+        {marker && (
+          <>
+            <div className="absolute top-[140px] w-[44px] bg-rose-600 right-[10px] z-10 text-white p-[5px] ">
+              <Tooltip title={`Xóa pin`}>
+                <button onClick={() => handleDeleteMaker()}>
+                  X<i className="fa-solid fa-location-dot text-xl ml-[8px]"></i>{" "}
+                </button>
+              </Tooltip>
+            </div>
+            <div className="absolute top-[180px] bg-[#687d9f] right-[10px] z-10 text-white p-[5px] ">
+              <Tooltip title={`Xem địa chỉ trên bản đồ`}>
+                <button onClick={() => geocodingVietMap()}>Xem địa chỉ</button>
+              </Tooltip>
+            </div>
+            {popUpAddress && (
+              <div className="absolute top-[220px] bg-cyan-600 right-[10px] z-10 text-white p-[5px] ">
+                <button onClick={() => distanceCalc()}>Xem khoảng cách</button>
+              </div>
+            )}
+          </>
         )}
         <ReactMapGL
           {...viewState}
@@ -197,6 +377,12 @@ const FindRoom = () => {
                     ) : (
                       "nhấn xem địa chỉ để hiển thị"
                     )}
+                    {marker?.distance && (
+                      <>
+                        <p>{` khoảng cách: ${marker?.distance} km`}</p>
+                        <p>{` Thời gian di chuyển: ${marker?.duration} phút `}</p>
+                      </>
+                    )}
                   </div>
                 </Popup>
               )}
@@ -226,6 +412,205 @@ const FindRoom = () => {
               </Marker>
             </>
           )}
+          {/* {clusters?.map((point) => (
+            <Marker
+              latitude={point?.lat}
+              longitude={point?.lng}
+              offsetLeft={-20}
+              offsetTop={-30}
+            >
+              <button
+                // onClick={() => setShowPopup(true)}
+                className=" text-rose-600 p-[10px]"
+              >
+                {point.price} tr
+                <i className="fa-solid fa-location-dot text-5xl"></i>
+              </button>
+            </Marker>
+          ))} */}
+          {clusters.map((cluster) => {
+            const [longitude, latitude] = cluster.geometry.coordinates;
+            const { cluster: isCluster, point_count: pointCount } =
+              cluster.properties;
+            if (isCluster) {
+              return (
+                <Marker
+                  key={cluster.id}
+                  latitude={latitude}
+                  longitude={longitude}
+                >
+                  <div
+                    style={{
+                      width: `${20 + (pointCount / points.length) * 20}px`,
+                      height: `${20 + (pointCount / points.length) * 20}px`,
+                    }}
+                    className=" bg-[#1978c8] rounded-full flex items-center justify-center text-white "
+                    onClick={() => {
+                      const zoom = Math.min(
+                        supercluster.getClusterExpansionZoom(cluster.id),
+                        20
+                      );
+                      mapRef.current.flyTo({
+                        center: [longitude, latitude],
+                        zoom,
+                        speed: 1,
+                      });
+                    }}
+                  >
+                    {pointCount}
+                  </div>
+                </Marker>
+              );
+            }
+            return (
+              <Marker
+                key={cluster.id}
+                latitude={latitude}
+                longitude={longitude}
+              >
+                {/* <button className="map bg-rose-500 px-[15px] py-[5px] rounded-md flex items-center justify-center text-white "> */}
+                {/* <i className="fa-solid fa-location-dot text-5xl"></i> */}
+                {/* {cluster.properties.price} tr
+                </button> */}
+
+                <Tooltip title={`${cluster.properties.price} tr/tháng`}>
+                  <Avatar
+                    src={cluster.properties.uPhoto}
+                    component={Paper}
+                    elevation={2}
+                    onClick={() =>
+                      handleClickPopUpInfor(latitude, longitude, cluster)
+                    }
+                  />
+                </Tooltip>
+              </Marker>
+            );
+          })}
+          {popUpInfor && (
+            <Popup
+              latitude={popUpInfor?.geometry.coordinates[1]}
+              longitude={popUpInfor?.geometry.coordinates[0]}
+              closeButton={true}
+              closeOnClick={false}
+              focusAfterOpen={false}
+              maxWidth="auto"
+              onClose={() => setPopUpInfor(null)}
+            >
+              <PopUpInfor cluster={popUpInfor.properties} />
+            </Popup>
+          )}
+          {isShow &&
+            placesNearby.hospital?.map((place, index) => (
+              <>
+                <Marker
+                  key={index}
+                  latitude={place?.lat}
+                  longitude={place?.lng}
+                  offsetLeft={-20}
+                  offsetTop={-30}
+                >
+                  <Tooltip
+                    title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
+                  >
+                    <div
+                    // className=" text-rose-600"
+                    >
+                      {/* <i class="fa-solid fa-circle-h text-2xl"></i> */}
+                      <img className="w-[40px]" src={hospital}></img>
+                    </div>
+                  </Tooltip>
+                </Marker>
+              </>
+            ))}
+          {isShow &&
+            placesNearby.school?.map((place, index) => (
+              <>
+                <Marker
+                  key={index}
+                  latitude={place?.lat}
+                  longitude={place?.lng}
+                  offsetLeft={-20}
+                  offsetTop={-30}
+                >
+                  <Tooltip
+                    title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
+                  >
+                    <div
+                    // onClick={() => setShowPopupIcon(true)}
+                    // className=" text-rose-600 "
+                    >
+                      <img className="w-[40px]" src={education}></img>
+                    </div>
+                  </Tooltip>
+                </Marker>
+              </>
+            ))}
+          {isShow &&
+            placesNearby.university &&
+            placesNearby.university.map((place, index) => (
+              <>
+                <Marker
+                  key={index}
+                  latitude={place?.lat}
+                  longitude={place?.lng}
+                  offsetLeft={-20}
+                  offsetTop={-30}
+                >
+                  <Tooltip
+                    title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
+                  >
+                    <div
+                    // onClick={() => setShowPopupIcon(true)}
+                    // className=" text-rose-600 "
+                    >
+                      <img className="w-[40px]" src={univer}></img>
+                    </div>
+                  </Tooltip>
+                </Marker>
+              </>
+            ))}
+          {isShow &&
+            placesNearby.plaza &&
+            placesNearby.plaza.map((place, index) => (
+              <>
+                <Marker
+                  key={index}
+                  latitude={place?.lat}
+                  longitude={place?.lng}
+                  offsetLeft={-20}
+                  offsetTop={-30}
+                >
+                  <Tooltip
+                    title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
+                  >
+                    <div className=" text-rose-600 ">
+                      <img className="w-[40px]" src={shopping}></img>
+                    </div>
+                  </Tooltip>
+                </Marker>
+              </>
+            ))}
+          {isShow &&
+            placesNearby.parking &&
+            placesNearby.parking.map((place, index) => (
+              <>
+                <Marker
+                  key={index}
+                  latitude={place?.lat}
+                  longitude={place?.lng}
+                  offsetLeft={-20}
+                  offsetTop={-30}
+                >
+                  <Tooltip
+                    title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
+                  >
+                    <div className=" text-rose-600 ">
+                      <img className="w-[40px]" src={parking}></img>
+                    </div>
+                  </Tooltip>
+                </Marker>
+              </>
+            ))}
         </ReactMapGL>
       </div>
     </>
