@@ -87,7 +87,7 @@ const Search = ({ setSearchData, setSearchButtonClick, type }) => {
   }, [addressData]);
 
   const handleSearch = () => {
-    setSearchButtonClick(true);
+    setSearchButtonClick && setSearchButtonClick(true);
     setSearchData(selectData);
     console.log("search");
   };

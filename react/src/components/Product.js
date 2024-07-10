@@ -125,7 +125,10 @@ const Product = ({ type, isHomePage }) => {
           const dataPrice = checkPrice(dataPostSearch, searchData);
           dataPostSearch = dataPrice;
           if (searchData.area?.trim() && dataPrice) {
-            const dataArea = checkArea(dataPrice);
+            console.log("dataPrice", dataPrice);
+
+            const dataArea = checkArea(dataPrice, searchData);
+            console.log("dataArea", dataArea);
             dataPostSearch = dataArea;
           }
         } else {
@@ -264,7 +267,7 @@ const Product = ({ type, isHomePage }) => {
                   <Search
                     type={type}
                     setSearchData={setSearchData}
-                    setSearchButtonClick={setSearchButtonClick}
+                    // setSearchButtonClick={setSearchButtonClick}
                   />
                 </div>
               )}
@@ -308,7 +311,7 @@ const Product = ({ type, isHomePage }) => {
                 <Search
                   type={type}
                   setSearchData={setSearchData}
-                  setSearchButtonClick={setSearchButtonClick}
+                  // setSearchButtonClick={setSearchButtonClick}
                 />
               </div>
             )}
