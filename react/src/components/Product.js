@@ -264,7 +264,7 @@ const Product = ({ type, isHomePage }) => {
                   <Search
                     type={type}
                     setSearchData={setSearchData}
-                    setSearchButtonClick={setSearchButtonClick}
+                    // setSearchButtonClick={setSearchButtonClick}
                   />
                 </div>
               )}
@@ -308,7 +308,7 @@ const Product = ({ type, isHomePage }) => {
                 <Search
                   type={type}
                   setSearchData={setSearchData}
-                  setSearchButtonClick={setSearchButtonClick}
+                  // setSearchButtonClick={setSearchButtonClick}
                 />
               </div>
             )}

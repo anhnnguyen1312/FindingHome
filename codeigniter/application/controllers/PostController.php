@@ -17,14 +17,19 @@ class PostController extends CI_Controller {
 			$post_data['urlImages'] = json_encode($post_data['urlImages']);
 			
 			$userId = $post_data['userId'];
+			$userRole = $post_data['userRole'];
 			$user_data = $this->Authen_model->get_detail_user($userId);
 			if($user_data){
 				$post_data['userName'] = $user_data->name;
 			}
 
 			$postId = $this->Post_model->handle_post($post_data);
-			$notifcation_result = $this->Notification_model->user_update_notification_post($post_data, $postId);
 
+			if($userRole == "0"){
+				$notifcation_result = $this->Notification_model->user_update_notification_post($post_data, $postId);
+			}elseif($userRole == "1"){
+				$notifcation_result = true;
+			}
 	
 			if($postId && $notifcation_result){
 				echo json_encode([
@@ -42,6 +47,7 @@ class PostController extends CI_Controller {
 	
 	public function update_post(){
 		$post_data = json_decode($this->input->raw_input_stream, true);
+		$userRole = $post_data['userRole'];
 		$id = $post_data["id"];
 		if($post_data){
 			$post_data['urlImages'] = json_encode($post_data['urlImages']);
@@ -52,8 +58,11 @@ class PostController extends CI_Controller {
 				$post_data['userName'] = $user_data->name;
 			}
 
-
-			$notifcation_result = $this->Notification_model->user_update_notification_post($post_data, $id);
+			if($userRole == "0"){
+				$notifcation_result = $this->Notification_model->user_update_notification_post($post_data, $id);
+			}elseif($userRole == "1"){
+				$notifcation_result = true;
+			}
 
 			$result = $this->Post_model->handle_post($post_data, $id);
 	
