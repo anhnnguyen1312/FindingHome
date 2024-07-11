@@ -37,14 +37,14 @@ const PopUpInfor = ({ cluster }) => {
                 "linear-gradient(to bottom, rgba(0,0,0,0.7)0%, rgba(0,0,0,0.3)70%,  rgba(0,0,0,0)100% )",
               zIndex: 2,
             }}
-            title={`${cluster?.price} tr/tháng`}
+            title={`${cluster?.price} tr/tháng - ${cluster?.phone}`}
             subtitle={`loại: ${cluster?.typeRoom}`}
             position="top"
           />
 
           <ImageListItemBar
             title={cluster?.title.substr(0, 50) + "..."}
-            subtitle={cluster?.phone}
+            subtitle={cluster?.address}
             sx={{ zIndex: 2 }}
           />
           <Swiper

@@ -127,7 +127,7 @@ const CardProduct = ({ props, checked, isSystem }) => {
           <div className="flex h-[40px] justify-between text-cyan-600 font-medium">
             <div
               onClick={(e) => handleNavigateProfilePublic(e, props.userId)}
-              className="cursor-pointer  flex items-center justify-center  w-[50px]"
+              className="cursor-pointer  flex items-center justify-center  "
             >
               <i className="ml-5 fa-solid fa-user mr-1 mb-1"></i>
               {props.username}

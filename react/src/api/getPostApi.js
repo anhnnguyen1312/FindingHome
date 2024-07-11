@@ -56,7 +56,6 @@ export const callApiDeletePost = (id) =>
     }
   });
 
-
 export const callApiDetailPost = (payload) =>
   new Promise(async (resolve, reject) => {
     try {
@@ -71,43 +70,57 @@ export const callApiDetailPost = (payload) =>
     }
   });
 
-  export const callApihandleLikePost = (payload) =>
-    new Promise(async (resolve, reject) => {
-      try {
-        const response = await axiosConfig({
-          method: "post",
-          url: `http://localhost:8000/handle-like-post`,
-          data: payload,
-        });
-        resolve(response);
-      } catch (error) {
-        reject(error);
-      }
-    });
+export const callApiRecommendSystem = (id) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosConfig({
+        method: "get",
+        url: `http://127.0.0.1:5000/recommend?id=${id}`,
+      });
+      // console.log(url);
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
 
-    export const callApiCheckLikePost = (payload) =>
-      new Promise(async (resolve, reject) => {
-        try {
-          const response = await axiosConfig({
-            method: "put",
-            url: `http://localhost:8000/check-like-post`,
-            data: payload,
-          });
-          resolve(response);
-        } catch (error) {
-          reject(error);
-        }
-    });
+export const callApihandleLikePost = (payload) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosConfig({
+        method: "post",
+        url: `http://localhost:8000/handle-like-post`,
+        data: payload,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
 
-    export const callApiListLikePost = (userId) =>
-      new Promise(async (resolve, reject) => {
-        try {
-          const response = await axiosConfig({
-            method: "get",
-            url: `http://localhost:8000/list-liked-post/${userId}`,
-          });
-          resolve(response);
-        } catch (error) {
-          reject(error);
-        }
-    });
+export const callApiCheckLikePost = (payload) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosConfig({
+        method: "put",
+        url: `http://localhost:8000/check-like-post`,
+        data: payload,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+export const callApiListLikePost = (userId) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosConfig({
+        method: "get",
+        url: `http://localhost:8000/list-liked-post/${userId}`,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });

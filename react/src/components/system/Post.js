@@ -133,7 +133,7 @@ const Post = ({ isManagePage, check, isExpired }) => {
             const dataPrice = checkPrice(dataPostSearch, searchData);
             dataPostSearch = dataPrice;
             if (searchData.area?.trim() && dataPrice) {
-              const dataArea = checkArea(dataPrice);
+              const dataArea = checkArea(dataPrice, searchData);
               dataPostSearch = dataArea;
             }
           } else {

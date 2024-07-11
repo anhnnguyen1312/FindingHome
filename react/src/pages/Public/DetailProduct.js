@@ -3,8 +3,11 @@ import { Link, useParams } from "react-router-dom";
 import { path } from "../../ultils/path";
 import userAvatar from "../../assets/images/userAvatar.jpg";
 import { FaTableList } from "react-icons/fa6";
-import { GeoCoding, Button } from "../../components/index";
-import { callApiDetailPost } from "../../api/getPostApi";
+import { GeoCoding, Button, CardProduct } from "../../components/index";
+import {
+  callApiDetailPost,
+  callApiRecommendSystem,
+} from "../../api/getPostApi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import SlideShow from "../../components/SlideShow";
@@ -14,12 +17,15 @@ import { Pagination, message, Collapse, Popconfirm } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { callApiCensorPostAdmin } from "../../api/system/getPostAdminApi";
 import { LikeComponent } from "../../components/index";
+import no_data_img from "../../assets/images/no-data-icon-10.png";
+
 const DetailProduct = () => {
   const useLocate = useLocation();
   const [detailPost, setDetailPost] = useState([]);
   const [descriptionSplit, setDescriptionSplit] = useState([]);
   const [ruleSplit, setRuleSplit] = useState([]);
   const [places, setPlaces] = useState();
+  const [postsRecommend, setPostsRecommend] = useState([]);
 
   // const [id, setId] = useState(useLocate.state?.idPost);
   const navigate = useNavigate();
@@ -28,6 +34,7 @@ const DetailProduct = () => {
   const isSystem = useLocate.state?.isSystem;
   const params = useParams();
   const id = params.postId;
+  const { homepagePosts } = useSelector((state) => state.post);
 
   console.log("places", places);
 
@@ -54,6 +61,30 @@ const DetailProduct = () => {
     };
     getApiDetailPost();
   }, []);
+
+  useEffect(() => {
+    const getApiRecommend = async () => {
+      try {
+        const response = await callApiRecommendSystem(detailPost.id);
+        console.log("response", response);
+        const data = homepagePosts.filter((post) => {
+          console.log(
+            "includes",
+            post.id,
+            response.data,
+            response.data.includes(post.id)
+          );
+          return response.data.includes(parseInt(post.id));
+        });
+        console.log("data", data);
+
+        setPostsRecommend(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    detailPost.id && getApiRecommend();
+  }, [detailPost]);
 
   useEffect(() => {
     const splitData = () => {
@@ -706,6 +737,21 @@ const DetailProduct = () => {
                 address={detailPost.address}
                 setPlaces={setPlaces}
               />
+            </div>
+            <div className="m-4 flex flex-col">
+              <div className=" mb-[10px] flex gap-[10px] text-red-600 font-semibold text-xl items-center">
+                <i className="fa-regular fa-address-card"></i>{" "}
+                <h1 className="">Gợi ý</h1>
+              </div>
+              <ul className="flex flex-col gap-[20px]  ">
+                {postsRecommend?.length > 0
+                  ? postsRecommend.map((product) => {
+                      return <CardProduct key={product.id} props={product} />;
+                    })
+                  : postsRecommend?.length === 0 && (
+                      <img src={no_data_img}></img>
+                    )}
+              </ul>
             </div>
           </div>
         </div>

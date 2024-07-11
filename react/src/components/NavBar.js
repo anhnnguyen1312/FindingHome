@@ -114,7 +114,7 @@ export default function NavBar() {
             </li> */}
             <li className="nav-item">
               <NavLink
-                to={path.FINDROOM}
+                to={`/${path.FINDROOM}`}
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
@@ -233,7 +233,7 @@ export default function NavBar() {
                       {stateAuth.data.role === "1" && (
                         <Link
                           className="cursor-pointer flex items-center justify-between"
-                          to= {`${path.SYSTEM}`}
+                          to={`${path.SYSTEM}`}
                         >
                           {" "}
                           Hệ thống quản lí
