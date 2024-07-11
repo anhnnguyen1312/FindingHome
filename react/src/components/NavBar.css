@@ -342,7 +342,18 @@
   top: -30px;
   border-width: 20px 20px;
   border-style: solid;
-  border-color: transparent transparent white transparent;
+  border-color: transparent transparent white transparent ;
+}
+.map::after{
+  content: "";
+  cursor: pointer;
+  /* display: none; */
+  position: absolute;
+  right: 9px;
+  top: 28px;
+  border-width: 8px 13px;
+  border-style: solid;
+  border-color: #f43f5e transparent transparent transparent  ;
 }
 @keyframes headerNotifyGrowth {
   from{

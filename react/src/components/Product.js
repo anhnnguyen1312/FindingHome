@@ -125,7 +125,10 @@ const Product = ({ type, isHomePage }) => {
           const dataPrice = checkPrice(dataPostSearch, searchData);
           dataPostSearch = dataPrice;
           if (searchData.area?.trim() && dataPrice) {
-            const dataArea = checkArea(dataPrice);
+            console.log("dataPrice", dataPrice);
+
+            const dataArea = checkArea(dataPrice, searchData);
+            console.log("dataArea", dataArea);
             dataPostSearch = dataArea;
           }
         } else {

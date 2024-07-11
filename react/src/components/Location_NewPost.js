@@ -10,16 +10,18 @@ import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import mapboxgl from "mapbox-gl";
 import { useSelector, useDispatch } from "react-redux";
+import { message } from "antd";
 //import SearchLocation from "../../components/SearchLocation";
-const Location_NewPost = ({ lat, lng, address }) => {
+const Location_NewPost = ({ lat, lng, address, setFormData }) => {
   const [pickMarker, setPickMarker] = useState(false);
 
   const [confirmed, setConfirmed] = useState(false);
 
   const [showPopup, setShowPopup] = useState(true);
+  console.log("lat,long", lat, lng, address);
   const [marker, setMarker] = useState({
-    latitude: lat || 0,
-    longitude: lng || 0,
+    latitude: parseFloat(lat) || 0,
+    longitude: parseFloat(lng) || 0,
     place_name: address || "",
   });
   const [viewport, setViewport] = useState({
@@ -28,8 +30,8 @@ const Location_NewPost = ({ lat, lng, address }) => {
     zoom: 15,
   });
   const [viewState, setViewState] = useState({
-    latitude: lat,
-    longitude: lng,
+    latitude: parseFloat(lat) || 10.73414,
+    longitude: parseFloat(lng) || 106.734863,
     zoom: 12,
   });
   const dispatch = useDispatch();
@@ -44,11 +46,7 @@ const Location_NewPost = ({ lat, lng, address }) => {
   };
   const handleonGeolocate = (event) => {
     console.log("handleonGeolocate", event);
-    //   const data = {
-    //     lat: e.coords.latitude,
-    //     lng: e.coords.longitude,
-    //     place_name: "",
-    //   };
+
     setMarker({
       latitude: event.coords.latitude,
       longitude: event.coords.longitude,
@@ -60,7 +58,6 @@ const Location_NewPost = ({ lat, lng, address }) => {
       longitude: event.coords.longitude,
       zoom: 14,
     });
-    //   dispatch(UpdateLocationAction(data));
   };
   console.log("load");
   const mapRef = useRef(null);
@@ -97,6 +94,40 @@ const Location_NewPost = ({ lat, lng, address }) => {
       setMarker(null);
     });
   };
+
+  const getLatLngFromAddress = async (address) => {
+    const apiKey = "af4284a02ae26231e2a517f30b67d25216a69b76782dfb4c";
+    const url = `https://maps.vietmap.vn/api/search/v3?apikey=${apiKey}&text=${address}`;
+
+    try {
+      const response = address.length > 0 && (await axios.get(url));
+      const result = response?.data[0];
+      if (result) {
+        const urlPlace = `https://maps.vietmap.vn/api/place/v3?apikey=${apiKey}&refid=${result.ref_id}`;
+        try {
+          const response = await axios.get(urlPlace);
+          console.log("response", response);
+
+          setMarker({
+            latitude: response.data?.lat,
+            longitude: response.data?.lng,
+            place_name: address,
+          });
+          setViewState((prevState) => ({
+            ...prevState,
+            latitude: response.data?.lat,
+            longitude: response.data?.lng,
+          }));
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        console.error("No results found");
+      }
+    } catch (error) {
+      console.error("Error fetching geocoding data:", error);
+    }
+  };
   const geocodingMapbox = () => {
     axios
       .get(
@@ -110,7 +141,6 @@ const Location_NewPost = ({ lat, lng, address }) => {
           ...prevState,
           ["place_name"]: data.features[0].place_name,
         }));
-        setConfirmed(true);
       });
   };
   const geocodingVietMap = () => {
@@ -126,7 +156,6 @@ const Location_NewPost = ({ lat, lng, address }) => {
           ...prevState,
           ["place_name"]: data,
         }));
-        setConfirmed(true);
       });
   };
 
@@ -139,26 +168,57 @@ const Location_NewPost = ({ lat, lng, address }) => {
     // setPickMarker(true);
     console.log("handlePickMaker");
   };
+  const handleConfirm = () => {
+    if (marker.latitude) {
+      setFormData((prevState) => ({
+        ...prevState,
+        ["lat"]: marker.latitude,
+        ["lng"]: marker.longitude,
+      }));
+      setConfirmed(true);
+      message.success("Chọn tọa độ thành công");
+    } else {
+      message.error("Chưa chọn tọa độ");
+    }
+  };
+
   console.log("Marker", marker);
 
   return (
     <>
+      {confirmed && (
+        <div className="w-full flex flex-col items-center  justify-start mb-[10px] ">
+          <p>{`Toạ độ : ${marker.latitude}`}</p>
+          <p>{`Kinh độ : ${marker.longitude}`}</p>
+          <p>{`Địa điểm : ${marker.place_name}`}</p>
+        </div>
+      )}
+      <div className="w-full flex items-center gap-[15px] justify-start mb-[10px] ">
+        <button
+          className=" bg-[#58b055] p-[10px] text-white"
+          onClick={() => getLatLngFromAddress(address)}
+        >
+          Tìm địa chỉ đã nhập{" "}
+          <i className="fa-solid fa-location-dot text-xl"></i>{" "}
+        </button>{" "}
+        <button
+          className=" bg-rose-600 p-[10px] text-white"
+          onClick={() => handleConfirm()}
+        >
+          Chọn tọa độ
+          <i className="fa-solid fa-location-dot text-xl pl-[5px]"></i>{" "}
+        </button>{" "}
+      </div>
       <div className="w-full h-[50vh] relative">
         <div className="absolute top-[100px] bg-[#687d9f] right-[10px] z-10 text-white p-[5px] ">
-          <button onClick={() => handlePickMaker()}>Chọn địa điểm</button>
+          <button className="  text-white" onClick={() => handlePickMaker()}>
+            <i class="fa-solid fa-plus"></i>{" "}
+            <i className="fa-solid fa-location-dot text-xl"></i>{" "}
+          </button>{" "}
         </div>
-        {(marker || confirmed) && (
+        {marker?.latitude !== "0" && (
           <div className="absolute top-[140px] bg-[#687d9f] right-[10px] z-10 text-white p-[5px] ">
-            <button
-              onClick={
-                !confirmed
-                  ? () => geocodingVietMap()
-                  : () => console.log("send location", marker)
-              }
-            >
-              {" "}
-              {confirmed ? "Chọn tọa độ" : "Xem địa chỉ"}
-            </button>
+            <button onClick={() => geocodingVietMap()}> {"Xem địa chỉ"}</button>
           </div>
         )}
         <ReactMapGL
@@ -182,7 +242,7 @@ const Location_NewPost = ({ lat, lng, address }) => {
           <NavigationControl position="bottom-right" />
           {/* <SearchLocation /> */}
 
-          {marker && (
+          {marker.latitude !== "0" && marker.longitude !== "0" && (
             <>
               {showPopup && (
                 <Popup
@@ -224,7 +284,7 @@ const Location_NewPost = ({ lat, lng, address }) => {
                   onClick={() => setShowPopup(true)}
                   className=" text-rose-600"
                 >
-                  <i className="fa-solid fa-location-dot text-5xl"></i>
+                  <i className="fa-solid fa-location-dot text-6xl"></i>
                 </div>
               </Marker>
             </>
