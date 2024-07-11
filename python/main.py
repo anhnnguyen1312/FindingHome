@@ -54,7 +54,7 @@ print(filtered_df.head())
 features = ['typeRoom','address','price','area','description']
 # + " " + str(row['address']) 
 def combineFeatures(row):
-    return str(row['typeRoom']) + " " + str(row['price'])+ " " + str(row['area'])
+    return str(row['typeRoom']) + " " + str(row['address'])  + " " + str(row['price'])+ " " + str(row['area'])
 filtered_df['combineFeatures'] =filtered_df.apply(combineFeatures,axis=1)
 print(filtered_df['combineFeatures'].head())
 tf = TfidfVectorizer ()
