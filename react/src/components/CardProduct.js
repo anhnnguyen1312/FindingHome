@@ -84,7 +84,7 @@ const CardProduct = ({ props, checked, isSystem }) => {
             </div>
             <LikeComponent postId={props.id} />
           </div>
-          <div className="justify-start gap-[1vw] flex ">
+          <div className="justify-start gap-[1vw] flex mt-5 ">
             <div className="text-white font-medium flex items-center color:white px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">
               <div className="flex items-center px-[3px]"></div>
               {`${props.price} triệu/tháng`}
@@ -127,7 +127,7 @@ const CardProduct = ({ props, checked, isSystem }) => {
           <div className="flex h-[40px] justify-between text-cyan-600 font-medium">
             <div
               onClick={(e) => handleNavigateProfilePublic(e, props.userId)}
-              className="cursor-pointer  flex items-center justify-center  w-[50px]"
+              className="cursor-pointer  flex items-center justify-center"
             >
               <i className="ml-5 fa-solid fa-user mr-1 mb-1"></i>
               {props.username}

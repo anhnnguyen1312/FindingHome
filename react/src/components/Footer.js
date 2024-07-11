@@ -101,7 +101,7 @@ const Footer = () => {
                 <span className="mr-2 w-8">
                   <img src={logo} alt="findingHouse" className="rounded-full" />
                 </span>
-                Finding House corp.
+                AcrossPro Corp.
               </Link>
             </div>
             <div className="flex justify-between items-center w-[240px]">

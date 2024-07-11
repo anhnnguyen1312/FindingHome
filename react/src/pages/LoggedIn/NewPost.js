@@ -77,6 +77,7 @@ const NewPost = ({ updatePostData }) => {
       urlImages: updatePostData?.urlImages || "",
       lat: updatePostData?.lat || null,
       lng: updatePostData?.lng || null,
+      userRole: stateAuth.data.role
     };
     return data;
   });
