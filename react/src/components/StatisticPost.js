@@ -93,40 +93,43 @@ const StatisticPost = ({ userId }) => {
                       return (
                         <tr key={index}>
                           <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center">
-                            {index+1}
+                            {index + 1}
                           </td>
                           <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                           {post.title}
+                            {post.title}
                           </th>
                           <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center">
-                          {post.dateCreateAt}
+                            {post.dateCreateAt}
                           </td>
                           <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center">
                             {post.likes}
                           </td>
                           <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                          {handleStatusTag(post.check)}
+                            {handleStatusTag(post.check)}
                           </td>
                         </tr>
-                      )
+                      );
                     })
-                  : currentPostData?.length === 0 && <img src={no_data_img} alt="No data available"></img>}
+                  : currentPostData?.length === 0 && (
+                      <td colSpan={5}>
+                        <img src={no_data_img} alt="No data available"></img>
+                      </td>
+                    )}
               </tbody>
             </table>
           </div>
-         
         </div>
         <div className="flex items-center justify-center mt-[10px]">
-            <Pagination
-             current={currentPage}
-              pageSize={pageSize}
-              total={filterTypePosts?.length}
-               onChange={handlePageChange}
-              hideOnSinglePage={true}
-              showSizeChanger
-              showQuickJumper
-              showTotal={(total) => `Tổng ${total} bài đăng`}
-            />
+          <Pagination
+            current={currentPage}
+            pageSize={pageSize}
+            total={filterTypePosts?.length}
+            onChange={handlePageChange}
+            hideOnSinglePage={true}
+            showSizeChanger
+            showQuickJumper
+            showTotal={(total) => `Tổng ${total} bài đăng`}
+          />
         </div>
       </div>
     </section>
