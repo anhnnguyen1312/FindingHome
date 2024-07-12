@@ -30,7 +30,6 @@ import { Image, Upload } from "antd";
 import { callApiUploadImages } from "../../api/uploadImage";
 import swal from "sweetalert";
 import Location_NewPost from "../../components/Location_NewPost";
-import axios from "axios";
 
 const NewPost = ({ updatePostData }) => {
   const usenavi = useNavigate();
@@ -75,13 +74,11 @@ const NewPost = ({ updatePostData }) => {
       userId: updatePostData?.userId || "",
       check: stateAuth.data.role === "1" ? "1" : "0",
       urlImages: updatePostData?.urlImages || "",
-      lat: updatePostData?.lat || null,
-      lng: updatePostData?.lng || null,
-      userRole: stateAuth.data.role
+      lat: updatePostData?.lat || 0,
+      lng: updatePostData?.lng || 0,
     };
     return data;
   });
-
   const handleNavigateToLogin = () => {
     navigate(path.HOME);
   };
@@ -243,7 +240,7 @@ const NewPost = ({ updatePostData }) => {
     }
     return isInvalidCount;
   };
-  console.log("formData", formData);
+
   const handleSubmitPost = () => {
     setLoading(true);
     let IsError = validate(formData);
@@ -252,8 +249,6 @@ const NewPost = ({ updatePostData }) => {
       if (updatePostData) {
         const PostNewPost = async () => {
           try {
-            console.log("formData trc kh call api", formData);
-
             const response = await callApiUpdatePost(formData);
             if (response.data.fail) {
               swal({
@@ -282,116 +277,36 @@ const NewPost = ({ updatePostData }) => {
         PostNewPost();
         setLoading(false);
       } else {
-        if (!(formData.lat && formData.lng)) {
-          console.log("sai ne");
-          const getLatLngFromAddress = async (address) => {
-            const apiKey = "af4284a02ae26231e2a517f30b67d25216a69b76782dfb4c";
-            const url = `https://maps.vietmap.vn/api/search/v3?apikey=${apiKey}&text=${address}`;
-
-            try {
-              const response = address.length > 0 && (await axios.get(url));
-              const result = response?.data[0];
-              if (result) {
-                const urlPlace = `https://maps.vietmap.vn/api/place/v3?apikey=${apiKey}&refid=${result.ref_id}`;
-                try {
-                  const response = await axios.get(urlPlace);
-                  console.log("response", response);
-
-                  const apiData = {
-                    title: formData.title,
-                    address: formData.address,
-                    zalo: formData.zalo,
-                    status: formData.status,
-                    price: formData.price,
-                    area: formData.area,
-                    otherFee: formData.otherFee,
-                    nearby: formData.nearby,
-                    typeRoom: formData.typeRoom,
-                    description: formData.description,
-                    furniture: formData.furniture,
-                    rule: formData.rule,
-                    dateCreateAt: formData.dateCreateAt,
-                    dateExpired: formData.dateExpired,
-                    userId: formData.userId,
-                    check: formData.check,
-                    urlImages: formData.urlImages,
-                    lat: response.data?.lat,
-                    lng: response.data?.lng,
-                  };
-                  try {
-                    console.log("call api khi k co lat long", apiData);
-
-                    const response = await callApiCreatePost(apiData);
-                    if (response.data.fail) {
-                      swal({
-                        text: response.data.fail,
-                        icon: "error",
-                        timer: 2000,
-                      });
-                    } else {
-                      swal({
-                        text: response.data.success,
-                        icon: "success",
-                        timer: 2000,
-                      });
-
-                      // window.location.reload();
-                    }
-                  } catch (error) {
-                    setLoading(false);
-                    console.log("error", error);
-                    swal({
-                      text: "Tạo bài đăng mới không thành công",
-                      icon: "error",
-                      timer: 2000,
-                    });
-                  }
-                } catch (error) {
-                  console.log(error);
-                }
-              } else {
-                console.error("No results found");
-              }
-            } catch (error) {
-              console.error("Error fetching geocoding data:", error);
-            }
-          };
-          getLatLngFromAddress(formData.address);
-          setLoading(false);
-        } else {
-          const PostNewPost = async () => {
-            try {
-              console.log("call api khi  co lat long", formData);
-
-              const response = await callApiCreatePost(formData);
-              if (response.data.fail) {
-                swal({
-                  text: response.data.fail,
-                  icon: "error",
-                  timer: 2000,
-                });
-              } else {
-                swal({
-                  text: response.data.success,
-                  icon: "success",
-                  timer: 2000,
-                });
-
-                // window.location.reload();
-              }
-            } catch (error) {
-              setLoading(false);
-              console.log("error", error);
+        const PostNewPost = async () => {
+          try {
+            const response = await callApiCreatePost(formData);
+            if (response.data.fail) {
               swal({
-                text: "Tạo bài đăng mới không thành công",
+                text: response.data.fail,
                 icon: "error",
                 timer: 2000,
               });
+            } else {
+              swal({
+                text: response.data.success,
+                icon: "success",
+                timer: 2000,
+              });
+
+              window.location.reload();
             }
-          };
-          PostNewPost();
-          setLoading(false);
-        }
+          } catch (error) {
+            setLoading(false);
+            console.log("error", error);
+            swal({
+              text: "Tạo bài đăng mới không thành công",
+              icon: "error",
+              timer: 2000,
+            });
+          }
+        };
+        PostNewPost();
+        setLoading(false);
       }
     }
     setLoading(false);
@@ -582,10 +497,9 @@ const NewPost = ({ updatePostData }) => {
   useEffect(() => {
     setFormData((prevState) => ({
       ...prevState,
-      address: ` ${addressData.streetForm ? `${addressData.streetForm}, ` : ""} ${addressData.wardForm ? `${addressData.wardForm}, ` : ""} ${addressData.districtForm ? `${addressData.districtForm}, ` : ""} ${addressData.provinceForm ? `${addressData.provinceForm}` : ""}`,
+      address: `${addressData?.streetForm?.trim() ? `${addressData.streetForm},` : ""}${addressData.wardForm ? `${addressData.wardForm},` : ""}${addressData.districtForm ? `${addressData.districtForm},` : ""}${addressData.provinceForm ? `${addressData.provinceForm}` : ""}`,
     }));
   }, [addressData]);
-  console.log("form lat long", formData.lat, formData.lng);
 
   return (
     <>
@@ -679,10 +593,10 @@ const NewPost = ({ updatePostData }) => {
             <p className="font-medium"> Chọn tọa độ trên bản đồ</p>
           </div>
           <Location_NewPost
-            setFormData={setFormData}
-            address={formData.address}
             lat={formData.lat}
             lng={formData.lng}
+            address={formData.address}
+            setFormData={setFormData}
           />
           {/* thong tin phong */}
           <div className="shrink-0 mr-auto sm:py-3">
