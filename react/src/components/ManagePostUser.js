@@ -5,8 +5,9 @@ import { SelectNewPost, UpdatePost } from "./index";
 import typePost from "../data/typePost";
 import { message, Popconfirm, Pagination } from "antd";
 import { callApiDeletePost } from "../api/getPostApi";
-import {callApiDeletePostAdmin} from "../api/system/getPostAdminApi"
+import { callApiDeletePostAdmin } from "../api/system/getPostAdminApi";
 import { UpdatePostAction } from "../redux/store/action/postAction";
+import no_data_img from "../assets/images/no-data-icon-10.png";
 
 const ManagePostUser = ({ userId }) => {
   const [typePostClick, setTypePostClick] = useState({ type: "tất cả" });
@@ -167,113 +168,114 @@ const ManagePostUser = ({ userId }) => {
         </div>
 
         <ul className="flex flex-col gap-[20px]">
-          {postDataFilter?.length &&
-            currentPosts?.map((product) => (
-              <div
-                key={product.id}
-                className="flex gap-[20px] items-center justify-center group"
-              >
-                <div className="w-[90%]">
-                  <div className="relative">
-                    <CardProduct props={product} checked={product.check} />
+          {currentPosts?.length > 0
+            ? currentPosts?.map((product) => (
+                <div
+                  key={product.id}
+                  className="flex gap-[20px] items-center justify-center group"
+                >
+                  <div className="w-[90%]">
+                    <div className="relative">
+                      <CardProduct props={product} checked={product.check} />
+                    </div>
                   </div>
-                </div>
-                <div className="w-[10%] flex flex-col gap-[10px] items-center justify-between hidden group-hover:flex">
-                  {data.role === "1" && data.userId !== userId && (
-                              <Button
-                              icon={"fa-solid fa-trash-can"}
-                              bgColor={"bg-[#DE3E36]"}
-                              textColor={"text-white"}
-                              borderColor={"border-[#DE3E36]"}
-                              width={"w-12"}
-                              height={"h-12"}
-                              fullRounded={"rounded-full"}
-                              title={"xóa"}
-                              onClick={handleOpenModal}
-                            />
-                  )}
-                                              {isModalOpen && (
-                              <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-                                <div className="bg-white p-6 rounded-lg shadow-lg w-[30%]">
-                                  <h2 className="text-xl font-bold mb-4">
-                                    Nhập lý do xóa
-                                  </h2>
-                                  <textarea
-                                    className="w-full p-2 border border-gray-300 rounded mb-4"
-                                    value={deleteReason}
-                                    onChange={(e) =>
-                                      setDeleteReason(e.target.value)
-                                    }
-                                    placeholder="Lý do xóa..."
-                                  />
-                                  <div className="flex justify-end gap-[10px]">
-                                    <Button
-                                      children={"Hủy"}
-                                      bgColor={"bg-[#636160]"}
-                                      textColor={"text-white"}
-                                      borderColor={"border-white"}
-                                      style={"hover:bg-[#969595]"}
-                                      onClick={() => setIsModalOpen(false)}
-                                    />
-                                    <Button
-                                      children={"Xác Nhận"}
-                                      bgColor={"bg-[#f52907]"}
-                                      textColor={"text-white"}
-                                      borderColor={"border-white"}
-                                      style={"hover:bg-[#f74c2f]"}
-                                      onClick={() => {
-                                        handleDeletePost(product, deleteReason);
-                                        setIsModalOpen(false);
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                  {data.userId === userId && (
-                    <>
+                  <div className="w-[10%] flex flex-col gap-[10px] items-center justify-between hidden group-hover:flex">
+                    {data.role === "1" && data.userId !== userId && (
                       <Button
-                        icon={
-                          product.check === "3"
-                            ? "fa-solid fa-rotate-left"
-                            : "fa-solid fa-pen-to-square"
-                        }
-                        bgColor={
-                          product.check === "3"
-                            ? "bg-[#6F7B92]"
-                            : "bg-[#3064f2]"
-                        }
+                        icon={"fa-solid fa-trash-can"}
+                        bgColor={"bg-[#DE3E36]"}
                         textColor={"text-white"}
-                        borderColor={"border-white"}
+                        borderColor={"border-[#DE3E36]"}
                         width={"w-12"}
                         height={"h-12"}
                         fullRounded={"rounded-full"}
-                        title={product.check === "3" ? "Đăng lại" : "Chỉnh sửa"}
-                        onClick={() => handleUpdatePost(product)}
+                        title={"xóa"}
+                        onClick={handleOpenModal}
                       />
-                      <Popconfirm
-                        title="Xóa bài đăng"
-                        description="Bạn có chắc chắn muốn xóa bài đăng này"
-                        onConfirm={() => confirm(product)}
-                        okText="Xóa"
-                        cancelText="Hủy"
-                      >
+                    )}
+                    {isModalOpen && (
+                      <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+                        <div className="bg-white p-6 rounded-lg shadow-lg w-[30%]">
+                          <h2 className="text-xl font-bold mb-4">
+                            Nhập lý do xóa
+                          </h2>
+                          <textarea
+                            className="w-full p-2 border border-gray-300 rounded mb-4"
+                            value={deleteReason}
+                            onChange={(e) => setDeleteReason(e.target.value)}
+                            placeholder="Lý do xóa..."
+                          />
+                          <div className="flex justify-end gap-[10px]">
+                            <Button
+                              children={"Hủy"}
+                              bgColor={"bg-[#636160]"}
+                              textColor={"text-white"}
+                              borderColor={"border-white"}
+                              style={"hover:bg-[#969595]"}
+                              onClick={() => setIsModalOpen(false)}
+                            />
+                            <Button
+                              children={"Xác Nhận"}
+                              bgColor={"bg-[#f52907]"}
+                              textColor={"text-white"}
+                              borderColor={"border-white"}
+                              style={"hover:bg-[#f74c2f]"}
+                              onClick={() => {
+                                handleDeletePost(product, deleteReason);
+                                setIsModalOpen(false);
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {data.userId === userId && (
+                      <>
                         <Button
-                          icon={"fa-solid fa-trash-can"}
-                          bgColor={"bg-[#DE3E36]"}
+                          icon={
+                            product.check === "3"
+                              ? "fa-solid fa-rotate-left"
+                              : "fa-solid fa-pen-to-square"
+                          }
+                          bgColor={
+                            product.check === "3"
+                              ? "bg-[#6F7B92]"
+                              : "bg-[#3064f2]"
+                          }
                           textColor={"text-white"}
-                          borderColor={"border-[#DE3E36]"}
+                          borderColor={"border-white"}
                           width={"w-12"}
                           height={"h-12"}
                           fullRounded={"rounded-full"}
-                          title={"xóa"}
+                          title={
+                            product.check === "3" ? "Đăng lại" : "Chỉnh sửa"
+                          }
+                          onClick={() => handleUpdatePost(product)}
                         />
-                      </Popconfirm>
-                    </>
-                  )}
+                        <Popconfirm
+                          title="Xóa bài đăng"
+                          description="Bạn có chắc chắn muốn xóa bài đăng này"
+                          onConfirm={() => confirm(product)}
+                          okText="Xóa"
+                          cancelText="Hủy"
+                        >
+                          <Button
+                            icon={"fa-solid fa-trash-can"}
+                            bgColor={"bg-[#DE3E36]"}
+                            textColor={"text-white"}
+                            borderColor={"border-[#DE3E36]"}
+                            width={"w-12"}
+                            height={"h-12"}
+                            fullRounded={"rounded-full"}
+                            title={"xóa"}
+                          />
+                        </Popconfirm>
+                      </>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            : currentPosts?.length === 0 && <img src={no_data_img}></img>}
         </ul>
         <div className="flex items-center justify-center">
           <Pagination

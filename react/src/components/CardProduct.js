@@ -75,7 +75,7 @@ const CardProduct = ({ props, checked, isSystem }) => {
         </figure>
 
         <div className="gap-[1vh] flex flex-col flex-[70%] p-[1vh]  border-y-[#E2E8F0] border-l-red rounded-r-2xl  ">
-          <div className="flex flex-row items-center flex-wrap justify-between">
+          <div className="flex flex-row items-center  justify-between">
             <div className="flex">
               <h2 className="text-red-500 font-medium mr-2 items-center flex">
                 {props.title}
@@ -174,6 +174,7 @@ const CardProduct = ({ props, checked, isSystem }) => {
                 {props.zalo}
               </div>
             )}
+            <div className=" flex items-center">#{props.id}</div>
           </div>
         </div>
       </div>

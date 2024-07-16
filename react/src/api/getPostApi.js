@@ -70,14 +70,14 @@ export const callApiDetailPost = (payload) =>
     }
   });
 
-export const callApiRecommendSystem = (id) =>
+export const callApiRecommendSystem = (postId, userId) =>
   new Promise(async (resolve, reject) => {
     try {
       const response = await axiosConfig({
         method: "get",
-        url: `http://127.0.0.1:5000/recommend?id=${id}`,
+        url: `http://127.0.0.1:5000/recommend?id=${postId},${userId}`,
       });
-      // console.log(url);
+      console.log(`http://127.0.0.1:5000/recommend?id=${postId},${userId}`);
       resolve(response);
     } catch (error) {
       reject(error);

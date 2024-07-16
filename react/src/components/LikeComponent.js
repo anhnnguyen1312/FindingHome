@@ -1,33 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import {callApihandleLikePost, callApiCheckLikePost} from "../api/getPostApi";
-const LikeComponent = ({postId}) => {
+import { callApihandleLikePost, callApiCheckLikePost } from "../api/getPostApi";
+const LikeComponent = ({ postId }) => {
   const stateAuth = useSelector((state) => state.auth);
-  
-  const userId = stateAuth.data.userId
+
+  const userId = stateAuth.data.userId;
 
   const [isLike, setIsLike] = useState(false);
 
   useEffect(() => {
-    checkLiked()
-  },[postId, userId])
+    checkLiked();
+  }, [postId, userId]);
 
-  const checkLiked = async () =>{
-    try{
+  const checkLiked = async () => {
+    try {
       const payload = {
         userId: userId,
         postId: postId,
       };
-      const response = await callApiCheckLikePost(payload)
-      if(response.data.isLike){
-        setIsLike(true)
+      const response = await callApiCheckLikePost(payload);
+      if (response.data.isLike) {
+        setIsLike(true);
       }
-    }catch (error){
+    } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const handleLike = async (e, postId, userId) => {
+    // setIsLike(!isLike);
     e.stopPropagation();
     try {
       const payload = {
@@ -36,27 +37,26 @@ const LikeComponent = ({postId}) => {
       };
       const response = await callApihandleLikePost(payload);
       console.log("checklike", response);
-      if(response.data.isLike){
-        setIsLike(true)
-      }
-      else if(response.data.isUnLike){
-        setIsLike(false)
+      if (response.data.isLike) {
+        setIsLike(true);
+      } else if (response.data.isUnLike) {
+        setIsLike(false);
       }
     } catch (error) {
       console.error(error);
     }
   };
   return (
-      <span
-        className="text-yellow-500 flex-col flex"
-        onClick = {(e) => handleLike(e, postId, userId)}
-      >
-        {isLike ? (
-          <i className="fa-solid fa-star fa-lg"></i>
-        ) : (
-          <i className="fa-regular fa-star fa-lg"></i>
-        )}
-      </span>
+    <div
+      className="text-yellow-500 flex-col flex h-[23px] justify-start align-start pt-[9px]"
+      onClick={(e) => handleLike(e, postId, userId)}
+    >
+      {isLike ? (
+        <i className="fa-solid fa-star fa-lg"></i>
+      ) : (
+        <i className="fa-regular fa-star fa-lg"></i>
+      )}
+    </div>
   );
 };
 

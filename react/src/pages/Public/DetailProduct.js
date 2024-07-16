@@ -7,6 +7,7 @@ import { GeoCoding, Button, CardProduct } from "../../components/index";
 import {
   callApiDetailPost,
   callApiRecommendSystem,
+  callApiListLikePost,
 } from "../../api/getPostApi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
@@ -55,28 +56,39 @@ const DetailProduct = () => {
         const response = await callApiDetailPost(id);
         const decodeToken = jwtDecode(response.data.token);
         setDetailPost(decodeToken);
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
       } catch (error) {
         console.log(error);
       }
     };
     getApiDetailPost();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const getApiRecommend = async () => {
       try {
-        const response = await callApiRecommendSystem(detailPost.id);
+        const userId = null;
+
+        const response = await callApiRecommendSystem(
+          detailPost.id,
+          stateAuth.data.userId ? (userId = stateAuth.data.userId) : userId
+        );
         console.log("response", response);
+
+        const postRecommmend = [
+          ...response.data.postId,
+          ...response.data.userId,
+        ];
         const data = homepagePosts.filter((post) => {
-          console.log(
-            "includes",
-            post.id,
-            response.data,
-            response.data.includes(post.id)
-          );
-          return response.data.includes(parseInt(post.id));
+          return postRecommmend.includes(parseInt(post.id));
         });
         console.log("data", data);
+
+        // const responseLike = await callApiListLikePost(response.data.userId);
+        // console.log("responseLike", responseLike);
 
         setPostsRecommend(data);
       } catch (error) {
@@ -138,6 +150,7 @@ const DetailProduct = () => {
       }
     }
   };
+  console.log("userId", stateAuth.data);
   const handleCensorPost = (detailPost) => {
     const censorPost = async () => {
       try {
@@ -230,7 +243,7 @@ const DetailProduct = () => {
           {/* thong tin nguoi dang */}
           <div className="mb-4 flex sm:flex-row flex-col-reverse justify-end">
             {stateAuth.data.role === "1" ||
-            detailPost.userId === stateAuth.data.id ? (
+            detailPost.userId === stateAuth.data.userId ? (
               <>
                 <div className="flex flex-row gap-[10px] justify-center absolute top-[38px] left-[20px] ">
                   {handleStatusTag(detailPost.check)}

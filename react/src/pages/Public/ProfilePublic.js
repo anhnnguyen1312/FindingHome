@@ -4,14 +4,14 @@ import { ManagePostUser } from "../../components/index";
 import { useLocation, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
-
+import userAvatar from "../../assets/images/userAvatar.jpg";
 import { callApiGetUserProfile } from "../../api/system/getUserProfile";
 
 const ProfilePublic = () => {
   const [userProfile, setUserProfile] = useState({});
   const useLocate = useLocation();
   const { posts } = useSelector((state) => state.post);
-  console.log("me me", userProfile)
+  console.log("me me", userProfile);
 
   const params = useParams();
   const userId = params.userId;
@@ -21,7 +21,7 @@ const ProfilePublic = () => {
       try {
         const response = await callApiGetUserProfile(userId);
         const decodeToken = jwtDecode(response.data.token);
-        setUserProfile(decodeToken)
+        setUserProfile(decodeToken);
       } catch (error) {
         console.log(error);
       }
@@ -43,11 +43,12 @@ const ProfilePublic = () => {
           <div className="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
             <img
               className="object-cover object-center h-32"
-              src={
-                userProfile.avatar
-                  ? userProfile.avatar
-                  : "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
-              }
+              // src={
+              //   userProfile.avatar
+              //     ? userProfile.avatar
+              //     : "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
+              // }
+              src={userProfile.avatar ? userProfile.avatar : userAvatar}
               alt="avatar"
             />
           </div>
