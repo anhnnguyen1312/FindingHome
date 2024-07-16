@@ -79,8 +79,7 @@ $route['admin-mark-read/(:any)'] = 'NotificationController/admin_mark_read/$1';
 $route['user-mark-read/(:any)'] = 'NotificationController/user_mark_read/$1';
 $route['admin-mark-read'] = 'NotificationController/admin_mark_read';
 $route['user-mark-read'] = 'NotificationController/user_mark_read';
-
-
-
+//Recommendation
+$route['user-action'] = 'RecommendController/user_action';
 
 

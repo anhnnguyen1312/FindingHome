@@ -17,14 +17,14 @@ class PostController extends CI_Controller {
 			$post_data['urlImages'] = json_encode($post_data['urlImages']);
 			
 			$userId = $post_data['userId'];
-			$userRole = $post_data['userRole'];
+			$userRole = $post_data['check'];
 			$user_data = $this->Authen_model->get_detail_user($userId);
 			if($user_data){
 				$post_data['userName'] = $user_data->name;
 			}
 
 			$postId = $this->Post_model->handle_post($post_data);
-
+			
 			if($userRole == "0"){
 				$notifcation_result = $this->Notification_model->user_update_notification_post($post_data, $postId);
 			}elseif($userRole == "1"){
@@ -47,7 +47,7 @@ class PostController extends CI_Controller {
 	
 	public function update_post(){
 		$post_data = json_decode($this->input->raw_input_stream, true);
-		$userRole = $post_data['userRole'];
+		$userRole = $post_data['check'];
 		$id = $post_data["id"];
 		if($post_data){
 			$post_data['urlImages'] = json_encode($post_data['urlImages']);
@@ -89,7 +89,8 @@ class PostController extends CI_Controller {
 					'userId' => $data->userId,
 					'username' => $data->name,
 					'phone' => $this->encryption->decrypt($data->phone),
-					'address' => $this->encryption->decrypt($data->address),
+					//'address' => $this->encryption->decrypt($data->address),
+					'address' => $data->address,
 					'typeRoom' => $data->typeRoom,
 					'price' => $data->price,
 					'title' => $data->title,
@@ -134,7 +135,8 @@ class PostController extends CI_Controller {
 					'userRole' => $data->role,
 					'username' => $data->name,
 					'phone' => $this->encryption->decrypt($data->phone),
-					'address' => $this->encryption->decrypt($data->address),
+					//'address' => $this->encryption->decrypt($data->address),
+					'address' => $data->address,
 					'typeRoom' => $data->typeRoom,
 					'price' => $data->price,
 					'title' => $data->title,
@@ -177,7 +179,8 @@ class PostController extends CI_Controller {
 					'userId' => $data->userId,
 					'username' => $data->name,
 					'phone' => $this->encryption->decrypt($data->phone),
-					'address' => $this->encryption->decrypt($data->address),
+					//'address' => $this->encryption->decrypt($data->address),
+					'address' => $data->address,
 					'typeRoom' => $data->typeRoom,
 					'price' => $data->price,
 					'title' => $data->title,
@@ -281,7 +284,8 @@ class PostController extends CI_Controller {
 					'userId' => $data->userId,
 					'username' => $data->name,
 					'phone' => $this->encryption->decrypt($data->phone),
-					'address' => $this->encryption->decrypt($data->address),
+					//'address' => $this->encryption->decrypt($data->address),
+					'address' => $data->address,
 					'typeRoom' => $data->typeRoom,
 					'price' => $data->price,
 					'title' => $data->title,
