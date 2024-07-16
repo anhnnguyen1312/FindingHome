@@ -21,6 +21,8 @@ import {
   SelectNewPost,
   Loading,
 } from "../../components/index";
+import axios from "axios";
+
 import TypeRoom from "../../data/TypeRoom";
 import validator from "validator";
 import { callApiCreatePost, callApiUpdatePost } from "../../api/getPostApi";
@@ -146,7 +148,7 @@ const NewPost = ({ updatePostData }) => {
     };
     const IsAddressNull = () => {
       for (let i in addressData) {
-        if (addressData[i] === "") {
+        if (addressData[i] === "" || addressData[i] == undefined) {
           setIsInvalid((prevState) => [
             ...prevState,
             { name: i, msg: `Trường này là bắt buộc ` },
@@ -277,36 +279,147 @@ const NewPost = ({ updatePostData }) => {
         PostNewPost();
         setLoading(false);
       } else {
-        const PostNewPost = async () => {
-          try {
-            const response = await callApiCreatePost(formData);
-            if (response.data.fail) {
+        // const PostNewPost = async () => {
+        //   try {
+        //     const response = await callApiCreatePost(formData);
+        //     if (response.data.fail) {
+        //       swal({
+        //         text: response.data.fail,
+        //         icon: "error",
+        //         timer: 2000,
+        //       });
+        //     } else {
+        //       swal({
+        //         text: response.data.success,
+        //         icon: "success",
+        //         timer: 2000,
+        //       });
+
+        //       window.location.reload();
+        //     }
+        //   } catch (error) {
+        //     setLoading(false);
+        //     console.log("error", error);
+        //     swal({
+        //       text: "Tạo bài đăng mới không thành công",
+        //       icon: "error",
+        //       timer: 2000,
+        //     });
+        //   }
+        // };
+        if (!(formData.lat && formData.lng)) {
+          console.log("sai ne");
+          const getLatLngFromAddress = async (address) => {
+            const apiKey = "af4284a02ae26231e2a517f30b67d25216a69b76782dfb4c";
+            const url = `https://maps.vietmap.vn/api/search/v3?apikey=${apiKey}&text=${address}`;
+
+            try {
+              const response = address.length > 0 && (await axios.get(url));
+              const result = response?.data[0];
+              if (result) {
+                const urlPlace = `https://maps.vietmap.vn/api/place/v3?apikey=${apiKey}&refid=${result.ref_id}`;
+                try {
+                  const response = await axios.get(urlPlace);
+                  console.log("response", response);
+
+                  const apiData = {
+                    title: formData.title,
+                    address: formData.address,
+                    zalo: formData.zalo,
+                    status: formData.status,
+                    price: formData.price,
+                    area: formData.area,
+                    otherFee: formData.otherFee,
+                    nearby: formData.nearby,
+                    typeRoom: formData.typeRoom,
+                    description: formData.description,
+                    furniture: formData.furniture,
+                    rule: formData.rule,
+                    dateCreateAt: formData.dateCreateAt,
+                    dateExpired: formData.dateExpired,
+                    userId: formData.userId,
+                    check: formData.check,
+                    urlImages: formData.urlImages,
+                    lat: response.data?.lat,
+                    lng: response.data?.lng,
+                  };
+                  try {
+                    console.log("call api khi k co lat long", apiData);
+
+                    const response = await callApiCreatePost(apiData);
+                    console.log("response", response);
+
+                    if (response.data) {
+                      swal({
+                        text: "Tạo bài đăng mới không thành công",
+                        icon: "error",
+                        timer: 2000,
+                      });
+                    } else {
+                      swal({
+                        text: "Tạo bài đăng mới thành công",
+                        icon: "success",
+                        timer: 2000,
+                      });
+
+                      window.location.reload();
+                    }
+                  } catch (error) {
+                    setLoading(false);
+                    console.log("error", error);
+                    swal({
+                      text: "Tạo bài đăng mới không thành công",
+                      icon: "error",
+                      timer: 2000,
+                    });
+                  }
+                } catch (error) {
+                  console.log(error);
+                }
+              } else {
+                console.error("No results found");
+              }
+            } catch (error) {
+              console.error("Error fetching geocoding data:", error);
+            }
+          };
+          getLatLngFromAddress(formData.address);
+          setLoading(false);
+        } else {
+          const PostNewPost = async () => {
+            try {
+              console.log("call api khi  co lat long", formData);
+
+              const response = await callApiCreatePost(formData);
+              if (response.data.fail) {
+                swal({
+                  text: response.data.fail,
+                  icon: "error",
+                  timer: 2000,
+                });
+              } else {
+                swal({
+                  text: response.data.success,
+                  icon: "success",
+                  timer: 2000,
+                });
+
+                // window.location.reload();
+              }
+            } catch (error) {
+              setLoading(false);
+              console.log("error", error);
               swal({
                 text: response.data.fail,
+                text: "Tạo bài đăng mới không thành công",
                 icon: "error",
                 timer: 2000,
               });
-            } else {
-              swal({
-                text: response.data.success,
-                icon: "success",
-                timer: 2000,
-              });
-
-              window.location.reload();
             }
-          } catch (error) {
-            setLoading(false);
-            console.log("error", error);
-            swal({
-              text: "Tạo bài đăng mới không thành công",
-              icon: "error",
-              timer: 2000,
-            });
-          }
-        };
-        PostNewPost();
-        setLoading(false);
+          };
+          PostNewPost();
+          setLoading(false);
+        }
       }
     }
     setLoading(false);
@@ -357,13 +470,13 @@ const NewPost = ({ updatePostData }) => {
     // }
     if (updatePostData) {
       setPreview(updatePostData ? updatePostData?.urlImages : "");
-      let addressData = updatePostData
-        ? updatePostData?.address?.split(",")
+      let addressData = updatePostData.address
+        ? updatePostData.address.split(",")
         : "";
       if (updatePostData) {
         setFormData((prevState) => ({
           ...prevState,
-          ["id"]: updatePostData?.id,
+          ["id"]: updatePostData.id,
         }));
       }
       setAddressData({
@@ -497,7 +610,7 @@ const NewPost = ({ updatePostData }) => {
   useEffect(() => {
     setFormData((prevState) => ({
       ...prevState,
-      address: `${addressData?.streetForm?.trim() ? `${addressData.streetForm},` : ""}${addressData.wardForm ? `${addressData.wardForm},` : ""}${addressData.districtForm ? `${addressData.districtForm},` : ""}${addressData.provinceForm ? `${addressData.provinceForm}` : ""}`,
+      address: `${addressData?.streetForm?.trim() ? `${addressData.streetForm}, ` : ""}${addressData.wardForm ? `${addressData.wardForm}, ` : ""}${addressData.districtForm ? `${addressData.districtForm}, ` : ""}${addressData.provinceForm ? `${addressData.provinceForm}` : ""}`,
     }));
   }, [addressData]);
 

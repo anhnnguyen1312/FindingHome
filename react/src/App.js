@@ -63,15 +63,11 @@ function App() {
           <Route path={path.DETAIL_PRODUCT} element={<DetailProduct />} />
           <Route path={path.PROFILE_PUBLIC_ID} element={<ProfilePublic />} />
           <Route path={path.FINDROOM} element={<FindRoom />} />
-
-          <Route path={path.CLUSTER_MAP} element={<ClusterMap />} />
-
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
         </Route>
         <Route path={path.HOME_LOGGED_IN} element={<HomeLoggedIn />}>
           <Route path={path.PROFILE} element={<Profile />} />
           <Route path={path.NOTIFICATION} element={<Notification />} />
-
           <Route path={path.NEWPOST} element={<NewPost />} />
           <Route path={path.LIST_LIKED} element={<ListLiked />} />
         </Route>

@@ -39,8 +39,8 @@
   
   .navbar-logo {
     color: #F2545B;
-    justify-self: start;
-    margin-left: 20px;
+    justify-content: start;
+    
     cursor: pointer;
     text-decoration: none;
     font-size: 1rem;
@@ -59,7 +59,7 @@
     grid-gap: 10px;
     list-style: none;
     text-align: center;
-    width: 60vw;
+    width: 55vw;
     justify-content: end;
     margin-right: 1rem;
   }
@@ -199,7 +199,7 @@
     }
   
     .fa-times {
-      color: #fff;
+      color: #000000;
       font-size: 2rem;
     }
   

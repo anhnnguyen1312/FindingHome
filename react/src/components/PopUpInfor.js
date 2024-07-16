@@ -29,7 +29,7 @@ const PopUpInfor = ({ cluster }) => {
 
   return (
     <>
-      <Card sx={{ maxWidth: 400 }}>
+      <Card sx={{ maxWidth: 350 }}>
         <ImageListItem sx={{ display: "block" }}>
           <ImageListItemBar
             sx={{

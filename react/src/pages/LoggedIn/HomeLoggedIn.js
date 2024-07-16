@@ -7,7 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { path } from "../../ultils/path";
 import { getUserAction } from "../../redux/store/action/authenAction";
 import { getAuthToken } from "../../api/cookieServices";
-import { CommentOutlined, CustomerServiceOutlined } from "@ant-design/icons";
+import {
+  CommentOutlined,
+  CustomerServiceOutlined,
+  ArrowUpOutlined,
+} from "@ant-design/icons";
 import { FloatButton, Switch } from "antd";
 export default function Home() {
   const [open, setOpen] = useState(true);
@@ -47,6 +51,16 @@ export default function Home() {
             icon={<CustomerServiceOutlined />}
             onClick={() => setOpen(!open)}
           >
+            <FloatButton
+              onClick={() =>
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                })
+              }
+              tooltip={<div>Cuộn lên đầu trang</div>}
+              icon={<ArrowUpOutlined />}
+            />
             <FloatButton tooltip={<div>Chính sách</div>} />
             <FloatButton
               tooltip={<div>Tư vấn ngay</div>}
