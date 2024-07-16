@@ -5,11 +5,16 @@ import { path } from "../ultils/path";
 import { useNavigate, useLocation } from "react-router-dom";
 import AutoSlideShow from "./AutoSlideShow";
 import { LikeComponent } from "./index";
+import { useSelector } from "react-redux";
+import {callUserAction} from "../api/getRecommendation";
+
 
 import DetailProduct from "../pages/Public/DetailProduct";
 const CardProduct = ({ props, checked, isSystem }) => {
   const navigate = useNavigate();
   const useLocate = useLocation();
+  const stateAuth = useSelector((state) => state.auth);
+  const userId = stateAuth.data.userId
 
   function handleNavigate(e, idPost) {
     e.stopPropagation();
@@ -19,6 +24,23 @@ const CardProduct = ({ props, checked, isSystem }) => {
       navigate(`/${path.DETAIL}/${idPost}`, { state: { isSystem } });
     }
   }
+  const handleUserAction = async (postId, userId) => {
+    try {
+      const payload = {
+        userId: userId,
+        postId: postId,
+        eventType: "watch",
+      }
+
+      const response = await callUserAction(payload);
+      if(response.data.success){
+        const success = response.data.success
+        console.log(success)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleNavigateProfilePublic = (e, IdUser) => {
     console.log("click");
     e.stopPropagation();
@@ -68,7 +90,10 @@ const CardProduct = ({ props, checked, isSystem }) => {
     <li>
       <div
         className="flex hover:bg-[#E9F4F6] h-full border border-transparent bg-white shadow flex-col sm:flex-row md:flex-row px-4 active:border-rose-500 rounded-2xl"
-        onClick={(e) => handleNavigate(e, props.id)}
+        onClick={(e) =>{
+          handleNavigate(e, props.id),
+          handleUserAction(props.id, userId )
+        }}
       >
         <figure className="m-0 flex-[30%] my-4 overflow-hidden rounded-2xl relative">
           {props.urlImages && <AutoSlideShow images={props.urlImages} />}
@@ -82,7 +107,7 @@ const CardProduct = ({ props, checked, isSystem }) => {
               </h2>
               {handleStatusTag(checked)}
             </div>
-            <LikeComponent postId={props.id} />
+            < LikeComponent postId={props.id} />
           </div>
           <div className="justify-start gap-[1vw] flex mt-5 ">
             <div className="text-white font-medium flex items-center color:white px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">

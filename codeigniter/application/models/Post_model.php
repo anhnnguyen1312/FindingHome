@@ -8,7 +8,8 @@ class Post_model extends CI_Model {
 	public function handle_post($data, $id=null){
 		
 		$data_Post['userId'] = $data['userId'];
-		$data_Post['address'] = $this->encryption->encrypt($data['address']);
+		//$data_Post['address'] = $this->encryption->encrypt($data['address']);
+		$data_Post['address'] = $data['address'];
 		$data_Post['typeRoom'] = $data['typeRoom'];
 		$data_Post['price'] = $data['price'];
 		$data_Post['title'] = mb_strtoupper($data['title'],"UTF-8");

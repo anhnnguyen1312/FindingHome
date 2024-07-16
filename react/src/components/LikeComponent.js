@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { callApihandleLikePost, callApiCheckLikePost } from "../api/getPostApi";
-const LikeComponent = ({ postId }) => {
+import {callApihandleLikePost, callApiCheckLikePost} from "../api/getPostApi";
+import {callUserAction} from "../api/getRecommendation";
+
+const LikeComponent = ({postId}) => {
   const stateAuth = useSelector((state) => state.auth);
 
   const userId = stateAuth.data.userId;
@@ -46,17 +48,38 @@ const LikeComponent = ({ postId }) => {
       console.error(error);
     }
   };
+  const handleUserAction = async (postId, userId) => {
+    try {
+      const payload = {
+        userId: userId,
+        postId: postId,
+        eventType: "like",
+      }
+      if(!isLike){
+        const response = await callUserAction(payload);
+        if(response.data.success){
+          const success = response.data.success
+          console.log(success)
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
-    <div
-      className="text-yellow-500 flex-col flex h-[23px] justify-start align-start pt-[9px]"
-      onClick={(e) => handleLike(e, postId, userId)}
-    >
-      {isLike ? (
-        <i className="fa-solid fa-star fa-lg"></i>
-      ) : (
-        <i className="fa-regular fa-star fa-lg"></i>
-      )}
-    </div>
+      <span
+        className="text-yellow-500 flex-col flex"
+        onClick = {(e) => {
+          handleLike(e, postId, userId)
+          handleUserAction(postId, userId )
+        }}
+      >
+        {isLike ? (
+          <i className="fa-solid fa-star fa-lg"></i>
+        ) : (
+          <i className="fa-regular fa-star fa-lg"></i>
+        )}
+      </span>
   );
 };
 
