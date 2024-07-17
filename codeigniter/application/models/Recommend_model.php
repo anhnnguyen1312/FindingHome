@@ -7,15 +7,31 @@ class Recommend_model extends CI_Model {
 	}
 
 	public function add_user_action($data){
+		$userId = $data['userId'];
+		$postId = $data['postId'];
 
 		$dataDB = ([
 			'userId' => $data['userId'],
 			'postId' => $data['postId'],
-			'eventType' => $data['eventType'],
-			'createAt' => time(),
+			'countAction' => 1,
 		]);
 
-		$query = $this->db->insert('userAction', $dataDB);
-		return $query;
+		$check = $this->check_user_action($userId, $postId);
+		if($check){
+			$this->db->set('countAction', 'countAction +1', false);
+			$this->db->where('userId', $userId);
+			$this->db->where('postId', $postId);
+			$this->db->update("userAction");
+		}else{
+			$query = $this->db->insert('userAction', $dataDB);
+			return $query;
+		}
+
+
+	}
+
+	public function check_user_action($userId, $postId){
+		$query = $this->db->get_where('userAction', ['userId' => $userId, 'postId' => $postId]);
+		return $query->num_rows() > 0;
 	}
 }

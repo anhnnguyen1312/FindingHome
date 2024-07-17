@@ -29,7 +29,6 @@ const CardProduct = ({ props, checked, isSystem }) => {
       const payload = {
         userId: userId,
         postId: postId,
-        eventType: "watch",
       }
 
       const response = await callUserAction(payload);

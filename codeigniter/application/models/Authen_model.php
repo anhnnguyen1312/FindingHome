@@ -132,7 +132,7 @@ class Authen_model extends CI_Model {
 			$this->db->where('id', $userId);
 			$this->db->delete('users');
 
-			$tables = ['userToken', 'posts','userNotifications', 'adminNotifications'];
+			$tables = ['userToken', 'posts','userNotifications', 'adminNotifications', 'userAction'];
 			$this->db->where('userId', $userId);
 			$this->db->delete($tables);
 
