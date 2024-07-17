@@ -223,7 +223,7 @@ class Post_model extends CI_Model {
 			$this->db->where('id', $id);
 			$this->db->delete('posts');
 
-			$tables = ['statusPost', 'countLikes', 'userLikes'];
+			$tables = ['statusPost', 'countLikes', 'userLikes', 'userAction'];
 			$this->db->where('postId', $id);
 			$this->db->delete($tables);
 

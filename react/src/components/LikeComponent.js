@@ -30,7 +30,6 @@ const LikeComponent = ({postId}) => {
   };
 
   const handleLike = async (e, postId, userId) => {
-    // setIsLike(!isLike);
     e.stopPropagation();
     try {
       const payload = {
@@ -38,7 +37,6 @@ const LikeComponent = ({postId}) => {
         postId: postId,
       };
       const response = await callApihandleLikePost(payload);
-      console.log("checklike", response);
       if (response.data.isLike) {
         setIsLike(true);
       } else if (response.data.isUnLike) {
@@ -53,7 +51,6 @@ const LikeComponent = ({postId}) => {
       const payload = {
         userId: userId,
         postId: postId,
-        eventType: "like",
       }
       if(!isLike){
         const response = await callUserAction(payload);
