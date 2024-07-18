@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, CardProduct, Loading } from "./index";
 import { useDispatch, useSelector } from "react-redux";
-import { SelectNewPost, UpdatePost } from "./index";
+import { SelectNewPost, UpdatePost, ReUpPost } from "./index";
 import typePost from "../data/typePost";
 import { message, Popconfirm, Pagination } from "antd";
 import { callApiDeletePost } from "../api/getPostApi";
@@ -16,6 +16,8 @@ const ManagePostUser = ({ userId }) => {
   const [postDataFilter, setPostDataFilter] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState(null);
+  const [reUpPostClick, setReUpPostClick] = useState(false);
+  const [ReUpPostData, setReUpPostData] = useState({});
 
   const { posts } = useSelector((state) => state.post);
   const { data } = useSelector((state) => state.auth);
@@ -126,7 +128,10 @@ const ManagePostUser = ({ userId }) => {
     setUpdatePostClick(true);
     setUpdatePostData(data);
   };
-
+  const handleReUpPost = (product) => {
+    setReUpPostClick(true);
+    setReUpPostData(product);
+  };
   const confirm = (product) => {
     setLoading(true);
     const deletePost = async () => {
@@ -231,7 +236,7 @@ const ManagePostUser = ({ userId }) => {
                     )}
                     {data.userId === userId && (
                       <>
-                        <Button
+                        {/* <Button
                           icon={
                             product.check === "3"
                               ? "fa-solid fa-rotate-left"
@@ -251,7 +256,33 @@ const ManagePostUser = ({ userId }) => {
                             product.check === "3" ? "Đăng lại" : "Chỉnh sửa"
                           }
                           onClick={() => handleUpdatePost(product)}
-                        />
+                        /> */}
+                        {product.check != "3" && (
+                          <Button
+                            icon={"fa-solid fa-pen-to-square"}
+                            bgColor={"bg-[#3064f2]"}
+                            textColor={"text-white"}
+                            borderColor={"border-white"}
+                            width={"w-12"}
+                            height={"h-12"}
+                            fullRounded={"rounded-full"}
+                            title={"Chỉnh sửa"}
+                            onClick={() => handleUpdatePost(product)}
+                          />
+                        )}
+                        {product.check === "3" && (
+                          <Button
+                            icon={"fa-solid fa-rotate-left"}
+                            bgColor={"bg-[#6F7B92]"}
+                            textColor={"text-white"}
+                            borderColor={"border-white"}
+                            width={"w-12"}
+                            height={"h-12"}
+                            fullRounded={"rounded-full"}
+                            title={"Đăng lại"}
+                            onClick={() => handleReUpPost(product)}
+                          />
+                        )}
                         <Popconfirm
                           title="Xóa bài đăng"
                           description="Bạn có chắc chắn muốn xóa bài đăng này"
@@ -286,7 +317,19 @@ const ManagePostUser = ({ userId }) => {
             hideOnSinglePage={true}
           />
         </div>
-        {updatePostClick && <UpdatePost updatePostData={updatePostData} />}
+        {/* {updatePostClick && <UpdatePost updatePostData={updatePostData} />} */}
+        {updatePostClick && (
+          <UpdatePost
+            updatePostData={updatePostData}
+            setUpdatePostClick={setUpdatePostClick}
+          />
+        )}
+        {reUpPostClick && (
+          <ReUpPost
+            ReUpPostData={ReUpPostData}
+            setReUpPostClick={setReUpPostClick}
+          />
+        )}
       </div>
     </>
   );

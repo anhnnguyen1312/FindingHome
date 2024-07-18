@@ -24,6 +24,8 @@ import univer from "../../assets/images/iconPlaces/univer.png";
 import bus3 from "../../assets/images/iconPlaces/bus3.png";
 import shopping from "../../assets/images/iconPlaces/shopping.png";
 import education from "../../assets/images/iconPlaces/education.png";
+import { useLocation, useNavigate } from "react-router-dom";
+import { message } from "antd";
 
 const FindRoom = () => {
   const [pickMarker, setPickMarker] = useState(false);
@@ -61,9 +63,7 @@ const FindRoom = () => {
     charging: [],
   });
   const { homepagePosts } = useSelector((state) => state.post);
-  console.log("homepagePosts", homepagePosts);
-  console.log("placesNearby", placesNearby);
-
+  const useLocate = useLocation();
   const dispatch = useDispatch();
   const mapRef = useRef(null);
   const points = homepagePosts.map((post) => ({
@@ -85,83 +85,31 @@ const FindRoom = () => {
       coordinates: [parseFloat(post.lng), parseFloat(post.lat)],
     },
   }));
-  const data = [
-    {
-      type: "Feature",
-      properties: {
-        cluster: false,
-        id: 1,
-        price: 5,
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [106.704449, 10.710999],
-      },
-    },
-    {
-      type: "Feature",
-      properties: {
-        cluster: false,
-        id: 2,
-        price: 6,
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [106.734029, 10.704685],
-      },
-    },
-    {
-      type: "Feature",
-      properties: {
-        cluster: false,
-        id: 3,
-        price: 7,
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [108.186969, 16.025567],
-      },
-    },
-    {
-      type: "Feature",
-      properties: {
-        cluster: false,
-        id: 4,
-        price: 8,
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [106.687824, 10.771772],
-      },
-    },
-  ];
+
+  useEffect(() => {
+    const latlng = useLocate?.state;
+    latlng?.length === 2 &&
+      setViewState({
+        ...viewState,
+        latitude: latlng[0],
+        longitude: latlng[1],
+        zoom: 11,
+      });
+    message.info("Phóng tới vị trí bạn cần tìm để hiển thị phòng");
+  }, []);
 
   const bounds = mapRef.current
     ? mapRef.current.getMap().getBounds().toArray().flat()
     : null;
-
-  //   const { clusters, supercluster } = useSuperCluster({
-  //   points,
-  //   bounds,
-  //   zoom: viewState.zoom,
-  //   options: { radius: 75, maxZoom: 20 },
-  // });
   const { clusters, supercluster } = useSuperCluster({
     points,
     bounds,
-    // bounds: [
-    //   viewState.longitude - viewState.zoom * 2,
-    //   viewState.latitude - viewState.zoom,
-    //   viewState.longitude + viewState.zoom * 2,
-    //   viewState.latitude + viewState.zoom,
-    // ],
     zoom: viewState.zoom,
     options: { radius: 200, maxZoom: 13 },
   });
   console.log("clusters", clusters);
 
   console.log("supercluster", supercluster);
-  //   const location = useSelector((state) => state.location);
   const VIETMAP_KEY = "af4284a02ae26231e2a517f30b67d25216a69b76782dfb4c";
   const MAPBOX_TOKEN =
     "pk.eyJ1IjoidGhhaS1uZ29jLXBodSIsImEiOiJjbHhpd3p2amwxbGozMnJyMmJhZTExZ3pkIn0.BnFFOObKYnZUOf2wJstUFg";
@@ -171,11 +119,6 @@ const FindRoom = () => {
   };
   const handleonGeolocate = (event) => {
     console.log("handleonGeolocate", event);
-    //   const data = {
-    //     lat: e.coords.latitude,
-    //     lng: e.coords.longitude,
-    //     place_name: "",
-    //   };
     setMarker({
       latitude: event.coords.latitude,
       longitude: event.coords.longitude,

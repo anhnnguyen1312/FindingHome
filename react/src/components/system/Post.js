@@ -621,7 +621,7 @@ const Post = ({ isManagePage, check, isExpired }) => {
                                   cancelText="Hủy"
                                 >
                                   <Button
-                                    icon={"fa-solid fa-trash-can"}
+                                    icon={"fa-solid fa-check"}
                                     bgColor={"bg-[#DE3E36]"}
                                     textColor={"text-white"}
                                     borderColor={"border-[#DE3E36]"}
