@@ -14,9 +14,8 @@ tf = TfidfVectorizer ()
 config = {
     'user': 'findHome',
     'password': 'findHome@2024',
-    'host': 'localhost',
+    'host': 'findHome',
     'database': 'findHome',
-    'port': 3307,
     'raise_on_warnings': True
 }
 
@@ -96,6 +95,120 @@ def call_api():
         filtered_df = filtered_df[['id','userId','address','typeRoom','price']]
         print(filtered_df)
         
+        resultPostId = []
+        resultUserId = []
+        resultPostbyUserId = []
+
+        postID_number = []
+        id = request.args.get('id')
+        if id:
+            data_array = [item for item in id.split(',')]
+            postId=int(data_array[0])
+            userId=None
+            if data_array[1] != "null" :
+                print('not none')
+                userId=int(data_array[1])
+        
+        if postId not in filtered_df['id'].values:
+            return jsonify({'Error': 'bài đăng không hợp lệ'})
+        if userId not in dfLike['userId'].values:
+            postID_number =5
+        else:
+            postID_number = 3
+        if len(filtered_df) > 0:
+            if  postID_number == 3 :
+                # tinh userId
+                print('3')
+                indexUser = dfLike[dfLike['userId'] == userId].index[0]
+                print(indexUser)
+                tfMatrixUser = tf.fit_transform(dfLike['postIds'])
+                similarUserCosin = cosine_similarity(tfMatrixUser)
+                similarUser = list(enumerate(similarUserCosin[indexUser]))
+                sortedSimilarUser = sorted(similarUser,key=lambda x:x[1], reverse=True)
+                print(sortedSimilarUser)
+                for i in range(1,len(sortedSimilarUser)):
+                    if float(sortedSimilarUser[i][1]) > 0 and int(id_user(sortedSimilarUser[i][0],dfLike)) != userId :
+                        print(id_user(sortedSimilarUser[i][0],dfLike))
+                        resultUserId.append(int(id_user(sortedSimilarUser[i][0],dfLike)))
+                #postsUser = dfLike[dfLike['userId'] == userId]['postIds']
+                postUser = dfLike.loc[dfLike['userId'] == userId, 'postIds'].tolist()
+                postUser = postUser[0].split(',')
+                postUserRecommend=[]
+                for i in resultUserId:
+                    data=  (dfLike.loc[dfLike['userId'] == i, 'postIds'].tolist())
+                    split_list = data[0].split(',')
+                    postUserRecommend = postUserRecommend + split_list
+                print(postUser)
+                print(postUserRecommend)
+                for i in postUserRecommend:
+                    if i not in postUser :
+                        resultPostbyUserId.append(i)
+                if len(resultPostbyUserId) > 2:
+                    resultPostbyUserId= resultPostbyUserId[:2]
+                elif len(resultPostbyUserId) == 1:
+                    postID_number = 4
+                elif len(resultPostbyUserId) == 0:
+                    postID_number = 5
+            #return jsonify({'postId': resultPostId,'userId': resultPostbyUserId })
+        
+            sortedSimilarPost_province = calc_similarity(filtered_df,combineFeatures_province,postId)
+            province_similar_index = get_index_similarity1(sortedSimilarPost_province)
+            province_similar_df = create_df_from_index(province_similar_index,filtered_df)
+
+            if len(province_similar_index) == 1 :
+                sortedSimilarPost = calc_similarity(filtered_df,combineFeatures_type_price,postId)
+                n= postID_number
+                post=[]
+                resultPostId = get_index(sortedSimilarPost,filtered_df,postId,n,post)
+                #return jsonify({'postId tỉnh = 1': resultPostId})
+                # for i in range(0,len(sortedSimilarPost)):
+                #     if len(resultPostId) == 5:
+                #         return jsonify({'postId': resultPostId})
+                #     if int(id_post(sortedSimilarPost[i][0],filtered_df)) != postId:
+                #         resultPostId.append(int(id_post(sortedSimilarPost[i][0],filtered_df)))
+            elif len(province_similar_index) > 1 and len(province_similar_index) < (postID_number + 2):
+                post = province_similar_df['id'].tolist()
+                post.remove(postId)
+                result=[]
+                if len(post) < postID_number :
+                    n = postID_number - len(post)
+                    sortedSimilarPost = calc_similarity(filtered_df,combineFeatures_type_price,postId)
+                    result = get_index(sortedSimilarPost,filtered_df,postId,n,post)
+                resultPostId = post + result
+                #return jsonify({'postId 1<tỉnh <7/5': resultPostId})
+            elif len(province_similar_index) >= postID_number + 2:
+                # tính theo quận / huyện
+                sortedSimilarPost_district = calc_similarity(province_similar_df,combineFeatures_district,postId)
+                district_similar_index = get_index_similarity1(sortedSimilarPost_district)
+                district_similar_df = create_df_from_index(district_similar_index,province_similar_df)
+                if len(district_similar_index) == 1:
+                    sortedSimilarPost = calc_similarity(province_similar_df,combineFeatures_type_price,postId)
+                    n= postID_number
+                    post=[]
+                    resultPostId = get_index(sortedSimilarPost,province_similar_df,postId,n,post)
+                    #return jsonify({'postId quận = 1': resultPostId})
+                elif 1<len(district_similar_index) < postID_number + 2:
+                    post = district_similar_df['id'].tolist()
+                    post.remove(postId)
+                    result=[]
+                    if len(post) < postID_number :
+                        n = postID_number - len(post)
+                        sortedSimilarPost = calc_similarity(province_similar_df,combineFeatures_type_price,postId)
+                        result = get_index(sortedSimilarPost,province_similar_df,postId,n,post)
+                    resultPostId = post + result
+                    #return jsonify({'postId < 1quận <7': resultPostId})
+                elif len(district_similar_index) >= postID_number + 2:
+                    sortedSimilarPost_district_all = calc_similarity(district_similar_df,combineFeatures_district_all,postId)
+                    n=postID_number
+                    post=[]
+                    resultPostId = (get_index(sortedSimilarPost_district_all,district_similar_df,postId,n,post))
+                    # resultPostId = data
+                    #return jsonify({'postId quận > 7': resultPostId})
+            return jsonify({'postId': resultPostId,'userId': resultUserId })
+        else:
+            # tinhs car postID userID
+
+            return jsonify({'postId': resultPostId,'userId': resultUserId })
     except mysql.connector.Error as err:
         print(f"Lỗi: {err}")
 
@@ -105,120 +218,7 @@ def call_api():
             # cursor.close()
             conn.close()
             print('Đã đóng kết nối đến MySQL Database')
-    resultPostId = []
-    resultUserId = []
-    resultPostbyUserId = []
-
-    postID_number = []
-    id = request.args.get('id')
-    if id:
-        data_array = [item for item in id.split(',')]
-        postId=int(data_array[0])
-        userId=None
-        if data_array[1] != "null" :
-            print('not none')
-            userId=int(data_array[1])
     
-    if postId not in filtered_df['id'].values:
-        return jsonify({'Error': 'bài đăng không hợp lệ'})
-    if userId not in dfLike['userId'].values:
-        postID_number =5
-    else:
-        postID_number = 3
-    if len(filtered_df) > 0:
-        if  postID_number == 3 :
-            # tinh userId
-            print('3')
-            indexUser = dfLike[dfLike['userId'] == userId].index[0]
-            print(indexUser)
-            tfMatrixUser = tf.fit_transform(dfLike['postIds'])
-            similarUserCosin = cosine_similarity(tfMatrixUser)
-            similarUser = list(enumerate(similarUserCosin[indexUser]))
-            sortedSimilarUser = sorted(similarUser,key=lambda x:x[1], reverse=True)
-            print(sortedSimilarUser)
-            for i in range(1,len(sortedSimilarUser)):
-                if float(sortedSimilarUser[i][1]) > 0 and int(id_user(sortedSimilarUser[i][0],dfLike)) != userId :
-                    print(id_user(sortedSimilarUser[i][0],dfLike))
-                    resultUserId.append(int(id_user(sortedSimilarUser[i][0],dfLike)))
-            #postsUser = dfLike[dfLike['userId'] == userId]['postIds']
-            postUser = dfLike.loc[dfLike['userId'] == userId, 'postIds'].tolist()
-            postUser = postUser[0].split(',')
-            postUserRecommend=[]
-            for i in resultUserId:
-                data=  (dfLike.loc[dfLike['userId'] == i, 'postIds'].tolist())
-                split_list = data[0].split(',')
-                postUserRecommend = postUserRecommend + split_list
-            print(postUser)
-            print(postUserRecommend)
-            for i in postUserRecommend:
-                if i not in postUser :
-                    resultPostbyUserId.append(i)
-            if len(resultPostbyUserId) > 2:
-                resultPostbyUserId= resultPostbyUserId[:2]
-            elif len(resultPostbyUserId) == 1:
-                postID_number = 4
-            elif len(resultPostbyUserId) == 0:
-                postID_number = 5
-        #return jsonify({'postId': resultPostId,'userId': resultPostbyUserId })
-    
-        sortedSimilarPost_province = calc_similarity(filtered_df,combineFeatures_province,postId)
-        province_similar_index = get_index_similarity1(sortedSimilarPost_province)
-        province_similar_df = create_df_from_index(province_similar_index,filtered_df)
-
-        if len(province_similar_index) == 1 :
-            sortedSimilarPost = calc_similarity(filtered_df,combineFeatures_type_price,postId)
-            n= postID_number
-            post=[]
-            resultPostId = get_index(sortedSimilarPost,filtered_df,postId,n,post)
-            #return jsonify({'postId tỉnh = 1': resultPostId})
-            # for i in range(0,len(sortedSimilarPost)):
-            #     if len(resultPostId) == 5:
-            #         return jsonify({'postId': resultPostId})
-            #     if int(id_post(sortedSimilarPost[i][0],filtered_df)) != postId:
-            #         resultPostId.append(int(id_post(sortedSimilarPost[i][0],filtered_df)))
-        elif len(province_similar_index) > 1 and len(province_similar_index) < (postID_number + 2):
-            post = province_similar_df['id'].tolist()
-            post.remove(postId)
-            result=[]
-            if len(post) < postID_number :
-                n = postID_number - len(post)
-                sortedSimilarPost = calc_similarity(filtered_df,combineFeatures_type_price,postId)
-                result = get_index(sortedSimilarPost,filtered_df,postId,n,post)
-            resultPostId = post + result
-            #return jsonify({'postId 1<tỉnh <7/5': resultPostId})
-        elif len(province_similar_index) >= postID_number + 2:
-            # tính theo quận / huyện
-            sortedSimilarPost_district = calc_similarity(province_similar_df,combineFeatures_district,postId)
-            district_similar_index = get_index_similarity1(sortedSimilarPost_district)
-            district_similar_df = create_df_from_index(district_similar_index,province_similar_df)
-            if len(district_similar_index) == 1:
-                sortedSimilarPost = calc_similarity(province_similar_df,combineFeatures_type_price,postId)
-                n= postID_number
-                post=[]
-                resultPostId = get_index(sortedSimilarPost,province_similar_df,postId,n,post)
-                #return jsonify({'postId quận = 1': resultPostId})
-            elif 1<len(district_similar_index) < postID_number + 2:
-                post = district_similar_df['id'].tolist()
-                post.remove(postId)
-                result=[]
-                if len(post) < postID_number :
-                    n = postID_number - len(post)
-                    sortedSimilarPost = calc_similarity(province_similar_df,combineFeatures_type_price,postId)
-                    result = get_index(sortedSimilarPost,province_similar_df,postId,n,post)
-                resultPostId = post + result
-                #return jsonify({'postId < 1quận <7': resultPostId})
-            elif len(district_similar_index) >= postID_number + 2:
-                sortedSimilarPost_district_all = calc_similarity(district_similar_df,combineFeatures_district_all,postId)
-                n=postID_number
-                post=[]
-                resultPostId = (get_index(sortedSimilarPost_district_all,district_similar_df,postId,n,post))
-                # resultPostId = data
-                #return jsonify({'postId quận > 7': resultPostId})
-        return jsonify({'postId': resultPostId,'userId': resultUserId })
-    else:
-        # tinhs car postID userID
-
-        return jsonify({'postId': resultPostId,'userId': resultUserId })
     
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True , host="0.0.0.0", port=5001)

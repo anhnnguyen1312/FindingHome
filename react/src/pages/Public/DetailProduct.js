@@ -20,6 +20,7 @@ import { callApiCensorPostAdmin } from "../../api/system/getPostAdminApi";
 import { LikeComponent } from "../../components/index";
 import no_data_img from "../../assets/images/no-data-icon-10.png";
 
+
 const DetailProduct = () => {
   const useLocate = useLocation();
   const [detailPost, setDetailPost] = useState([]);
@@ -70,7 +71,7 @@ const DetailProduct = () => {
   useEffect(() => {
     const getApiRecommend = async () => {
       try {
-        const userId = null;
+        let userId = null;
 
         const response = await callApiRecommendSystem(
           detailPost.id,

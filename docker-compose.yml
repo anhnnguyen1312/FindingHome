@@ -10,7 +10,24 @@ services:
       - ./codeigniter:/var/www/html
     depends_on:
       - findHome
-      
+
+  python:
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    volumes:
+      - ./python:/app
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    environment:
+      MYSQL_ROOT_PASSWORD: findHome@2024
+      MYSQL_DATABASE: findHome
+      MYSQL_USER: findHome
+      MYSQL_PASSWORD: findHome@2024
+    depends_on:
+      - findHome
+
   findHome:
     image: mysql:5.7
     ports:

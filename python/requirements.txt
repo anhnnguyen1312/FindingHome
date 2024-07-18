@@ -1,0 +1,8 @@
+pandas
+sqlalchemy
+flask
+flask-cors
+scikit-learn
+numpy
+mysql-connector-python
+pymysql
