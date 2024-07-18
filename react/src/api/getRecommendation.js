@@ -15,3 +15,16 @@ export const callUserAction = (payload) =>
       reject(error);
     }
   });
+
+  export const callApiRecommend = (userId) =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const response = await axiosConfig({
+          method: "get",
+          url: `http://localhost:5000/get-recommendation?id=${userId}`,
+        });
+        resolve(response);
+      } catch (error) {
+        reject(error);
+      }
+    });

@@ -75,9 +75,8 @@ export const callApiRecommendSystem = (postId, userId) =>
     try {
       const response = await axiosConfig({
         method: "get",
-        url: `http://127.0.0.1:5000/recommend?id=${postId},${userId}`,
+        url: `http://localhost:5001/recommend?id=${postId},${userId}`,
       });
-      console.log(`http://127.0.0.1:5000/recommend?id=${postId},${userId}`);
       resolve(response);
     } catch (error) {
       reject(error);
