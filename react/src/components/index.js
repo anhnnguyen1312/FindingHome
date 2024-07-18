@@ -27,3 +27,4 @@ export { default as UpdatePost } from "./UpdatePost";
 export { default as LikeComponent } from "./LikeComponent";
 export { default as formatDate } from "./formatDate";
 export { default as PopUpInfor } from "./PopUpInfor";
+export { default as ReUpPost } from "./ReUpPost";

@@ -33,7 +33,12 @@ import { callApiUploadImages } from "../../api/uploadImage";
 import swal from "sweetalert";
 import Location_NewPost from "../../components/Location_NewPost";
 
-const NewPost = ({ updatePostData }) => {
+const NewPost = ({
+  updatePostData,
+  ReUpPostData,
+  setReUpPostClick,
+  setUpdatePostClick,
+}) => {
   const usenavi = useNavigate();
 
   const [provinces, setProvinces] = useState([]);
@@ -56,28 +61,48 @@ const NewPost = ({ updatePostData }) => {
     wardForm: null,
     streetForm: null,
   });
-
+  console.log("ReUpPostData,", ReUpPostData);
   const [formData, setFormData] = useState(() => {
     const data = {
-      title: updatePostData?.title || "",
-      address: updatePostData?.address || "",
-      zalo: updatePostData?.zalo || "",
-      status: "0",
-      price: updatePostData?.price || "",
-      area: updatePostData?.area || "",
-      otherFee: updatePostData?.otherFee || "",
-      nearby: updatePostData?.nearby || "",
-      typeRoom: updatePostData?.typeRoom || "",
-      description: updatePostData?.description || "",
-      furniture: updatePostData?.furniture || "",
-      rule: updatePostData?.rule || "",
+      // title: updatePostData?.title || "",
+      // address: updatePostData?.address || "",
+      // zalo: updatePostData?.zalo || "",
+      // status: "0",
+      // price: updatePostData?.price || "",
+      // area: updatePostData?.area || "",
+      // otherFee: updatePostData?.otherFee || "",
+      // nearby: updatePostData?.nearby || "",
+      // typeRoom: updatePostData?.typeRoom || "",
+      // description: updatePostData?.description || "",
+      // furniture: updatePostData?.furniture || "",
+      // rule: updatePostData?.rule || "",
+      // dateCreateAt: updatePostData?.dateCreateAt || "",
+      // dateExpired: updatePostData?.dateExpired || "",
+      // userId: updatePostData?.userId || "",
+      // check: stateAuth.data.role === "1" ? "1" : "0",
+      // urlImages: updatePostData?.urlImages || "",
+      // lat: updatePostData?.lat || 0,
+      // lng: updatePostData?.lng || 0,
+      title: updatePostData?.title || ReUpPostData?.title || "",
+      address: updatePostData?.address || ReUpPostData?.address || "",
+      zalo: updatePostData?.zalo || ReUpPostData?.zalo || "",
+      status: updatePostData?.status || "0",
+      price: updatePostData?.price || ReUpPostData?.price || "",
+      area: updatePostData?.area || ReUpPostData?.area || "",
+      otherFee: updatePostData?.otherFee || ReUpPostData?.otherFee || "",
+      nearby: updatePostData?.nearby || ReUpPostData?.nearby || "",
+      typeRoom: updatePostData?.typeRoom || ReUpPostData?.typeRoom || "",
+      description:
+        updatePostData?.description || ReUpPostData?.description || "",
+      furniture: updatePostData?.furniture || ReUpPostData?.furniture || "",
+      rule: updatePostData?.rule || ReUpPostData?.rule || "",
       dateCreateAt: updatePostData?.dateCreateAt || "",
       dateExpired: updatePostData?.dateExpired || "",
-      userId: updatePostData?.userId || "",
+      userId: updatePostData?.userId || ReUpPostData?.userId || "",
       check: stateAuth.data.role === "1" ? "1" : "0",
-      urlImages: updatePostData?.urlImages || "",
-      lat: updatePostData?.lat || 0,
-      lng: updatePostData?.lng || 0,
+      urlImages: updatePostData?.urlImages || ReUpPostData?.urlImages || "",
+      lat: updatePostData?.lat || ReUpPostData?.lat || 0,
+      lng: updatePostData?.lng || ReUpPostData?.lng || 0,
     };
     return data;
   });
@@ -111,8 +136,12 @@ const NewPost = ({ updatePostData }) => {
     }));
   };
   const handleCancelPost = () => {
-    window.location.href = `/logged-in/${path.PROFILE}`;
+    // window.location.href = `/logged-in/${path.PROFILE}`;
     localStorage?.removeItem("currentPage");
+
+    (ReUpPostData && setReUpPostClick(false)) ||
+      (updatePostData && setUpdatePostClick(false)) ||
+      navigate(`/logged-in/${path.PROFILE}`);
   };
 
   const handleResetClick = () => {
@@ -279,34 +308,6 @@ const NewPost = ({ updatePostData }) => {
         PostNewPost();
         setLoading(false);
       } else {
-        // const PostNewPost = async () => {
-        //   try {
-        //     const response = await callApiCreatePost(formData);
-        //     if (response.data.fail) {
-        //       swal({
-        //         text: response.data.fail,
-        //         icon: "error",
-        //         timer: 2000,
-        //       });
-        //     } else {
-        //       swal({
-        //         text: response.data.success,
-        //         icon: "success",
-        //         timer: 2000,
-        //       });
-
-        //       window.location.reload();
-        //     }
-        //   } catch (error) {
-        //     setLoading(false);
-        //     console.log("error", error);
-        //     swal({
-        //       text: "Tạo bài đăng mới không thành công",
-        //       icon: "error",
-        //       timer: 2000,
-        //     });
-        //   }
-        // };
         if (!(formData.lat && formData.lng)) {
           console.log("sai ne");
           const getLatLngFromAddress = async (address) => {
@@ -404,7 +405,7 @@ const NewPost = ({ updatePostData }) => {
                   timer: 2000,
                 });
 
-                // window.location.reload();
+                window.location.reload();
               }
             } catch (error) {
               setLoading(false);
@@ -468,11 +469,13 @@ const NewPost = ({ updatePostData }) => {
     //   });
     //   console.log("setAddressData");
     // }
-    if (updatePostData) {
-      setPreview(updatePostData ? updatePostData?.urlImages : "");
-      let addressData = updatePostData.address
-        ? updatePostData.address.split(",")
-        : "";
+    if (updatePostData || ReUpPostData) {
+      setPreview(
+        updatePostData ? updatePostData?.urlImages : ReUpPostData?.urlImages
+      );
+      let addressData = updatePostData
+        ? updatePostData?.address?.split(",")
+        : ReUpPostData?.address?.split(",");
       if (updatePostData) {
         setFormData((prevState) => ({
           ...prevState,
@@ -487,7 +490,7 @@ const NewPost = ({ updatePostData }) => {
         streetForm: addressData[addressData?.length - 4],
       });
     }
-  }, [updatePostData]);
+  }, [updatePostData, ReUpPostData]);
 
   // useEffect(() => {
   //   if (updatePostData || ReUpPostData) {
