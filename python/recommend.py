@@ -12,7 +12,7 @@ import numpy as np
 password = quote_plus('findHome@2024')
 
 # Tạo chuỗi kết nối
-engine = create_engine(f'mysql+pymysql://findHome:{password}@findHome/findHome')
+engine = create_engine(f'mysql+pymysql://findHome:{password}@127.0.0.1:3307/findHome')
 
 # Kiểm tra kết nối
 try:
