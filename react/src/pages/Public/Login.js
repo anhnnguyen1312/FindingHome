@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { InputGroup } from "../../components";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { path } from "../../ultils/path";
 import Button from "../../components/Button";
-// import axios from "axios";
 import swal from "sweetalert";
-// import { callApiRegister } from '../../api/authenLogin';
 import {
   registerAction,
   loginAction,
@@ -13,13 +11,13 @@ import {
 } from "../../redux/store/action/authenAction.js";
 import { useDispatch, useSelector } from "react-redux";
 import validator from "validator";
-// import { callApiUserInfor } from "../../api/authenLogin.js";
+import { checkAuthenToken } from "../../api/cookieServices";
 
 export default function Login() {
+  checkAuthenToken();
   const useLocate = useLocation();
   const usenavi = useNavigate();
   const dispatch = useDispatch();
-  // const selector = useSelector()
   const stateAuth = useSelector((state) => state.auth);
   const [isResgister, setIsRegister] = useState(
     useLocate.state?.stateIsRegister
@@ -36,7 +34,6 @@ export default function Login() {
     avatar:
       "https://asset.cloudinary.com/dx3nwkh2i/7d1e9bf5e5c43ab5b11b4e0040ee34b9",
   });
-  console.log("stateAuth", stateAuth);
 
   useEffect(() => {
     setIsRegister(useLocate.state?.stateIsRegister);
@@ -58,7 +55,7 @@ export default function Login() {
         : usenavi(`${path.HOME}`);
     }
   }, [stateAuth.isLoggedIn]);
-  console.log("role", stateAuth.data);
+
   useEffect(() => {
     if (stateAuth.msg) {
       if (!stateAuth.isLoggedIn && !stateAuth.isLoggedOut) {
@@ -89,13 +86,11 @@ export default function Login() {
   const validate = (formData) => {
     let isInvalidCount = true;
     for (let i in formData) {
-      //null
       if (formData[i] === "") {
         setIsInvalid((prevState) => [
           ...prevState,
           { name: i, msg: `bạn chưa nhập ${i}` },
         ]);
-        // isInvalidCount++
         isInvalidCount = false;
       }
 
@@ -109,7 +104,6 @@ export default function Login() {
               msg: `mật khẩu phải có ít nhất: \n 8 kí tự, 1 kí tự đặc biệt, 1 chữ thường, 1 chữ in hoa`,
             },
           ]);
-          // isInvalidCount++
           isInvalidCount = false;
         }
       }
@@ -119,7 +113,6 @@ export default function Login() {
             ...prevState,
             { name: i, msg: `Mật khẩu xác nhận không đúng` },
           ]);
-          // isInvalidCount++
           isInvalidCount = false;
         }
       }
@@ -131,7 +124,6 @@ export default function Login() {
             ...prevState,
             { name: i, msg: `email không hợp lệ` },
           ]);
-          // isInvalidCount++
           isInvalidCount = false;
         }
       }
@@ -143,7 +135,6 @@ export default function Login() {
             ...prevState,
             { name: i, msg: `Tên không hợp lệ` },
           ]);
-          // isInvalidCount++
           isInvalidCount = false;
         }
       }
@@ -206,7 +197,6 @@ export default function Login() {
             email: formData.email,
             password: formData.password,
           };
-    console.log("api", apiData);
     let checkValidate = validate(apiData);
 
     if (checkValidate) {
@@ -218,8 +208,6 @@ export default function Login() {
             : dispatch(loginAction(apiData));
       }
     }
-
-    console.log("error", checkValidate);
   };
   return (
     <div className="flex w-full h-full justify-center items-center">
@@ -339,4 +327,3 @@ export default function Login() {
     </div>
   );
 }
-// }

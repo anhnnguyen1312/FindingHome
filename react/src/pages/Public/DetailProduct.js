@@ -3,23 +3,21 @@ import { Link, useParams } from "react-router-dom";
 import { path } from "../../ultils/path";
 import userAvatar from "../../assets/images/userAvatar.jpg";
 import { FaTableList } from "react-icons/fa6";
-import { GeoCoding, Button, CardProduct } from "../../components/index";
+import { Button, CardProduct } from "../../components/index";
 import {
   callApiDetailPost,
   callApiRecommendSystem,
-  callApiListLikePost,
 } from "../../api/getPostApi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import SlideShow from "../../components/SlideShow";
-import GgMapReact from "../../components/GgMapReact";
 import VietMap from "../../components/VietMap";
-import { Pagination, message, Collapse, Popconfirm } from "antd";
+import { message, Collapse, Popconfirm } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { callApiCensorPostAdmin } from "../../api/system/getPostAdminApi";
 import { LikeComponent } from "../../components/index";
 import no_data_img from "../../assets/images/no-data-icon-10.png";
-
+import { callApiRecommend } from "../../api/getRecommendation";
 
 const DetailProduct = () => {
   const useLocate = useLocation();
@@ -29,7 +27,6 @@ const DetailProduct = () => {
   const [places, setPlaces] = useState();
   const [postsRecommend, setPostsRecommend] = useState([]);
 
-  // const [id, setId] = useState(useLocate.state?.idPost);
   const navigate = useNavigate();
   const stateAuth = useSelector((state) => state.auth);
 
@@ -37,10 +34,6 @@ const DetailProduct = () => {
   const params = useParams();
   const id = params.postId;
   const { homepagePosts } = useSelector((state) => state.post);
-
-  console.log("places", places);
-
-  console.log("detailPost", detailPost);
 
   const handleNavigateProfilePublic = (IdUser) => {
     if (useLocate.pathname.includes("system")) {
@@ -71,14 +64,13 @@ const DetailProduct = () => {
   useEffect(() => {
     const getApiRecommend = async () => {
       try {
+        await callApiRecommend(stateAuth.data.userId);
         let userId = null;
 
         const response = await callApiRecommendSystem(
           detailPost.id,
           stateAuth.data.userId ? (userId = stateAuth.data.userId) : userId
         );
-        console.log("response", response);
-
         const postRecommmend = [
           ...response.data.postId,
           ...response.data.userId,
@@ -86,10 +78,6 @@ const DetailProduct = () => {
         const data = homepagePosts.filter((post) => {
           return postRecommmend.includes(parseInt(post.id));
         });
-        console.log("data", data);
-
-        // const responseLike = await callApiListLikePost(response.data.userId);
-        // console.log("responseLike", responseLike);
 
         setPostsRecommend(data);
       } catch (error) {
@@ -151,7 +139,6 @@ const DetailProduct = () => {
       }
     }
   };
-  console.log("userId", stateAuth.data);
   const handleCensorPost = (detailPost) => {
     const censorPost = async () => {
       try {
@@ -164,8 +151,6 @@ const DetailProduct = () => {
         };
 
         const response = await callApiCensorPostAdmin(censorData);
-
-        // window.location.reload();
 
         if (response.data.fail) {
           message.error(response.data.fail);
@@ -212,7 +197,6 @@ const DetailProduct = () => {
   return (
     <>
       <div className="w-full ">
-        {/* img */}
         <div className="border-b-4 border-rose-500">
           {detailPost.urlImages && <SlideShow images={detailPost.urlImages} />}
         </div>
@@ -378,7 +362,6 @@ const DetailProduct = () => {
             <div className="bg-white border border-[#1E95A6] mx-[10px] text-gray-800 inline-flex items-center rounded px-3 py-1 mb-2">
               <div className="flex gap-[10px] items-center">
                 <div className="">
-                  {/* <i className="fa-sharp fa-thin fa-child-reaching"></i> */}
                   <i className="fa-solid fa-child-reaching"></i>
                 </div>
                 trẻ em
@@ -396,13 +379,6 @@ const DetailProduct = () => {
               Quy Định{" "}
             </h1>
             <div className=" whitespace-pre-line">{ruleItem} </div>
-
-            {/* <h1 className="">Không dùng chất kích thích, tiệc BBQ, Karaoke</h1>
-            <h1 className="">
-              khai báo với chủ trọ khi dẫn người ngoài về nhà qua đêm
-            </h1>
-            <h1 className="">Camera an ninh, Bảo vệ, 24/24</h1>
-            <h1 className="">Không chung chủ</h1> */}
 
             <div className=""></div>
           </div>
@@ -683,68 +659,10 @@ const DetailProduct = () => {
                     },
                   ]}
                 />{" "}
-                {/* <Collapse
-                  className="text-[18px] bg-white "
-                  collapsible="header"
-                  bordered={false}
-                  defaultActiveKey={["1"]}
-                  items={[
-                    {
-                      key: "8",
-                      label: "Trạm sạc xe điện",
-                      children: (
-                        <div>
-                          {" "}
-                          {places?.charging?.map((place, index) => (
-                            <div
-                              key={index}
-                              className="flex  text-[16px]  justify-between p-[5px]"
-                            >
-                              <p>{place.display.substr(0, 80) + "..."}</p>
-                              <p className="text-rose-600">
-                                {place.distance.toFixed(2)} km
-                              </p>
-                            </div>
-                          ))}{" "}
-                        </div>
-                      ),
-                    },
-                  ]}
-                />{" "} */}
-                {/* <Collapse
-                  className="text-[18px] bg-white "
-                  collapsible="header"
-                  bordered={false}
-                  defaultActiveKey={["1"]}
-                  items={[
-                    {
-                      key: "9",
-                      label: "Khu du lịch/ viện bảo tàng",
-                      children: (
-                        <div>
-                          {" "}
-                          {places?.historical?.map((place, index) => (
-                            <div
-                              key={index}
-                              className="flex  text-[16px]  justify-between p-[5px]"
-                            >
-                              <p>{place.display.substr(0, 80) + "..."}</p>
-                              <p className="text-rose-600">
-                                {place.distance.toFixed(2)} km
-                              </p>
-                            </div>
-                          ))}{" "}
-                        </div>
-                      ),
-                    },
-                  ]}
-                />{" "} */}
               </>
             )}
 
             <div className="w-full h-[60%vh]  mb-[30px]">
-              {/* <GeoCoding address={detailPost.address} />
-              <GgMapReact address={detailPost.address} /> */}
               <VietMap
                 lat={detailPost.lat}
                 lng={detailPost.lng}

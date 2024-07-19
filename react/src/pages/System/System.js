@@ -1,12 +1,14 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { path } from "../../ultils/path";
 
 import { Outlet, Navigate } from "react-router-dom";
 import SideBarSystem from "../../components/system/SideBarSystem";
+import { checkAuthenToken } from "../../api/cookieServices";
+
 const System = () => {
+  checkAuthenToken();
   const stateAuth = useSelector((state) => state.auth);
-  console.log(stateAuth.data);
   if (!stateAuth.isLoggedIn || stateAuth.data.role === "0")
     return <Navigate to={`/${path.LOGIN}`} replace={true} />;
   return (

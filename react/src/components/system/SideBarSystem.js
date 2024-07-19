@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { path } from "../../ultils/path";
 import { removeAuthToken } from "../../api/cookieServices";
 import { logoutAction } from "../../redux/store/action/authenAction";
 import logo from "../../assets/images/logo.jpg";
+import { checkAuthenToken } from "../../api/cookieServices";
+
 const SideBarSystem = () => {
+  checkAuthenToken();
   const [selectBtn, setSelectBtn] = useState(false);
 
   const stateAuth = useSelector((state) => state.auth);
-  const {countNoti} = useSelector((state) => state.post);
+  const { countNoti } = useSelector((state) => state.post);
 
   const dispatch = useDispatch();
 
@@ -45,10 +47,6 @@ const SideBarSystem = () => {
               </p>
             </div>
           </div>
-
-          <span className="ml-3 mt-10 mb-2 block text-xs font-semibold text-gray-500">
-            {/* Analytics */}
-          </span>
 
           <div className="flex mt-3 flex-1 justify-between flex-col">
             <div className="">
@@ -99,13 +97,6 @@ const SideBarSystem = () => {
                   </span>
                 </Link>
                 <div className="relative transition">
-                  {/* <input
-                    className="peer hidden"
-                    type="checkbox"
-                    id="menu-1"
-                    // checked
-                    defaultChecked
-                  /> */}
                   <button
                     onClick={() => setSelectBtn(!selectBtn)}
                     className="flex cursor-pointer peer relative w-full items-center border-l-rose-600 py-3 px-4 text-md font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:text-rose-600 focus:border-l-4"
@@ -130,26 +121,8 @@ const SideBarSystem = () => {
                       <div>Thống kê</div>
                       {selectBtn ? <DownOutlined /> : <UpOutlined />}
                     </div>
-
-                    {/* <label
-                      htmlFor="menu-1"
-                      className="absolute inset-0 h-full w-full cursor-pointer"
-                    ></label> */}
                   </button>
-                  {/* <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="absolute right-0 top-4 ml-auto mr-5 h-4 text-gray-600 transition peer-checked:rotate-180 peer-hover:text-rose-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg> */}
+
                   {selectBtn && (
                     <ul className="duration-400 flex m-2  flex-col overflow-hidden rounded-xl bg-gray-100 font-medium transition-all duration-300 max-h-96">
                       <li className="">

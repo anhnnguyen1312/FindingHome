@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Button from "./Button";
 import { Link, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./NavBar.css";
@@ -11,8 +10,10 @@ import { removeAuthToken } from "../api/cookieServices";
 import userAvatar from "../assets/images/userAvatar.jpg";
 import logo from "../assets/images/logo.jpg";
 import { Notifications } from "./index";
+import { checkAuthenToken } from "../api/cookieServices";
 
 export default function NavBar() {
+  checkAuthenToken();
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
   const [clickUser, setClickUser] = useState(false);
@@ -93,8 +94,6 @@ export default function NavBar() {
             className="navbar-logo"
             onClick={closeMobileMenu}
           >
-            {/* Anh-Phú */}
-            {/* <i className="fa-brands fa-suse" /> */}
             <span className="mr-2 w-10">
               <img src={logo} alt="findingHouse" className="rounded-full" />
             </span>
@@ -264,48 +263,8 @@ export default function NavBar() {
               </div>
             </div>
           )}
-
-          {/* <div className="login--container"> */}
-          {/* {!stateAuth.isLoggedIn ? 
-          <> */}
-
-          {/* <Button 
-                children={ 'Đăng Nhập' }
-                bgColor= {'bg-primary'}
-                textColor= {'text-white'}
-                boderColor= {'border-slate-950'}
-                onClick= {() => handleLogInNavigate(false)}
-            /> */}
-
-          {/* <Button 
-                children={ 'Đăng Ký' }
-                bgColor= {'bg-transparent'}
-                textColor= {'text-white'}
-                borderColor= {'border-white'}
-                onClick= {() => handleLogInNavigate(true)}
-            /> */}
-          {/* </>
-            :      
-            <Button 
-                children={ 'Đăng Xuất' }
-                bgColor= {'bg-red-600'}
-                textColor= {'text-white'}
-                borderColor= {'border-white'}
-                onClick= {handleLogOut}
-            />
-           
-            } */}
-          {/* <Button
-              children={"Đăng Bài"}
-              bgColor={"bg-[#2ADA66]"}
-              textColor={"text-white"}
-              borderColor={"border-white"}
-            /> */}
-          {/* </div> */}
         </div>
       </nav>
     </>
-    // </div>
   );
 }
-// }

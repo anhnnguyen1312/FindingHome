@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from "react";
 import actionTypes from "./actionTypes";
-import { callApiRegister, callApiLogin, checkEmailUser, resetPassword} from "../../../api/authenLogin";
-import { callApiUpdateProfile } from "../../../api/getUserApi";
 import {
-  setAuthToken,
-  getAuthToken,
-} from "../../../api/cookieServices";
-import NumCalculator from "antd/es/theme/util/calc/NumCalculator";
-// import {jwtDecode}  from 'jwt-decode'
+  callApiRegister,
+  callApiLogin,
+  checkEmailUser,
+  resetPassword,
+} from "../../../api/authenLogin";
+import { callApiUpdateProfile } from "../../../api/getUserApi";
+import { setAuthToken, getAuthToken } from "../../../api/cookieServices";
 export const registerAction = (payload) => async (dispatch) => {
   try {
     const response = await callApiRegister(payload);
 
-    // if (response?.data.err === 0) {
     if (response?.data.token) {
       const token = response.data.token;
       setAuthToken(token);
@@ -64,13 +62,13 @@ export const loginAction = (payload) => async (dispatch) => {
 };
 export const forgotPasswordAction = (payload) => async (dispatch) => {
   try {
-    const response = await checkEmailUser(payload)
-    if(response?.data.success){
+    const response = await checkEmailUser(payload);
+    if (response?.data.success) {
       dispatch({
         type: actionTypes.VALIDATION_EMAIL_SUC,
         msg: response.data.success,
       });
-    }else{
+    } else {
       dispatch({
         type: actionTypes.VALIDATION_EMAIL_FAIL,
         msg: response.data.fail,
@@ -82,18 +80,17 @@ export const forgotPasswordAction = (payload) => async (dispatch) => {
       msg: null,
     });
   }
-}
+};
 
 export const resetPasswordAction = (payload) => async (dispatch) => {
   try {
-    const response = await resetPassword(payload)
-    console.log(response.data);
-    if(response?.data.success){
+    const response = await resetPassword(payload);
+    if (response?.data.success) {
       dispatch({
         type: actionTypes.RESET_PASSWORD_SUC,
         msg: response.data.success,
       });
-    }else{
+    } else {
       dispatch({
         type: actionTypes.RESET_PASSWORD_FAIL,
         msg: response.data.fail,
@@ -105,7 +102,7 @@ export const resetPasswordAction = (payload) => async (dispatch) => {
       msg: null,
     });
   }
-}
+};
 
 export const getUserAction = (cookie) => ({
   type: actionTypes.GET_USER,
@@ -128,13 +125,11 @@ export const updateUserAction = (payload) => async (dispatch) => {
       dispatch({
         type: actionTypes.UPDATE_PROFILE_SUC,
         data: cookie,
-        // msg: response.data.message,
         msg: "success",
       });
-    } else {  
+    } else {
       dispatch({
         type: actionTypes.UPDATE_PROFILE_FAIL,
-        // msg: response.data.message,
         msg: "fail",
       });
     }
@@ -149,4 +144,9 @@ export const updateUserAction = (payload) => async (dispatch) => {
 export const updateUserActionAccess = () => ({
   type: actionTypes.UPDATE_PROFILE_ACCESS,
   msg: null,
+});
+
+export const setLoggedInAction = (isLoggedIn) => ({
+  type: actionTypes.SET_lOGGED_IN,
+  state: isLoggedIn,
 });

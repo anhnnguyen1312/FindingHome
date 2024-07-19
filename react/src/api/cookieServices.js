@@ -1,5 +1,8 @@
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { setLoggedInAction } from "../redux/store/action/authenAction";
 
 export const setAuthToken = (token) => {
   Cookies.set("authToken", token, {
@@ -10,16 +13,11 @@ export const setAuthToken = (token) => {
 };
 
 export const getAuthToken = () => {
-  console.log("getAuthToken 1");
-
   const encodeCookie = Cookies.get("authToken");
-  console.log("encodeCookie ", encodeCookie);
 
   if (encodeCookie) {
     try {
       const decodeCookie = jwtDecode(encodeCookie);
-      console.log("decodeCookie ", decodeCookie);
-
       return decodeCookie;
     } catch (error) {
       console.log(error);
@@ -27,6 +25,17 @@ export const getAuthToken = () => {
   } else {
     return false;
   }
+};
+
+export const checkAuthenToken = () => {
+  const Cookie = Cookies.get("authToken");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    {
+      !Cookie && dispatch(setLoggedInAction(false));
+    }
+  }, [Cookie, dispatch]);
 };
 
 export const removeAuthToken = () => {
