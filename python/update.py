@@ -30,7 +30,6 @@ def combineFeatures_province(row):
     return features
 def combineFeatures_district_all(row):
     features = str(row['price'])  + " " + str(row['typeRoom']) + " " + str(row['address']).split(',')[0] + " " + str(row['address']).split(',')[1]
-    print(features)
     return features  
 def combineFeatures_type_price(row):
     features = str(row['price'])  + " " + str(row['typeRoom']) 
@@ -42,7 +41,6 @@ def id_user(index,dataframe):
 def calc_similarity(dataframe,combineFeatures,postId):
     dataframe['combineFeatures'] =dataframe.apply(combineFeatures,axis=1)
     dataframe['combineFeatures'] = dataframe['combineFeatures'].replace({'1': 'Một', '2': 'Hai','3':'Ba','4': 'Bốn','5': 'Năm','6': 'Sáu','7': 'Bảy','8': 'Tám','9' :'Chín','0': 'Không'}, regex=True)
-    print(dataframe['combineFeatures'])
     tfMatrixPost = tf.fit_transform(dataframe['combineFeatures'])
     similarCosin = cosine_similarity(tfMatrixPost)
     indexPost = dataframe[dataframe['id'] == postId].index[0]
@@ -56,7 +54,6 @@ def get_index_similarity1(sortedSimilarity):
             index_array.append(int(sortedSimilarity[i][0]))
     return index_array
 def get_index(sortedSimilarPost,dataframe,postId,n,post):
-    print(post)
     result=[]
     for i in range(0,len(sortedSimilarPost)):
         if len(result) == n:
@@ -88,13 +85,9 @@ def call_api():
         df2 = pd.read_sql_query(query2, conn)
         dfCheck = df2[df2['check'] == 1]
         index=dfCheck['postId']
-        print(dfLike)
-        # filtered_df = df.iloc[index]
         filtered_df = df[df['id'].isin(index)]
         filtered_df.reset_index(inplace=True)
-        filtered_df = filtered_df[['id','userId','address','typeRoom','price']]
-        print(filtered_df)
-        
+        filtered_df = filtered_df[['id','userId','address','typeRoom','price']]        
         resultPostId = []
         resultUserId = []
         resultPostbyUserId = []
@@ -106,7 +99,6 @@ def call_api():
             postId=int(data_array[0])
             userId=None
             if data_array[1] != "null" :
-                print('not none')
                 userId=int(data_array[1])
         
         if postId not in filtered_df['id'].values:
@@ -118,17 +110,13 @@ def call_api():
         if len(filtered_df) > 0:
             if  postID_number == 3 :
                 # tinh userId
-                print('3')
                 indexUser = dfLike[dfLike['userId'] == userId].index[0]
-                print(indexUser)
                 tfMatrixUser = tf.fit_transform(dfLike['postIds'])
                 similarUserCosin = cosine_similarity(tfMatrixUser)
                 similarUser = list(enumerate(similarUserCosin[indexUser]))
                 sortedSimilarUser = sorted(similarUser,key=lambda x:x[1], reverse=True)
-                print(sortedSimilarUser)
                 for i in range(1,len(sortedSimilarUser)):
                     if float(sortedSimilarUser[i][1]) > 0 and int(id_user(sortedSimilarUser[i][0],dfLike)) != userId :
-                        print(id_user(sortedSimilarUser[i][0],dfLike))
                         resultUserId.append(int(id_user(sortedSimilarUser[i][0],dfLike)))
                 #postsUser = dfLike[dfLike['userId'] == userId]['postIds']
                 postUser = dfLike.loc[dfLike['userId'] == userId, 'postIds'].tolist()
@@ -138,8 +126,6 @@ def call_api():
                     data=  (dfLike.loc[dfLike['userId'] == i, 'postIds'].tolist())
                     split_list = data[0].split(',')
                     postUserRecommend = postUserRecommend + split_list
-                print(postUser)
-                print(postUserRecommend)
                 for i in postUserRecommend:
                     if i not in postUser :
                         resultPostbyUserId.append(i)
@@ -216,9 +202,7 @@ def call_api():
         # Đóng kết nối
         if 'conn' in locals() and conn.is_connected():
             # cursor.close()
-            conn.close()
-            print('Đã đóng kết nối đến MySQL Database')
-    
+            conn.close()    
     
 if __name__ == '__main__':
     app.run(debug=True , host="0.0.0.0", port=5001)

@@ -256,7 +256,7 @@ const FindRoom = () => {
         )}
         <div className="absolute top-[140px] bg-[#687d9f] right-[10px] z-10 text-white p-[5px] ">
           <button className="  text-white" onClick={() => handlePickMaker()}>
-            <i class="fa-solid fa-plus"></i>{" "}
+            <i className="fas fa-plus"></i>{" "}
             <i className="fa-solid fa-location-dot text-xl"></i>{" "}
           </button>{" "}
         </div>
