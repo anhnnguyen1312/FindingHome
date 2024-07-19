@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { AvatarUpload, Loading } from "./index";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import validator from "validator";
 import { useDispatch, useSelector } from "react-redux";
 import swal from "sweetalert";
@@ -10,8 +10,6 @@ import {
   updateUserAction,
   updateUserActionAccess,
 } from "../redux/store/action/authenAction";
-import { path } from "../ultils/path";
-import { FaBullseye } from "react-icons/fa6";
 const UpdateUserProfile = ({
   setUpdateClick,
   updateClick,
@@ -22,7 +20,6 @@ const UpdateUserProfile = ({
   const useLocate = useLocation();
 
   const [IsInValid, setIsInvalid] = useState([]);
-  // const [updateClick, setUpdateClick] = useState(false);
   const [clickPassword, setClickPassword] = useState(false);
   const [errorPassword, setErrorPassword] = useState(true);
 
@@ -33,7 +30,6 @@ const UpdateUserProfile = ({
   const [passwordForm, setPasswordForm] = useState({
     oldPassword: "",
     newPassword: "",
-    // confirmPassword: "",
   });
 
   const stateAuth = useSelector((state) => state.auth);
@@ -52,13 +48,8 @@ const UpdateUserProfile = ({
   });
 
   useEffect(() => {
-    // stateAuth.isLoggedIn && setUserData(stateAuth.data);
     setIsInvalid([]);
   }, []);
-  // useEffect(() => {
-  //   console.log("data change lại ne");
-  //   stateAuth.isLoggedIn && setUserData(stateAuth.data);
-  // }, [stateAuth.data]);
 
   const handleFormUserData = (e) => {
     setUserData((prevState) => ({
@@ -120,7 +111,6 @@ const UpdateUserProfile = ({
   };
   const handleConfirmPassword = () => {
     let isInvalidCount = true;
-    console.log(stateAuth.data?.password);
     if (passwordForm.oldPassword) {
       if (!(passwordForm.oldPassword === stateAuth.data?.password)) {
         setIsInvalid((prevState) => [
@@ -129,7 +119,6 @@ const UpdateUserProfile = ({
         ]);
         isInvalidCount = false;
       } else {
-        // mat khau cu dung
         if (passwordForm.newPassword) {
           const resultValidatePassword = validator.isStrongPassword(
             passwordForm.newPassword
@@ -164,16 +153,7 @@ const UpdateUserProfile = ({
                       msg: `Mật khẩu xác nhận không đúng`,
                     },
                   ]);
-                  // isInvalidCount++
                   isInvalidCount = false;
-                } else {
-                  console.log(userData.newPs);
-
-                  // setUserData((prevState) => ({
-                  //   ...prevState,
-                  //   ["password"]: passwordForm.confirmPassword,
-                  // }));
-                  console.log(" doi password thanh cong");
                 }
               } else {
                 setIsInvalid((prevState) => [
@@ -211,20 +191,13 @@ const UpdateUserProfile = ({
         isInvalidCount = false;
       }
     }
-    // setLoading(false);
-    // isInvalidCount ? setErrorPassword(true) : setErrorPassword(false);
     return isInvalidCount;
   };
-  console.log("userData", userData);
-  // api tra về theo form: có lỗi thì trả về msg, k thì k trả msg
   const handleSave = async () => {
     setLoading(true);
     const error = validate(userData);
     const errorPassword = handleConfirmPassword(passwordForm);
-    console.log("userData save", userData);
     if (error && errorPassword) {
-      console.log("dispatch", userData);
-
       dispatch(updateUserAction(userData));
     } else {
       setLoading(false);
@@ -265,10 +238,6 @@ const UpdateUserProfile = ({
 
   return (
     <>
-      {/* {loading && (
-        <div className="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600" />
-      )} */}
-      {/* //loading  */}
       {loading && <Loading />}
       <div className=" bg-white max-w-screen-md border  shadow-xl px-4 md:mx-auto">
         <div className="flex flex-col border-b py-4 sm:flex-row sm:items-start">
@@ -356,7 +325,6 @@ const UpdateUserProfile = ({
           <p className="font-medium">Đổi mật khẩu</p>
           {clickPassword ? <DownOutlined /> : <UpOutlined />}
         </div>
-        {/* /Mật khẩu cũ */}
         {clickPassword && (
           <>
             <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
@@ -367,7 +335,6 @@ const UpdateUserProfile = ({
                 type="password"
                 id={"oldPassword"}
                 onFocus={handleOnFocus}
-                // onBlur={handleConfirmPassword}
                 onChange={(e) => handlePasswordForm(e)}
                 placeholder="Nhập mật khẩu cũ"
                 className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
@@ -380,7 +347,6 @@ const UpdateUserProfile = ({
                   </span>
                 )}
             </div>
-            {/* /Mật khẩu mới */}
             <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
               <p className="shrink-0 w-32 font-normal">Mật khẩu mới</p>
               <input
@@ -388,7 +354,6 @@ const UpdateUserProfile = ({
                 type="password"
                 id={"newPassword"}
                 onFocus={handleOnFocus}
-                // onBlur={handleConfirmPassword}
                 onChange={(e) => handlePasswordForm(e)}
                 placeholder="Nhập Mật khẩu mới"
                 className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
@@ -401,17 +366,13 @@ const UpdateUserProfile = ({
                   </span>
                 )}
             </div>
-            {/* /Mật khẩu mới */}
             <div className="flex flex-col gap-4 border-b py-4 sm:flex-row">
               <p className="shrink-0 w-32 font-normal">Nhập lại mật khẩu mới</p>
               <input
-                // value={passwordForm.confirmPassword}
                 value={userData.newPs}
                 type="password"
                 id={"newPs"}
                 onFocus={handleOnFocus}
-                // onBlur={handleConfirmPassword}
-                // onChange={(e) => handlePasswordForm(e)}
                 onChange={(e) => handleFormUserData(e)}
                 placeholder="Nhập lại mật khẩu mới"
                 className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
@@ -426,9 +387,6 @@ const UpdateUserProfile = ({
             </div>
           </>
         )}
-
-        {/* /avatar*/}
-
         <div
           onClick={() => setAvatarClick(!avatarClick)}
           className="shrink-0 mr-auto  flex  items-center justify-between sm:py-3"

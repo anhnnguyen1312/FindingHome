@@ -5,7 +5,7 @@ const initialState = {
   isLoggedOut: false,
   msg: "",
   data: "",
-  alert:"",
+  alert: "",
   update: false,
 };
 
@@ -87,6 +87,11 @@ export const authenReducer = (state = initialState, action) => {
         msg: action.msg,
         isLoggedIn: false,
         isLoggedOut: true,
+      };
+    case actionTypes.SET_lOGGED_IN:
+      return {
+        ...state,
+        isLoggedIn: action.state,
       };
     default:
       return state;

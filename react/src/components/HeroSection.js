@@ -1,14 +1,15 @@
 import React from "react";
 import Button from "./Button";
 import "./HeroSection.css";
-// import Banner from  '../../public/assets/images/Banner.jpg'
-import banner from "../assets/images/Banner.jpg";
 import { path } from "../ultils/path";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
+import { checkAuthenToken } from "../api/cookieServices";
+
 const HeroSection = () => {
+  checkAuthenToken();
   const navigate = useNavigate();
   const stateAuth = useSelector((state) => state.auth);
 
@@ -28,14 +29,13 @@ const HeroSection = () => {
       navigate(path.LOGIN);
     }
   };
-  
+
   const handlePost = () => {
     navigate(path.ROOM_RENTAL);
   };
   return (
     <div className="block div">
       <div className="hero-container text-white text-lg">
-        {/* <img className=" " src={banner}></img> */}
         <h1 className="text-2xl">Tìm Phòng, Studio, Căn hộ mới ngay</h1>
         <p className="text-2xl">Uy tín, chất lượng giá rẻ</p>
         <div className="mt-[32px] flex gap-[20px]">
@@ -54,7 +54,6 @@ const HeroSection = () => {
             bgColor={"bg-white"}
             borderRounded={"rounded-[6px]"}
             borderColor={"border-white"}
-            //   custom={'h-10 w-[15rem]'}
           ></Button>
         </div>
       </div>

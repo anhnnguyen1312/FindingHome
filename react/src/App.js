@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { path } from "./ultils/path";
 import {
@@ -12,12 +11,8 @@ import {
   ResetPassword,
   ProfilePublic,
   ListLiked,
-  ClusterMap,
 } from "./pages/Public";
 import Profile from "./pages/LoggedIn/Profile";
-import { useDispatch, useSelector } from "react-redux";
-import { getAuthToken } from "../src/api/cookieServices";
-import { getUserAction } from "../src/redux/store/action/authenAction";
 import { HomeLoggedIn } from "./pages/LoggedIn/";
 import {
   System,
@@ -29,28 +24,9 @@ import {
   Notification,
 } from "./pages/System/";
 
-// import {SideBar} from './components/SideBar'
-
 import NewPost from "./pages/LoggedIn/NewPost";
 import FindRoom from "./pages/Public/FindRoom";
 function App() {
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   const cookie = getAuthToken();
-  //   console.log("cookie", cookie);
-
-  //   cookie && dispatch(getUserAction(cookie));
-  //   console.log("dispatch xong getusser");
-  // }, []);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     const cookie = getAuthToken();
-  //     console.log("cookie", cookie);
-  //     if (cookie) {
-  //       dispatch(getUserAction(cookie));
-  //     }
-  //   }, 1000);
-  // }, []);
   return (
     <Router>
       <Routes>

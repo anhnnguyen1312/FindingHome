@@ -1,36 +1,23 @@
-import React, { useEffect, useState } from "react";
-// import NavBar from '../../components/NavBar'
+import React, { useState } from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import { Search, NavBar } from "../../components/index";
+import { NavBar } from "../../components/index";
 import { Footer } from "../../components/index";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { path } from "../../ultils/path";
-import { getUserAction } from "../../redux/store/action/authenAction";
-import { getAuthToken } from "../../api/cookieServices";
 import {
   CommentOutlined,
   CustomerServiceOutlined,
   ArrowUpOutlined,
 } from "@ant-design/icons";
-import { FloatButton, Switch } from "antd";
+import { FloatButton } from "antd";
+import { checkAuthenToken } from "../../api/cookieServices";
+
 export default function Home() {
+  checkAuthenToken();
   const [open, setOpen] = useState(true);
 
-  const dispatch = useDispatch();
   const stateAuth = useSelector((state) => state.auth);
-  console.log("stateAuth data", stateAuth.data);
 
-  // useEffect(() => {
-  //   // k can lay token? chir lay isloggedin de check?
-  //   const cookie = getAuthToken();
-  //   cookie ? (
-  //     dispatch(getUserAction(cookie))
-  //   ) : (
-  //     <Navigate to={`/${path.LOGIN}`} replace={true} />
-  //   );
-
-  // }, []);
-  console.log("s!stateAuth.isLoggedIn", !stateAuth.isLoggedIn);
   if (!stateAuth.isLoggedIn)
     return <Navigate to={`/${path.LOGIN}`} replace={true} />;
 
@@ -67,13 +54,6 @@ export default function Home() {
               icon={<CommentOutlined />}
             />
           </FloatButton.Group>
-          {/* <Switch
-            onChange={onChange}
-            checked={open}
-            style={{
-              margin: 16,
-            }}
-          /> */}
         </div>
       </div>
       <Footer />
