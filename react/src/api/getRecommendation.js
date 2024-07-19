@@ -21,7 +21,7 @@ export const callUserAction = (payload) =>
       try {
         const response = await axiosConfig({
           method: "get",
-          url: `http://localhost:5000/get-recommendation?id=${userId}`,
+          url: `http://127.0.0.1:5000/get-recommendation?id=${userId}`,
         });
         resolve(response);
       } catch (error) {

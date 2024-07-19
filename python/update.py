@@ -14,8 +14,9 @@ tf = TfidfVectorizer ()
 config = {
     'user': 'findHome',
     'password': 'findHome@2024',
-    'host': 'findHome',
+    'host': '127.0.0.1',
     'database': 'findHome',
+    'port': 3307,
     'raise_on_warnings': True
 }
 
