@@ -279,7 +279,7 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
         >
           <Tooltip title={`Thêm pin`}>
             <button className="  text-white " onClick={() => handlePickMaker()}>
-              <i class="fa-solid fa-plus"></i>{" "}
+              <i className="fas fa-plus"></i>{" "}
               <i className="fa-solid fa-location-dot text-xl"></i>{" "}
             </button>
           </Tooltip>
@@ -314,11 +314,11 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
             >
               {showIconPlaces ? (
                 <>
-                  Ẩn Icon <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                  Ẩn Icon <i className="fa fa-eye-slash" aria-hidden="true"></i>
                 </>
               ) : (
                 <>
-                  Hiện Icon <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                  Hiện Icon <i className="fa fa-eye-slash" aria-hidden="true"></i>
                 </>
               )}
             </button>
