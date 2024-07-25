@@ -226,6 +226,7 @@ class AuthenController extends CI_Controller
 				$userData = ([
 					'id' => $user->id,
 					'name' => $user->name,
+					'userRole' =>$user->role,
 					'email' => $user->email,
 					'phone' => $this->encryption->decrypt($user->phone),
 					'avatar' => !empty($user->avatar) ? $this->encryption->decrypt($user->avatar) : "",
