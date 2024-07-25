@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 
-python recommend.py &
-python update.py
+set -e
+exec python recommend.py &
+exec python update.py
