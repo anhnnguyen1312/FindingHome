@@ -118,7 +118,6 @@ const FindRoom = () => {
     top: 10,
   };
   const handleonGeolocate = (event) => {
-    console.log("handleonGeolocate", event);
     setMarker({
       latitude: event.coords.latitude,
       longitude: event.coords.longitude,
@@ -146,8 +145,6 @@ const FindRoom = () => {
     map.addControl(geocoder);
 
     geocoder.on("result", (event) => {
-      console.log("event", event.result.geometry.coordinates[1]);
-      console.log("placename", event.result.place_name);
       setConfirmed(true);
       setMarker({
         latitude: event.result.geometry.coordinates[1],
@@ -174,8 +171,7 @@ const FindRoom = () => {
       )
       .then((res) => {
         const { data } = res;
-        console.log("res", res);
-        console.log("data", data);
+
         setMarker((prevState) => ({
           ...prevState,
           ["place_name"]: data.features[0].place_name,
@@ -190,13 +186,11 @@ const FindRoom = () => {
       )
       .then((res) => {
         const data = res.data[0].display;
-        //console.log("res", res);
-        console.log("data", data);
+
         setMarker((prevState) => ({
           ...prevState,
           ["place_name"]: data,
         }));
-        // setConfirmed(true);
         setShowPopup(true);
       });
   };
@@ -207,8 +201,6 @@ const FindRoom = () => {
       longitude: viewState.longitude,
       place_name: "",
     });
-    // setPickMarker(true);
-    console.log("handlePickMaker");
   };
 
   const handleClickPopUpInfor = (latitude, longitude, cluster) => {
@@ -228,8 +220,6 @@ const FindRoom = () => {
         `https://api.mapbox.com/directions/v5/mapbox/driving/${marker.longitude},${marker.latitude};${popUpAddress.longitude},${popUpAddress.latitude}.json?access_token=${MAPBOX_TOKEN}`
       )
       .then((res) => {
-        // const { data } = res;
-        console.log("distanceCalc", res);
         const distance = res.data.routes[0].distance / 1000;
         const duration = res.data.routes[0].duration / 60;
         setMarker((prevState) => ({
@@ -300,7 +290,6 @@ const FindRoom = () => {
             onGeolocate={(e) => handleonGeolocate(e)}
           />
           <NavigationControl position="bottom-right" />
-          {/* <SearchLocation /> */}
 
           {marker && (
             <>
@@ -355,22 +344,7 @@ const FindRoom = () => {
               </Marker>
             </>
           )}
-          {/* {clusters?.map((point) => (
-            <Marker
-              latitude={point?.lat}
-              longitude={point?.lng}
-              offsetLeft={-20}
-              offsetTop={-30}
-            >
-              <button
-                // onClick={() => setShowPopup(true)}
-                className=" text-rose-600 p-[10px]"
-              >
-                {point.price} tr
-                <i className="fa-solid fa-location-dot text-5xl"></i>
-              </button>
-            </Marker>
-          ))} */}
+
           {clusters.map((cluster) => {
             const [longitude, latitude] = cluster.geometry.coordinates;
             const { cluster: isCluster, point_count: pointCount } =
@@ -411,11 +385,6 @@ const FindRoom = () => {
                 latitude={latitude}
                 longitude={longitude}
               >
-                {/* <button className="map bg-rose-500 px-[15px] py-[5px] rounded-md flex items-center justify-center text-white "> */}
-                {/* <i className="fa-solid fa-location-dot text-5xl"></i> */}
-                {/* {cluster.properties.price} tr
-                </button> */}
-
                 <Tooltip title={`${cluster.properties.price} tr/tháng`}>
                   <Avatar
                     src={cluster.properties.uPhoto}
@@ -455,10 +424,7 @@ const FindRoom = () => {
                   <Tooltip
                     title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
                   >
-                    <div
-                    // className=" text-rose-600"
-                    >
-                      {/* <i class="fa-solid fa-circle-h text-2xl"></i> */}
+                    <div>
                       <img className="w-[40px]" src={hospital}></img>
                     </div>
                   </Tooltip>
@@ -478,10 +444,7 @@ const FindRoom = () => {
                   <Tooltip
                     title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
                   >
-                    <div
-                    // onClick={() => setShowPopupIcon(true)}
-                    // className=" text-rose-600 "
-                    >
+                    <div>
                       <img className="w-[40px]" src={education}></img>
                     </div>
                   </Tooltip>
@@ -502,10 +465,7 @@ const FindRoom = () => {
                   <Tooltip
                     title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
                   >
-                    <div
-                    // onClick={() => setShowPopupIcon(true)}
-                    // className=" text-rose-600 "
-                    >
+                    <div>
                       <img className="w-[40px]" src={univer}></img>
                     </div>
                   </Tooltip>

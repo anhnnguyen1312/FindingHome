@@ -19,6 +19,7 @@ import { store, persistor } from "./redux/store";
 const Root = () => {
   useEffect(() => {
     const cookie = getAuthToken();
+    console.log("cookie", cookie);
     cookie && store.dispatch(getUserAction(cookie));
     store.dispatch(postAction());
     store.dispatch(homepagePostAction());

@@ -23,10 +23,8 @@ export default function Home() {
 
   return (
     <div className="w-full bg-[#F8FAFC] font-[sans-serif]">
-      {/* relative */}
       <NavBar />
       <div className="w-full m-auto h-full flex flex-col items-start justify-start ">
-        {/* <Search /> */}
         <Outlet />
         <div className="fixed right-2 bottom-2">
           <FloatButton.Group

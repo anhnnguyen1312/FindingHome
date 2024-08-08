@@ -24,6 +24,7 @@ export default function NavBar() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  console.log("stateAuth", stateAuth);
   function handleLogInNavigate(stateIsRegister) {
     navigate(path.LOGIN, { state: { stateIsRegister } });
   }

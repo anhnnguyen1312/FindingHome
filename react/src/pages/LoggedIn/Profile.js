@@ -11,8 +11,8 @@ import userAvatar from "../../assets/images/userAvatar.jpg";
 import { removeAuthToken } from "../../api/cookieServices";
 import { logoutAction } from "../../redux/store/action/authenAction";
 import { path } from "../../ultils/path";
-import {message, Popconfirm } from "antd";
-import {callApiDeleteUser} from "../../../src/api/authenLogin"
+import { message, Popconfirm } from "antd";
+import { callApiDeleteUser } from "../../../src/api/authenLogin";
 const Profile = () => {
   const [updateClick, setUpdateClick] = useState(false);
   const [managePostClick, setManagePostClick] = useState(false);
@@ -22,21 +22,21 @@ const Profile = () => {
   const stateAuth = useSelector((state) => state.auth);
   const userId = stateAuth?.data.userId;
 
-  const confirm =  async (userId) => {
-      try {
-        const response = await callApiDeleteUser(userId);
-        if (response.data.fail) {
-          message.error(response.data.fail);
-        } else {
-          const success = response.data.success;
-          handleDeleteUser(success)
-        }
-      } catch (error) {
-        console.error(error);
-        message.error("Xóa tài khoản không thành công");
+  const confirm = async (userId) => {
+    try {
+      const response = await callApiDeleteUser(userId);
+      if (response.data.fail) {
+        message.error(response.data.fail);
+      } else {
+        const success = response.data.success;
+        handleDeleteUser(success);
       }
+    } catch (error) {
+      console.error(error);
+      message.error("Xóa tài khoản không thành công");
+    }
   };
-  
+
   const handleDeleteUser = (success) => {
     removeAuthToken();
     dispatch(logoutAction(success));
@@ -64,8 +64,6 @@ const Profile = () => {
   }, [useLocate.state]);
 
   console.log(" useLocate.state ", useLocate);
-  // console.log("stateAuth ", stateAuth);
-  // console.log("userData.avatar?.length", userData.avatar);
 
   return (
     <>
@@ -101,20 +99,10 @@ const Profile = () => {
                     >
                       Đăng tin
                     </div>
-                    {/* <Link
-                      //  onClick={() => handleNewPostNavidate()}
-                      to={path.LOGIN}
-                      className=" cursor-pointer bg-rose-500 hover:bg-rose-400 text-white py-2 px-4 rounded"
-                    >
-                      Đăng tin
-                    </Link> */}
                   </div>
                 </div>
                 <hr className="my-6 border-t border-gray-300" />
                 <div className="flex flex-col">
-                  {/* <span className="text-gray-700 uppercase font-bold tracking-wider mb-2">
-                    Skills
-                  </span> */}
                   <ul>
                     <li
                       onClick={() => {
@@ -136,9 +124,9 @@ const Profile = () => {
                       okText="Xóa"
                       cancelText="Hủy"
                     >
-                        <li className=" cursor-pointer mb-4 border-b-[1px] border-[#dfdfdf] ">
-                          xóa tài khoản
-                        </li>
+                      <li className=" cursor-pointer mb-4 border-b-[1px] border-[#dfdfdf] ">
+                        xóa tài khoản
+                      </li>
                     </Popconfirm>
 
                     <li
@@ -152,7 +140,6 @@ const Profile = () => {
               </div>
             </div>
             <div className="col-span-4 lg:col-span-9">
-              {/* // chinh sua thong tin form */}
               {updateClick && (
                 <UpdateUserProfile
                   setUpdateClick={setUpdateClick}
@@ -161,10 +148,9 @@ const Profile = () => {
                 />
               )}
 
-              {managePostClick && <StatisticPost  userId={userId}/>}
+              {managePostClick && <StatisticPost userId={userId} />}
             </div>
           </div>
-          {/* // tin ddax ddangw */}
           {managePostClick && <ManagePostUser userId={userId} />}
         </div>
       </div>

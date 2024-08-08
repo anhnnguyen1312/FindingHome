@@ -64,7 +64,7 @@ const DetailProduct = () => {
   useEffect(() => {
     const getApiRecommend = async () => {
       try {
-        await callApiRecommend(stateAuth.data.userId);
+        //await callApiRecommend(stateAuth.data.userId);
         let userId = null;
 
         const response = await callApiRecommendSystem(
