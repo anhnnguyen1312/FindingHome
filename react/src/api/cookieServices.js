@@ -18,7 +18,9 @@ export const getAuthToken = () => {
   if (encodeCookie) {
     try {
       const decodeCookie = jwtDecode(encodeCookie);
-      return decodeCookie;
+      if (decodeCookie.email && decodeCookie.password) {
+        return decodeCookie;
+      }
     } catch (error) {
       console.log(error);
     }

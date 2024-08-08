@@ -93,8 +93,7 @@ export default function Login() {
         ]);
         isInvalidCount = false;
       }
-
-      if (i === "password") {
+      if (i === "password" && isResgister) {
         const resultValidatePassword = validator.isStrongPassword(formData[i]);
         if (!resultValidatePassword) {
           setIsInvalid((prevState) => [

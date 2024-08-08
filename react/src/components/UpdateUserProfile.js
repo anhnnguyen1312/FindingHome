@@ -179,8 +179,11 @@ const UpdateUserProfile = ({
         }
       }
     } else {
-      if (!passwordForm.newPassword || !userData.newPs) {
+      if (!passwordForm.newPassword && !userData.newPs) {
+        return isInvalidCount;
       } else {
+        console.log("passwordForm.newPassword", passwordForm.newPassword);
+        console.log("userData.newPs", userData.newPs);
         setIsInvalid((prevState) => [
           ...prevState,
           {

@@ -6,15 +6,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import AutoSlideShow from "./AutoSlideShow";
 import { LikeComponent } from "./index";
 import { useSelector } from "react-redux";
-import {callUserAction} from "../api/getRecommendation";
-
+import { callUserAction } from "../api/getRecommendation";
 
 import DetailProduct from "../pages/Public/DetailProduct";
 const CardProduct = ({ props, checked, isSystem }) => {
   const navigate = useNavigate();
   const useLocate = useLocation();
   const stateAuth = useSelector((state) => state.auth);
-  const userId = stateAuth.data.userId
+  const userId = stateAuth.data.userId;
 
   function handleNavigate(e, idPost) {
     e.stopPropagation();
@@ -29,12 +28,12 @@ const CardProduct = ({ props, checked, isSystem }) => {
       const payload = {
         userId: userId,
         postId: postId,
-      }
+      };
 
       const response = await callUserAction(payload);
-      if(response.data.success){
-        const success = response.data.success
-        console.log(success)
+      if (response.data.success) {
+        const success = response.data.success;
+        console.log(success);
       }
     } catch (error) {
       console.log(error);
@@ -57,25 +56,25 @@ const CardProduct = ({ props, checked, isSystem }) => {
       switch (check) {
         case "1":
           return (
-            <span className="bg-[#9bfaa3] border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
+            <span className="bg-[#9bfaa3] min-w-[132px] border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
               Đang hoạt động
             </span>
           );
         case "0":
           return (
-            <span className="bg-[#fcf683] border border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
+            <span className="bg-[#fcf683] min-w-[132px] border border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
               Chưa được duyệt
             </span>
           );
         case "2":
           return (
-            <span className="bg-[#f78888] border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
+            <span className="bg-[#f78888] min-w-[132px] border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
               Từ chối
             </span>
           );
         case "3":
           return (
-            <span className="bg-[#b9bfc9] border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
+            <span className="bg-[#b9bfc9] min-w-[132px] border text-black px-2 py-1 m-2 rounded-md text-md font-medium">
               Hết hạn
             </span>
           );
@@ -88,27 +87,27 @@ const CardProduct = ({ props, checked, isSystem }) => {
   return (
     <li>
       <div
-        className="flex hover:bg-[#E9F4F6] h-full border border-transparent bg-white shadow flex-col sm:flex-row md:flex-row px-4 active:border-rose-500 rounded-2xl"
-        onClick={(e) =>{
-          handleNavigate(e, props.id),
-          handleUserAction(props.id, userId )
+        className="flex hover:bg-[#E9F4F6] h-full border border-transparent bg-white shadow flex-col  md:flex-row min-h-[560px] md:min-h-[300px] px-4 active:border-rose-500 rounded-2xl"
+        onClick={(e) => {
+          handleNavigate(e, props.id), handleUserAction(props.id, userId);
         }}
       >
-        <figure className="m-0 flex-[30%] my-4 overflow-hidden rounded-2xl relative">
+        <figure className="m-0 md:flex-[30%] h-[280px] my-4 overflow-hidden rounded-2xl relative">
           {props.urlImages && <AutoSlideShow images={props.urlImages} />}
         </figure>
 
-        <div className="gap-[1vh] flex flex-col flex-[70%] p-[1vh]  border-y-[#E2E8F0] border-l-red rounded-r-2xl  ">
+        <div className="gap-[1vh] flex flex-col  md:flex-[70%] p-[1vh] h-[280px]  border-y-[#E2E8F0] border-l-red rounded-r-2xl  ">
           <div className="flex flex-row items-center  justify-between">
-            <div className="flex">
+            <div className="flex justify-between flex-grow">
               <h2 className="text-red-500 font-medium mr-2 items-center flex">
+                {/* {props.title.substr(0, 30) + "..."} */}
                 {props.title}
               </h2>
               {handleStatusTag(checked)}
             </div>
-            < LikeComponent postId={props.id} />
+            <LikeComponent postId={props.id} />
           </div>
-          <div className="justify-start gap-[1vw] flex mt-5 ">
+          <div className="justify-start gap-[1vw] flex ">
             <div className="text-white font-medium flex items-center color:white px-[10px] py-[5px] rounded-[20px] bg-[#F2545B]">
               <div className="flex items-center px-[3px]"></div>
               {`${props.price} triệu/tháng`}
@@ -131,7 +130,7 @@ const CardProduct = ({ props, checked, isSystem }) => {
             )}
           </div>
 
-          <div className="text-blue-600 flex ">
+          <div className="text-blue-600 flex text-ellipsis ">
             <div
               style={{ color: "blue" }}
               className="flex items-center px-[3px] "

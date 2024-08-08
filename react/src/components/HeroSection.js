@@ -31,7 +31,7 @@ const HeroSection = () => {
   };
 
   const handlePost = () => {
-    navigate(path.ROOM_RENTAL);
+    navigate(path.FINDROOM);
   };
   return (
     <div className="block div">

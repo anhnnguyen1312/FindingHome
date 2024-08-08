@@ -60,7 +60,3 @@ export const UpdatePostAction = (updatePostData) => ({
   type: actionTypes.UPDATE_POST,
   updatePostData: updatePostData,
 });
-
-export const UpdatePostActionClearData = () => ({
-  type: actionTypes.UPDATE_POST_CLEAR,
-});

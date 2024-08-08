@@ -21,7 +21,10 @@ const UpdatePost = ({ updatePostData, setUpdatePostClick }) => {
         onClick={(e) => handleClickChild(e)}
         className="bg-white max-w-[700px] w-full overflow-y-auto mt-[60px]"
       >
-        <NewPost updatePostData={updatePostData} />
+        <NewPost
+          updatePostData={updatePostData}
+          setUpdatePostClick={setUpdatePostClick}
+        />
       </div>
     </div>
   );

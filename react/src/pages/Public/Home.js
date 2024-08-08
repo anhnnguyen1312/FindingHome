@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { NavBar } from "../../components/index";
 import { Footer } from "../../components/index";
+
 import {
   CommentOutlined,
   CustomerServiceOutlined,
@@ -11,6 +12,7 @@ import { FloatButton, Switch } from "antd";
 
 export default function Home() {
   const [open, setOpen] = useState(true);
+
   return (
     <div className="relative bg-[#F8FAFC] font-[sans-serif]">
       <NavBar />

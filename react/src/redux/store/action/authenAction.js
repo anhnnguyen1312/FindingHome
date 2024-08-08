@@ -1,4 +1,5 @@
 import actionTypes from "./actionTypes";
+
 import {
   callApiRegister,
   callApiLogin,
@@ -42,6 +43,8 @@ export const loginAction = (payload) => async (dispatch) => {
       const token = response.data.token;
       setAuthToken(token);
       const cookie = getAuthToken();
+      console.log("cookie", cookie);
+
       dispatch({
         type: actionTypes.LOGIN__SUC,
         data: cookie,

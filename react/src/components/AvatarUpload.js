@@ -7,8 +7,6 @@ const AvatarUpload = ({ setUserData, avatar, id }) => {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
 
-  console.log("userData avatarUpload ", avatar);
-
   const uploadImage = async (e) => {
     setLoading(true);
     const file = e.target.files[0];
@@ -35,17 +33,6 @@ const AvatarUpload = ({ setUserData, avatar, id }) => {
     }));
   };
 
-  //   const handleImageChange = (event) => {
-  //     const file = event.target.files[0];
-  //     setImage(file);
-
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(file);
-
-  //     reader.onload = () => {
-  //       setPreview(reader.result);
-  //     };
-  //   };
   return (
     <>
       {/* //loading  */}

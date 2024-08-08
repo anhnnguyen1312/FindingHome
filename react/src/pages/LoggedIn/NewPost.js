@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Address from "../../components/address";
 import { getProvince, getDistrict, getWard } from "../../api/getProvince";
 import { Flex, Form } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { UpdatePostActionClearData } from "../../redux/store/action/postAction";
 import {
   AddressNewPostProvince,
   AddressNewPostDistrict,
   AddressNewPostWard,
 } from "../../components/AddressNewPost";
 import { path } from "../../ultils/path";
-// import InputNewPost from "../../components/InputNewPost";
-// import TextAreaNewPost from "../../components/TextAreaNewPost";
-// import SelectNewPost from "../../components/SelectNewPost";
+
 import {
   InputReadOnly,
   formatDate,
@@ -26,9 +22,8 @@ import axios from "axios";
 import TypeRoom from "../../data/TypeRoom";
 import validator from "validator";
 import { callApiCreatePost, callApiUpdatePost } from "../../api/getPostApi";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
-import { Image, Upload } from "antd";
 import { callApiUploadImages } from "../../api/uploadImage";
 import swal from "sweetalert";
 import Location_NewPost from "../../components/Location_NewPost";
@@ -53,7 +48,6 @@ const NewPost = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const stateAuth = useSelector((state) => state.auth);
-  // const { updatePostData } = useSelector((state) => state.post);
 
   const [addressData, setAddressData] = useState({
     provinceForm: null,
@@ -61,28 +55,8 @@ const NewPost = ({
     wardForm: null,
     streetForm: null,
   });
-  console.log("ReUpPostData,", ReUpPostData);
   const [formData, setFormData] = useState(() => {
     const data = {
-      // title: updatePostData?.title || "",
-      // address: updatePostData?.address || "",
-      // zalo: updatePostData?.zalo || "",
-      // status: "0",
-      // price: updatePostData?.price || "",
-      // area: updatePostData?.area || "",
-      // otherFee: updatePostData?.otherFee || "",
-      // nearby: updatePostData?.nearby || "",
-      // typeRoom: updatePostData?.typeRoom || "",
-      // description: updatePostData?.description || "",
-      // furniture: updatePostData?.furniture || "",
-      // rule: updatePostData?.rule || "",
-      // dateCreateAt: updatePostData?.dateCreateAt || "",
-      // dateExpired: updatePostData?.dateExpired || "",
-      // userId: updatePostData?.userId || "",
-      // check: stateAuth.data.role === "1" ? "1" : "0",
-      // urlImages: updatePostData?.urlImages || "",
-      // lat: updatePostData?.lat || 0,
-      // lng: updatePostData?.lng || 0,
       title: updatePostData?.title || ReUpPostData?.title || "",
       address: updatePostData?.address || ReUpPostData?.address || "",
       zalo: updatePostData?.zalo || ReUpPostData?.zalo || "",
@@ -161,7 +135,7 @@ const NewPost = ({
       if (value.trim() === "") {
         setIsInvalid((prevState) => [
           ...prevState,
-          { name: i, msg: `bạn chưa ${title} ` },
+          { name: i, msg: `bạn chưa nhập ${title} ` },
         ]);
         isInvalidCount = false;
       }
@@ -292,9 +266,8 @@ const NewPost = ({
                 text: response.data.success,
                 icon: "success",
                 timer: 2000,
-              }).then(() => dispatch(UpdatePostActionClearData()));
+              }).then(() => window.location.reload());
             }
-            console.log("submit form thành công", response);
           } catch (error) {
             setLoading(false);
             console.log(error);
@@ -309,7 +282,6 @@ const NewPost = ({
         setLoading(false);
       } else {
         if (!(formData.lat && formData.lng)) {
-          console.log("sai ne");
           const getLatLngFromAddress = async (address) => {
             const apiKey = "af4284a02ae26231e2a517f30b67d25216a69b76782dfb4c";
             const url = `https://maps.vietmap.vn/api/search/v3?apikey=${apiKey}&text=${address}`;
@@ -428,16 +400,6 @@ const NewPost = ({
   console.log("role", stateAuth.data.role);
 
   useEffect(() => {
-    // const handleDate = () => {
-    //   const today = new Date();
-    //   const endDate = new Date(new Date().setDate(today.getDate() + 90));
-    //   setFormData((prevState) => ({
-    //     ...prevState,
-    //     dateCreateAt: formatDate(today),
-    //     dateExpired: formatDate(endDate),
-    //   }));
-    // };
-    // handleDate();
     const callProvinceApi = async () => {
       try {
         const response = await getProvince();
@@ -453,22 +415,6 @@ const NewPost = ({
     callProvinceApi();
   }, []);
   useEffect(() => {
-    // if (updatePostData) {
-    //   setPreview(updatePostData?.urlImages);
-    //   let addressData = updatePostData?.address?.split(",");
-    //   setFormData((prevState) => ({
-    //     ...prevState,
-    //     ["id"]: updatePostData?.id,
-    //   }));
-    //   setAddressData({
-    //     provinceForm: addressData[addressData?.length - 1],
-
-    //     districtForm: addressData[addressData?.length - 2],
-    //     wardForm: addressData[addressData?.length - 3],
-    //     streetForm: addressData[addressData?.length - 4],
-    //   });
-    //   console.log("setAddressData");
-    // }
     if (updatePostData || ReUpPostData) {
       setPreview(
         updatePostData ? updatePostData?.urlImages : ReUpPostData?.urlImages
@@ -491,66 +437,6 @@ const NewPost = ({
       });
     }
   }, [updatePostData, ReUpPostData]);
-
-  // useEffect(() => {
-  //   if (updatePostData || ReUpPostData) {
-  //     // let addressData = updatePostData?.address?.split(",");
-  //     let addressData = updatePostData
-  //       ? updatePostData?.address?.split(",")
-  //       : ReUpPostData?.address?.split(",");
-
-  //     let userProvince =
-  //       provinces.length > 0 &&
-  //       provinces?.find(
-  //         (province) =>
-  //           province.province_name ===
-  //           addressData[addressData?.length - 1]?.trim()
-  //       );
-  //     console.log("userProvince", userProvince);
-  //     userProvince && setProvince(userProvince);
-  //   }
-  // }, [provinces]);
-  console.log("province", province);
-  console.log("formData", formData);
-
-  console.log("addressData", addressData);
-
-  // useEffect(() => {
-  //   if (updatePostData || ReUpPostData) {
-  //     // let addressData = updatePostData?.address?.split(",");
-  //     let addressData = updatePostData
-  //       ? updatePostData?.address?.split(",")
-  //       : ReUpPostData?.address?.split(",");
-
-  //     let userDistrict =
-  //       districts.length > 0 &&
-  //       districts?.find(
-  //         (district) =>
-  //           district.district_name ===
-  //           addressData[addressData?.length - 2]?.trim()
-  //       );
-
-  //     userDistrict && setDistrict(userDistrict);
-  //   }
-  // }, [districts]);
-
-  // useEffect(() => {
-  //   if (updatePostData || ReUpPostData) {
-  //     // let addressData = updatePostData?.address?.split(",");
-  //     let addressData = updatePostData
-  //       ? updatePostData?.address?.split(",")
-  //       : ReUpPostData?.address?.split(",");
-
-  //     let userWard =
-  //       wards?.length > 0 &&
-  //       wards?.find(
-  //         (ward) =>
-  //           ward.ward_name === addressData[addressData?.length - 3]?.trim()
-  //       );
-
-  //     userWard && setWard(userWard);
-  //   }
-  // }, [wards]);
 
   useEffect(() => {
     if (!updatePostData) {
@@ -601,13 +487,11 @@ const NewPost = ({
   }, [district]);
 
   useEffect(() => {
-    // if (updatePostData) {
     ward &&
       setFormData((prevState) => ({
         ...prevState,
         userId: stateAuth.data.userId,
       }));
-    // }
   }, [ward]);
 
   useEffect(() => {

@@ -9,9 +9,8 @@ import ReactMapGL, {
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import mapboxgl from "mapbox-gl";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { message } from "antd";
-//import SearchLocation from "../../components/SearchLocation";
 const Location_NewPost = ({ lat, lng, address, setFormData }) => {
   const [pickMarker, setPickMarker] = useState(false);
 
@@ -36,7 +35,6 @@ const Location_NewPost = ({ lat, lng, address, setFormData }) => {
   });
   const dispatch = useDispatch();
 
-  //   const location = useSelector((state) => state.location);
   const VIETMAP_KEY = "af4284a02ae26231e2a517f30b67d25216a69b76782dfb4c";
   const MAPBOX_TOKEN =
     "pk.eyJ1IjoidGhhaS1uZ29jLXBodSIsImEiOiJjbHhpd3p2amwxbGozMnJyMmJhZTExZ3pkIn0.BnFFOObKYnZUOf2wJstUFg";
@@ -150,7 +148,6 @@ const Location_NewPost = ({ lat, lng, address, setFormData }) => {
       )
       .then((res) => {
         const data = res.data[0].display;
-        //console.log("res", res);
         console.log("data", data);
         setMarker((prevState) => ({
           ...prevState,
@@ -165,7 +162,6 @@ const Location_NewPost = ({ lat, lng, address, setFormData }) => {
       longitude: viewState.longitude,
       place_name: "",
     });
-    // setPickMarker(true);
     console.log("handlePickMaker");
   };
   const handleConfirm = () => {
@@ -240,7 +236,6 @@ const Location_NewPost = ({ lat, lng, address, setFormData }) => {
             onGeolocate={(e) => handleonGeolocate(e)}
           />
           <NavigationControl position="bottom-right" />
-          {/* <SearchLocation /> */}
 
           {marker.latitude !== "0" && marker.longitude !== "0" && (
             <>

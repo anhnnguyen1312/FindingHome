@@ -39,7 +39,7 @@ export const authenReducer = (state = initialState, action) => {
     case actionTypes.UPDATE_PROFILE_SUC:
       return {
         ...state,
-        isLoggedIn: true,
+        //isLoggedIn: true,
         data: action.data,
         msg: action.msg,
         update: !state.update,
@@ -47,7 +47,7 @@ export const authenReducer = (state = initialState, action) => {
     case actionTypes.UPDATE_PROFILE_FAIL:
       return {
         ...state,
-        isLoggedIn: true,
+        //isLoggedIn: true,
         msg: action.msg,
         update: !state.update,
       };

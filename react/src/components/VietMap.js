@@ -57,24 +57,11 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
   const [marker, setMarker] = useState();
   const [confirmed, setConfirmed] = useState(false);
 
-  // const [viewport, setViewport] = useState({
-  //   latitude: 10.710999,
-  //   longitude: 106.704449,
-  //   zoom: 15,
-  // });
-
-  // const [viewportGeoLocate, setViewportGeoLocate] = useState({
-  //   latitude: 37.7577,
-  //   longitude: -122.4376,
-  //   zoom: 10,
-  // });
   const [viewState, setViewState] = useState({
     latitude: 0,
     longitude: 0,
     zoom: 15,
   });
-
-  console.log("lat,long", viewState);
 
   const VIETMAP_KEY = "af4284a02ae26231e2a517f30b67d25216a69b76782dfb4c";
 
@@ -90,7 +77,6 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
 
   useEffect(() => {
     if (lat && lng) {
-      console.log("hello");
       setMarkerAddress({
         latitude: parseFloat(lat),
         longitude: parseFloat(lng),
@@ -107,12 +93,10 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
         setPlacesNearby
       );
     } else {
-      console.log("fail har");
+      console.log("fail ");
     }
   }, [lat, lng, address]);
-  const matrix = () => {
-    const apiKeyMapbox = "af4284a02ae26231e2a517f30b67d25216a69b76782dfb4c";
-  };
+
   const getLatLngFromAddress = async (address) => {
     const apiKey = "af4284a02ae26231e2a517f30b67d25216a69b76782dfb4c";
     const url = `https://maps.vietmap.vn/api/search/v3?apikey=${apiKey}&text=${address}`;
@@ -124,18 +108,6 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
         const urlPlace = `https://maps.vietmap.vn/api/place/v3?apikey=${apiKey}&refid=${result.ref_id}`;
         try {
           const response = await axios.get(urlPlace);
-          console.log("response", response);
-
-          // setMarkerAddress({
-          //   latitude: response.data?.lat,
-          //   longitude: response.data?.lng,
-          //   place_name: address,
-          // });
-          // setViewState((prevState) => ({
-          //   ...prevState,
-          //   latitude: response.data?.lat,
-          //   longitude: response.data?.lng,
-          // }));
         } catch (error) {
           console.log(error);
         }
@@ -146,7 +118,6 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
       console.error("Error fetching geocoding data:", error);
     }
   };
-  console.log("markerAddress", markerAddress);
 
   useEffect(() => {
     if (address) {
@@ -166,8 +137,6 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
     map.addControl(geocoder);
 
     geocoder.on("result", (event) => {
-      console.log("event", event.result.geometry.coordinates[1]);
-      console.log("placename", event.result.place_name);
       setConfirmed(true);
       setMarker({
         latitude: event.result.geometry.coordinates[1],
@@ -210,8 +179,6 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
       )
       .then((res) => {
         const data = res.data[0].display;
-        //console.log("res", res);
-        console.log("dageocodingVietMapta", res);
         setMarker((prevState) => ({
           ...prevState,
           ["place_name"]: data,
@@ -221,8 +188,6 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
   };
 
   const handleonGeolocate = (event) => {
-    console.log("handleonGeolocate", event);
-
     setMarker({
       latitude: event.coords.latitude,
       longitude: event.coords.longitude,
@@ -234,7 +199,6 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
       longitude: event.coords.longitude,
       zoom: 14,
     });
-    //   dispatch(UpdateLocationAction(data));
   };
 
   const handleDeleteMaker = () => {
@@ -247,7 +211,6 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
       longitude: viewState.longitude,
       place_name: "",
     });
-    // setPickMarker(true);
     console.log("handlePickMaker");
   };
   const distanceCalc = () => {
@@ -256,8 +219,6 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
         `https://api.mapbox.com/directions/v5/mapbox/driving/${marker.longitude},${marker.latitude};${markerAddress.longitude},${markerAddress.latitude}.json?access_token=${MAPBOX_TOKEN}`
       )
       .then((res) => {
-        // const { data } = res;
-        console.log("distanceCalc", res);
         const distance = res.data.routes[0].distance / 1000;
         const duration = res.data.routes[0].duration / 60;
         setMarker((prevState) => ({
@@ -344,7 +305,6 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
             onGeolocate={(e) => handleonGeolocate(e)}
           />
           <NavigationControl position="bottom-right" />
-          {/* <SearchLocation /> */}
           {marker && (
             <>
               {showPopup && (

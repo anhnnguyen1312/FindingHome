@@ -3,32 +3,15 @@ import { CardComponent } from "./index";
 import hcm2_img from "../assets/images/places/hcm.jpg";
 import hn_img from "../assets/images/places/hn.jpg";
 import hue_img from "../assets/images/places/hue.jpg";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { path } from "../ultils/path";
 
 const CardPlaces = () => {
   const [isClickNavigate, setIsClickNavigate] = useState("");
   const navigate = useNavigate();
-  // const handleNavigateHcm = (place) => {
-  //   console.log("click");
-  //   if (place === "hcm") {
-  //     navigate(`/${path.FINDROOM}`, {
-  //       state: [10.7758439, 106.7017555],
-  //     });
-  //   } else if (place === "hanoi") {
-  //     navigate(`/${path.FINDROOM}`, {
-  //       state: [16.068, 108.212],
-  //     });
-  //   } else if (place === "danang") {
-  //     navigate(`/${path.FINDROOM}`, {
-  //       state: [21.0294498, 105.8544441],
-  //     });
-  //   }
-  // };
+
   useEffect(() => {
     const handleNavigateHcm = () => {
-      console.log("click");
-      console.log("isClickNavigate", isClickNavigate);
       if (isClickNavigate === "hcm") {
         navigate(`/${path.FINDROOM}`, {
           state: [10.7758439, 106.7017555],

@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { Checkbox, message, Popconfirm } from "antd";
 import { callApiDeleteUser } from "../../../src/api/authenLogin";
 import { jwtDecode } from "jwt-decode";
+import { Pagination } from "antd";
 
 const ManageUserSystem = () => {
   const [userList, setUserList] = useState([]);
@@ -14,11 +15,17 @@ const ManageUserSystem = () => {
   const [allUserIdList, setAllUserIdList] = useState([]);
   const isSystem = true;
   const [userData, setUserData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const currentUserData = userData?.slice(startIndex, endIndex);
+
   const { posts } = useSelector((state) => state.post);
   const navigate = useNavigate();
 
   const allPosts = Object.values(posts).flat();
-  const filterCheckPosts = allPosts.filter((post) => post.userRole === "0");
+  const filterCheckPosts = allPosts.filter((post) => post.role === "0");
 
   const checkAll = allUserIdList.length === checkUserID.length;
   const indeterminate =
@@ -28,11 +35,10 @@ const ManageUserSystem = () => {
     const handleCallApi = async () => {
       try {
         const response = await callApiUserList();
-        if(response.data.token){
+        if (response.data.token) {
           const decodeToken = response.data.token.map(jwtDecode);
           setUserList(decodeToken);
         }
-
       } catch (error) {
         console.error(error);
       }
@@ -45,10 +51,9 @@ const ManageUserSystem = () => {
       setUserData(userList);
     }
 
-    const idList = userList.filter((user) => user.Role !== "1");
+    const idList = userList.filter((user) => user.role !== "1");
     const userIdList = idList.map((user) => user.id);
     setAllUserIdList(userIdList);
-
   }, [userList]);
 
   const handleCounPost = (userId) => {
@@ -69,6 +74,10 @@ const ManageUserSystem = () => {
       setCheckUserID(check);
     }
   };
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   console.log("checkUserID ", checkUserID);
   console.log("allUserIdList ", allUserIdList);
 
@@ -131,6 +140,7 @@ const ManageUserSystem = () => {
           message.error(response.data.fail);
         } else {
           message.success(response.data.success);
+          window.location.reload();
         }
       } else {
         message.error("Bạn chưa chọn tài khoản nào");
@@ -150,7 +160,7 @@ const ManageUserSystem = () => {
   console.log("userData", userData);
   return (
     <>
-      <div className="flex flex-col items-center justify-center gap-[30px] w-full">
+      <div className=" h-[calc(100vh-57px)] flex flex-col items-center justify-center gap-[30px] w-full">
         <div
           className="w-full flex flex-row justify-between border-b p-[10px]
 				dark:border-gray-600 dark:text-gray-400 transition duration-500
@@ -164,7 +174,9 @@ const ManageUserSystem = () => {
 						focus:outline-none border-b-2 font-medium capitalize
 						transition duration-500 ease-in-out flex"
             >
-              <p className="text-rose-600 pr-[5px]">{filterCheckPosts?.length}</p>
+              <p className="text-rose-600 pr-[5px]">
+                {filterCheckPosts?.length}
+              </p>
               Bài đăng
             </Link>
             <Link
@@ -187,7 +199,9 @@ const ManageUserSystem = () => {
 						dark-focus:text-green-200 dark-focus:border-green-200
 						transition duration-500 ease-in-out flex"
             >
-              <p className="text-rose-600 pr-[5px]">{filterCheckPosts.length}</p>
+              <p className="text-rose-600 pr-[5px]">
+                {filterCheckPosts.length}
+              </p>
               Admin
             </Link>
           </div>
@@ -227,7 +241,7 @@ const ManageUserSystem = () => {
             </button>
           </div>
         </div>
-        <div className="font-[sans-serif] m-2">
+        <div className="font-[sans-serif] m-2 flex-grow">
           <div className="flex justify-end m-2 gap-[10px]  text-sm font-semibold text-black">
             <Checkbox
               indeterminate={indeterminate}
@@ -266,8 +280,8 @@ const ManageUserSystem = () => {
               <thead className="bg-gray-100 ">
                 <tr>
                   <th className="whitespace-nowrap pl-4 w-8"></th>
-                  <th className="whitespace-nowrap pl-4 w-8">ID</th>
-                  <th className="whitespace-nowrap p-2 text-left text-sm font-semibold text-black">
+                  <th className="whitespace-nowrap  w-8">ID</th>
+                  <th className="whitespace-nowrap p-2 text-center text-sm font-semibold text-black">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="w-4 h-4 fill-gray-500 inline mr-3"
@@ -281,16 +295,15 @@ const ManageUserSystem = () => {
                     Tên
                   </th>
                   <th className="whitespace-nowrap p-2 text-left text-sm font-semibold text-black">
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="0 0 24 24"
-                    className="w-4 h-4 fill-gray-500 inline mr-3"
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      className="w-4 h-4 fill-gray-500 inline mr-3"
                     >
-                    <path d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                  </svg>
-
-                    Email
+                      <path d="M0 0h24v24H0z" fill="none" />
+                      <path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                    </svg>
+                    Vai trò
                   </th>
                   <th className="whitespace-nowrap p-2 text-left text-sm font-semibold text-black">
                     <svg
@@ -328,17 +341,14 @@ const ManageUserSystem = () => {
                 </tr>
               </thead>
               <tbody className=" divide-y divide-gray-200">
-                {userData?.length > 0 &&
-                  userData.map((user, index) => {
+                {currentUserData?.length > 0 &&
+                  currentUserData.map((user, index) => {
                     return (
                       <>
                         <tr key={index}>
                           <td className="whitespace-nowrap pl-4 w-8">
                             {user.role === "1" ? (
-                              <Checkbox
-                                onChange={onChange}
-                                disabled
-                              ></Checkbox>
+                              <Checkbox onChange={onChange} disabled></Checkbox>
                             ) : (
                               <Checkbox
                                 onChange={onChange}
@@ -364,19 +374,27 @@ const ManageUserSystem = () => {
                                 className="w-9 h-9 rounded-full shrink-0"
                               />
                               <div className="ml-4">
-                                <p className="text-sm text-black">{user.name} </p>
+                                <p className="text-sm text-black">
+                                  {user.name}{" "}
+                                </p>
                                 <p className="text-xs text-gray-500">
                                   {user.email}
                                 </p>
                               </div>
                             </div>
                           </td>
-                          <td className="whitespace-nowrap p-2 text-sm">
+                          <td className="whitespace-nowrap p-2 text-sm text-center">
                             {user.role === "1" ? "Admin" : "User"}
                           </td>
-                          <td className=" whitespace-nowrap px-6 py-3">{user.phone}</td>
-                          <td className="whitespace-nowrap px-6 py-3">{handleCounPost(user.id)}</td>
-                          <td className="whitespace-nowrap px-6 py-3">{user.sumLiked}</td>
+                          <td className=" whitespace-nowrap px-6 py-3 text-center">
+                            {user.phone}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-3 text-center">
+                            {handleCounPost(user.id)}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-3 text-center">
+                            {user.sumLiked}
+                          </td>
                           <td className="whitespace-nowrap px-6 py-3">
                             <button className="mr-4" title="Xem trang cá nhân">
                               <svg
@@ -429,6 +447,18 @@ const ManageUserSystem = () => {
               </tbody>
             </table>
           </div>
+        </div>
+        <div className="flex items-center justify-center mt-[10px] mb-[20px]">
+          <Pagination
+            current={currentPage}
+            pageSize={pageSize}
+            total={userData?.length}
+            onChange={handlePageChange}
+            hideOnSinglePage={true}
+            showSizeChanger
+            showQuickJumper
+            showTotal={(total) => `Tổng ${total} bài đăng`}
+          />
         </div>
       </div>
     </>
