@@ -1,5 +1,4 @@
 .hero-container {
-    /* background: url('../assets/images/Banner.jpg') center center/cover no-repeat; */
     background: url('../assets/images/Banner.jpg') center left/cover no-repeat;
     height: 90vh;
     width: 100% ;
@@ -21,7 +20,6 @@
 
   @media screen and (max-width: 768px) {
     .hero-container {
-      /* top: 342px; */
       height: 70vh;
     }
     .div{

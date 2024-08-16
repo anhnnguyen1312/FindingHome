@@ -1,6 +1,5 @@
 import axiosConfig from "../axiosConfig";
 
-// api register
 export const callUserAction = (payload) =>
   new Promise(async (resolve, reject) => {
     console.log('payloadp',payload)

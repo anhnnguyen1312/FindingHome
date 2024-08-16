@@ -130,7 +130,6 @@ const Notification = () => {
               key={notic.id}
               className="sm:w-[80%] xs:w-[94%] mx-auto dark:bg-gray-300 bg-gray-700 p-4 rounded-md flex sm:gap-4 xs:gap-2 items-center justify-center"
             >
-              {/* <div className=""> */}
               <img
                 src={notic.avatar ? notic.avatar : userAvatar}
                 alt="user-avatar"
@@ -147,7 +146,6 @@ const Notification = () => {
                   {notic.createAt}
                 </p>
               </div>
-              {/* </div> */}
             </li>
           ))
         ) : error ? (

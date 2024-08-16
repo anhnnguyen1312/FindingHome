@@ -5,8 +5,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 from flask import Flask, jsonify,request
 from flask_cors import CORS
 from sklearn.feature_extraction.text import CountVectorizer
-# import gensim.downloader as api
-import numpy as np
 app = Flask(__name__)
 CORS(app)
 count_vectorizer = CountVectorizer()
@@ -74,7 +72,7 @@ def index():
 @app.route('/recommend',methods=['GET'])
 def call_api():
     try:
-    # Kết nối vào cơ sở dữ liệu
+
         conn = mysql.connector.connect(**config)
         if conn.is_connected():
             print('Kết nối thành công vào MySQL Database')
@@ -110,7 +108,7 @@ def call_api():
             postID_number = 3
         if len(filtered_df) > 0:
             if  postID_number == 3 :
-                # tinh userId
+
                 indexUser = dfLike[dfLike['userId'] == userId].index[0]
                 tfMatrixUser = tf.fit_transform(dfLike['postIds'])
                 similarUserCosin = cosine_similarity(tfMatrixUser)
@@ -119,7 +117,7 @@ def call_api():
                 for i in range(1,len(sortedSimilarUser)):
                     if float(sortedSimilarUser[i][1]) > 0 and int(id_user(sortedSimilarUser[i][0],dfLike)) != userId :
                         resultUserId.append(int(id_user(sortedSimilarUser[i][0],dfLike)))
-                #postsUser = dfLike[dfLike['userId'] == userId]['postIds']
+                
                 postUser = dfLike.loc[dfLike['userId'] == userId, 'postIds'].tolist()
                 postUser = postUser[0].split(',')
                 postUserRecommend=[]
@@ -136,7 +134,6 @@ def call_api():
                     postID_number = 4
                 elif len(resultPostbyUserId) == 0:
                     postID_number = 5
-            #return jsonify({'postId': resultPostId,'userId': resultPostbyUserId })
         
             sortedSimilarPost_province = calc_similarity(filtered_df,combineFeatures_province,postId)
             province_similar_index = get_index_similarity1(sortedSimilarPost_province)
@@ -147,12 +144,6 @@ def call_api():
                 n= postID_number
                 post=[]
                 resultPostId = get_index(sortedSimilarPost,filtered_df,postId,n,post)
-                #return jsonify({'postId tỉnh = 1': resultPostId})
-                # for i in range(0,len(sortedSimilarPost)):
-                #     if len(resultPostId) == 5:
-                #         return jsonify({'postId': resultPostId})
-                #     if int(id_post(sortedSimilarPost[i][0],filtered_df)) != postId:
-                #         resultPostId.append(int(id_post(sortedSimilarPost[i][0],filtered_df)))
             elif len(province_similar_index) > 1 and len(province_similar_index) < (postID_number + 2):
                 post = province_similar_df['id'].tolist()
                 post.remove(postId)
@@ -162,10 +153,7 @@ def call_api():
                     sortedSimilarPost = calc_similarity(filtered_df,combineFeatures_type_price,postId)
                     result = get_index(sortedSimilarPost,filtered_df,postId,n,post)
                 resultPostId = post + result
-                #return jsonify({'postId 1<tỉnh <7/5': resultPostId})
             elif len(province_similar_index) >= postID_number + 2:
-                # tính theo quận / huyện
-                sortedSimilarPost_district = calc_similarity(province_similar_df,combineFeatures_district,postId)
                 district_similar_index = get_index_similarity1(sortedSimilarPost_district)
                 district_similar_df = create_df_from_index(district_similar_index,province_similar_df)
                 if len(district_similar_index) == 1:
@@ -173,7 +161,6 @@ def call_api():
                     n= postID_number
                     post=[]
                     resultPostId = get_index(sortedSimilarPost,province_similar_df,postId,n,post)
-                    #return jsonify({'postId quận = 1': resultPostId})
                 elif 1<len(district_similar_index) < postID_number + 2:
                     post = district_similar_df['id'].tolist()
                     post.remove(postId)
@@ -183,26 +170,22 @@ def call_api():
                         sortedSimilarPost = calc_similarity(province_similar_df,combineFeatures_type_price,postId)
                         result = get_index(sortedSimilarPost,province_similar_df,postId,n,post)
                     resultPostId = post + result
-                    #return jsonify({'postId < 1quận <7': resultPostId})
                 elif len(district_similar_index) >= postID_number + 2:
                     sortedSimilarPost_district_all = calc_similarity(district_similar_df,combineFeatures_district_all,postId)
                     n=postID_number
                     post=[]
                     resultPostId = (get_index(sortedSimilarPost_district_all,district_similar_df,postId,n,post))
-                    # resultPostId = data
-                    #return jsonify({'postId quận > 7': resultPostId})
+
+
             return jsonify({'postId': resultPostId,'userId': resultUserId })
         else:
-            # tinhs car postID userID
 
             return jsonify({'postId': resultPostId,'userId': resultUserId })
     except mysql.connector.Error as err:
         print(f"Lỗi: {err}")
 
     finally:
-        # Đóng kết nối
         if 'conn' in locals() and conn.is_connected():
-            # cursor.close()
             conn.close()    
     
 if __name__ == '__main__':

@@ -1,18 +1,12 @@
 import React from "react";
 import { Box, Card, ImageListItem, ImageListItemBar } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
-// import { Pagination, Autoplay, Lazy } from "swiper";
-// import Swiper from 'swiper';
-//import SwiperCore, { Autoplay, Pagination, Lazy } from "swiper";
 import { path } from "../ultils/path";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { useNavigate, useLocation } from "react-router-dom";
 
-// import "swiper/swiper-bundle.min.css";
-// import "swiper/components/pagination/pagination.min.css";
-// import "swiper/css/lazy";
 const PopUpInfor = ({ cluster }) => {
   const navigate = useNavigate();
   const useLocate = useLocation();
@@ -22,7 +16,6 @@ const PopUpInfor = ({ cluster }) => {
     if (useLocate.pathname.includes("system")) {
       navigate(`/system/${path.DETAIL}/${idPost}`);
     } else {
-      //   navigate(`/${path.DETAIL}/${idPost}`);
       window.open(`/${path.DETAIL}/${idPost}`, "_blank");
     }
   }

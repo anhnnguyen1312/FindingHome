@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 require_once 'vendor/autoload.php';
-use Firebase\JWT\JWT;
 class RecommendController extends CI_Controller {
 
 	public function __construct(){

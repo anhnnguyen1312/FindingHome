@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { CloseOutlined } from "@ant-design/icons";
 
 import { Form, Select } from "antd";
@@ -11,7 +11,6 @@ const SelectNewPost = ({
   typeRoom,
   setFormData,
   style,
-  valueSelect,
 }) => {
   const handeChangeSelect = (e) => {
     console.log("e", e, id);

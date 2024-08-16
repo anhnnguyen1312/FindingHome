@@ -199,7 +199,6 @@ export default function NavBar() {
           </div>
 
           {stateAuth.isLoggedIn && (
-            // da dang nhap
             <div className="flex items-center gap-[5px] ml-[30px] ">
               <div
                 className="cursor-pointer "
@@ -207,7 +206,6 @@ export default function NavBar() {
               >
                 {stateAuth.data?.name}
               </div>
-              {/* <Link to={"/logged-in/profile"}>{stateAuth.data?.name}</Link> */}
               <div
                 className="cursor-pointer icon-navbar-user font-thin  relative"
                 onClick={() => setClickUser(!clickUser)}
@@ -220,7 +218,6 @@ export default function NavBar() {
                   <div className="cart__list py-[20px] ">
                     <ul
                       className="font-thin flex flex-col gap-[20px] bg-white"
-                      // onClick={() => handleUserProfile()}
                     >
                       {stateAuth.data.role === "1" && (
                         <Link
@@ -237,7 +234,6 @@ export default function NavBar() {
                         onClick={() => handleUserProfileNavigate()}
                         className="cursor-pointer flex items-center justify-between"
                       >
-                        {/* <Link to={"/logged-in/profile"}>Tài khoản</Link> */}
                         Tài khoản
                         <i className="fa-solid fa-user text-black "></i>
                       </li>

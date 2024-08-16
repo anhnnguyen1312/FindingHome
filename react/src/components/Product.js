@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { CardProduct, Search, Button } from "./index";
+import { CardProduct, Search } from "./index";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
-import { Pagination, message } from "antd";
+import { useSelector } from "react-redux";
+import { Pagination} from "antd";
 import no_data_img from "../assets/images/no-data-icon-10.png";
-import { callApiDeletePost } from "../api/getPostApi";
-import { SelectNewPost } from "./index";
-import typePost from "../data/typePost";
 import checkPrice from "./checkPrice";
 import checkArea from "./checkArea";
-import { homepagePostAction } from "../redux/store/action/postAction";
-import { Link } from "react-router-dom";
-import { path } from "../ultils/path";
-const Product = ({ type, isHomePage }) => {
+const Product = ({ type}) => {
   const [button, setButton] = useState(false);
   const [buttonFilterClick, setButtonFilterClick] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -23,25 +17,12 @@ const Product = ({ type, isHomePage }) => {
 
   const { homepagePosts } = useSelector((state) => state.post);
 
-  // const allPosts = Object.values(posts).flat();
-  // const filteredProducts = type
-  //   ? allPosts.filter((post) => post.typeRoom === type)
-  //   : allPosts;
-
   const savedPageKey = `currentPage-${type || "all"}`;
   const initialPage = parseInt(localStorage.getItem(savedPageKey)) || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [searchInput, setSearchInput] = useState("");
 
   const pageSize = 5;
-  // const startIndex = (currentPage - 1) * pageSize;
-  // const endIndex = startIndex + pageSize;
-  // const currentPosts = filteredProducts.slice(startIndex, endIndex);
-  // const currentpostData = postData.slice(startIndex, endIndex);
-
-  // useEffect(() => {
-  //   dispatch(homepagePostAction());
-  // }, []);
 
   useEffect(() => {
     const allPosts = Object.values(homepagePosts).flat();
@@ -87,7 +68,6 @@ const Product = ({ type, isHomePage }) => {
   }, [currentPage, savedPageKey]);
 
   useEffect(() => {
-    // setCurrentPage(1);
     localStorage.setItem(savedPageKey, "1");
   }, [type]);
 
@@ -96,7 +76,6 @@ const Product = ({ type, isHomePage }) => {
       let dataPostSearch = [];
       if (searchData) {
         setCurrentPage(1);
-        //check type- address
         if (searchData.type) {
           const postType = filteredProducts.filter(
             (post) => post.typeRoom === searchData.type
@@ -120,7 +99,6 @@ const Product = ({ type, isHomePage }) => {
             dataPostSearch = filteredProducts;
           }
         }
-        //check price- area
         if (searchData.price && dataPostSearch) {
           const dataPrice = checkPrice(dataPostSearch, searchData);
           dataPostSearch = dataPrice;
@@ -136,7 +114,6 @@ const Product = ({ type, isHomePage }) => {
             const dataArea = checkArea(dataPostSearch, searchData);
             dataPostSearch = dataArea;
           } else {
-            // return dataPostSearch;
           }
         }
       } else {
@@ -145,69 +122,13 @@ const Product = ({ type, isHomePage }) => {
       }
       setPostData(dataPostSearch);
     };
-    // searchButtonClick &&
     checkFilter();
   }, [searchData, filteredProducts]);
-  // useEffect(() => {
-  //   const checkFilter = () => {
-  //     let dataPostSearch = [];
-  //     if (searchData) {
-  //       setCurrentPage(1);
-  //       //check type- address
-  //       if (searchData.type) {
-  //         const postType = filteredProducts.filter(
-  //           (post) => post.typeRoom === searchData.type
-  //         );
-
-  //         dataPostSearch = postType;
-  //         if (searchData.address.trim()) {
-  //           const postAddress = dataPostSearch.filter((post) =>
-  //             post.address.trim().includes(searchData.address.trim())
-  //           );
-  //           dataPostSearch = postAddress;
-  //         }
-  //       } else {
-  //         if (searchData.address?.trim()) {
-  //           const postAddress = filteredProducts.filter((post) =>
-  //             post.address.trim().includes(searchData.address.trim())
-  //           );
-  //           dataPostSearch = postAddress;
-  //         } else {
-  //           dataPostSearch = filteredProducts;
-  //         }
-  //       }
-  //       //check price- area
-  //       if (searchData.price && dataPostSearch) {
-  //         const dataPrice = checkPrice(dataPostSearch, searchData);
-  //         dataPostSearch = dataPrice;
-  //         if (searchData.area?.trim() && dataPrice) {
-  //           const dataArea = checkArea(dataPrice);
-  //           dataPostSearch = dataArea;
-  //         }
-  //       } else {
-  //         if (searchData.area?.trim() && dataPostSearch) {
-  //           const dataArea = checkArea(dataPostSearch, searchData);
-  //           dataPostSearch = dataArea;
-  //         } else {
-  //           return dataPostSearch;
-  //         }
-  //       }
-  //     } else {
-  //       dataPostSearch = filteredProducts;
-  //     }
-  //     // return dataPostSearch;
-  //     setFilteredProducts(dataPostSearch);
-  //   };
-  //   searchButtonClick && checkFilter();
-  //   // data && setPostData(data);
-  //   // data && setFilteredProducts(data);
-  // }, [searchData]);
 
   useEffect(() => {
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     postData && setCurrentPostData(postData?.slice(startIndex, endIndex));
-    // postData && setCurrentpostData(postData?.slice(startIndex, endIndex));
   }, [filteredProducts, currentPage, postData]);
 
   return (
@@ -267,7 +188,6 @@ const Product = ({ type, isHomePage }) => {
                   <Search
                     type={type}
                     setSearchData={setSearchData}
-                    // setSearchButtonClick={setSearchButtonClick}
                   />
                 </div>
               )}
@@ -292,7 +212,6 @@ const Product = ({ type, isHomePage }) => {
               showQuickJumper
               showTotal={(total) => `Tổng ${total} bài đăng`}
             />
-            {/* <Pagination total={500} itemRender={itemRender} /> */}
           </div>
         </div>
         <div className="xl:flex-[20%] flex-col hidden xl:flex bg-gray">
@@ -311,7 +230,6 @@ const Product = ({ type, isHomePage }) => {
                 <Search
                   type={type}
                   setSearchData={setSearchData}
-                  // setSearchButtonClick={setSearchButtonClick}
                 />
               </div>
             )}

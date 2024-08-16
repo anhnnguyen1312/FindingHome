@@ -9,11 +9,8 @@ import ReactMapGL, {
 import { Tooltip } from "@mui/material";
 import hospital from "../assets/images/iconPlaces/hospital.png";
 import charging_station from "../assets/images/iconPlaces/charging-station.png";
-import museum from "../assets/images/iconPlaces/museum.png";
 import parking from "../assets/images/iconPlaces/parking.png";
 import shopping from "../assets/images/iconPlaces/shopping.png";
-import coffee_shop from "../assets/images/iconPlaces/coffee-shop.png";
-import playground from "../assets/images/iconPlaces/playground.png";
 import univer from "../assets/images/iconPlaces/univer.png";
 import pin from "../assets/images/iconPlaces/pin.png";
 import bus3 from "../assets/images/iconPlaces/bus3.png";
@@ -25,9 +22,6 @@ import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import { FindPlacesNearby } from "./FindPlacesNearby";
 import mapboxgl from "mapbox-gl";
-import { isFloat } from "validator";
-// import Geocoder from "react-map-gl-geocoder";
-// import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 const VietMap = ({ lat, lng, address, setPlaces }) => {
   const [showPopupAddress, setShowPopupAddress] = useState(true);
   const [showPopup, setShowPopup] = useState(true);

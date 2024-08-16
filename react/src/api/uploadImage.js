@@ -4,7 +4,6 @@ export const callApiUploadImages = (images) =>
     try {
       const response = await axios({
         method: "post",
-        // url: `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload/`,
         url: `https://api.cloudinary.com/v1_1/dx3nwkh2i/image/upload/`,
         data: images,
       });

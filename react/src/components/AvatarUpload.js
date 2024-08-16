@@ -3,8 +3,6 @@ import userAvatar from "../assets/images/userAvatar.jpg";
 import { Loading } from "./index";
 import { callApiUploadImages } from "../api/uploadImage";
 const AvatarUpload = ({ setUserData, avatar, id }) => {
-  const [image, setImage] = useState("");
-  const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
 
   const uploadImage = async (e) => {
@@ -35,7 +33,6 @@ const AvatarUpload = ({ setUserData, avatar, id }) => {
 
   return (
     <>
-      {/* //loading  */}
       {loading && <Loading />}
       <div className="flex flex-col gap-4 py-4  lg:flex-row">
         <div className="shrink-0 w-32  sm:py-4">
