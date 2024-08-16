@@ -272,7 +272,7 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
 
   return (
     <>
-      <div className="w-full h-[50vh] relative">
+      <div className="w-full h-[80vh] relative">
         <div
           title="thêm marker"
           className="absolute top-[100px] bg-[#687d9f] w-[44px] right-[10px] z-10 text-white p-[5px] "
@@ -318,7 +318,8 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
                 </>
               ) : (
                 <>
-                  Hiện Icon <i className="fa fa-eye-slash" aria-hidden="true"></i>
+                  Hiện Icon{" "}
+                  <i className="fa fa-eye-slash" aria-hidden="true"></i>
                 </>
               )}
             </button>
@@ -328,7 +329,7 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
         <ReactMapGL
           {...viewState}
           width={"100vw"}
-          height={"30vw"}
+          height={"100vh"}
           mapStyle="mapbox://styles/mapbox/streets-v11"
           mapboxAccessToken="pk.eyJ1IjoidGhhaS1uZ29jLXBodSIsImEiOiJjbHhpd3p2amwxbGozMnJyMmJhZTExZ3pkIn0.BnFFOObKYnZUOf2wJstUFg"
           onMove={(evt) => setViewState(evt.viewState)}

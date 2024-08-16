@@ -245,7 +245,7 @@ const FindRoom = () => {
 
   return (
     <>
-      <div className="w-full h-[50vh] relative">
+      <div className="w-full h-[90vh] relative">
         {showPlacesIcon && (
           <div className="absolute top-[100px] bg-rose-500 right-[10px] z-10 text-white p-[5px] ">
             <button onClick={() => setIsShow(!isShow)}>
@@ -284,7 +284,7 @@ const FindRoom = () => {
         <ReactMapGL
           {...viewState}
           width={"100vw"}
-          height={"30vw"}
+          height={"100vh"}
           mapStyle="mapbox://styles/mapbox/streets-v11"
           mapboxAccessToken="pk.eyJ1IjoidGhhaS1uZ29jLXBodSIsImEiOiJjbHhpd3p2amwxbGozMnJyMmJhZTExZ3pkIn0.BnFFOObKYnZUOf2wJstUFg"
           onMove={(evt) => setViewState(evt.viewState)}
