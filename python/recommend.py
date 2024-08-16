@@ -7,24 +7,45 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from urllib.parse import quote_plus
 import numpy as np
+import mysql.connector
+
 
 # Mã hóa mật khẩu
-password = quote_plus('findHome@2024')
+# password = quote_plus('findHome@2024')
 
 # Tạo chuỗi kết nối
-engine = create_engine(f'mysql+pymysql://findHome:{password}@127.0.0.1:3307/findHome')
+# engine = create_engine(f'mysql+pymysql://findHome:{password}@127.0.0.1:3307/findHome')
+
+config = {
+    'user': 'findHome',
+    'password': 'findHome@2024',
+    'host': '127.0.0.1',
+    'database': 'findHome',
+    'port': 3307,
+    'raise_on_warnings': True
+}
+
+conn = mysql.connector.connect(**config)
+
+
 
 # Kiểm tra kết nối
-try:
-    connection = engine.connect()
-    print("Connection successful!")
-    connection.close()
-except Exception as e:
-    print(f"Connection failed: {e}")
+# try:
+#     connection = engine.connect()
+#     print("Connection successful!")
+#     connection.close()
+# except Exception as e:
+#     print(f"Connection failed: {e}")
+
+if conn.is_connected():
+    print('Kết nối thành công vào MySQL Database')
 
 # Đọc dữ liệu từ bảng userAction và posts
-user_interactions = pd.read_sql('SELECT * FROM userAction', engine)
-posts_info = pd.read_sql('SELECT id, typeRoom, price, area FROM posts', engine)
+query1 = 'SELECT * FROM userAction'
+query2 = 'SELECT id, typeRoom, price, area FROM posts'
+
+user_interactions = pd.read_sql_query(query1, conn)
+posts_info = pd.read_sql_query(query2, conn)
 
 # Kết hợp các cột thông tin để tạo nội dung cho TF-IDF
 posts_info['content'] = posts_info['typeRoom'] + ' ' + posts_info['price'].astype(str) + ' ' + posts_info['area'].astype(str)
@@ -83,6 +104,7 @@ def get_recommendations():
             return jsonify({"message": "No interactions found for the user."}), 404
     else:
         return jsonify({"message": "Failed to retrieve user ID from API."}), 400
+    
 
 # Chạy server Flask
 if __name__ == '__main__':
