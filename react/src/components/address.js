@@ -1,20 +1,5 @@
 import React from "react";
-import {
-  Button,
-  Cascader,
-  Checkbox,
-  ColorPicker,
-  DatePicker,
-  Form,
-  Input,
-  Radio,
-  Select,
-  Slider,
-  Switch,
-  TreeSelect,
-  Upload,
-  Tooltip,
-} from "antd";
+import {Select} from "antd";
 const Address = ({ name, setData }) => {
   const handeChangeSelect = (value) => {
     setData((prevState) => ({
@@ -28,7 +13,6 @@ const Address = ({ name, setData }) => {
   return (
     <>
       <Select
-        // key="typeRoom"
         onChange={(value, e) => handeChangeSelect(value, e)}
       >
         <Select.Option value="phong">Phòng</Select.Option>

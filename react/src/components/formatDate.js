@@ -1,6 +1,4 @@
-import React from "react";
 const formatDate = (date) => {
-  // const today = new Date();
   const dayFormat =
     date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
   return dayFormat;

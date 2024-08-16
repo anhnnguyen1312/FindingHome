@@ -1,10 +1,7 @@
 import React from "react";
 import NewPost from "../pages/LoggedIn/NewPost";
-import { useDispatch, useSelector } from "react-redux";
-import { FaLessThanEqual } from "react-icons/fa6";
 
 const UpdatePost = ({ updatePostData, setUpdatePostClick }) => {
-  // const { updatePostData } = useSelector((state) => state.post);
   const handleClickOverlay = (e) => {
     e.stopPropagation();
     setUpdatePostClick(false);

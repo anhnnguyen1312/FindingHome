@@ -23,13 +23,11 @@ const CreateAccountAdmin = () => {
   const validate = (formData) => {
     let isInvalidCount = true;
     for (let i in formData) {
-      //null
       if (formData[i] === "") {
         setIsInvalid((prevState) => [
           ...prevState,
           { name: i, msg: `bạn chưa nhập ${i}` },
         ]);
-        // isInvalidCount++
         isInvalidCount = false;
       }
 
@@ -43,7 +41,6 @@ const CreateAccountAdmin = () => {
               msg: `mật khẩu phải có ít nhất: \n 8 kí tự, 1 kí tự đặc biệt, 1 chữ thường, 1 chữ in hoa`,
             },
           ]);
-          // isInvalidCount++
           isInvalidCount = false;
         }
       }
@@ -55,7 +52,6 @@ const CreateAccountAdmin = () => {
             ...prevState,
             { name: i, msg: `Mật khẩu xác nhận không đúng` },
           ]);
-          // isInvalidCount++
           isInvalidCount = false;
         }
       }
@@ -67,7 +63,6 @@ const CreateAccountAdmin = () => {
             ...prevState,
             { name: i, msg: `email không hợp lệ` },
           ]);
-          // isInvalidCount++
           isInvalidCount = false;
         }
       }
@@ -79,7 +74,6 @@ const CreateAccountAdmin = () => {
             ...prevState,
             { name: i, msg: `Tên không hợp lệ` },
           ]);
-          // isInvalidCount++
           isInvalidCount = false;
         }
       }
@@ -117,7 +111,6 @@ const CreateAccountAdmin = () => {
       try {
         console.log(apiData);
         const response = await callApiCreateAdminAccount(apiData);
-        // window.location.reload();
 
         if (response.data.fail) {
           message.error(response.data.fail);

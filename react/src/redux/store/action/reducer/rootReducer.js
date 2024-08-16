@@ -8,7 +8,6 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { postReducer } from "./postReducer";
 
-// whitelist là mảng các state cần lưu
 const persistConfig = {
   key: "auth",
   whitelist: ["", ""],
@@ -16,7 +15,6 @@ const persistConfig = {
   stateReconciler: autoMergeLevel2,
 };
 
-//persistReducer để đóng gói, tham số đầu vào là reducer cần persist và object chứa state cần lưu vào storage
 const rootReducer = combineReducers({
   auth: persistReducer(persistConfig, authenReducer),
   user: userReducer,

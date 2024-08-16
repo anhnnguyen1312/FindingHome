@@ -10,6 +10,17 @@ services:
     depends_on:
       - findHome
 
+  react:
+    build:
+      context: ./react
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    volumes:
+      - ./react:/app
+    depends_on:
+      - findHome
+
   python:
     build:
       context: ./python

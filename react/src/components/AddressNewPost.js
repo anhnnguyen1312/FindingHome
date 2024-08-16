@@ -9,7 +9,6 @@ export const AddressNewPostProvince = ({
   value,
   IsInValid,
   setIsInvalid,
-  valueSelect,
   provinceForm,
 }) => {
   const handeChangeSelect = (e) => {
@@ -32,9 +31,6 @@ export const AddressNewPostProvince = ({
     <div className="flex flex-col mb-2 w-[100%] md:grow ">
       <Select
         placeholder="Chọn tỉnh/Thành phố"
-        // style={{
-        //   width: 200,
-        // }}
         allowClear={
           <CloseOutlined style={{ fontSize: "20px", color: "#FF0000" }} />
         }
@@ -87,15 +83,11 @@ export const AddressNewPostDistrict = ({
     <div className="flex flex-col mb-2 w-[100%] md:grow ">
       <Select
         placeholder="Chọn Quận/huyện"
-        // style={{
-        //   width: 200,
-        // }}
         allowClear={
           <CloseOutlined style={{ fontSize: "20px", color: "#FF0000" }} />
         }
         value={districtForm}
         onFocus={() => handeFocus()}
-        // defaultValue={value[0].district_name}
         onChange={(e) => handeChangeSelect(e)}
         options={value?.map((district) => ({
           label: district.district_name,
@@ -124,7 +116,6 @@ export const AddressNewPostWard = ({
   valueSelect,
   wardForm,
 }) => {
-  // console.log("name address setaddress", value[0].district_name);
   const handeChangeSelect = (e) => {
     setWard(e);
 
@@ -141,15 +132,11 @@ export const AddressNewPostWard = ({
     <div className="flex flex-col mb-2 w-[100%] md:grow ">
       <Select
         placeholder="Chọn Phường/xã"
-        // style={{
-        //   width: 200,
-        // }}
         allowClear={
           <CloseOutlined style={{ fontSize: "20px", color: "#FF0000" }} />
         }
         value={wardForm}
         onFocus={() => handeFocus()}
-        // defaultValue={value[0].district_name}
         onChange={(e) => handeChangeSelect(e)}
         options={value?.map((ward) => ({
           label: ward.ward_name,
@@ -167,4 +154,3 @@ export const AddressNewPostWard = ({
     </div>
   );
 };
-// export AddressNewPost;

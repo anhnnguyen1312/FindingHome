@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { AiFillPhone } from "react-icons/ai";
-import { Link } from "react-router-dom";
 import { path } from "../ultils/path";
 import { useNavigate, useLocation } from "react-router-dom";
 import AutoSlideShow from "./AutoSlideShow";
@@ -8,7 +7,6 @@ import { LikeComponent } from "./index";
 import { useSelector } from "react-redux";
 import { callUserAction } from "../api/getRecommendation";
 
-import DetailProduct from "../pages/Public/DetailProduct";
 const CardProduct = ({ props, checked, isSystem }) => {
   const navigate = useNavigate();
   const useLocate = useLocation();
@@ -100,7 +98,6 @@ const CardProduct = ({ props, checked, isSystem }) => {
           <div className="flex flex-row items-center  justify-between">
             <div className="flex justify-between flex-grow">
               <h2 className="text-red-500 font-medium mr-2 items-center flex">
-                {/* {props.title.substr(0, 30) + "..."} */}
                 {props.title}
               </h2>
               {handleStatusTag(checked)}

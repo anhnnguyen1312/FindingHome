@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Button, SelectSearch } from "./index";
-import TypeSearch from "../data/TypeSearch";
 import { TypeRoom, TypeArea, TypePrice } from "../data/index";
 import { getProvince, getDistrict, getWard } from "../api/getProvince";
 import {

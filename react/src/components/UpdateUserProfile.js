@@ -106,7 +106,6 @@ const UpdateUserProfile = ({
         }
       }
     }
-    // setLoading(false);
     return isInvalidCount;
   };
   const handleConfirmPassword = () => {
@@ -227,7 +226,6 @@ const UpdateUserProfile = ({
         setPasswordForm({
           oldPassword: "",
           newPassword: "",
-          // confirmPassword: "",
         });
         setUserData((prevState) => ({
           ...prevState,

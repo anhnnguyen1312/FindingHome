@@ -13,7 +13,6 @@ const ProductData = [
     owner: "nguyễn văn hưng",
     phone: "082362862",
     zalo: "082362862",
-    // imgSrc: { ch1 },
   },
   {
     id: "1",
@@ -28,7 +27,6 @@ const ProductData = [
     owner: "nguyễn văn hưng",
     phone: "082362862",
     zalo: "082362862",
-    // imgSrc: { ch1 },
   },
   {
     id: "3",
@@ -43,7 +41,6 @@ const ProductData = [
     owner: "nguyễn văn hưng",
     phone: "082362862",
     zalo: "082362862",
-    // imgSrc: { ch1 },
   },
   {
     id: "4",
@@ -58,7 +55,6 @@ const ProductData = [
     owner: "nguyễn văn hưng",
     phone: "082362862",
     zalo: "082362862",
-    // imgSrc: { ch1 },
   },
   {
     id: "5",
@@ -73,7 +69,6 @@ const ProductData = [
     owner: "nguyễn văn hưng",
     phone: "082362862",
     zalo: "082362862",
-    // imgSrc: { ch1 },
   },
   {
     id: "6",
@@ -88,7 +83,6 @@ const ProductData = [
     owner: "nguyễn văn hưng",
     phone: "082362862",
     zalo: "082362862",
-    // imgSrc: { ch1 },
   },
   {
     id: "7",
@@ -103,7 +97,6 @@ const ProductData = [
     owner: "nguyễn văn hưng",
     phone: "082362862",
     zalo: "082362862",
-    // imgSrc: { ch1 },
   },
 ];
 export default ProductData;

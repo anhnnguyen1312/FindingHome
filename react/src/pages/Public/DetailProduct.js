@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { path } from "../../ultils/path";
 import userAvatar from "../../assets/images/userAvatar.jpg";
 import { FaTableList } from "react-icons/fa6";
@@ -13,11 +13,10 @@ import { jwtDecode } from "jwt-decode";
 import SlideShow from "../../components/SlideShow";
 import VietMap from "../../components/VietMap";
 import { message, Collapse, Popconfirm } from "antd";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { callApiCensorPostAdmin } from "../../api/system/getPostAdminApi";
 import { LikeComponent } from "../../components/index";
 import no_data_img from "../../assets/images/no-data-icon-10.png";
-import { callApiRecommend } from "../../api/getRecommendation";
 
 const DetailProduct = () => {
   const useLocate = useLocation();

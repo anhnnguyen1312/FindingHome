@@ -1,10 +1,4 @@
-import React, { useState } from "react";
-import {
-  PlusOutlined,
-  InfoCircleOutlined,
-  ConsoleSqlOutlined,
-} from "@ant-design/icons";
-
+import React from "react";
 import { Form, Input } from "antd";
 
 const InputNewPost = ({
@@ -17,7 +11,6 @@ const InputNewPost = ({
   suffix,
   value,
 }) => {
-  // console.log("IsInValid ", IsInValid);
   const handeChangeSelect = (e) => {
     setFormData((prevState) => ({
       ...prevState,

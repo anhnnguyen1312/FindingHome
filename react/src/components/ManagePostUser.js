@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, CardProduct, Loading } from "./index";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { SelectNewPost, UpdatePost, ReUpPost } from "./index";
 import typePost from "../data/typePost";
 import { message, Popconfirm, Pagination } from "antd";
 import { callApiDeletePost } from "../api/getPostApi";
 import { callApiDeletePostAdmin } from "../api/system/getPostAdminApi";
-import { UpdatePostAction } from "../redux/store/action/postAction";
 import no_data_img from "../assets/images/no-data-icon-10.png";
 
 const ManagePostUser = ({ userId }) => {
@@ -22,7 +21,6 @@ const ManagePostUser = ({ userId }) => {
   const { posts } = useSelector((state) => state.post);
   const { data } = useSelector((state) => state.auth);
   console.log(data);
-  // const initialPage = parseInt(localStorage.getItem("currentPage")) || 1;
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPosts, setCurrentPosts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,7 +51,6 @@ const ManagePostUser = ({ userId }) => {
         };
 
         const response = await callApiDeletePostAdmin(payload);
-        // window.location.reload();
 
         if (response.data.fail) {
           message.error(response.data.fail);
@@ -76,10 +73,6 @@ const ManagePostUser = ({ userId }) => {
       : [];
     filteredProducts && setFilteredProducts(filteredProducts);
   }, [posts, userId]);
-
-  // useEffect(() => {
-  //   localStorage.setItem("currentPage", currentPage);
-  // }, [currentPage]);
 
   useEffect(() => {
     if (typePostClick) {
@@ -236,27 +229,6 @@ const ManagePostUser = ({ userId }) => {
                     )}
                     {data.userId === userId && (
                       <>
-                        {/* <Button
-                          icon={
-                            product.check === "3"
-                              ? "fa-solid fa-rotate-left"
-                              : "fa-solid fa-pen-to-square"
-                          }
-                          bgColor={
-                            product.check === "3"
-                              ? "bg-[#6F7B92]"
-                              : "bg-[#3064f2]"
-                          }
-                          textColor={"text-white"}
-                          borderColor={"border-white"}
-                          width={"w-12"}
-                          height={"h-12"}
-                          fullRounded={"rounded-full"}
-                          title={
-                            product.check === "3" ? "Đăng lại" : "Chỉnh sửa"
-                          }
-                          onClick={() => handleUpdatePost(product)}
-                        /> */}
                         {product.check != "3" && (
                           <Button
                             icon={"fa-solid fa-pen-to-square"}
@@ -317,7 +289,6 @@ const ManagePostUser = ({ userId }) => {
             hideOnSinglePage={true}
           />
         </div>
-        {/* {updatePostClick && <UpdatePost updatePostData={updatePostData} />} */}
         {updatePostClick && (
           <UpdatePost
             updatePostData={updatePostData}

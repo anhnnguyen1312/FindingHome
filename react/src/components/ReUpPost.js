@@ -2,7 +2,6 @@ import React from "react";
 import NewPost from "../pages/LoggedIn/NewPost";
 
 const ReUpPost = ({ ReUpPostData, setReUpPostClick }) => {
-  //   const { updatePostData } = useSelector((state) => state.post);
 
   const handleClickOverlay = (e) => {
     e.stopPropagation();

@@ -13,30 +13,25 @@ const Footer = () => {
             Nhập email để nhân thông báo về phòng mới nhất ngay!
           </p>
           <div className="">
-            {/* <form> */}
             <input
               className="py-[8px] px-[20px] rounded-[2px] mr-[10px] font-medium mb-[16px] border border-[#fff]"
               name="email"
               type="email"
               placeholder="Your Email"
             />
-            {/* <Button buttonStyle="btn--outline"></Button> */}
             <Button
               children={"Gửi Email "}
               textColor={"text-black"}
               bgColor={"bg-white"}
               borderRounded={"rounded-[6px]"}
               borderColor={"border-white"}
-              //   custom={'h-10 w-[15rem]'}
             />
 
-            {/* </form>*/}
           </div>
         </section>
         <div className=" flex justify-center w-full max-w-[1000px]">
           <div className="flex">
             <div className="flex flex-col items-start text-[#fff] m-[16px] w-[160px] text-left ">
-              {/* <h2 className="mb-[16px] text-[#fff] ">About Us</h2> */}
               <Link className="mb-[10px]" to="/">
                 Giới thiệu
               </Link>
@@ -54,7 +49,6 @@ const Footer = () => {
               </Link>
             </div>
             <div className="flex flex-col items-start text-[#fff] m-[16px] w-[160px] text-left footer-link-items ">
-              {/* <h2 className="mb-[16px] text-[#fff] ">Contact Us</h2> */}
               <Link className="mb-[10px] " to="/">
                 Liên hệ
               </Link>
@@ -72,7 +66,6 @@ const Footer = () => {
               </Link>
             </div>
             <div className="flex flex-col items-start text-[#fff] m-[16px] w-[160px] text-left footer-link-items ">
-              {/* <h2 className="mb-[16px] text-[#fff] ">Contact Us</h2> */}
               <Link className="mb-[10px] " to="/">
                 Hỗ trợ khách hàng
               </Link>

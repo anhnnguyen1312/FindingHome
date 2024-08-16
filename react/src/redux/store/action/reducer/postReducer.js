@@ -3,7 +3,6 @@ import actionTypes from "../actionTypes";
 const initialState = {
   posts: [],
   msg: "",
-  // count: 0,
   homepagePosts: [],
 };
 
