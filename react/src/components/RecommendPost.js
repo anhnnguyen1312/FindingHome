@@ -16,6 +16,7 @@ const RecommendPost = () => {
         const data = homepagePosts.filter((post) => {
           return response.data.postIds.includes(parseInt(post.id));
         });
+        console.log("homepagePosts", homepagePosts);
         console.log("data", data);
 
         setPostsRecommend(data);
@@ -24,7 +25,7 @@ const RecommendPost = () => {
       }
     };
     stateAuth.data.userId && getApiRecommend();
-  }, [stateAuth]);
+  }, [stateAuth, homepagePosts]);
   return (
     <div className="flex flex-col items-center justify-center gap-[30px] w-full">
       <div className=" flex xl:flex-row flex-col gap-[2vw] w-full ">
