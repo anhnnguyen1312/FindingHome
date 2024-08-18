@@ -15,9 +15,7 @@ services:
       context: ./react
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    volumes:
-      - ./react:/app
+      - "3000:80"
     depends_on:
       - findHome
 
@@ -28,17 +26,23 @@ services:
     volumes:
       - ./python:/app
     ports:
-      - "5000:5000"
-      - "5001:5001"
+      - "5002:80"
+      - "5001:80"
     depends_on:
       - findHome
 
   findHome:
-    image: mysql:5.7
+    image: mysql:8.0
     ports:
       - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: findHome@2024
       MYSQL_DATABASE: findHome
       MYSQL_USER: findHome
       MYSQL_PASSWORD: findHome@2024
+volumes:
+  mysql_data:
+    driver: local

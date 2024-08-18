@@ -22,7 +22,7 @@ try:
     conn = mysql.connector.connect(**config)
 
     if conn.is_connected():
-        print('Kết nối thành công vào MySQL Database')
+        print('recommned Kết nối thành công vào Database')
 
     query1 = 'SELECT * FROM userAction'
     query2 = 'SELECT id, typeRoom, price, area FROM posts'
@@ -76,7 +76,7 @@ try:
         else:
             return jsonify({"message": "Failed to retrieve user ID from API."}), 400
 except mysql.connector.Error as err:
-        print(f"Lỗi: {err}")
+        print(f"Lỗi recommend.py: {err}")
 
 finally:
     if 'conn' in locals() and conn.is_connected():
@@ -84,4 +84,4 @@ finally:
     
     
 if __name__ == '__main__':
-    app.run(debug=True , host="0.0.0.0", port=5000)
+    app.run(debug=True , host="0.0.0.0", port=5002)

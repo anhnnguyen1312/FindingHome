@@ -77,7 +77,7 @@ def call_api():
     # Kết nối vào cơ sở dữ liệu
         conn = mysql.connector.connect(**config)
         if conn.is_connected():
-            print('Kết nối thành công vào MySQL Database')
+            print('update Kết nối thành công vào Database')
         query = "SELECT * FROM posts "
         query2 = "SELECT * FROM statusPost WHERE status='0'"
         query3 = "SELECT userId, GROUP_CONCAT(postId ORDER BY postId) AS postIds FROM userLikes GROUP BY userId"
@@ -197,7 +197,7 @@ def call_api():
 
             return jsonify({'postId': resultPostId,'userId': resultUserId })
     except mysql.connector.Error as err:
-        print(f"Lỗi: {err}")
+        print(f"Lỗi update.py: {err}")
 
     finally:
         # Đóng kết nối
