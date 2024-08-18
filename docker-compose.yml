@@ -10,27 +10,6 @@ services:
     depends_on:
       - findHome
 
-  react:
-    build:
-      context: ./react
-      dockerfile: Dockerfile
-    ports:
-      - "3000:80"
-    depends_on:
-      - findHome
-
-  python:
-    build:
-      context: ./python
-      dockerfile: Dockerfile
-    volumes:
-      - ./python:/app
-    ports:
-      - "5002:80"
-      - "5001:80"
-    depends_on:
-      - findHome
-
   findHome:
     image: mysql:8.0
     ports:

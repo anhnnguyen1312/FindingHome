@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : findHome
+ Source Server         : findhome
  Source Server Type    : MySQL
- Source Server Version : 50744
+ Source Server Version : 50744 (5.7.44)
  Source Host           : localhost:3307
  Source Schema         : findHome
 
  Target Server Type    : MySQL
- Target Server Version : 50744
+ Target Server Version : 50744 (5.7.44)
  File Encoding         : 65001
 
- Date: 31/07/2024 12:54:54
+ Date: 18/08/2024 11:01:29
 */
 
 SET NAMES utf8mb4;
@@ -187,21 +187,21 @@ CREATE TABLE `statusPost`  (
   `status` int(1) NOT NULL,
   `check` int(1) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 71 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 84 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of statusPost
 -- ----------------------------
 INSERT INTO `statusPost` VALUES (35, 28, '2024-06-24', '2024-09-22', 0, 1);
-INSERT INTO `statusPost` VALUES (36, 29, '2024-06-24', '2024-09-22', 0, 1);
+INSERT INTO `statusPost` VALUES (36, 29, '2024-05-24', '2024-06-22', 0, 3);
 INSERT INTO `statusPost` VALUES (37, 30, '2024-06-26', '2024-09-24', 0, 1);
 INSERT INTO `statusPost` VALUES (38, 31, '2024-06-27', '2024-09-25', 0, 1);
-INSERT INTO `statusPost` VALUES (39, 32, '2024-06-27', '2024-09-25', 0, 1);
+INSERT INTO `statusPost` VALUES (39, 32, '2024-06-27', '2024-09-25', 0, 2);
 INSERT INTO `statusPost` VALUES (40, 33, '2024-06-27', '2024-09-25', 0, 1);
 INSERT INTO `statusPost` VALUES (46, 39, '2024-06-28', '2024-09-26', 0, 1);
-INSERT INTO `statusPost` VALUES (47, 40, '2024-06-28', '2024-09-26', 0, 1);
-INSERT INTO `statusPost` VALUES (48, 41, '2024-06-28', '2024-09-26', 0, 1);
-INSERT INTO `statusPost` VALUES (49, 42, '2024-07-09', '2024-10-07', 0, 1);
+INSERT INTO `statusPost` VALUES (47, 40, '2024-06-28', '2024-09-26', 0, 2);
+INSERT INTO `statusPost` VALUES (48, 41, '2024-06-28', '2024-09-26', 0, 2);
+INSERT INTO `statusPost` VALUES (49, 42, '2024-07-09', '2024-10-07', 0, 2);
 INSERT INTO `statusPost` VALUES (50, 43, '2024-07-09', '2024-10-07', 0, 1);
 INSERT INTO `statusPost` VALUES (51, 44, '2024-07-09', '2024-10-07', 0, 1);
 INSERT INTO `statusPost` VALUES (52, 45, '2024-07-09', '2024-10-07', 0, 1);
@@ -222,6 +222,19 @@ INSERT INTO `statusPost` VALUES (67, 60, '2024-07-09', '2024-10-07', 0, 1);
 INSERT INTO `statusPost` VALUES (68, 61, '2024-07-09', '2024-10-07', 0, 1);
 INSERT INTO `statusPost` VALUES (69, 62, '2024-07-09', '2024-10-07', 0, 1);
 INSERT INTO `statusPost` VALUES (70, 63, '2024-07-09', '2024-10-07', 0, 1);
+INSERT INTO `statusPost` VALUES (71, 64, '2024-07-11', '2024-10-09', 0, 1);
+INSERT INTO `statusPost` VALUES (72, 65, '2024-07-11', '2024-10-09', 0, 1);
+INSERT INTO `statusPost` VALUES (73, 66, '2024-07-11', '2024-10-09', 0, 1);
+INSERT INTO `statusPost` VALUES (74, 67, '2024-07-11', '2024-10-09', 0, 1);
+INSERT INTO `statusPost` VALUES (75, 68, '2024-07-11', '2024-10-09', 0, 1);
+INSERT INTO `statusPost` VALUES (76, 69, '2024-07-11', '2024-10-09', 0, 1);
+INSERT INTO `statusPost` VALUES (77, 70, '2024-07-11', '2024-10-09', 0, 1);
+INSERT INTO `statusPost` VALUES (78, 71, '2024-07-12', '2024-10-10', 0, 1);
+INSERT INTO `statusPost` VALUES (79, 72, '2024-07-12', '2024-10-10', 0, 1);
+INSERT INTO `statusPost` VALUES (80, 73, '2024-07-13', '2024-10-11', 0, 1);
+INSERT INTO `statusPost` VALUES (81, 74, '2024-07-13', '2024-10-11', 0, 1);
+INSERT INTO `statusPost` VALUES (82, 75, '2024-07-16', '2024-10-14', 0, 1);
+INSERT INTO `statusPost` VALUES (83, 76, '2024-07-16', '2024-10-14', 0, 1);
 
 -- ----------------------------
 -- Table structure for userAction
@@ -233,14 +246,14 @@ CREATE TABLE `userAction`  (
   `postId` int(11) NOT NULL,
   `countAction` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 252 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 253 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of userAction
 -- ----------------------------
-INSERT INTO `userAction` VALUES (151, 70, 30, 10);
+INSERT INTO `userAction` VALUES (151, 70, 30, 12);
 INSERT INTO `userAction` VALUES (152, 70, 39, 10);
-INSERT INTO `userAction` VALUES (153, 70, 31, 10);
+INSERT INTO `userAction` VALUES (153, 70, 31, 11);
 INSERT INTO `userAction` VALUES (154, 70, 40, 10);
 INSERT INTO `userAction` VALUES (155, 71, 30, 10);
 INSERT INTO `userAction` VALUES (156, 71, 61, 10);
@@ -334,7 +347,8 @@ INSERT INTO `userAction` VALUES (243, 94, 29, 10);
 INSERT INTO `userAction` VALUES (244, 94, 32, 10);
 INSERT INTO `userAction` VALUES (245, 94, 28, 10);
 INSERT INTO `userAction` VALUES (246, 94, 59, 10);
-INSERT INTO `userAction` VALUES (251, 70, 28, 3);
+INSERT INTO `userAction` VALUES (251, 70, 28, 7);
+INSERT INTO `userAction` VALUES (252, 70, 60, 2);
 
 -- ----------------------------
 -- Table structure for userLikes
@@ -345,38 +359,115 @@ CREATE TABLE `userLikes`  (
   `userId` int(11) NOT NULL,
   `postId` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 79 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 636 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of userLikes
 -- ----------------------------
-INSERT INTO `userLikes` VALUES (41, 71, 31);
-INSERT INTO `userLikes` VALUES (42, 71, 39);
-INSERT INTO `userLikes` VALUES (44, 71, 40);
-INSERT INTO `userLikes` VALUES (52, 70, 39);
-INSERT INTO `userLikes` VALUES (54, 70, 28);
-INSERT INTO `userLikes` VALUES (56, 70, 65);
-INSERT INTO `userLikes` VALUES (57, 70, 67);
-INSERT INTO `userLikes` VALUES (58, 72, 45);
-INSERT INTO `userLikes` VALUES (59, 72, 46);
-INSERT INTO `userLikes` VALUES (60, 72, 71);
-INSERT INTO `userLikes` VALUES (62, 73, 29);
-INSERT INTO `userLikes` VALUES (63, 70, 68);
-INSERT INTO `userLikes` VALUES (64, 74, 31);
-INSERT INTO `userLikes` VALUES (65, 74, 73);
-INSERT INTO `userLikes` VALUES (66, 74, 74);
-INSERT INTO `userLikes` VALUES (67, 75, 50);
-INSERT INTO `userLikes` VALUES (68, 75, 58);
-INSERT INTO `userLikes` VALUES (69, 75, 69);
-INSERT INTO `userLikes` VALUES (70, 75, 70);
-INSERT INTO `userLikes` VALUES (71, 76, 28);
-INSERT INTO `userLikes` VALUES (72, 77, 45);
-INSERT INTO `userLikes` VALUES (73, 77, 46);
-INSERT INTO `userLikes` VALUES (74, 78, 73);
-INSERT INTO `userLikes` VALUES (75, 78, 74);
-INSERT INTO `userLikes` VALUES (76, 79, 50);
-INSERT INTO `userLikes` VALUES (77, 79, 58);
-INSERT INTO `userLikes` VALUES (78, 79, 69);
+INSERT INTO `userLikes` VALUES (106, 87, 59);
+INSERT INTO `userLikes` VALUES (114, 92, 47);
+INSERT INTO `userLikes` VALUES (134, 70, 30);
+INSERT INTO `userLikes` VALUES (135, 70, 61);
+INSERT INTO `userLikes` VALUES (150, 70, 39);
+INSERT INTO `userLikes` VALUES (175, 70, 31);
+INSERT INTO `userLikes` VALUES (187, 71, 28);
+INSERT INTO `userLikes` VALUES (189, 71, 32);
+INSERT INTO `userLikes` VALUES (191, 71, 39);
+INSERT INTO `userLikes` VALUES (194, 71, 40);
+INSERT INTO `userLikes` VALUES (195, 71, 29);
+INSERT INTO `userLikes` VALUES (206, 72, 57);
+INSERT INTO `userLikes` VALUES (207, 72, 47);
+INSERT INTO `userLikes` VALUES (208, 72, 30);
+INSERT INTO `userLikes` VALUES (211, 72, 29);
+INSERT INTO `userLikes` VALUES (230, 73, 49);
+INSERT INTO `userLikes` VALUES (232, 73, 51);
+INSERT INTO `userLikes` VALUES (233, 73, 32);
+INSERT INTO `userLikes` VALUES (235, 73, 30);
+INSERT INTO `userLikes` VALUES (236, 73, 31);
+INSERT INTO `userLikes` VALUES (237, 73, 29);
+INSERT INTO `userLikes` VALUES (254, 74, 29);
+INSERT INTO `userLikes` VALUES (255, 74, 28);
+INSERT INTO `userLikes` VALUES (256, 74, 51);
+INSERT INTO `userLikes` VALUES (257, 74, 50);
+INSERT INTO `userLikes` VALUES (272, 75, 47);
+INSERT INTO `userLikes` VALUES (273, 75, 46);
+INSERT INTO `userLikes` VALUES (274, 75, 45);
+INSERT INTO `userLikes` VALUES (277, 75, 43);
+INSERT INTO `userLikes` VALUES (278, 75, 44);
+INSERT INTO `userLikes` VALUES (306, 76, 45);
+INSERT INTO `userLikes` VALUES (307, 76, 30);
+INSERT INTO `userLikes` VALUES (308, 76, 44);
+INSERT INTO `userLikes` VALUES (309, 76, 43);
+INSERT INTO `userLikes` VALUES (355, 77, 30);
+INSERT INTO `userLikes` VALUES (356, 77, 58);
+INSERT INTO `userLikes` VALUES (357, 77, 57);
+INSERT INTO `userLikes` VALUES (358, 77, 56);
+INSERT INTO `userLikes` VALUES (389, 78, 56);
+INSERT INTO `userLikes` VALUES (390, 78, 57);
+INSERT INTO `userLikes` VALUES (391, 78, 58);
+INSERT INTO `userLikes` VALUES (406, 79, 41);
+INSERT INTO `userLikes` VALUES (407, 79, 42);
+INSERT INTO `userLikes` VALUES (408, 79, 40);
+INSERT INTO `userLikes` VALUES (409, 79, 39);
+INSERT INTO `userLikes` VALUES (415, 80, 51);
+INSERT INTO `userLikes` VALUES (416, 80, 32);
+INSERT INTO `userLikes` VALUES (417, 80, 33);
+INSERT INTO `userLikes` VALUES (418, 80, 52);
+INSERT INTO `userLikes` VALUES (427, 81, 32);
+INSERT INTO `userLikes` VALUES (428, 81, 28);
+INSERT INTO `userLikes` VALUES (429, 81, 29);
+INSERT INTO `userLikes` VALUES (430, 81, 30);
+INSERT INTO `userLikes` VALUES (440, 82, 59);
+INSERT INTO `userLikes` VALUES (441, 82, 43);
+INSERT INTO `userLikes` VALUES (442, 82, 42);
+INSERT INTO `userLikes` VALUES (455, 83, 62);
+INSERT INTO `userLikes` VALUES (456, 83, 39);
+INSERT INTO `userLikes` VALUES (457, 83, 31);
+INSERT INTO `userLikes` VALUES (461, 84, 60);
+INSERT INTO `userLikes` VALUES (477, 84, 61);
+INSERT INTO `userLikes` VALUES (478, 84, 62);
+INSERT INTO `userLikes` VALUES (479, 84, 63);
+INSERT INTO `userLikes` VALUES (480, 84, 31);
+INSERT INTO `userLikes` VALUES (481, 84, 28);
+INSERT INTO `userLikes` VALUES (510, 85, 55);
+INSERT INTO `userLikes` VALUES (511, 85, 56);
+INSERT INTO `userLikes` VALUES (512, 85, 58);
+INSERT INTO `userLikes` VALUES (513, 85, 57);
+INSERT INTO `userLikes` VALUES (540, 86, 56);
+INSERT INTO `userLikes` VALUES (541, 86, 57);
+INSERT INTO `userLikes` VALUES (542, 86, 58);
+INSERT INTO `userLikes` VALUES (543, 86, 51);
+INSERT INTO `userLikes` VALUES (544, 86, 50);
+INSERT INTO `userLikes` VALUES (554, 88, 42);
+INSERT INTO `userLikes` VALUES (555, 88, 39);
+INSERT INTO `userLikes` VALUES (556, 88, 40);
+INSERT INTO `userLikes` VALUES (580, 89, 32);
+INSERT INTO `userLikes` VALUES (581, 89, 51);
+INSERT INTO `userLikes` VALUES (582, 89, 48);
+INSERT INTO `userLikes` VALUES (595, 90, 52);
+INSERT INTO `userLikes` VALUES (596, 90, 32);
+INSERT INTO `userLikes` VALUES (597, 90, 51);
+INSERT INTO `userLikes` VALUES (598, 90, 49);
+INSERT INTO `userLikes` VALUES (599, 91, 30);
+INSERT INTO `userLikes` VALUES (600, 91, 29);
+INSERT INTO `userLikes` VALUES (601, 91, 28);
+INSERT INTO `userLikes` VALUES (602, 91, 31);
+INSERT INTO `userLikes` VALUES (603, 92, 30);
+INSERT INTO `userLikes` VALUES (604, 92, 28);
+INSERT INTO `userLikes` VALUES (605, 92, 29);
+INSERT INTO `userLikes` VALUES (606, 92, 31);
+INSERT INTO `userLikes` VALUES (619, 93, 45);
+INSERT INTO `userLikes` VALUES (622, 93, 30);
+INSERT INTO `userLikes` VALUES (623, 93, 40);
+INSERT INTO `userLikes` VALUES (624, 94, 55);
+INSERT INTO `userLikes` VALUES (625, 94, 56);
+INSERT INTO `userLikes` VALUES (626, 94, 57);
+INSERT INTO `userLikes` VALUES (627, 94, 53);
+INSERT INTO `userLikes` VALUES (629, 95, 41);
+INSERT INTO `userLikes` VALUES (630, 95, 40);
+INSERT INTO `userLikes` VALUES (631, 95, 39);
+INSERT INTO `userLikes` VALUES (634, 95, 42);
+INSERT INTO `userLikes` VALUES (635, 70, 28);
 
 -- ----------------------------
 -- Table structure for userNotifications

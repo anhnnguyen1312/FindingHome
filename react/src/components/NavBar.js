@@ -216,13 +216,11 @@ export default function NavBar() {
                 ></img>
                 {clickUser && (
                   <div className="cart__list py-[20px] ">
-                    <ul
-                      className="font-thin flex flex-col gap-[20px] bg-white"
-                    >
+                    <ul className="font-thin flex flex-col gap-[20px] bg-white">
                       {stateAuth.data.role === "1" && (
                         <Link
                           className="cursor-pointer flex items-center justify-between"
-                          to={`${path.SYSTEM}`}
+                          to={`${path.MANAGE_POST_SYSTEM}`}
                         >
                           {" "}
                           Hệ thống quản lí

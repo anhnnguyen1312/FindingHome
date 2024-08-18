@@ -51,7 +51,7 @@ export default function Login() {
         timer: 2000,
       });
       stateAuth.data.role === "1"
-        ? usenavi(`${path.SYSTEM}`)
+        ? usenavi(`${path.MANAGE_POST_SYSTEM}`)
         : usenavi(`${path.HOME}`);
     }
   }, [stateAuth.isLoggedIn]);

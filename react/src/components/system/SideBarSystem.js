@@ -53,6 +53,7 @@ const SideBarSystem = () => {
               <nav className="flex-1">
                 <Link
                   to={path.HOME}
+                  // to={path.MANAGE_POST_SYSTEM}
                   className="flex cursor-pointer items-center border-l-4 border-l-rose-600 py-2 px-4 text-md font-medium text-rose-600 outline-none transition-all duration-100 ease-in-out focus:border-l-4"
                 >
                   <svg
