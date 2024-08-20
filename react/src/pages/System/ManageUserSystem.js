@@ -7,6 +7,7 @@ import { Checkbox, message, Popconfirm } from "antd";
 import { callApiDeleteUser } from "../../../src/api/authenLogin";
 import { jwtDecode } from "jwt-decode";
 import { Pagination } from "antd";
+import userAvatar from "../../assets/images/userAvatar.jpg";
 
 const ManageUserSystem = () => {
   const [userList, setUserList] = useState([]);
@@ -25,7 +26,7 @@ const ManageUserSystem = () => {
   const navigate = useNavigate();
 
   const allPosts = Object.values(posts).flat();
-  const filterCheckPosts = allPosts.filter((post) => post.role === "0");
+  // const filterCheckPosts = allPosts.filter((post) => post.userRole === "0");
 
   const checkAll = allUserIdList.length === checkUserID.length;
   const indeterminate =
@@ -51,7 +52,7 @@ const ManageUserSystem = () => {
       setUserData(userList);
     }
 
-    const idList = userList.filter((user) => user.role !== "1");
+    const idList = userList.filter((user) => user.userRole !== "1");
     const userIdList = idList.map((user) => user.id);
     setAllUserIdList(userIdList);
   }, [userList]);
@@ -59,6 +60,10 @@ const ManageUserSystem = () => {
   const handleCounPost = (userId) => {
     const postCount = posts.filter((post) => post.userId === userId);
     return postCount.length;
+  };
+  const handleCounAdmin = () => {
+    const AdminCount = userData.filter((user) => user.userRole === "1");
+    return AdminCount.length;
   };
   const onCheckAllChange = (e) => {
     setCheckUserID(e.target.checked ? allUserIdList : []);
@@ -77,9 +82,6 @@ const ManageUserSystem = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
-  console.log("checkUserID ", checkUserID);
-  console.log("allUserIdList ", allUserIdList);
 
   const handleOnChangeSearchInput = (e) => {
     setSearchInput(e.target.value);
@@ -157,7 +159,7 @@ const ManageUserSystem = () => {
       state: { isSystem },
     });
   };
-  console.log("userData", userData);
+
   return (
     <>
       <div className=" h-[calc(100vh-57px)] flex flex-col items-center justify-center gap-[30px] w-full">
@@ -174,9 +176,7 @@ const ManageUserSystem = () => {
 						focus:outline-none border-b-2 font-medium capitalize
 						transition duration-500 ease-in-out flex"
             >
-              <p className="text-rose-600 pr-[5px]">
-                {filterCheckPosts?.length}
-              </p>
+              <p className="text-rose-600 pr-[5px]">{allPosts?.length}</p>
               Bài đăng
             </Link>
             <Link
@@ -200,7 +200,7 @@ const ManageUserSystem = () => {
 						transition duration-500 ease-in-out flex"
             >
               <p className="text-rose-600 pr-[5px]">
-                {filterCheckPosts.length}
+                {userData && handleCounAdmin()}
               </p>
               Admin
             </Link>
@@ -347,7 +347,7 @@ const ManageUserSystem = () => {
                       <>
                         <tr key={index}>
                           <td className="whitespace-nowrap pl-4 w-8">
-                            {user.role === "1" ? (
+                            {user.userRole === "1" ? (
                               <Checkbox onChange={onChange} disabled></Checkbox>
                             ) : (
                               <Checkbox
@@ -370,7 +370,7 @@ const ManageUserSystem = () => {
                           >
                             <div className="flex items-center cursor-pointer w-max">
                               <img
-                                src={user.avatar}
+                                src={user.avatar || userAvatar}
                                 className="w-9 h-9 rounded-full shrink-0"
                               />
                               <div className="ml-4">
@@ -384,7 +384,7 @@ const ManageUserSystem = () => {
                             </div>
                           </td>
                           <td className="whitespace-nowrap p-2 text-sm text-center">
-                            {user.role === "1" ? "Admin" : "User"}
+                            {user.userRole === "1" ? "Admin" : "User"}
                           </td>
                           <td className=" whitespace-nowrap px-6 py-3 text-center">
                             {user.phone}
@@ -420,7 +420,7 @@ const ManageUserSystem = () => {
                               cancelText="Hủy"
                             >
                               <button
-                                disabled={user.role === "1" ? true : false}
+                                disabled={user.userRole === "1" ? true : false}
                                 title="Xóa"
                               >
                                 <svg

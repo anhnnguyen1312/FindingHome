@@ -193,11 +193,23 @@ const DetailProduct = () => {
     };
     denyPost();
   };
+  console.log("detailPost", detailPost);
   return (
     <>
       <div className="w-full ">
         <div className="border-b-4 border-rose-500">
-          {detailPost.urlImages && <SlideShow images={detailPost.urlImages} />}
+          {detailPost.urlImages?.length > 1 && (
+            <SlideShow images={detailPost.urlImages} />
+          )}
+          {detailPost.urlImages?.length == 1 && (
+            <div className="flex h-[70vh]">
+              <img
+                src={detailPost.urlImages[0]}
+                alt="ảnh mặt bằng"
+                className="w-full h-auto h-full object-cover"
+              />
+            </div>
+          )}
         </div>
         {/* thong tin ve phonng */}
         <div className="px-[20px] relative ">
@@ -214,6 +226,7 @@ const DetailProduct = () => {
               >
                 <div className="hidden sm:flex border-4 bg-gray-200 border-gray-50 rounded-full h-24 w-24">
                   <img
+                    alt=""
                     className="block rounded-full"
                     src={detailPost.avatar || userAvatar}
                   />
@@ -680,7 +693,7 @@ const DetailProduct = () => {
                       return <CardProduct key={product.id} props={product} />;
                     })
                   : postsRecommend?.length === 0 && (
-                      <img src={no_data_img}></img>
+                      <img alt="" src={no_data_img}></img>
                     )}
               </ul>
             </div>

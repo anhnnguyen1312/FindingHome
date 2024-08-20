@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : findhome
+ Source Server         : localhost_3307
  Source Server Type    : MySQL
- Source Server Version : 50744 (5.7.44)
+ Source Server Version : 80039 (8.0.39)
  Source Host           : localhost:3307
  Source Schema         : findHome
 
  Target Server Type    : MySQL
- Target Server Version : 50744 (5.7.44)
+ Target Server Version : 80039 (8.0.39)
  File Encoding         : 65001
 
- Date: 18/08/2024 11:01:29
+ Date: 20/08/2024 16:21:15
 */
 
 SET NAMES utf8mb4;
@@ -22,10 +22,10 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `adminNotifications`;
 CREATE TABLE `adminNotifications`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `adminId` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `postId` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `adminId` int NOT NULL,
+  `userId` int NOT NULL,
+  `postId` int NOT NULL,
   `message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `isRead` tinyint(1) NULL DEFAULT 0,
   `createAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -65,8 +65,8 @@ INSERT INTO `adminNotifications` VALUES (27, 70, 74, 57, 'Admin, Bài đăng CHO
 -- ----------------------------
 DROP TABLE IF EXISTS `countLikes`;
 CREATE TABLE `countLikes`  (
-  `postId` int(11) NOT NULL,
-  `likes` int(11) NOT NULL DEFAULT 0,
+  `postId` int NOT NULL,
+  `likes` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`postId`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
@@ -109,8 +109,8 @@ INSERT INTO `countLikes` VALUES (63, 1);
 -- ----------------------------
 DROP TABLE IF EXISTS `posts`;
 CREATE TABLE `posts`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `userId` int NOT NULL,
   `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `typeRoom` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `price` float UNSIGNED NOT NULL,
@@ -126,12 +126,12 @@ CREATE TABLE `posts`  (
   `lat` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `lng` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 77 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 78 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of posts
 -- ----------------------------
-INSERT INTO `posts` VALUES (28, 70, '    803/97 Huỳnh Tấn Phát, Phường Tân Phong, Quận 7, Thành phố Hồ Chí Minh', 'room', 3, 'CHO THUÊ PHÒNG TRỌ QUẬN 7', '97c6418e27369f822a56716904420baf82e197a159a721a721069a2bfff685c2ae85b7c884fc70233ba2ce1e2e4a8b4020f5070165231b37e85a627e8c929c32AvspPoXhoMLxZYmT/Qmf+U61x5DlfMZ4vBPbDUaDfWy1QVX5X1ASXNHcALjUUkBbaDLy7IGbiYGED8sHtum5/FWvE0O20Kv/4Q0hk6E/YNFSZuszdeVVl1L9rgw8i8qAdGcVzWDf71SUjfKiYckevGR8eF/HCvpLribSlqw/lQR+5X8+nNxumWs2+HqL/K8NVLUn7Gf/VYRtbVJbZAjvvxqlJIigx0IexM2cYGIwdTK2IV+XCoH/z+Az4VA/KZeRhR+xmCENh+UAMadyPoV7xA==', 5, 'c54136a68fe8a2ee309d5875b3fdd0341cadb62bee54b3451d3f7fc297a6b7d76527f2e968173542f27dd50a23f365e692e1d9f586c78ff932775e8fa92eb2e7y42uLV9VPkzxxFGS8m76PaNFuS9AK27q/nGyyE/4HXA=', 'tủ lạnh, máy lạnh, máy giặc', 'đầy đủ tiện nghi\ncó ban công rộng', 'điện: 3k/kg\nnước: 100k/thnags', 'ra vào nhớ đóng cổng', 'Gần New gym, Cicle K, Lotte Mart, Bệnh Viện Bình Thạnh,..', '10.73414', '106.734863');
+INSERT INTO `posts` VALUES (28, 70, '    803/97 Huỳnh Tấn Phát,   Phường Tân Phong,   Quận 7,   Thành phố Hồ Chí Minh', 'room', 3, 'CHO THUÊ PHÒNG TRỌ QUẬN 7', 'e241ce53b951dd1f5714b9a9bc5dc0c8105b04e3134c4036e1381dd35e70782554398503d0045c8c13f3b95bbcf7add94de12a367d508fdd0e8bacc380c0f85dZeMIWQEN6gnsWd8CfhySSwMQUHamFLVdOL2UanghQccJVbUuLs1Hyg002X/WrqpTt76Wh4KZgEIqt0gsi//MzD8RQpHci+/3G1x9r+vCXsVRF0yTgjxJESynfMN4U6WJq1+LqVYFYPtAHaQt6SVZWklI0nOg64oIPtRoVA+YFb80LwPnHvhuH1I6OdfQf1cC3szNuJKlZYc2ic8uzQXwHgTQZPwTu6amP4yk96Iraq58dOTUxnSoyFJDVY7rlqiwtr8PbBV3jvBX81UD/eWrMqww2I4ot8yJIe+vFtKLea7fgPMmRs4confWig1rDcW5', 5, '305a5e9b8e085a61eab64e37e9431f03948078b767183efbb896de977265d95d75071d2b5ad4aba2d0e46291b04d2e82ac93885ffd010e3547d099daef8a756bh74NeEQ3eINn3M75fWj792vMtS24HsCbPFlQ71VkYoM=', 'tủ lạnh, máy lạnh, máy giặc', 'đầy đủ tiện nghi\ncó ban công rộng', 'điện: 3k/kg\nnước: 100k/thnags', 'ra vào nhớ đóng cổng', 'Gần New gym, Cicle K, Lotte Mart, Bệnh Viện Bình Thạnh,..', '10.73414', '106.734863');
 INSERT INTO `posts` VALUES (29, 70, '1 Dương Bá Trạc, Phường 01,  Quận 8,  Thành phố Hồ Chí Minh', 'room', 7, 'CHO THUÊ PHÒNG TRỌ QUẬN 8', '1e03f5ff62c9a1ab2066da3bbfae2cd891dd251fc0ce7430783dd1486b953f7131ee1f11b14b8e387151d10735db223abe33b76469a7a0155b511dff9e8f56d5d8ICni5tYkc0gK73EiVbsUS9VMFEpVb1cv0333xODldlDkWLmDBDigWYcPGNPnzvLJRDh/QDETeSkcFJHEyDHDLHKbJ0IKIoCEJx7Jg5jQZA1qSu6M/bU2zIxOTmAchq39uFvZ0FyMBMG9Q0oQxM4XTKl1XTtLvhuvB4t7c4JEFhbWxwMmoItIGzdrVGsPxGRtira5qZJDBAY65oRJDdmcUK9oXjCuV5ATxtHcUQhMEt2ogvoBg8QnKa41XAzR+LimASUPGUuaVnDQfBHSBffA==', 10, '78a6ea032fc2dd9873331814225ebf109364d823e77a88dd220f6635f65518fd02f46dd765f18cb5570226ae71905a5b297fbe153552d0feb443cd3f28555976uUQg/d7qKr3TjqCKG43UsVqP/68sQYILIGy53KcynFQ=', 'tủ lạnh, máy lạnh, máy giặc', 'đầy đủ tiện nghi\nsạch sẽ, thoáng mát', 'điện: 3k/kg\nnước: 100k/thnags', 'không có', 'Gần New gym, Cicle K, Lotte Mart, Bệnh Viện Bình Thạnh,..', '10.744892', '106.691097');
 INSERT INTO `posts` VALUES (30, 70, '123 Lý Tự Trọng,  Phường Bến Thành,  Quận 1, Thành phố Hồ Chí Minh', 'room', 15, 'CHO THUÊ CĂN HỘ Ở QUẬN 1 ĐƯỜNG LÝ TỰ TRỌNG', '7dd52e3d8912055878d4dc413a9ad153ac2673b216387451292e0e2d7cd358c6342f0ba59fc951662ac7e44cb3a17b73721f2f11bf9a952027ac3bea7de4ba44lfWHzZxLCHflsNbqjZX/iO2lxgqYkxrHUly7EV+geUgILYJHSJ57lmPW/f82MQ1HMBCwFFfxOKE5yz72z7tWK2H72T7Nnapqxk07NI4AaQTM9ScKIirn4xIxlgba/k0XXbbu45Os4ljjRqw14n7mlKindWYoo8dVMc+4rpRr2l4LFhhjuyHbwvYsySLGfUSGM06479/NZ6V20rQ78wriABJcwC7FfEDPQvd7N383rChK/6hQc6bbt9QYeeGoFvJaD6V2tqYsX7okzyZp84sClw==', 20, 'b19a38f08bedcca73efe75446e24851bd84d503d57bb67c0126d6bf09cb34d7d02880a16aec868e758190608cf1394385a97c8c0bc7e4dfc920458e6bdfa9951HB44d3wCKU8EH4F2J0EYzLj/qvaWGdykm4Qvqdnx9zc=', 'tủ lạnh, máy lạnh, máy giặc', 'có ban công\ncó phòng khách\n2 toilet', 'điện : 3k3, nước 100k/người, wifi : 70k', 'giữ gìn vệ sinh chung', 'Gần New gym, Cicle K, Lotte Mart, Bệnh Viện Bình Thạnh,..', '10.773838', '106.697072');
 INSERT INTO `posts` VALUES (31, 70, '1 Trần Bình Trọng, Phường 01, Quận 10, Thành phố Hồ Chí Minh', 'apartment', 20, 'CHO THUÊ CĂN HỘ Ở MÊ LINH', 'f0589fcb8bcc692eb4995ee59b6185357877a4805d09995db72451d15fef7dee195fd64d2f806fd019ad2a81fe3fa31f90571958d3b47c6db07ae77e54d442bdEUhX3/uQinBmmxyWJG4Z1wxX+PCvoHHHXA4RofDgMpGhbg0/ZvPGfy2uc5BUf4B2Vnn75MfBtaxvcIzZSud8/nJHLZKH3G/EVevZuORHq79w1WyP9NmeVIRN5NPs5BX7h04EaImDARAHbnVVjn7akAgCySWP6n+aCFCmuQxdbXzHxIRlk3rxAZr1al50exBqMhaHbGAKaODvnECNGTBb1A3KHcg3W07wpQxunthNCh+yk+0CePx0pCrtSeKJFoWy741MAcdhjrabM7jP3umpPA==', 50, '39bf812d3441b1d6b7c0045336bfc3f4f89fd9d7331fca5f075da31ac3272300fa1a8f4fda349b51f51f3facf5680151b237c14e097b67ae233a6026a9524429N5DMjfpi8fxPTrB9vkXWMXqMJ0PqYTQLa9E8VDJpKyA=', 'ban công, máy điều hòa', 'đầy đủ tiện nghi\ncó hồ bơi\ncó vườn cỏ tự nhiên', 'cắt cỏ: 500k/tháng', 'tiền đổ rác tính theo tuần: 50k/tuần', 'CGV, MINISTOP', '10.764421', '106.678266');
@@ -140,7 +140,7 @@ INSERT INTO `posts` VALUES (33, 71, 'Ấp 1, Xã Bình Hưng, Huyện Bình Chá
 INSERT INTO `posts` VALUES (39, 71, 'số 2, Phường Hòa Phát, Quận Cẩm Lệ, Thành phố Đà Nẵng', 'apartment', 20, 'CHO THUÊ NHÀ Ở CẨM LỆ', 'efc6058dcd3fd89a42454e4d7a58e654640b2cbb29a74d7ed8bfe9c24f78d6d3d97949026af01c5c982f28b368df1ae390ea569345a0cb62ced8ef301a360a23t6vBFsc0yyOu3k7G6P6tMEgdTXkc8k24R7iJIYjOvQBX4+LnoSOmLqskegpdcwqV5WtYZeFkYe4S7kjwlIb9uQWSXEkv9Kg7HU3qlQDLkfRaqt83fUYUVPIFll0oRsQU2qanaygIshcYstzqlIrxXOD5fzZ2EA/wBj57A5MtGA5rKlJqHDTmZU/nN66ZUQm84cTxqNcxw32WKVF1dVBRaRhKEplHmt0b2acwr5bRwkH/VxM7VE1MzgG0au3JmOXhr+xW9Eh9ChzVg7swOM0igA==', 70, '41e5cf2d42392fdcbed1be9bfedfda937dd05020c994ae9f2e3e644191284decff768a947eb6d201ac5813500464353859aff69d7a17564ca96338a6cb3e6f3cKH4UBOlMhF4Wfyflls9d6AahRRHTTNoQYw0FyvgSlLQ=', 'ban công, máy điều hòa', 'rộng rãi, thoáng mát\ngần chợ, gần công viên', 'cắt cỏ: 500k/tháng', 'không có', 'circle K, lotte mart', '16.022386', '108.198457');
 INSERT INTO `posts` VALUES (40, 71, '1990 Cách Mạng Tháng 8, Phường 03, Quận 3, Thành phố Hồ Chí Minh', 'apartment', 15, 'CHO THUÊ NHÀ Ở QUẬN 3', 'c491695665fc78c6b5bd5d1c0597e927a6ef80971970780a2d9d8846abeaa52f7b567336496f5139fb7800680a5c261727d4b55302a761b4f6fe2356e5615e93jN4AQ3iLGAFqQQ3js6I3EbkuhcOneGDrftR+i7DObAXwMchI+ww2p+AzjXeYN/NO4qut7deQZSjulgyg4BrdI3FS6ki+BTjerhfss75wDNq4kk1iu5WETqjhjkZauB2KSH4+30le6okLO/CjQ3hh7/PanE2diiLLOvQGI38OOqpD9vVkjckUzElgjCEn2nm/s1jt1hS6Mcdg1M2QIDcZ3rUWzRvOb1p7Bn4y+sL3QLTjqMEuLOSn1+Xw856xT5r1kJ8dYLHI6OXJI8kEMVPcUw==', 30, '2645b137c23e86ec47237a8b6047c1bbeb8048e3cfe534dc3630ae0bc5e24d525faf60a247265770dc606009e763e56c03e7de0b2ff21f4475d98715f2ca995frFuiMbgHNR0jv61ayBYr4PIkr4n+a1bbliRGn3twAYY=', 'ban công, máy điều hòa', 'rộng rãi, thoáng mát\ngần chợ, gần công viên', 'cắt cỏ: 500k/tháng', 'không có', 'circle K, lotte mart', '10.773647', '106.689495');
 INSERT INTO `posts` VALUES (41, 71, '2 Phạm Hữu lầu, Phường Phú Mỹ, Quận 7, Thành phố Hồ Chí Minh', 'premises', 50, 'CHO THUÊ MẶT BẰNG Ở QUẬN 7', 'f89e0f08be1a30c2c183c1992c38760e2f5f98925649a8e2d4a34ed22fbab5ac09767cad1743debc4699bcf6bc488eeccb169085c3df5091b331a4fd3bf0480buc8VXAyjNqNbZn6W/UzAx2jV1laOifr7cz6aL1rtkf5e/qxbcop6Usv0WkB/peY1GQp+5wAiv9nO1kU0bYbAdPbX9+D4kOlZSeTTVHTtc2/m3pU6c9UVgcXxNob5GalGSr+QubmNMFFLz3W+1QRDWw==', 150, 'a39f0dfc7be4cb1030498e75efb96b57f3fd1a6f95eea9eaa3f002ade21c7a70d3e925fc2748f03e0841f03a6605e9f0b7fa033a2c8126bf0a248d1a191e6cf5MArfgdlfpZjmcsCWdLYssspDt6f1oeOo54ho2D4+n30=', '', '', '', 'không có', '', '10.70532', '106.737198');
-INSERT INTO `posts` VALUES (42, 70, '1 Kiên Hưng, Phường Hà Cầu, Quận Hà Đông, Thành phố Hà Nội', 'premises', 20, 'CHO THUÊ MẶT BẰNG', 'da54b4688521da4f969fffec56d00bd0170411754f81bc7391bbd3993804e58e92b4087f69e8eb4dd4d4aa7b1f1de2d70b65083273a8abe09383635e96b383f0gvYvMFxnAf2Bc/15lbuUvYLiok/y+oVQf6yNA3b+2cgyPcRHYAkPDhfqTlCgmkKcDea14xwoPLpz78nBimSbc66vXOhSHoU97P1vB7WoKSWET6+wORg32EGX4pkIvsA3oCTaO2aVJ++itdLpxPcOAw==', 30, '14055ee35569a2af40e9f4f3fa73f4246cf69683bfee83632c3503afd0761bea06cba265f459858db779dd44065ce904a92109ee8b4cd17e1d8b28338e27d595gVBNMhLYGN3TvQB8CqDIjrObXQ25gTY4J7oV+XLFgok=', '', '', '', '', 'gần khu dân cư, trường học', '20.961761', '105.78269');
+INSERT INTO `posts` VALUES (42, 70, '1 Kiên Hưng,  Phường Hà Cầu,  Quận Hà Đông,  Thành phố Hà Nội', 'premises', 20, 'CHO THUÊ MẶT BẰNG', '3aa264fce6df03fea649a266ea35ea58079dfedf10c08ca951735240745f58f84e701a30f4f65f46dcb8489cec132fc8b184202d489f09ffe6fafd5d64483e5cBmOTgiQrgfKIcrvmCIzOs+m62PMlvO7nZCuGWAqQLJF8phESeScDdAEN8uzEOOEaIYx3/q0e+5WBpe6HefKz1Z67Pl9U26qRfK/eQCwqVzNmhMn6avU2tt4/NQnp0PhTc+cgZJXsZG8mHASFHYrcpLMo1Gtv1DifggALwY0CPRw56tdrqvMv1xuoxnvAHq+nxMkH23TW1nbCUrW+6ocT3tusHpziN2s0DRAe0DjaW+8ndrbD68pyBM8UHYAkHkU7cU7ZIuDI+mFDi82q0iin4dcjIekFj/814/KItHezTXfyxrhiBRZ814l6HU2DqDQpynWvDz4CN5ok/LZScPAahW9VrhKgB6hT6QKotwlMwV0=', 30, 'ba7a3b02333a55b8ff7103db580f74afba8262a801aed6d219347586c1ea3737b4271ce98bfdc6aeb7430c97c4635047715ae7ce01ba031a5f5351cb1454c9192P1oyg/a/dWkeTofmGvbzeAbcKUJadJWXz2jl6cZ/lY=', '', '', '', '', 'gần khu dân cư, trường học', '20.961761', '105.78269');
 INSERT INTO `posts` VALUES (43, 70, '1 Lâm Tiên, Thị trấn Đông Anh, Huyện Đông Anh, Thành phố Hà Nội', 'premises', 50, 'CHO THUÊ MẶT BẰNG Ở ĐÔNG ANH', 'a6bc2a3535eac1c4531bc0690f4d5044e748634b773dcdb49586cd43bc63cc21f70dd2592150b4596d473b39ed4b1e049cfb9e3d210ae9d4fb1a09c97870e3eeZfbar2Dcje+xqCLw/CcEuv7UD2qL04IX2fyoNr1m2Rn84CnxoVjHh9zInKa5MAi8tcqwVY5oYLKdJdlqPogi79xu5vZh6TwZMayfWHZh5WgfaZpcWbxiRxV8Wwx6Im25CI1bdjhaM2sQdr06YEdAEw==', 100, '5aa82d51743c84ee95262421d580377866fbe4d685b6078e79cd864c8e35a997ea94dc4b892cb2819ed19636a56a8c0bae1501223ae1eaaa34073d591f9cc8f1/bERlNR6Zguq0F6rKwBG5m/PgpWBSR6gJkveheqebpI=', '', '', '', '', 'gần ngã 4, gần sân bay', '21.163439', '105.846892');
 INSERT INTO `posts` VALUES (44, 71, ' 1 Nguyễn Thiện Thuật, Xã An Hòa, Huyện Châu Thành, Tỉnh An Giang', 'premises', 20, 'CHO THUÊ MẶT BẰNG Ở CHÂU THÀNH', 'c7f07d4e072efdb87ad4c11125796bb51de9a937e5890d2bd22af59c3d8c8d83245c4d0f0373ece427e769dc4d9bac4bfdd799cea97912b2e503a76052f0a62en2Hj82V7fO5XVo2M8dnoffosBEOsV95N87wDDd8LdlmlL0d9HSqd9+SgVMrHSp8C9gG9ZAfor59s26uv+Vvgmbk1E4OT+mfoBXtt0wX4HqBCILnxbMwgjjtJQVp4GXCQqjhqKxXkYgOw8wjcGrUBGg==', 40, 'e3f8b86bb9e7068bffe187b77244d8fddd1d5af3880acc259caebf35a1710f19be70e7d9f459a76eef44503440b5ce0c47829a6ed8afdccd517d0e5480106f7dAJs47goVwYy/LEKrZXpBN6gVZm4K62mjTd7vPqnzt8I=', '', '', '', '', '', '10.464366', '105.339045');
 INSERT INTO `posts` VALUES (45, 73, '1 Lê Lợi,Phường 1, Thành phố Vũng Tàu, Tỉnh Bà Rịa - Vũng Tàu', 'room', 15, 'CHO THUÊ PHÒNG Ở VŨNG TÀU', '8047da4c55637424bb8dc4726ecd1f9c5d1b993761f1a2fa96f890e002fe75d528c15beb826ebd248ea2ad2a321b9adcaab45ad0880f8704ec344b76c5f016c3vzQX7vAqi0+zMtAAORireHkpFanBP0l/E8Ld0valMdJ5Iys7a7BTfWGMWQ8mn+2MjTwib2xBGPlPMw8gFdreW4v2ykXTUIkzaeR6hKn5dU8oIkqKQ5wDJuUt7L/Ch7HFzVa04b9UeuLkdFW/lY5cMMdGlXHYethPYXTL8w6zyy8CP46VkmoVv6PWVdT8uJua4V483q17Kt//zriapCpumv4RpIU8lVkL2Y73l/J+IHVuLWr2XTavFe4oz8RtSQfWAWg2ozvZ+euEs5GPAoOdyw==', 10, 'c6734f0ab65da77d66ca56883e3a9d7ea2253b8059c24980dc7c9f6cf5ca1b3c1d821791fed95c47e02f15f07e2788eaf3beae704412414041ae3f2753b70cc044XUWOqRcDRn7i+XWgGsATPYEZzvNmzSRv6ChD97wv8=', 'tủ lạnh, máy lạnh, máy giặc', ' gần biển. view đẹp', 'điện 2k/kg', 'rửa chân sạch sẽ trước khi vào nhà', 'gần chợ hải sản, nhà hàng', '10.348545', '107.074184');
@@ -174,18 +174,19 @@ INSERT INTO `posts` VALUES (73, 70, '770 Sư vạn hạnh, Phường 04, Quận 
 INSERT INTO `posts` VALUES (74, 70, '770 Sư vạn hạnh, Phường 04, Quận 10, Thành phố Hồ Chí Minh', 'room', 3, 'PHÒNG TRỌ CAO CẤP QUẬN 10 GẦN TRƯỜNG DH HUFLIT', '54d1d549fcf677ecc79cab46f729c3122707e0e7efedbd271999a01603a2f4850c468d407cba4badf7050b97663145ad0b3a11cf2227aca7389362c556b56fe3AUfp4TNzpfI1oQ5YU7BK0Co1AeDxzRw8BKkvIWkJwM0/HehtGlVOQtb09T6humV4mJT5YIsqrAzTjm3l12G5ilEEdvAdMNYrj63HQ1UVZTmz/rDvK9jAnGuNW59YscGq9C9OFTIur7aPvkqJg1e0uP9adxAaAcj8CI6Z6nDKGZyhJ2UjCEwPbF1P4VyAFrkYn3Gmd95eXpKTdloifGKXVdyIWEOLVYaCUBEeA44g3bOhIh2Z/44g5PT8ZRoBkmdxLDY0Ny+ok3+gTC2utVa5OxLVMkvSJlEWjzg1F98L5PG0GydehJN1NGnWpACgYgfJ', 20, 'c7020fa97af61a02fc75e216d9baacaccaf069fd2499e2d38a51bb1a2253ed6e315092fc0761c904af55fb0ca8c793910b4d2ac9f9d0cf168926a7a57f631c2cjQGIybi6HW+PZTSY7irrmb4eJ+ioepq72ffgsL/pGc4=', 'đầy đủ nội thất', '', '', '', '', '10.773113', '106.669025');
 INSERT INTO `posts` VALUES (75, 70, '5 Dương bá trạc, Phường 01, Quận 8, Thành phố Hồ Chí Minh', 'room', 7, 'CHO THUÊ PHÒNG TRỌ QUẬN 8', '7cb442591b7ad871483e67b36378e99b3de42d179e7ca020ae71aab7d79bd055647d786545279aff1902cb7e344791904710e8d703028c28e23a659fcc8efab5S7SWFVq5xySiXr7oqfksWyQZX8eC9JF/3xciLZBtgV4fiM3xKIcTn4UiZBBJWcVaw1wpI6694mzvMkOyrHDNgc9T7nYWTckgvudGuuhqBz34eYnrIZdWQh1go6UkP57WtLa4OU2ZJnJ2ukPuOxV/7fQcZtmb2u3JDgqVcJBa5A4rLFNtnrSzBaf46StmdWWwoAtkaSPEX2gLPJpVLqFb8Uo+GK/99D8Y3Prm525SsL8/GtLqjzpOxhQ7YEAOkM7BFi9IZpSyDtA8yYCe8EETMRUgtYYB3Tg3qKLUxAp3O9vG8yY4vB4a8GDmMW1CH1YJR5r5ufquyXBAVsciPLCCQKYG4ucQQSzE1OPH0J8kG/1gB60o+pxiK5L7AKU5bwuhdUHu7Hp4rrOPEst5blKUdjQP6aEuz7V74BfJov9SsQwKwbpC3OoYkZbpwuNUk6lQBa8WqRlbAVe7FBsEHIkLNOp7GZfWC9TYIDa2ssLsd9CGC0evysIJLXGpjgyQbThvVjS0meFqsar4771DnEse0+rwIqeyb4+hU0v9lPE7LHVoB36HB/I/lT1gcY/DwN/GNWhlZpe7PHHXG4TVNI3TxdcBtBxNlafE/rzlmCmEbnc=', 10, '906038682a4007d8e6329e93de15a893fe406159b23e1fdff18f3fa12c18644d8d9d9d99f7e194b52cfa4a1ff18008a45a37f2c7ca04c26406c0be0709946846Zb3RUQUhHF7SjFcXS1bJMl6zHcfrItu+TMTMVECQuYM=', 'tủ lạnh, máy lạnh, máy giặc', 'đầy đủ tiện nghi\nsạch sẽ, thoáng mát', 'điện: 3k/kg\nnước: 100k/thnags', 'không có', 'Gần New gym, Cicle K, Lotte Mart, Bệnh Viện Bình Thạnh,..', '10.750295', '106.688079');
 INSERT INTO `posts` VALUES (76, 70, '1 Dương Bá Trạc,  Phường 01,   Quận 8,   Thành phố Hồ Chí Minh', 'room', 7, 'CHO THUÊ PHÒNG TRỌ QUẬN 8', '4ce82624eaced81a8522a0bafa59b2bb36ee0f5c531d3379b81c5ebdd4ab62bb98a3682068497edec274eb3869650256846c6487077e3920e85b8bd5955ee6ebvj2xYHfXE8Rz48k+UiN8qN5PlNyVfaexZJYf3PKcSPOoukpEgAXXTLs9Ee92XWVPaQ67/0mq4pZJEI86PBCCR+oLOSlrdqyOLZaaloDLeAcLnbhDreXB4pZ48W61dwOB9B8Bzv0xqHUFlvbkKvmpfaGrAEQRqs0r2U8IE1REE7wJ+1+9+eU415UnO7Dnr8J5/3NjH/rtx5E+AJOZZOVhCmdEycpm4xj34ghp2Cu9ckoxQHUxIN7pZpGsYyTOYSUxhbAPChq+zF7/QK8YR01Mhw==', 10, 'd216334889d8f29bf4b4babd2c3535cb3385e807ba745f9ef353b1d93544112d3be3d893b004352a7862d69c48897e6974676486efe8c516aa558601cf107622YcWimSs0lYJMH+WmY5Mj/3huJ00U6kj++WjStLkYmd0=', 'tủ lạnh, máy lạnh, máy giặc', 'đầy đủ tiện nghi\nsạch sẽ, thoáng mát', 'điện: 3k/kg\nnước: 100k/thnags', 'không có', 'Gần New gym, Cicle K, Lotte Mart, Bệnh Viện Bình Thạnh,..', '10.744892', '106.691097');
+INSERT INTO `posts` VALUES (77, 70, '123, Phường Tân Hưng, Quận 7, Thành phố Hồ Chí Minh', 'room', 4, 'PHÒNG MỚI SẠCH SẼ, AN NINH, THOÁNG MÁT CHUNG CƯ LONG SƠN MẶT TIỀN HUỲNH TẤN PHÁT , QUẬN 7.', 'ba6c70df65367e68b70a905837a8a86a3c440ca5595aed151f93c317c8c3150fe4c28d5dd6ee91692fcd31d82209bd502d5121cf3f30f0ae57ceae164e7194d6wSxj8JYQivZ5R9BXuVS6xZdzVIYLunSYXDuUZMZSqbQR8Abyd6wgreBQc4jzHmmHRMSnlO4IfPSVs2RUqPMzXjBbQKWWJVnRgkUL6wZmfqRl+qBO5PTJy/151zVmxb/M1az7CnYnWysPAZTQqPaPn+7fbiXbQcwKfJ1wCqTZOw+z1axi0KrDN0x2c+DcOA8/np1jexaw6iCWzqxsYkPTeGKUIB3XA6f8b3VoWT3xLI5599YmtCKNvE8+5KVQDC5nVHX/+/tgMGO/YIPYfJlnBkV6MshUXyR8YVKhSwOVWZg=', 20, '5022db45bf86ab1adb3cd8f20b6db3575c6ce36e88ccc007d76d5b29f895d9a5ab35a99b54913c2a449832326b75c94346cf0863c5db1b918b1f753145a7d1bbMQvXvP3dAwQicVuTUXpVhGPRj6ncF/slYhqVwrXL4W8=', 'full nội thất: tủ lạnh, máy lạnh, máy giặt', '', '', '', '', '10.751651', '106.701657');
 
 -- ----------------------------
 -- Table structure for statusPost
 -- ----------------------------
 DROP TABLE IF EXISTS `statusPost`;
 CREATE TABLE `statusPost`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `postId` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `postId` int NOT NULL,
   `dateCreateAt` date NOT NULL,
   `dateExpired` date NOT NULL,
-  `status` int(1) NOT NULL,
-  `check` int(1) NOT NULL,
+  `status` int NOT NULL,
+  `check` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 84 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
@@ -202,11 +203,11 @@ INSERT INTO `statusPost` VALUES (46, 39, '2024-06-28', '2024-09-26', 0, 1);
 INSERT INTO `statusPost` VALUES (47, 40, '2024-06-28', '2024-09-26', 0, 2);
 INSERT INTO `statusPost` VALUES (48, 41, '2024-06-28', '2024-09-26', 0, 2);
 INSERT INTO `statusPost` VALUES (49, 42, '2024-07-09', '2024-10-07', 0, 2);
-INSERT INTO `statusPost` VALUES (50, 43, '2024-07-09', '2024-10-07', 0, 1);
-INSERT INTO `statusPost` VALUES (51, 44, '2024-07-09', '2024-10-07', 0, 1);
-INSERT INTO `statusPost` VALUES (52, 45, '2024-07-09', '2024-10-07', 0, 1);
-INSERT INTO `statusPost` VALUES (53, 46, '2024-07-09', '2024-10-07', 0, 1);
-INSERT INTO `statusPost` VALUES (54, 47, '2024-07-09', '2024-10-07', 0, 1);
+INSERT INTO `statusPost` VALUES (50, 43, '2024-07-09', '2024-10-07', 0, 0);
+INSERT INTO `statusPost` VALUES (51, 44, '2024-07-09', '2024-10-07', 0, 0);
+INSERT INTO `statusPost` VALUES (52, 45, '2024-07-09', '2024-10-07', 0, 0);
+INSERT INTO `statusPost` VALUES (53, 46, '2024-05-09', '2024-08-07', 0, 1);
+INSERT INTO `statusPost` VALUES (54, 47, '2024-05-09', '2024-08-07', 0, 1);
 INSERT INTO `statusPost` VALUES (55, 48, '2024-07-09', '2024-10-07', 0, 1);
 INSERT INTO `statusPost` VALUES (56, 49, '2024-07-09', '2024-10-07', 0, 1);
 INSERT INTO `statusPost` VALUES (57, 50, '2024-07-09', '2024-10-07', 0, 1);
@@ -241,19 +242,19 @@ INSERT INTO `statusPost` VALUES (83, 76, '2024-07-16', '2024-10-14', 0, 1);
 -- ----------------------------
 DROP TABLE IF EXISTS `userAction`;
 CREATE TABLE `userAction`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL,
-  `postId` int(11) NOT NULL,
-  `countAction` int(11) NOT NULL DEFAULT 0,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `userId` int NOT NULL,
+  `postId` int NOT NULL,
+  `countAction` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 253 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 258 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of userAction
 -- ----------------------------
-INSERT INTO `userAction` VALUES (151, 70, 30, 12);
-INSERT INTO `userAction` VALUES (152, 70, 39, 10);
-INSERT INTO `userAction` VALUES (153, 70, 31, 11);
+INSERT INTO `userAction` VALUES (151, 70, 30, 10);
+INSERT INTO `userAction` VALUES (152, 70, 39, 11);
+INSERT INTO `userAction` VALUES (153, 70, 31, 10);
 INSERT INTO `userAction` VALUES (154, 70, 40, 10);
 INSERT INTO `userAction` VALUES (155, 71, 30, 10);
 INSERT INTO `userAction` VALUES (156, 71, 61, 10);
@@ -347,136 +348,64 @@ INSERT INTO `userAction` VALUES (243, 94, 29, 10);
 INSERT INTO `userAction` VALUES (244, 94, 32, 10);
 INSERT INTO `userAction` VALUES (245, 94, 28, 10);
 INSERT INTO `userAction` VALUES (246, 94, 59, 10);
-INSERT INTO `userAction` VALUES (251, 70, 28, 7);
-INSERT INTO `userAction` VALUES (252, 70, 60, 2);
+INSERT INTO `userAction` VALUES (251, 70, 28, 4);
+INSERT INTO `userAction` VALUES (252, 70, 42, 2);
+INSERT INTO `userAction` VALUES (253, 70, 43, 1);
+INSERT INTO `userAction` VALUES (254, 70, 48, 1);
+INSERT INTO `userAction` VALUES (255, 70, 50, 1);
+INSERT INTO `userAction` VALUES (256, 70, 44, 1);
+INSERT INTO `userAction` VALUES (257, 70, 33, 1);
 
 -- ----------------------------
 -- Table structure for userLikes
 -- ----------------------------
 DROP TABLE IF EXISTS `userLikes`;
 CREATE TABLE `userLikes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL,
-  `postId` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `userId` int NOT NULL,
+  `postId` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 636 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 80 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of userLikes
 -- ----------------------------
-INSERT INTO `userLikes` VALUES (106, 87, 59);
-INSERT INTO `userLikes` VALUES (114, 92, 47);
-INSERT INTO `userLikes` VALUES (134, 70, 30);
-INSERT INTO `userLikes` VALUES (135, 70, 61);
-INSERT INTO `userLikes` VALUES (150, 70, 39);
-INSERT INTO `userLikes` VALUES (175, 70, 31);
-INSERT INTO `userLikes` VALUES (187, 71, 28);
-INSERT INTO `userLikes` VALUES (189, 71, 32);
-INSERT INTO `userLikes` VALUES (191, 71, 39);
-INSERT INTO `userLikes` VALUES (194, 71, 40);
-INSERT INTO `userLikes` VALUES (195, 71, 29);
-INSERT INTO `userLikes` VALUES (206, 72, 57);
-INSERT INTO `userLikes` VALUES (207, 72, 47);
-INSERT INTO `userLikes` VALUES (208, 72, 30);
-INSERT INTO `userLikes` VALUES (211, 72, 29);
-INSERT INTO `userLikes` VALUES (230, 73, 49);
-INSERT INTO `userLikes` VALUES (232, 73, 51);
-INSERT INTO `userLikes` VALUES (233, 73, 32);
-INSERT INTO `userLikes` VALUES (235, 73, 30);
-INSERT INTO `userLikes` VALUES (236, 73, 31);
-INSERT INTO `userLikes` VALUES (237, 73, 29);
-INSERT INTO `userLikes` VALUES (254, 74, 29);
-INSERT INTO `userLikes` VALUES (255, 74, 28);
-INSERT INTO `userLikes` VALUES (256, 74, 51);
-INSERT INTO `userLikes` VALUES (257, 74, 50);
-INSERT INTO `userLikes` VALUES (272, 75, 47);
-INSERT INTO `userLikes` VALUES (273, 75, 46);
-INSERT INTO `userLikes` VALUES (274, 75, 45);
-INSERT INTO `userLikes` VALUES (277, 75, 43);
-INSERT INTO `userLikes` VALUES (278, 75, 44);
-INSERT INTO `userLikes` VALUES (306, 76, 45);
-INSERT INTO `userLikes` VALUES (307, 76, 30);
-INSERT INTO `userLikes` VALUES (308, 76, 44);
-INSERT INTO `userLikes` VALUES (309, 76, 43);
-INSERT INTO `userLikes` VALUES (355, 77, 30);
-INSERT INTO `userLikes` VALUES (356, 77, 58);
-INSERT INTO `userLikes` VALUES (357, 77, 57);
-INSERT INTO `userLikes` VALUES (358, 77, 56);
-INSERT INTO `userLikes` VALUES (389, 78, 56);
-INSERT INTO `userLikes` VALUES (390, 78, 57);
-INSERT INTO `userLikes` VALUES (391, 78, 58);
-INSERT INTO `userLikes` VALUES (406, 79, 41);
-INSERT INTO `userLikes` VALUES (407, 79, 42);
-INSERT INTO `userLikes` VALUES (408, 79, 40);
-INSERT INTO `userLikes` VALUES (409, 79, 39);
-INSERT INTO `userLikes` VALUES (415, 80, 51);
-INSERT INTO `userLikes` VALUES (416, 80, 32);
-INSERT INTO `userLikes` VALUES (417, 80, 33);
-INSERT INTO `userLikes` VALUES (418, 80, 52);
-INSERT INTO `userLikes` VALUES (427, 81, 32);
-INSERT INTO `userLikes` VALUES (428, 81, 28);
-INSERT INTO `userLikes` VALUES (429, 81, 29);
-INSERT INTO `userLikes` VALUES (430, 81, 30);
-INSERT INTO `userLikes` VALUES (440, 82, 59);
-INSERT INTO `userLikes` VALUES (441, 82, 43);
-INSERT INTO `userLikes` VALUES (442, 82, 42);
-INSERT INTO `userLikes` VALUES (455, 83, 62);
-INSERT INTO `userLikes` VALUES (456, 83, 39);
-INSERT INTO `userLikes` VALUES (457, 83, 31);
-INSERT INTO `userLikes` VALUES (461, 84, 60);
-INSERT INTO `userLikes` VALUES (477, 84, 61);
-INSERT INTO `userLikes` VALUES (478, 84, 62);
-INSERT INTO `userLikes` VALUES (479, 84, 63);
-INSERT INTO `userLikes` VALUES (480, 84, 31);
-INSERT INTO `userLikes` VALUES (481, 84, 28);
-INSERT INTO `userLikes` VALUES (510, 85, 55);
-INSERT INTO `userLikes` VALUES (511, 85, 56);
-INSERT INTO `userLikes` VALUES (512, 85, 58);
-INSERT INTO `userLikes` VALUES (513, 85, 57);
-INSERT INTO `userLikes` VALUES (540, 86, 56);
-INSERT INTO `userLikes` VALUES (541, 86, 57);
-INSERT INTO `userLikes` VALUES (542, 86, 58);
-INSERT INTO `userLikes` VALUES (543, 86, 51);
-INSERT INTO `userLikes` VALUES (544, 86, 50);
-INSERT INTO `userLikes` VALUES (554, 88, 42);
-INSERT INTO `userLikes` VALUES (555, 88, 39);
-INSERT INTO `userLikes` VALUES (556, 88, 40);
-INSERT INTO `userLikes` VALUES (580, 89, 32);
-INSERT INTO `userLikes` VALUES (581, 89, 51);
-INSERT INTO `userLikes` VALUES (582, 89, 48);
-INSERT INTO `userLikes` VALUES (595, 90, 52);
-INSERT INTO `userLikes` VALUES (596, 90, 32);
-INSERT INTO `userLikes` VALUES (597, 90, 51);
-INSERT INTO `userLikes` VALUES (598, 90, 49);
-INSERT INTO `userLikes` VALUES (599, 91, 30);
-INSERT INTO `userLikes` VALUES (600, 91, 29);
-INSERT INTO `userLikes` VALUES (601, 91, 28);
-INSERT INTO `userLikes` VALUES (602, 91, 31);
-INSERT INTO `userLikes` VALUES (603, 92, 30);
-INSERT INTO `userLikes` VALUES (604, 92, 28);
-INSERT INTO `userLikes` VALUES (605, 92, 29);
-INSERT INTO `userLikes` VALUES (606, 92, 31);
-INSERT INTO `userLikes` VALUES (619, 93, 45);
-INSERT INTO `userLikes` VALUES (622, 93, 30);
-INSERT INTO `userLikes` VALUES (623, 93, 40);
-INSERT INTO `userLikes` VALUES (624, 94, 55);
-INSERT INTO `userLikes` VALUES (625, 94, 56);
-INSERT INTO `userLikes` VALUES (626, 94, 57);
-INSERT INTO `userLikes` VALUES (627, 94, 53);
-INSERT INTO `userLikes` VALUES (629, 95, 41);
-INSERT INTO `userLikes` VALUES (630, 95, 40);
-INSERT INTO `userLikes` VALUES (631, 95, 39);
-INSERT INTO `userLikes` VALUES (634, 95, 42);
-INSERT INTO `userLikes` VALUES (635, 70, 28);
+INSERT INTO `userLikes` VALUES (41, 71, 31);
+INSERT INTO `userLikes` VALUES (42, 71, 39);
+INSERT INTO `userLikes` VALUES (44, 71, 40);
+INSERT INTO `userLikes` VALUES (52, 70, 39);
+INSERT INTO `userLikes` VALUES (54, 70, 28);
+INSERT INTO `userLikes` VALUES (56, 70, 65);
+INSERT INTO `userLikes` VALUES (57, 70, 67);
+INSERT INTO `userLikes` VALUES (58, 72, 45);
+INSERT INTO `userLikes` VALUES (59, 72, 46);
+INSERT INTO `userLikes` VALUES (60, 72, 71);
+INSERT INTO `userLikes` VALUES (62, 73, 29);
+INSERT INTO `userLikes` VALUES (63, 70, 68);
+INSERT INTO `userLikes` VALUES (64, 74, 31);
+INSERT INTO `userLikes` VALUES (65, 74, 73);
+INSERT INTO `userLikes` VALUES (66, 74, 74);
+INSERT INTO `userLikes` VALUES (67, 75, 50);
+INSERT INTO `userLikes` VALUES (68, 75, 58);
+INSERT INTO `userLikes` VALUES (69, 75, 69);
+INSERT INTO `userLikes` VALUES (70, 75, 70);
+INSERT INTO `userLikes` VALUES (71, 76, 28);
+INSERT INTO `userLikes` VALUES (72, 77, 45);
+INSERT INTO `userLikes` VALUES (73, 77, 46);
+INSERT INTO `userLikes` VALUES (74, 78, 73);
+INSERT INTO `userLikes` VALUES (75, 78, 74);
+INSERT INTO `userLikes` VALUES (76, 79, 50);
+INSERT INTO `userLikes` VALUES (77, 79, 58);
+INSERT INTO `userLikes` VALUES (78, 79, 69);
 
 -- ----------------------------
 -- Table structure for userNotifications
 -- ----------------------------
 DROP TABLE IF EXISTS `userNotifications`;
 CREATE TABLE `userNotifications`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL,
-  `postId` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `userId` int NOT NULL,
+  `postId` int NOT NULL,
   `message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `isRead` tinyint(1) NULL DEFAULT 0,
   `createAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -517,38 +446,39 @@ INSERT INTO `userNotifications` VALUES (30, 72, 63, 'Johny Deep, Bài viết CHO
 -- ----------------------------
 DROP TABLE IF EXISTS `userToken`;
 CREATE TABLE `userToken`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `userId` int NOT NULL,
   `token` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `create_at` datetime NOT NULL,
   `expires_at` datetime NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of userToken
 -- ----------------------------
 INSERT INTO `userToken` VALUES (2, 70, 'e44979878c8ca0af47779a83c29f89a9', '2024-06-19 17:51:26', '2024-06-19 17:56:26');
+INSERT INTO `userToken` VALUES (3, 96, 'ee25290f534b3370356df1aea2be994e', '2024-08-18 20:28:23', '2024-08-18 20:33:23');
 
 -- ----------------------------
 -- Table structure for users
 -- ----------------------------
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `email` varchar(191) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `password` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `phone` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `role` int(1) NOT NULL,
+  `role` int NOT NULL,
   `avatar` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 96 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 97 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (70, 'Admin', 'tnp08032000@gmail.com', '927275d62db71f8aa89fe2b6fa8c93164b397f3e406b56536fd49ac330b15f331a64813da1a9de71592b7e4d0cfa5167b889618665cf1d42916509d1a8c0523eGaqcBK+NBxZvcDHUHyOwIjWiMIagUT2GhD609gLx5E8=', 'a8553a6ec45e30e02606ee4086c52d06b1a130bd5b7b55a587b7f03eb3aa21cc9d1d43c002af54901a3a5aa79fc5895373a5041b4854162f543d0597f404a8b0CmSTaBREpnLzNEBwExDu4jJq4T5awNVpv8h58FGcn1o=', 1, 'b7a530f02e5acf7daa586902fca11313de112f51b2460f775c963dd07479a42ec389d3ad168d52daa2e3c534a63f986d77e4c3fc65ae2726f2bc65f5891f38d4w1RFH9xj/KU2K02M3F/yKrG/twvDKYUoqvcWoRJ6bKzWjBtJS9mVPszoEPoQRCTddy3aZ6W5/6oqg7/JgqVJCRUGkdTd3foyDujfxrETZVaiJUqIQFgqkbqohe7CmiqcCcVvGHUiBv2+0TUgjIzmiQ==');
+INSERT INTO `users` VALUES (70, 'Admin', 'tnp08032000@gmail.com', '927275d62db71f8aa89fe2b6fa8c93164b397f3e406b56536fd49ac330b15f331a64813da1a9de71592b7e4d0cfa5167b889618665cf1d42916509d1a8c0523eGaqcBK+NBxZvcDHUHyOwIjWiMIagUT2GhD609gLx5E8=', '306bd86ff9bed14c0fb1f0d7a7fb8e069382d524974f9f181f30741b95bd528f285452c8cc85740a6d4578c7774f30474ddb5343d78545bac582798b153ecfc2MFg+Uou+PqoKymQTqXi7j3LCcZN9jD8IKSlAI9uDlXg=', 1, 'ffc04c09c1750ad32c1aafa4da7c4593bf56410d4bb2f515d46cc10855d98eb49cca902eaa3f589bd7dbda5fd02004f4a06f7e378003d6a909cd1243b6ac3205hT8Jvl3pZw+BZnTf5ZJ/9E2GgsLeGrm2Z23n+q3gZ62gUijmo4q9r54CyGJOWk6oNkGaglFx1/SZr9c7pPNOYOvFHdajIPb/DcMmknZKjvxRVyKy7rQp4vb5VUCrEGx/keQJrSK3Pp8zWm2Spt12LkZjkgwZujyKin42bJl6pRg=');
 INSERT INTO `users` VALUES (71, 'Thái Ngọc Phú', 'thaingocphu0803@gmail.com', 'e8c55ab5800370e215b97f0e52401568acf9293b10ef75a774f585ff210ffe84dafb41d7ad30bc20cbaf57dbc3d098ef8379d0eed3cffcbd2385774c544b7055Jl+7uLDNDOm7u7Hp4W+mEqSv3Btj2sHIMsKND35pFCE=', '16ee175feff21a211fb25f2c98e5d0d7e2ed6559472030b688d0e69695127076af9832d199a6efd4e8d2bf9c2343037d19a7edb12edd3065101e280447c4bd7dOPBpknWHqlTD/siiQjXzR58KZ9oE+uOC0WW5dNn1C9s=', 0, '7243334c346cbe02f22025541cbc2532ffb70e0184ffa875a8668dc8cf1c795d2064eb99fcbff68dafea7e02ed1da93a6735bbc1ac05443195f34b1da1c1110bHfw3IhphR/5zZFdV1Fx0lQaGUi0UNHDbePy4YiI9jEZGo/pkiTw5WfyX0BTxjLkdWD7/LxNRW0BFnz6xnFf2B+oOOqWtSmmGaN1KM4gEppFieoiH09TJQvxGvUqCTCUPoQo/EY8mvUGfdpT7LYeBUFHbNWsXzphPgzgNhHtIKdFL9LQvlN1zLslwiAmBexE+');
 INSERT INTO `users` VALUES (72, 'Johny Deep', 'johny@gmail.com', 'c638ae3992d1617a1c4ddc35a0e6bdf137f029dc1bf315454aafdec4d1fd1fc351ac1b153c7cecdc805ea87bda63b0bf82e4ad4ced7e41eb822b65d0c2a3becaLJf6WrZNeiOwR3qfVvjE2ZX0AP4MuLpLTsl5bSYTzyc=', 'f6e57e47b02b37f6fcfd73e5e9af03da43e4cf7629859b239981e9e6767ca3c83ff525f0d0c9058660bd3b056f033c84bd195ccaaa5d4651c28d810c08d8a621HN6UmcvpYkZJQimu6otxS+94G6vf+AnFQ8WYuqnJdNM=', 0, NULL);
 INSERT INTO `users` VALUES (73, 'Metro Boomin', 'metro@gmail.com', '845d9def1fed8abf6d2235f7688f8ab1eaddbd0536b6783937f8198a53ab75dab7745a9adca7a977a5b2342c9d10f5ec178863a67e50ac4c970e6b1e72f31639wNWgJc5M74VF/wKdzmXV7B1j4fXZgY60mtwZQIv94L4=', 'dd23b06c48715b62933bdd1dfc3175d59843aa73cef74e411e1934199a196eefdeb4e496d3dfb405960bcf089d2feba9a0165774482acfb57b681b8d65c3201bLzYUiNbvrVWrS6agfbDbpDLaPqtLCN3PH6+cgC5AwgM=', 0, NULL);
@@ -574,5 +504,6 @@ INSERT INTO `users` VALUES (92, 'shiba', 'shiba@gmail.com', '00fbb8c8bb762fc40dc
 INSERT INTO `users` VALUES (93, 'rudy', 'rudy@gmail.com', '69669a01b8901041ce02b66135ab8745810573d3bdde8a6028b7ed1b6cb2281fd366a73e26a68337c49d0ef28d71f5f9e9e0bb0bbeca31f27ec0caadea1f8536hyIyEjEc9/GjmUviF1Ue8jtijQSXhitvJM2GAsuG3B8=', 'f3d0c1baec494297d24520815d411b2c805babf3f0f04fa62d3b03c42acdcd096521040b1bc2d17c85095b59f89d827c6567d377f01abe48a54716ae2f6f4dacnMFmSCBfnJeYcX648N9Ruqq+SuZvpoOM0ORQriGTkhA=', 0, NULL);
 INSERT INTO `users` VALUES (94, 'silva', 'silva@gmail.com', '7787ecdd93b87a62c91deeb9e308bf477e6afd5fc385b0275c25e7884ba709fbf3afe319ceee7a9618a1f392585ba90cf3fc381b28d9b24d8d0b8817e58dad1cT3FutJM4xgZBUNl2hF/MBZcbAcp+FDJrv4rmZRmpbCw=', '32e36b49060f1d664d6f2cbcfb453bbc1206562f067771e97f8944bd97b94ebc3d950430a81cebc291468861c4df14dac42925ab21e9b10a324484a65b07e23cZ+mJGf5y/PdFM5awQMv4nNSFW59KHljOWhDjZRiyowY=', 0, NULL);
 INSERT INTO `users` VALUES (95, 'vini', 'vini@gmail.com', '56eafb1a897b63fac48108513a684de9be872021e27c73b0a4634e6ab0f723f265e1d5ec2164c0aa9c672b0e9cd03466999eebb610dee2a36c7e5e48a6a816d0FEZKRB35TE/d8js9EkT3CsH2Vvh66nHmslKmcgHEsHI=', '12defba9c4d99f0b7d54bb8c0520daeebbe8fdcdaa7950b5c5d59a427f17364953b7575cb6a09bfe923fd2f54d3ec7ff68c5a6d1931ada1d980285cddd555721T31KgWpfUtA9jrHPnahExbH8KsugdAZMZHmDZIZhFfc=', 0, NULL);
+INSERT INTO `users` VALUES (96, 'anhnguyen1312', 'alnguyen00000@gmail.com', '3a08b0ec11ed99bbbd86ff9d3b8ea51aeccac5f328a9820fbcd3e7da592e6cb97156c9d8c72abe9ec9817f5bed8df02a5c805d33dcbf49149095c10f49153978C68pIzUVbJW20x79l1evu+uMdjsKHO7eFrplAvS8Q24=', '8084080aa4f5c41d2f1959b34e2e7027fe7df4f89c9ddad0cba2812cc7644643f87c0cab2232efa1f60d8da6ce2c6f188aa6cbbfe8b7f65d02d0e93da4e60a2bqXgcPa4iCteZIsxR4lENiLDz9rqbXxPmnOORwC1JjN4=', 0, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

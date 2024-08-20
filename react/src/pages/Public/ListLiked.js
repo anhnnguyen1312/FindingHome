@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { CardProduct, Search } from "../../components/index";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,10 +6,10 @@ import { Pagination } from "antd";
 import no_data_img from "../../assets/images/no-data-icon-10.png";
 import checkPrice from "../../components/checkPrice";
 import checkArea from "../../components/checkArea";
-import {callApiListLikePost} from "../../api/getPostApi"
+import { callApiListLikePost } from "../../api/getPostApi";
 import { jwtDecode } from "jwt-decode";
 
-const ListLiked = ({type}) => {
+const ListLiked = ({ type }) => {
   const [button, setButton] = useState(false);
   const [buttonFilterClick, setButtonFilterClick] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -17,12 +17,10 @@ const ListLiked = ({type}) => {
   const [postData, setPostData] = useState([]);
   const [searchButtonClick, setSearchButtonClick] = useState(false);
 
-
   const [searchData, setSearchData] = useState();
   const [listLikedPost, setListLikedPost] = useState([]);
 
   const stateAuth = useSelector((state) => state.auth);
-
 
   const savedPageKey = `currentPage"}`;
   const initialPage = parseInt(localStorage.getItem(savedPageKey)) || 1;
@@ -32,20 +30,19 @@ const ListLiked = ({type}) => {
   const dispatch = useDispatch();
   const pageSize = 5;
 
-  useEffect(()=>{
-    fetchListLikedPost()
-  },[])
+  useEffect(() => {
+    fetchListLikedPost();
+  }, []);
 
-  const fetchListLikedPost = async () =>{
-    const userId = stateAuth.data.userId
-    const response = await callApiListLikePost(userId)
-    if(response.data.token){
-
-        const token = response.data.token;
-        const decodetoken = token.map((token) => jwtDecode(token));
-        setListLikedPost(decodetoken)
+  const fetchListLikedPost = async () => {
+    const userId = stateAuth.data.userId;
+    const response = await callApiListLikePost(userId);
+    if (response.data.token) {
+      const token = response.data.token;
+      const decodetoken = token.map((token) => jwtDecode(token));
+      setListLikedPost(decodetoken);
     }
-} 
+  };
 
   useEffect(() => {
     const allPosts = Object.values(listLikedPost).flat();
@@ -153,7 +150,7 @@ const ListLiked = ({type}) => {
         <div className="xl:flex-[80%] flex flex-col gap-[10px] p-[5px] ">
           <div className="flex items-center justify-between mt-[5vh]">
             <h1 className="xl:mb-[24px] text-[30px] font-semibold text-rose-500">
-              Danh Sách Bài Đăng
+              Danh Sách Bài Đăng Đã Thích
             </h1>
           </div>
 

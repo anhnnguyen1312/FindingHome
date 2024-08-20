@@ -25,10 +25,7 @@ import mapboxgl from "mapbox-gl";
 const VietMap = ({ lat, lng, address, setPlaces }) => {
   const [showPopupAddress, setShowPopupAddress] = useState(true);
   const [showPopup, setShowPopup] = useState(true);
-  const [showPopupIcon, setShowPopupIcon] = useState(true);
-
   const [showIconPlaces, setShowIconPlaces] = useState(true);
-
   const [markerAddress, setMarkerAddress] = useState({
     latitude: null,
     longitude: null,
@@ -49,8 +46,6 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
     charging: [],
   });
   const [marker, setMarker] = useState();
-  const [confirmed, setConfirmed] = useState(false);
-
   const [viewState, setViewState] = useState({
     latitude: 0,
     longitude: 0,
@@ -131,7 +126,6 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
     map.addControl(geocoder);
 
     geocoder.on("result", (event) => {
-      setConfirmed(true);
       setMarker({
         latitude: event.result.geometry.coordinates[1],
         longitude: event.result.geometry.coordinates[0],
@@ -150,22 +144,21 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
       setMarker(null);
     });
   };
-  const geocodingMapbox = () => {
-    axios
-      .get(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${marker.longitude},${marker.latitude}.json?access_token=${MAPBOX_TOKEN}`
-      )
-      .then((res) => {
-        const { data } = res;
-        console.log("res", res);
-        console.log("data", data);
-        setMarker((prevState) => ({
-          ...prevState,
-          ["place_name"]: data.features[0].place_name,
-        }));
-        setConfirmed(true);
-      });
-  };
+  // const geocodingMapbox = () => {
+  //   axios
+  //     .get(
+  //       `https://api.mapbox.com/geocoding/v5/mapbox.places/${marker.longitude},${marker.latitude}.json?access_token=${MAPBOX_TOKEN}`
+  //     )
+  //     .then((res) => {
+  //       const { data } = res;
+  //       console.log("res", res);
+  //       console.log("data", data);
+  //       setMarker((prevState) => ({
+  //         ...prevState,
+  //         ["place_name"]: data.features[0].place_name,
+  //       }));
+  //     });
+  // };
   const geocodingVietMap = () => {
     axios
       .get(
@@ -177,7 +170,6 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
           ...prevState,
           ["place_name"]: data,
         }));
-        setConfirmed(true);
       });
   };
 
@@ -337,8 +329,6 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
                 offsetTop={-30}
                 draggable={true}
                 onDragEnd={(event) => {
-                  console.log("đragend", event);
-                  setConfirmed(false);
                   setMarker({
                     latitude: event.lngLat.lat,
                     longitude: event.lngLat.lng,
@@ -379,7 +369,7 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
               onClick={() => setShowPopupAddress(true)}
               className=" text-rose-600"
             >
-              <img className="w-[40px]" src={pin}></img>
+              <img className="w-[40px]" alt="" src={pin}></img>
 
               {/* <i className="fa-solid fa-location-dot text-4xl"></i> */}
             </div>
@@ -398,12 +388,8 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
                   <Tooltip
                     title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
                   >
-                    <div
-                      onClick={() => setShowPopupIcon(true)}
-                      // className=" text-rose-600"
-                    >
-                      {/* <i class="fa-solid fa-circle-h text-2xl"></i> */}
-                      <img className="w-[40px]" src={hospital}></img>
+                    <div>
+                      <img className="w-[40px]" alt="" src={hospital}></img>
                     </div>
                   </Tooltip>
                 </Marker>
@@ -422,11 +408,8 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
                   <Tooltip
                     title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
                   >
-                    <div
-                    // onClick={() => setShowPopupIcon(true)}
-                    // className=" text-rose-600 "
-                    >
-                      <img className="w-[40px]" src={education}></img>
+                    <div>
+                      <img className="w-[40px]" alt="" src={education}></img>
                     </div>
                   </Tooltip>
                 </Marker>
@@ -446,11 +429,8 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
                   <Tooltip
                     title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
                   >
-                    <div
-                    // onClick={() => setShowPopupIcon(true)}
-                    // className=" text-rose-600 "
-                    >
-                      <img className="w-[40px]" src={univer}></img>
+                    <div>
+                      <img className="w-[40px]" alt="" src={univer}></img>
                     </div>
                   </Tooltip>
                 </Marker>
@@ -471,33 +451,13 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
                     title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
                   >
                     <div className=" text-rose-600 ">
-                      <img className="w-[40px]" src={shopping}></img>
+                      <img className="w-[40px]" alt="" src={shopping}></img>
                     </div>
                   </Tooltip>
                 </Marker>
               </>
             ))}
-          {showIconPlaces &&
-            placesNearby.relax &&
-            placesNearby.relax.map((place, index) => (
-              <>
-                <Marker
-                  key={index}
-                  latitude={place?.lat}
-                  longitude={place?.lng}
-                  offsetLeft={-20}
-                  offsetTop={-30}
-                >
-                  <Tooltip
-                    title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
-                  >
-                    <div className=" text-rose-600 ">
-                      <img className="w-[40px]" src={coffee - shop}></img>
-                    </div>
-                  </Tooltip>
-                </Marker>
-              </>
-            ))}
+
           {showIconPlaces &&
             placesNearby.historical &&
             placesNearby.historical.map((place, index) => (
@@ -513,7 +473,7 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
                     title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
                   >
                     <div className=" text-rose-600 ">
-                      <img className="w-[40px]" src={historical}></img>
+                      <img alt="" className="w-[40px]" src={historical}></img>
                     </div>
                   </Tooltip>
                 </Marker>
@@ -534,33 +494,13 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
                     title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
                   >
                     <div className=" text-rose-600 ">
-                      <img className="w-[40px]" src={police}></img>
+                      <img className="w-[40px]" alt="" src={police}></img>
                     </div>
                   </Tooltip>
                 </Marker>
               </>
             ))}
-          {showIconPlaces &&
-            placesNearby.relax &&
-            placesNearby.relax.map((place, index) => (
-              <>
-                <Marker
-                  key={index}
-                  latitude={place?.lat}
-                  longitude={place?.lng}
-                  offsetLeft={-20}
-                  offsetTop={-30}
-                >
-                  <Tooltip
-                    title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
-                  >
-                    <div className=" text-rose-600 ">
-                      <img className="w-[40px]" src={coffee - shop}></img>
-                    </div>
-                  </Tooltip>
-                </Marker>
-              </>
-            ))}
+
           {showIconPlaces &&
             placesNearby.charging &&
             placesNearby.charging.map((place, index) => (
@@ -576,7 +516,11 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
                     title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
                   >
                     <div className=" text-rose-600 ">
-                      <img className="w-[40px]" src={charging_station}></img>
+                      <img
+                        className="w-[40px]"
+                        alt=""
+                        src={charging_station}
+                      ></img>
                     </div>
                   </Tooltip>
                 </Marker>
@@ -597,7 +541,7 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
                     title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
                   >
                     <div className=" text-rose-600 ">
-                      <img className="w-[40px]" src={parking}></img>
+                      <img className="w-[40px]" alt="" src={parking}></img>
                     </div>
                   </Tooltip>
                 </Marker>
@@ -618,7 +562,7 @@ const VietMap = ({ lat, lng, address, setPlaces }) => {
                     title={`Khoảng cách: ${place?.distance.toFixed(2)} km            Địa chỉ: ${place.display} `}
                   >
                     <div className=" text-rose-600 ">
-                      <img className="w-[50px]" src={bus3}></img>
+                      <img className="w-[50px]" alt="" src={bus3}></img>
                     </div>
                   </Tooltip>
                 </Marker>
