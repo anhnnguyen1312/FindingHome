@@ -222,16 +222,17 @@ const UpdateUserProfile = ({
         text: "update thông tin thành công",
         icon: "success",
         timer: 3000,
-      }).then(() => {
-        setPasswordForm({
-          oldPassword: "",
-          newPassword: "",
-        });
-        setUserData((prevState) => ({
-          ...prevState,
-          newPs: "",
-        }));
-      });
+      }).then(() => window.location.reload());
+      // .then(() => {
+      //   setPasswordForm({
+      //     oldPassword: "",
+      //     newPassword: "",
+      //   });
+      //   setUserData((prevState) => ({
+      //     ...prevState,
+      //     newPs: "",
+      //   }));
+      // });
     }
 
     dispatch(updateUserActionAccess());

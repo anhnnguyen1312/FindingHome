@@ -16,6 +16,9 @@ import { postAction } from "../../redux/store/action/postAction";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { path } from "../../ultils/path";
+import { callApiUserList } from "../../api/getUserListAdmin";
+import { jwtDecode } from "jwt-decode";
+
 const Post = ({ isManagePage, check, isExpired }) => {
   const [button, setButton] = useState(false);
   const [searchButtonClick, setSearchButtonClick] = useState(false);
@@ -24,6 +27,7 @@ const Post = ({ isManagePage, check, isExpired }) => {
   const [currentPosts, setCurrentPosts] = useState([]);
   const [postData, setPostData] = useState([]);
   const [currentPostData, setCurrentPostData] = useState([]);
+  const [userList, setUserList] = useState([]);
 
   // const [typePostClick, setTypePostClick] = useState({ type: "tất cả" });
   const [typePostClick, setTypePostClick] = useState({ type: "tất cả" });
@@ -65,9 +69,33 @@ const Post = ({ isManagePage, check, isExpired }) => {
     }
   }, [posts, searchData]);
 
+  useEffect(() => {
+    const handleCallApi = async () => {
+      try {
+        const response = await callApiUserList();
+        if (response.data.token) {
+          const decodeToken = response.data.token.map(jwtDecode);
+          setUserList(decodeToken);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    handleCallApi();
+  }, []);
+  console.log("userList", userList);
+
+  const handleCounAdmin = () => {
+    const AdminCount = userList.filter((user) => user.userRole === "1");
+    return AdminCount.length;
+  };
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+  // const handleCountAdmin = () => {
+  //   const adminCount = posts.filter((post) => post.userRole === "1");
+  //   return adminCount.length;
+  // };
 
   const handleOnChangeSearchInput = (e) => {
     setSearchInput(e.target.value);
@@ -427,7 +455,7 @@ const Post = ({ isManagePage, check, isExpired }) => {
 						dark-focus:text-green-200 dark-focus:border-green-200
 						transition duration-500 ease-in-out flex"
               >
-                <p className="text-rose-600 pr-[5px]">{posts.length}</p>
+                <p className="text-rose-600 pr-[5px]">{userList?.length}</p>
                 Người dùng
               </Link>
 
@@ -439,7 +467,9 @@ const Post = ({ isManagePage, check, isExpired }) => {
 						dark-focus:text-green-200 dark-focus:border-green-200
 						transition duration-500 ease-in-out flex"
               >
-                <p className="text-rose-600 pr-[5px]">{posts.length}</p>
+                <p className="text-rose-600 pr-[5px]">
+                  {userList && handleCounAdmin()}
+                </p>
                 Admin
               </Link>
             </div>

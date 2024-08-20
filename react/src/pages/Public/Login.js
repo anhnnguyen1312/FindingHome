@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { InputGroup } from "../../components";
 import { useNavigate, useLocation } from "react-router-dom";
 import { path } from "../../ultils/path";
-import Button from "../../components/Button";
+import { Loading, Button } from "../../components/index";
 import swal from "sweetalert";
 import {
   registerAction,
@@ -26,6 +26,7 @@ export default function Login() {
     useLocate.state?.stateIsForgotPassword
   );
   const [isInvalid, setIsInvalid] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     phone: "",
     name: "",
@@ -51,7 +52,7 @@ export default function Login() {
         timer: 2000,
       });
       stateAuth.data.role === "1"
-        ? usenavi(`${path.MANAGE_POST_SYSTEM}`)
+        ? usenavi(`system/manage-post-system`)
         : usenavi(`${path.HOME}`);
     }
   }, [stateAuth.isLoggedIn]);
@@ -188,7 +189,9 @@ export default function Login() {
     });
     setIsInvalid([]);
   };
+  console.log("loading", loading);
   const handleSubmit = async () => {
+    setLoading(true);
     let apiData =
       isResgister || isForgotPassword
         ? formData
@@ -206,11 +209,14 @@ export default function Login() {
             ? dispatch(forgotPasswordAction(apiData))
             : dispatch(loginAction(apiData));
       }
+      setLoading(false);
     }
+    setLoading(false);
   };
   return (
     <div className="flex w-full h-full justify-center items-center">
       <div className="w-[30rem] min-h-28 px-6 py-8 text-center border-[#1dbfaf] bg-white border rounded-sm m-6 self-center">
+        {loading && <Loading />}
         <h1 className="text-3xl font-[600] mb-[1rem]">
           {isResgister
             ? "Đăng ký"

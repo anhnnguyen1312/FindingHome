@@ -7,6 +7,7 @@ import { removeAuthToken } from "../../api/cookieServices";
 import { logoutAction } from "../../redux/store/action/authenAction";
 import logo from "../../assets/images/logo.jpg";
 import { checkAuthenToken } from "../../api/cookieServices";
+import swal from "sweetalert";
 
 const SideBarSystem = () => {
   checkAuthenToken();
@@ -314,11 +315,13 @@ const SideBarSystem = () => {
 
       <header className="lg:hidden text-gray-300 bg-[#374151] flex w-full  relative mx-auto  flex-col overflow-hidden px-8 py-2 lg:flex-row lg:items-center">
         <Link
-          to={path.HOME}
+          // to={path.HOME}
           className="flex items-center whitespace-nowrap text-2xl text-gray-300"
         >
           <span className="mr-2 w-10">
-            <img src={logo} alt="findingHouse" className="rounded-full" />
+            <Link to={path.HOME}>
+              <img src={logo} alt="findingHouse" className="rounded-full" />
+            </Link>
           </span>
           <p className="text-xs text-gray-300">{stateAuth.data.name}</p>
         </Link>

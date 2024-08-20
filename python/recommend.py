@@ -25,11 +25,10 @@ try:
         print('recommned Kết nối thành công vào Database')
 
     query1 = 'SELECT * FROM userAction'
-    query2 = 'SELECT id, typeRoom, price, area FROM posts'
-
+    #query2 = 'SELECT id, typeRoom, price, area FROM posts'
+    query2='SELECT posts.id as id, posts.typeRoom as typeRoom, posts.price as price, posts.area as area FROM posts JOIN statusPost On posts.id = statusPost.postId Where statusPost.check = 1 and statusPost.status = 0'
     user_interactions = pd.read_sql_query(query1, conn)
     posts_info = pd.read_sql_query(query2, conn)
-
     posts_info['content'] = posts_info['typeRoom'] + ' ' + posts_info['price'].astype(str) + ' ' + posts_info['area'].astype(str)
 
     tfidf = TfidfVectorizer(stop_words='english')
