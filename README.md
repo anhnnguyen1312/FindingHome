@@ -8,22 +8,26 @@
   </a>
 </p>
 
+
+
 ## A FINDING HOME RESPONSIVE WEBSITE WITH INTERGRATED RECOMMENDATION SYSTEM
 
 This website is designed to help users easily **find rooms** according to their needs. 
 Additionally, users can **receive suggestions** for rooms. Furthermore, users can **find rooms through a map** and **view nearby amenities**
 
+
 # :key:Table of contents
 
-:arrow_right:1.[Introduction](https://github.com/hillaryfraley/jobbriefings#purpose)
+:arrow_right:1.[Introduction](https://github.com/anhnnguyen1312/FindingHome/blob/main/README.md#clipboardintroduction)
 
-:arrow_right:2.[Tech Stack](https://github.com/hillaryfraley/jobbriefings#purpose)
+:arrow_right:2.[Tech Stack](https://github.com/anhnnguyen1312/FindingHome/blob/main/README.md#wrenchtechnologies)
 
-:arrow_right:3.[Features](https://github.com/hillaryfraley/jobbriefings#purpose)
+:arrow_right:3.[Features](https://github.com/anhnnguyen1312/FindingHome/blob/main/README.md#triangular_flag_on_postfeatures)
 
-:arrow_right:4.[Installation](https://github.com/hillaryfraley/jobbriefings#purpose)
+:arrow_right:4.[Installation](https://github.com/anhnnguyen1312/FindingHome/blob/main/README.md#gearinstallation)
 
-:arrow_right:5.[Demo](https://github.com/hillaryfraley/jobbriefings#purpose)
+:arrow_right:5.[Demo](https://github.com/anhnnguyen1312/FindingHome/blob/main/README.md#demo)
+
 
 
 ## :clipboard:Introduction 
@@ -37,6 +41,7 @@ including displaying the **location of the accommodation** and **nearby amenitie
 and showing the total number of **likes** for a listing or the aggregate likes across all of a user's listings. **Email verification** for users is also included.
 **For administrators**, there is functionality to **manage all users** and their **posts**.
 All listings must be **approved by the admin**, which helps minimize risks for users when searching for accommodation.
+
 
 ## :wrench:Technologies
 :point_right: Front-end: ReactJs framework, Tailwindcss, Antd
@@ -89,6 +94,7 @@ All listings must be **approved by the admin**, which helps minimize risks for u
 :white_check_mark:suggest accommodations based on user behavior (likes, nearest location)
 
 :white_check_mark:suggest accommodations based on room features that user are viewing (price range and type and area size)
+
 
 
 ## :gear:Installation 
